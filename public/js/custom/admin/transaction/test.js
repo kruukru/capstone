@@ -2,148 +2,101 @@ $(document).ready(function() {
     var applicantid = window.localStorage.getItem("applicantid");
     localStorage.removeItem("applicantid");
 
-    var testid = [], testname = [], testinstruction = [], testmaxquestion = [], testtime = [], formData = [];
+    var testid, testname = [], testinstruction = [], testmaxquestion = [], testtime = [], formData = [];
+    var test = [];
+    var testime = 0;
     var testmin = 0, testmax = 0;
     var questionmax = 0;
     var timer = null;
 
-    //next test
-    function nextTest() {
-        if(testmin != testmax) {
-            //start init
-            $("#btnSubmit").show();
-            $("#time").text(testtime[testmin] * 60);
-            $('#testName').text(testname[testmin] + " Test");
-            $('#testInstruction').text("Instruction: " + testinstruction[testmin]);
-
-            //timer stop start
-            clearInterval(timer);
-            timer = setInterval(function() {
-                $("#time").text($("#time").text() - 1);
-
-                if($("#time").text() == 0) {
-                    //get all the radio button
-                    $("#question-list :radio:checked").each(function() {
-                        var data = {
-                            inputApplicantID: applicantid,
-                            inputTestQuestionID: $(this).attr('id'),
-                            inputAnswer: $(this).attr('value'),
-                        };
-
-                        formData.push(data);
-                    });
-
-                    //get all the textarea
-                    $("#question-list textarea").each(function() {
-                        var data = {
-                            inputApplicantID: applicantid,
-                            inputTestQuestionID: $(this).attr('id'),
-                            inputAnswer: $(this).val(),
-                        };
-
-                        formData.push(data);
-                    });
-
-                    $("#question-list").empty();
-                    nextTest();
-                }
-            }, 1000);
-
-            $.ajax({
-                type: "GET",
-                url: "/admin/transaction/testquestion",
-                data: { inputTestID: testid[testmin], inputMaxQuestion: testmaxquestion[testmin], },
-                dataType: "json",
-                success: function(data) {
-                    console.log(data);
-
-                    var num = 1;
-                    $.each(data, function(index, value) {
-                        console.log(value);
-
-                        $.ajax({
-                            type: "GET",
-                            url: "/admin/transaction/question",
-                            data: { inputQuestionID: value.questionid },
-                            dataType: "json",
-                            success: function(data) {
-                                console.log(data);
-
-                                var row = "<hr><h3>#" + num + ") " + data[0].question + "</h3>";
-                                var questionid = data[0].questionid;
-
-                                if(data[0].choice.length) {
-                                    if(data[0].type == 0) {
-                                        $.each(data[0].choice, function(index1, value1) {
-                                            row += "<label>" +
-                                            "<input type='radio' name='rdoGroup"+questionid+"' id="+data[0].test_question[0].testquestionid+" value='"+value1.answer+"'>  "+value1.answer+
-                                            "</label><br>";
-                                        })
-                                    } else if(data[0].type == 1) {
-                                        row += "<label><input type='radio' name='rdoGroup"+questionid+"' id="+data[0].test_question[0].testquestionid+" value='True'> True</label><br>" +
-                                            "<label><input type='radio' name='rdoGroup"+questionid+"' id="+data[0].test_question[0].testquestionid+" value='False'> False</label><br>";
-                                    } else if(data[0].type == 2) {
-                                        row += "<textarea id="+data[0].test_question[0].testquestionid+" class='form-control' rows='3' required>";
-                                    }
-                                } else {
-                                    row += "<textarea id="+data[0].test_question[0].testquestionid+" class='form-control' rows='3' required>";
-                                }
-
-                                $('#question-list').append(row);
-                                num++;
-                            },
-                            error: function(data) {
-                                console.log(data);
-                            },
-                        });
-                    });
-                },
-                error: function(data) {
-                    console.log(data);
-                },
-            });
-
-            testmin++;
-        } else { //end of test
-            clearInterval(timer);
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
-                }
-            })
-
-            formData = { formData: formData };
-            $.ajax({
-                type: "POST",
-                url: "/admin/transaction/testquestionanswer",
-                data: formData,
-                dataType: "json",
-                success: function(data) {
-                    console.log(data);
-                },
-                error: function(data) {
-                    console.log(data);
-                },
-            });
-
-            $.ajax({
-                type: "POST",
-                url: "/admin/transaction/applicantexamstatus",
-                data: { inputApplicantID: applicantid },
-                success: function(data) {
-                    console.log(data);
-                },
-                error: function(data) {
-                    console.log(data);
-                },
-            });
-
-            alert("THANKS FOR TESTING");
-            window.location.href = "/admin/transaction/testlogin";
+    $(window).scroll(function () {
+        if ($(window).scrollTop() > 51) {
+            $('#timeLimit').addClass('fix-top col-md-offset-8');
         }
+        if ($(window).scrollTop() < 52) {
+            $('#timeLimit').removeClass('fix-top col-md-offset-8');
+        }
+    });
+
+    //start the timer
+    function startTimer() {
+        $("#btnSubmit").show();
+
+        //timer stop start
+        clearInterval(timer);
+        timer = setInterval(function() {
+            testtime -= 1;
+            console.log(testtime);
+            $("#time").text(moment(testtime, 'mm').format('HH:mm:ss'));
+
+            if(testtime == 0) {
+                //get all the radio button
+                $("#question-list :radio:checked").each(function() {
+                    var data = {
+                        inputApplicantID: applicantid,
+                        inputTestQuestionID: $(this).attr('id'),
+                        inputAnswer: $(this).attr('value'),
+                    };
+
+                    formData.push(data);
+                });
+
+                //get all the textarea
+                $("#question-list textarea").each(function() {
+                    var data = {
+                        inputApplicantID: applicantid,
+                        inputTestQuestionID: $(this).attr('id'),
+                        inputAnswer: $(this).val(),
+                    };
+
+                    formData.push(data);
+                });
+
+                finishTest();
+            }
+        }, 1000);
     }
 
-    //start of test/new test
+    //saving of answer
+    function finishTest() {
+        clearInterval(timer);
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+            }
+        });
+
+        formData = { formData: formData };
+        $.ajax({
+            type: "POST",
+            url: "/admin/transaction/testquestionanswer",
+            data: formData,
+            dataType: "json",
+            success: function(data) {
+                console.log(data);
+            },
+            error: function(data) {
+                console.log(data);
+            },
+        });
+
+        $.ajax({
+            type: "POST",
+            url: "/admin/transaction/applicantexamstatus",
+            data: { inputApplicantID: applicantid },
+            success: function(data) {
+                console.log(data);
+            },
+            error: function(data) {
+                console.log(data);
+            },
+        });
+
+        alert("THANKS FOR TESTING");
+        window.location.href = "/admin/transaction/testlogin";
+    }
+
+    //start of test
     $('#btnStart').click(function() {
         $(this).remove();
 
@@ -151,21 +104,73 @@ $(document).ready(function() {
             type: "GET",
             url: "/admin/transaction/test-check",
             dataType: "json",
-            success: function(data) {
-                console.log(data);
+            success: function(dataTest) {
+                console.log(dataTest);
 
-                $.each(data, function(index, value) {
-                    console.log(value);
+                $.each(dataTest, function(index, dataTestEach) {
+                    console.log(dataTestEach);
+                    testtime = Number(dataTestEach.timealloted) + Number(testtime);
 
-                    testid[testmax] = value.testid;
-                    testname[testmax] = value.name;
-                    testinstruction[testmax] = value.instruction;
-                    testmaxquestion[testmax] = value.maxquestion;
-                    testtime[testmax] = value.timealloted;
-                    testmax++;
+                    $.ajax({
+                        type: "GET",
+                        url: "/admin/transaction/testquestion",
+                        data: { inputTestID: dataTestEach.testid, inputMaxQuestion: dataTestEach.maxquestion, },
+                        dataType: "json",
+                        success: function(dataTestQuestion) {
+                            console.log(dataTestQuestion);
+
+                            var row = "<div class='container col-sm-12'>" +
+                                "<div class='box box-primary'>" +
+                                "<div class='box-body table-responsive'>" +
+                                "<h2>"+dataTestEach.name+" Test</h2>" +
+                                "<h3>Instruction: "+dataTestEach.instruction+"</h3>" +
+                                "<div class='box-body' id='question-list"+dataTestQuestion[0].testid+"'>" +
+                                "</div></div></div></div>";
+                            $('#test-list').append(row);
+
+                            var num = 1;
+                            $.each(dataTestQuestion, function(index, dataTestQuestionEach) {
+                                console.log(dataTestQuestionEach);
+
+                                $.ajax({
+                                    type: "GET",
+                                    url: "/admin/transaction/question",
+                                    data: { inputQuestionID: dataTestQuestionEach.questionid },
+                                    dataType: "json",
+                                    success: function(dataQuestion) {
+                                        console.log(dataQuestion);
+
+                                        var row = "<hr><h3>#" + num + ") " + dataQuestion[0].question + "</h3>";
+                                        var questionid = dataQuestion[0].questionid;
+
+                                        if(dataQuestion[0].choice.length) {
+                                            if(dataQuestion[0].type == 0) {
+                                                $.each(dataQuestion[0].choice, function(index, value1) {
+                                                    row += "<label>" +
+                                                    "<input type='radio' name='rdoGroup"+questionid+"' id="+dataQuestion[0].test_question[0].testquestionid+" value='"+value1.answer+"'>  "+value1.answer+
+                                                    "</label><br>";
+                                                })
+                                            } else if(dataQuestion[0].type == 1) {
+                                                row += "<label><input type='radio' name='rdoGroup"+questionid+"' id="+dataQuestion[0].test_question[0].testquestionid+" value='True'> True</label><br>" +
+                                                    "<label><input type='radio' name='rdoGroup"+questionid+"' id="+dataQuestion[0].test_question[0].testquestionid+" value='False'> False</label><br>";
+                                            } else if(dataQuestion[0].type == 2) {
+                                                row += "<textarea id="+dataQuestion[0].test_question[0].testquestionid+" class='form-control' rows='3' required>";
+                                            }
+                                        } else {
+                                            row += "<textarea id="+dataQuestion[0].test_question[0].testquestionid+" class='form-control' rows='3' required>";
+                                        }
+
+                                        $('#question-list'+dataTestQuestion[0].testid).append(row);
+                                        num++;
+                                    },
+                                });
+                            });
+                        },
+                    });
                 });
 
-                nextTest();
+                testtime *= 60;
+                startTimer();
             },
             error: function(data) {
                 console.log(data);
@@ -227,4 +232,18 @@ $(document).ready(function() {
             nextTest();
         }
     });
+
+
+
 });
+
+function pad(num) {
+    return ("0"+num).slice(-2);
+}
+function hhmmss(secs) {
+  var minutes = Math.floor(secs / 60);
+  secs = secs%60;
+  var hours = Math.floor(minutes/60)
+  minutes = minutes%60;
+  return pad(hours)+":"+pad(minutes)+":"+pad(secs);
+}

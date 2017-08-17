@@ -8,6 +8,14 @@
   	<meta name="_token" content="{{ Session::token() }}" />
 
 	@include('templates.mycss')
+	<style type="text/css">
+		.fix-top {
+			top: 0;
+		    z-index: 100;
+		  	position: fixed;
+		    width: 30%;
+		}
+	</style>
 </head>
 <body class="skin-purple">
   	<header class="main-header">
@@ -19,46 +27,20 @@
 
 	    <!-- Header Navbar -->
 	    <nav class="navbar navbar-static-top" role="navigation">
-	      	<div class="container-fluid">
-	        	<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
-	          		<span class="fa fa-bars"></span>
-	        	</button>
-		        <div class="navbar-collapse collapse">
-		          
-		        </div>
-	      	</div>
+	      	<div class="container-fluid"></div>
 	    </nav>
   	</header>
 
-  	<section class="content-header">
+  	<section class="content-header" id="timeLimit">
 		<div class="row">
 			<div class="container col-sm-12">
 				<div class="box box-primary">
 					<div class="box-body table-responsive">
 						<div class="box-body">
 							<div class="form-group">
-			            		<div class="col-sm-1 col-sm-offset-9">
-			            			<input type="button" name="btnStart" id="btnStart" value="Start" class="btn btn-success">
-			            		</div>
-			            		<div class="col-sm-1">
-			            			<h3 id="time">TIME</h3>
-			            		</div>
-			            		<div class="col-sm-1">
-			            			<h3>secs</h3>
-			            		</div>
-			            	</div>
-			            	<hr>
-			            	<hr>
-			            	<hr>
-			            	<div class="form-group">
-			            		<div class="col-sm-12">
-			            			<h1 id="testName">Test</h1>
-			            		</div>
-			            	</div>
-			            	<div class="form-group">
-			            		<div class="col-sm-12">
-			            			<h3 id="testInstruction">Instruction</h3>
-			            		</div>
+		            			<h3 id="time">wa</h3>
+		            			<button class="btn btn-success pull-right" id="btnStart">START TEST</button>
+		            			<button class="btn btn-success pull-right" id="btnSubmit" style="display: none;">SAVE</button>
 			            	</div>
 						</div>
 					</div>
@@ -68,20 +50,9 @@
 	</section>
 
 	<section class="content">
-		<div class="row">
-			<div class="container col-sm-12">
-				<div class="box box-primary">
-					<div class="box-body table-responsive">
-						<form id="formQuestion" data-parsley-validate>
-							<div class="box-body" id="question-list">
-							
-							</div>
-							<input type="submit" id="btnSubmit" class="btn btn-success pull-right" style="display: none;">
-						</form>
-					</div>
-				</div>
-			</div>
-		</div>
+		<form id='formQuestion' data-parsley-validate>
+			<div class="row" id="test-list"></div>
+		</form>
 	</section>
 
 	@include('templates.myjs')
