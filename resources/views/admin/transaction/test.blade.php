@@ -76,7 +76,7 @@
 							<div class="box-body" id="question-list">
 							
 							</div>
-							<input type="submit" id="btnSubmit" class="btn btn-success pull-right">
+							<input type="submit" id="btnSubmit" class="btn btn-success pull-right" style="display: none;">
 						</form>
 					</div>
 				</div>

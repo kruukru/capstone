@@ -1,5 +1,3 @@
-$("#btnSubmit").hide();
-
 $(document).ready(function() {
     var applicantid = window.localStorage.getItem("applicantid");
     localStorage.removeItem("applicantid");
