@@ -96,21 +96,23 @@ class TestController extends Controller
     }
 
     public function postAdminTestQuestionAnswer(Request $request) {
+        $applicant = Applicant::find($request->inputApplicantID);
+
         foreach($request->formData as $data) {
-            $applicant = Applicant::find($data['inputApplicantID']);
             $testquestion = TestQuestion::find($data['inputTestQuestionID']);
             $question = Question::find($testquestion->questionid);
 
-            if(count($question->choice)) {
+            if (count($question->choice)) {
                 $questionanswer = new QuestionAnswer;
                 $check = 1;
 
-                $choice = Choice::where('answer', $data['inputAnswer'])
-                    ->where('iscorrect', 1)
-                    ->where('questionid', $question->questionid)
-                    ->get();
+                $choice = Choice::where([
+                        ['answer', $data['inputAnswer']],
+                        ['questionid', $question->questionid],
+                        ['iscorrect', 1],
+                    ])->get();
 
-                if($choice->isEmpty()) {
+                if ($choice->isEmpty()) {
                     $check = 0;
                 }
 
@@ -121,7 +123,6 @@ class TestController extends Controller
                 $questionanswer->save();
             } else {
                 $essayanswer = new EssayAnswer;
-
                 $essayanswer->applicant()->associate($applicant);
                 $essayanswer->testquestion()->associate($testquestion);
                 $essayanswer->answer = $data['inputAnswer'];
@@ -139,13 +140,21 @@ class TestController extends Controller
         foreach($tests as $test) {
             $testquestion = TestQuestion::where('testid', $test->testid)
                 ->whereHas('questionanswer', function($query) use ($request) {
-                    $query->where('iscorrect', 1)
-                        ->where('applicantid', $request->inputApplicantID);
+                    $query->where([
+                        ['iscorrect', 1],
+                        ['applicantid', $request->inputApplicantID],
+                    ]);
                 })->get();
 
-            $testquestionitem = count(TestQuestion::where('testid', $test->testid)->get());
-            if($testquestionitem >= $test->maxquestion) {
+            $testquestionitem = TestQuestion::where('testid', $test->testid)
+                ->whereHas('questionanswer', function($query) use ($request) {
+                    $query->where('applicantid', $request->inputApplicantID);
+                })->get();
+
+            if (count($testquestionitem) >= $test->maxquestion) {
                 $testquestionitem = $test->maxquestion;
+            } else {
+                $testquestionitem = count($testquestionitem);
             }
 
             $score = new Score;

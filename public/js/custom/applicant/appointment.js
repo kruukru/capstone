@@ -1,6 +1,15 @@
 $(document).ready(function() {
 	var appointmentdateid;
 
+    //show and hide tab event
+    $('a[data-toggle="tab"]').on('show.bs.tab', function (e) {
+        var $target = $(e.target);
+
+        if ($target.parent().hasClass('disabled')) {
+            return false;
+        }
+    });
+
     $('#calendar').fullCalendar({
         eventSources: [{
             type: "GET",

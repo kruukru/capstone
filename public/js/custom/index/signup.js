@@ -2880,101 +2880,190 @@ $(document).ready(function() {
                 });
             }
 
-            var geocoder = new google.maps.Geocoder();
-            var formData = {};
-            geocoder.geocode({'address': $('#cityaddress').val()+", "+$('#cityaddresscity').val()+", "+$('#cityaddressprovince').val()}, function(results, status) {
-                if (status == google.maps.GeocoderStatus.OK) {
-                    formData = {
-                        inputAppointmentDateID: appointmentdateid,
-                        inputUsername: $('#username').val(),
-                        inputPassword: $('#password').val(),
-                        inputLastname: $('#lastname').val(),
-                        inputFirstname: $('#firstname').val(),
-                        inputMiddlename: $('#middlename').val(),
-                        inputSuffix: $('#suffix').val(),
-                        inputCityAddress: $('#cityaddress').val(),
-                        inputCityAddressProvince: $('#cityaddressprovince').val(),
-                        inputCityAddressCity: $('#cityaddresscity').val(),
-                        inputProvincialAddress: $('#provincialaddress').val(),
-                        inputProvincialAddressProvince: $('#inputprovincialaddressprovince').val(),
-                        inputProvincialAddressCity: $('#inputprovincialaddresscity').val(),
-                        inputLatitude: results[0].geometry.location.lat(),
-                        inputLongitude: results[0].geometry.location.lng(),
-                        inputGender: $('input:radio[name="gender"]:checked').val(),
-                        inputDateOfBirth: $('#dateofbirth').val(),
-                        inputPlaceOfBirth: $('#placeofbirth').val(),
-                        inputAge: age,
-                        inputCivilStatus: $('#civilstatus').val(),
-                        inputReligion: $('#religion').val(),
-                        inputBloodType: $('#bloodtype').val(),
-                        inputAppContactNo: $('#appcontactno').val(),
-                        inputWorkExp: workExp,
-                        inputHeight: height,
-                        inputWeight: weight,
-                        inputLicense: $('#license').val(),
-                        inputLicenseExpiration: $('#licenseexpiration').val(),
-                        inputSSS: $('#sss').val(),
-                        inputPHILHEALTH: $('#philhealth').val(),
-                        inputPAGIBIG: $('#pagibig').val(),
-                        inputTIN: $('#tin').val(),
-                        inputHobby: $('#hobby').val(),
-                        inputSkill: $('#skill').val(),
-                        inputSpouseName: $('#spousename').val(),
-                        inputSpouseDateOfBirth: $('#sposedateofbirth').val(),
-                        inputSpouseOccupation: $('#spouseoccupation').val(),
-                        inputContactPerson: $('#contactperson').val(),
-                        inputContactNo: $('#contactno').val(),
-                        inputContactTelNo: $('#contacttelno').val(),
-                        inputEBList: EBList,
-                        inputERList: ERList,
-                        inputTCList: TCList,
+            var online = navigator.onLine;
+
+            if (online) {
+                var geocoder = new google.maps.Geocoder();
+                var formData = {};
+                geocoder.geocode({'address': $('#cityaddress').val()+", "+$('#cityaddresscity').val()+", "+$('#cityaddressprovince').val()}, function(results, status) {
+                    if (status == google.maps.GeocoderStatus.OK) {
+                        formData = {
+                            inputAppointmentDateID: appointmentdateid,
+                            inputUsername: $('#username').val(),
+                            inputPassword: $('#password').val(),
+                            inputLastname: $('#lastname').val(),
+                            inputFirstname: $('#firstname').val(),
+                            inputMiddlename: $('#middlename').val(),
+                            inputSuffix: $('#suffix').val(),
+                            inputCityAddress: $('#cityaddress').val(),
+                            inputCityAddressProvince: $('#cityaddressprovince').val(),
+                            inputCityAddressCity: $('#cityaddresscity').val(),
+                            inputProvincialAddress: $('#provincialaddress').val(),
+                            inputProvincialAddressProvince: $('#inputprovincialaddressprovince').val(),
+                            inputProvincialAddressCity: $('#inputprovincialaddresscity').val(),
+                            inputLatitude: results[0].geometry.location.lat(),
+                            inputLongitude: results[0].geometry.location.lng(),
+                            inputGender: $('input:radio[name="gender"]:checked').val(),
+                            inputDateOfBirth: $('#dateofbirth').val(),
+                            inputPlaceOfBirth: $('#placeofbirth').val(),
+                            inputAge: age,
+                            inputCivilStatus: $('#civilstatus').val(),
+                            inputReligion: $('#religion').val(),
+                            inputBloodType: $('#bloodtype').val(),
+                            inputAppContactNo: $('#appcontactno').val(),
+                            inputWorkExp: workExp,
+                            inputHeight: height,
+                            inputWeight: weight,
+                            inputLicense: $('#license').val(),
+                            inputLicenseExpiration: $('#licenseexpiration').val(),
+                            inputSSS: $('#sss').val(),
+                            inputPHILHEALTH: $('#philhealth').val(),
+                            inputPAGIBIG: $('#pagibig').val(),
+                            inputTIN: $('#tin').val(),
+                            inputHobby: $('#hobby').val(),
+                            inputSkill: $('#skill').val(),
+                            inputSpouseName: $('#spousename').val(),
+                            inputSpouseDateOfBirth: $('#sposedateofbirth').val(),
+                            inputSpouseOccupation: $('#spouseoccupation').val(),
+                            inputContactPerson: $('#contactperson').val(),
+                            inputContactNo: $('#contactno').val(),
+                            inputContactTelNo: $('#contacttelno').val(),
+                            inputEBList: EBList,
+                            inputERList: ERList,
+                            inputTCList: TCList,
+                        }
+                    } else {
+                        formData = {
+                            inputAppointmentDateID: appointmentdateid,
+                            inputUsername: $('#username').val(),
+                            inputPassword: $('#password').val(),
+                            inputLastname: $('#lastname').val(),
+                            inputFirstname: $('#firstname').val(),
+                            inputMiddlename: $('#middlename').val(),
+                            inputSuffix: $('#suffix').val(),
+                            inputCityAddress: $('#cityaddress').val(),
+                            inputCityAddressProvince: $('#cityaddressprovince').val(),
+                            inputCityAddressCity: $('#cityaddresscity').val(),
+                            inputProvincialAddress: $('#provincialaddress').val(),
+                            inputProvincialAddressProvince: $('#inputprovincialaddressprovince').val(),
+                            inputProvincialAddressCity: $('#inputprovincialaddresscity').val(),
+                            inputLatitude: null,
+                            inputLongitude: null,
+                            inputGender: $('input:radio[name="gender"]:checked').val(),
+                            inputDateOfBirth: $('#dateofbirth').val(),
+                            inputPlaceOfBirth: $('#placeofbirth').val(),
+                            inputAge: age,
+                            inputCivilStatus: $('#civilstatus').val(),
+                            inputReligion: $('#religion').val(),
+                            inputBloodType: $('#bloodtype').val(),
+                            inputAppContactNo: $('#appcontactno').val(),
+                            inputWorkExp: workExp,
+                            inputHeight: height,
+                            inputWeight: weight,
+                            inputLicense: $('#license').val(),
+                            inputLicenseExpiration: $('#licenseexpiration').val(),
+                            inputSSS: $('#sss').val(),
+                            inputPHILHEALTH: $('#philhealth').val(),
+                            inputPAGIBIG: $('#pagibig').val(),
+                            inputTIN: $('#tin').val(),
+                            inputHobby: $('#hobby').val(),
+                            inputSkill: $('#skill').val(),
+                            inputSpouseName: $('#spousename').val(),
+                            inputSpouseDateOfBirth: $('#sposedateofbirth').val(),
+                            inputSpouseOccupation: $('#spouseoccupation').val(),
+                            inputContactPerson: $('#contactperson').val(),
+                            inputContactNo: $('#contactno').val(),
+                            inputContactTelNo: $('#contacttelno').val(),
+                            inputEBList: EBList,
+                            inputERList: ERList,
+                            inputTCList: TCList,
+                        }
                     }
-                } else {
-                    formData = {
-                        inputAppointmentDateID: appointmentdateid,
-                        inputUsername: $('#username').val(),
-                        inputPassword: $('#password').val(),
-                        inputLastname: $('#lastname').val(),
-                        inputFirstname: $('#firstname').val(),
-                        inputMiddlename: $('#middlename').val(),
-                        inputSuffix: $('#suffix').val(),
-                        inputCityAddress: $('#cityaddress').val(),
-                        inputCityAddressProvince: $('#cityaddressprovince').val(),
-                        inputCityAddressCity: $('#cityaddresscity').val(),
-                        inputProvincialAddress: $('#provincialaddress').val(),
-                        inputProvincialAddressProvince: $('#inputprovincialaddressprovince').val(),
-                        inputProvincialAddressCity: $('#inputprovincialaddresscity').val(),
-                        inputLatitude: null,
-                        inputLongitude: null,
-                        inputGender: $('input:radio[name="gender"]:checked').val(),
-                        inputDateOfBirth: $('#dateofbirth').val(),
-                        inputPlaceOfBirth: $('#placeofbirth').val(),
-                        inputAge: age,
-                        inputCivilStatus: $('#civilstatus').val(),
-                        inputReligion: $('#religion').val(),
-                        inputBloodType: $('#bloodtype').val(),
-                        inputAppContactNo: $('#appcontactno').val(),
-                        inputWorkExp: workExp,
-                        inputHeight: height,
-                        inputWeight: weight,
-                        inputLicense: $('#license').val(),
-                        inputLicenseExpiration: $('#licenseexpiration').val(),
-                        inputSSS: $('#sss').val(),
-                        inputPHILHEALTH: $('#philhealth').val(),
-                        inputPAGIBIG: $('#pagibig').val(),
-                        inputTIN: $('#tin').val(),
-                        inputHobby: $('#hobby').val(),
-                        inputSkill: $('#skill').val(),
-                        inputSpouseName: $('#spousename').val(),
-                        inputSpouseDateOfBirth: $('#sposedateofbirth').val(),
-                        inputSpouseOccupation: $('#spouseoccupation').val(),
-                        inputContactPerson: $('#contactperson').val(),
-                        inputContactNo: $('#contactno').val(),
-                        inputContactTelNo: $('#contacttelno').val(),
-                        inputEBList: EBList,
-                        inputERList: ERList,
-                        inputTCList: TCList,
-                    }
+
+                    $.ajax({
+                        type: "POST",
+                        url: "/signup",
+                        data: formData,
+                        dataType: "json",
+                        success: function(data) {
+                            console.log(data);
+
+                            $('#modalInfo').modal('hide');
+                            alert("SAVE SUCCESSFUL");
+                            window.location.href = "/applicant/appointment";
+                        },
+                        error: function(data) {
+                            console.log(data);
+
+                            if (data.responseJSON == "SAME SSS") {
+                                toastr.error("SSS ALREADY EXISTS");
+                            } else if (data.responseJSON == "SAME PHILHEALTH") {
+                                toastr.error("PHILHEALTH ALREADY EXISTS");
+                            } else if (data.responseJSON == "SAME PAGIBIG") {
+                                toastr.error("PAGIBIG ALREADY EXISTS");
+                            } else if (data.responseJSON == "SAME TIN") {
+                                toastr.error("TIN ALREADY EXISTS");
+                            } else if (data.responseJSON == "SAME LICENSE") {
+                                toastr.error("LICENSE ALREADY EXISTS");
+                            } else if (data.responseJSON == "SAME USERNAME") {
+                                toastr.error("USERNAME ALREADY EXISTS");
+                            } else if (data.responseJSON == "APPOINTMENT FULL") {
+                                $('#calendar').fullCalendar('refetchEvents');
+                                toastr.error("APPOINTMENT FULL");
+                            } else if (data.responseJSON == "APPOINTMENT CHANGED") {
+                                $('#calendar').fullCalendar('refetchEvents');
+                                toastr.error("APPOINTMENT CHANGED");
+                            }
+                        },
+                    });
+                });
+            } else {
+                var formData = {};
+
+                formData = {
+                    inputAppointmentDateID: appointmentdateid,
+                    inputUsername: $('#username').val(),
+                    inputPassword: $('#password').val(),
+                    inputLastname: $('#lastname').val(),
+                    inputFirstname: $('#firstname').val(),
+                    inputMiddlename: $('#middlename').val(),
+                    inputSuffix: $('#suffix').val(),
+                    inputCityAddress: $('#cityaddress').val(),
+                    inputCityAddressProvince: $('#cityaddressprovince').val(),
+                    inputCityAddressCity: $('#cityaddresscity').val(),
+                    inputProvincialAddress: $('#provincialaddress').val(),
+                    inputProvincialAddressProvince: $('#inputprovincialaddressprovince').val(),
+                    inputProvincialAddressCity: $('#inputprovincialaddresscity').val(),
+                    inputLatitude: null,
+                    inputLongitude: null,
+                    inputGender: $('input:radio[name="gender"]:checked').val(),
+                    inputDateOfBirth: $('#dateofbirth').val(),
+                    inputPlaceOfBirth: $('#placeofbirth').val(),
+                    inputAge: age,
+                    inputCivilStatus: $('#civilstatus').val(),
+                    inputReligion: $('#religion').val(),
+                    inputBloodType: $('#bloodtype').val(),
+                    inputAppContactNo: $('#appcontactno').val(),
+                    inputWorkExp: workExp,
+                    inputHeight: height,
+                    inputWeight: weight,
+                    inputLicense: $('#license').val(),
+                    inputLicenseExpiration: $('#licenseexpiration').val(),
+                    inputSSS: $('#sss').val(),
+                    inputPHILHEALTH: $('#philhealth').val(),
+                    inputPAGIBIG: $('#pagibig').val(),
+                    inputTIN: $('#tin').val(),
+                    inputHobby: $('#hobby').val(),
+                    inputSkill: $('#skill').val(),
+                    inputSpouseName: $('#spousename').val(),
+                    inputSpouseDateOfBirth: $('#sposedateofbirth').val(),
+                    inputSpouseOccupation: $('#spouseoccupation').val(),
+                    inputContactPerson: $('#contactperson').val(),
+                    inputContactNo: $('#contactno').val(),
+                    inputContactTelNo: $('#contacttelno').val(),
+                    inputEBList: EBList,
+                    inputERList: ERList,
+                    inputTCList: TCList,
                 }
 
                 $.ajax({
@@ -3013,7 +3102,7 @@ $(document).ready(function() {
                         }
                     },
                 });
-            }); 
+            }
         }
     });
 

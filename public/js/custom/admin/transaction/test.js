@@ -2,11 +2,8 @@ $(document).ready(function() {
     var applicantid = window.localStorage.getItem("applicantid");
     localStorage.removeItem("applicantid");
 
-    var testid, testname = [], testinstruction = [], testmaxquestion = [], testtime = [], formData = [];
-    var test = [];
-    var testime = 0;
-    var testmin = 0, testmax = 0;
-    var questionmax = 0;
+    var formData = [];
+    var testtime = 0;
     var timer = null;
 
     $(window).scroll(function () {
@@ -20,20 +17,16 @@ $(document).ready(function() {
 
     //start the timer
     function startTimer() {
-        $("#btnSubmit").show();
-
         //timer stop start
         clearInterval(timer);
         timer = setInterval(function() {
             testtime -= 1;
-            console.log(testtime);
-            $("#time").text(moment(testtime, 'mm').format('HH:mm:ss'));
+            $("#time").text("TIME LEFT : "+hhmmss(testtime));
 
             if(testtime == 0) {
                 //get all the radio button
-                $("#question-list :radio:checked").each(function() {
+                $(".box-body :radio:checked").each(function() {
                     var data = {
-                        inputApplicantID: applicantid,
                         inputTestQuestionID: $(this).attr('id'),
                         inputAnswer: $(this).attr('value'),
                     };
@@ -42,9 +35,8 @@ $(document).ready(function() {
                 });
 
                 //get all the textarea
-                $("#question-list textarea").each(function() {
+                $(".box-body textarea").each(function() {
                     var data = {
-                        inputApplicantID: applicantid,
                         inputTestQuestionID: $(this).attr('id'),
                         inputAnswer: $(this).val(),
                     };
@@ -59,14 +51,19 @@ $(document).ready(function() {
 
     //saving of answer
     function finishTest() {
-        clearInterval(timer);
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
             }
         });
+        clearInterval(timer);
+        $("#test-list").empty();
 
-        formData = { formData: formData };
+        formData = { 
+            inputApplicantID: applicantid,
+            formData: formData,
+        };
+
         $.ajax({
             type: "POST",
             url: "/admin/transaction/testquestionanswer",
@@ -99,6 +96,12 @@ $(document).ready(function() {
     //start of test
     $('#btnStart').click(function() {
         $(this).remove();
+
+        if (applicantid == null) {
+            alert("INVALID APPLICANT");
+            window.location.href = "/admin/transaction/testlogin";
+            return;
+        }
 
         $.ajax({
             type: "GET",
@@ -143,7 +146,7 @@ $(document).ready(function() {
                                         var row = "<hr><h3>#" + num + ") " + dataQuestion[0].question + "</h3>";
                                         var questionid = dataQuestion[0].questionid;
 
-                                        if(dataQuestion[0].choice.length) {
+                                        if (dataQuestion[0].choice.length) {
                                             if(dataQuestion[0].type == 0) {
                                                 $.each(dataQuestion[0].choice, function(index, value1) {
                                                     row += "<label>" +
@@ -171,6 +174,7 @@ $(document).ready(function() {
 
                 testtime *= 60;
                 startTimer();
+                $("#btnSubmit").show();
             },
             error: function(data) {
                 console.log(data);
@@ -187,13 +191,13 @@ $(document).ready(function() {
     });
 
     $("#btnSubmit").click(function(e) {
-        if($('#formQuestion').parsley().isValid()) {
+        if ($('#formQuestion').parsley().validate()) {
             e.preventDefault();
 
             //validate for the radio button choice
-            var checked = $("#question-list :radio:checked");
+            var checked = $(".box-body :radio:checked");
             var groups = [];
-            $("#question-list :radio").each(function() {
+            $(".box-body :radio").each(function() {
                 if (groups.indexOf(this.name) < 0) {
                     groups.push(this.name);
                 }
@@ -207,9 +211,8 @@ $(document).ready(function() {
             }
 
             //get all the radio button
-            $("#question-list :radio:checked").each(function() {
+            $(".box-body :radio:checked").each(function() {
                 data = {
-                    inputApplicantID: applicantid,
                     inputTestQuestionID: $(this).attr('id'),
                     inputAnswer: $(this).attr('value'),
                 };
@@ -218,9 +221,8 @@ $(document).ready(function() {
             });
 
             //get all the textarea
-            $("#question-list textarea").each(function() {
+            $(".box-body textarea").each(function() {
                 var data = {
-                    inputApplicantID: applicantid,
                     inputTestQuestionID: $(this).attr('id'),
                     inputAnswer: $(this).val(),
                 };
@@ -228,22 +230,25 @@ $(document).ready(function() {
                 formData.push(data);
             });
 
-            $("#question-list").empty();
-            nextTest();
+            $('#modalConfirm').modal('show')
         }
     });
 
+    $('#btnConfirm').click(function() {
+        finishTest();
+    });
 
 
 });
 
-function pad(num) {
-    return ("0"+num).slice(-2);
+function pad(str) {
+    return ("0"+str).slice(-2);
 }
+
 function hhmmss(secs) {
-  var minutes = Math.floor(secs / 60);
-  secs = secs%60;
-  var hours = Math.floor(minutes/60)
-  minutes = minutes%60;
-  return pad(hours)+":"+pad(minutes)+":"+pad(secs);
+    var minutes = Math.floor(secs / 60);
+    secs = secs % 60;
+    var hours = Math.floor(minutes/60)
+    minutes = minutes % 60;
+    return pad(hours)+":"+pad(minutes)+":"+pad(secs);
 }

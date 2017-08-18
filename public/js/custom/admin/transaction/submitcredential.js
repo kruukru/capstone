@@ -1,6 +1,5 @@
 $(document).ready(function() {
     var applicantid, qid;
-
     var table = $('#tblApplicant').DataTable({
         "aoColumns": [
             null,

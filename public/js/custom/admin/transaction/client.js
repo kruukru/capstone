@@ -2416,42 +2416,80 @@ $(document).ready(function() {
                 return;
             }
 
-            var geocoder = new google.maps.Geocoder();
-            var formData = {};
-            geocoder.geocode({'address': $('#inputAddress').val()+", "+$('#inputCity').val()+", "+$('#inputProvince').val()}, function(results, status) {
-                if (status == google.maps.GeocoderStatus.OK) {
-                    formData = {
-                        inputAdminID: adminid,
-                        inputClientID: clientid,
-                        inputAreaTypeID: $('#inputAreaType').val(),
-                        inputLength: $('#inputLength').val(),
-                        inputLengthType: $('#lengthtype').val(),
-                        inputPrice: $('#inputPrice').val(),
-                        inputPlaceHeld: $('#inputPlaceHeld').val(),
-                        inputBuildingAreaName: $('#inputBuildingAreaName').val(),
-                        inputAddress: $('#inputAddress').val(),
-                        inputCity: $('#inputCity').val(),
-                        inputProvince: $('#inputProvince').val(),
-                        inputLatitude: results[0].geometry.location.lat(),
-                        inputLongitude: results[0].geometry.location.lng(),
-                    };
-                } else {
-                    formData = {
-                        inputAdminID: adminid,
-                        inputClientID: clientid,
-                        inputAreaTypeID: $('#inputAreaType').val(),
-                        inputLength: $('#inputLength').val(),
-                        inputLengthType: $('#lengthtype').val(),
-                        inputPrice: $('#inputPrice').val(),
-                        inputPlaceHeld: $('#inputPlaceHeld').val(),
-                        inputBuildingAreaName: $('#inputBuildingAreaName').val(),
-                        inputAddress: $('#inputAddress').val(),
-                        inputCity: $('#inputCity').val(),
-                        inputProvince: $('#inputProvince').val(),
-                        inputLatitude: null,
-                        inputLongitude: null,
-                    };
-                }
+            var online = navigator.onLine;
+
+            if (online) {
+                var geocoder = new google.maps.Geocoder();
+                var formData = {};
+                geocoder.geocode({'address': $('#inputAddress').val()+", "+$('#inputCity').val()+", "+$('#inputProvince').val()}, function(results, status) {
+                    if (status == google.maps.GeocoderStatus.OK) {
+                        formData = {
+                            inputAdminID: adminid,
+                            inputClientID: clientid,
+                            inputAreaTypeID: $('#inputAreaType').val(),
+                            inputLength: $('#inputLength').val(),
+                            inputLengthType: $('#lengthtype').val(),
+                            inputPrice: $('#inputPrice').val(),
+                            inputPlaceHeld: $('#inputPlaceHeld').val(),
+                            inputBuildingAreaName: $('#inputBuildingAreaName').val(),
+                            inputAddress: $('#inputAddress').val(),
+                            inputCity: $('#inputCity').val(),
+                            inputProvince: $('#inputProvince').val(),
+                            inputLatitude: results[0].geometry.location.lat(),
+                            inputLongitude: results[0].geometry.location.lng(),
+                        };
+                    } else {
+                        formData = {
+                            inputAdminID: adminid,
+                            inputClientID: clientid,
+                            inputAreaTypeID: $('#inputAreaType').val(),
+                            inputLength: $('#inputLength').val(),
+                            inputLengthType: $('#lengthtype').val(),
+                            inputPrice: $('#inputPrice').val(),
+                            inputPlaceHeld: $('#inputPlaceHeld').val(),
+                            inputBuildingAreaName: $('#inputBuildingAreaName').val(),
+                            inputAddress: $('#inputAddress').val(),
+                            inputCity: $('#inputCity').val(),
+                            inputProvince: $('#inputProvince').val(),
+                            inputLatitude: null,
+                            inputLongitude: null,
+                        };
+                    }
+
+                    $.ajax({
+                        type: "POST",
+                        url: "/admin/transaction/client/contract/new",
+                        data: formData,
+                        dataType: "json",
+                        success: function(data) {
+                            console.log(data);
+
+                            $('#modalContract').modal('hide');
+                            toastr.success("SAVE SUCCESSFUL");
+                        },
+                        error: function(data) {
+                            console.log(data);
+                        },
+                    });
+                });
+            } else {
+                var formData = {};
+
+                formData = {
+                    inputAdminID: adminid,
+                    inputClientID: clientid,
+                    inputAreaTypeID: $('#inputAreaType').val(),
+                    inputLength: $('#inputLength').val(),
+                    inputLengthType: $('#lengthtype').val(),
+                    inputPrice: $('#inputPrice').val(),
+                    inputPlaceHeld: $('#inputPlaceHeld').val(),
+                    inputBuildingAreaName: $('#inputBuildingAreaName').val(),
+                    inputAddress: $('#inputAddress').val(),
+                    inputCity: $('#inputCity').val(),
+                    inputProvince: $('#inputProvince').val(),
+                    inputLatitude: null,
+                    inputLongitude: null,
+                };
 
                 $.ajax({
                     type: "POST",
@@ -2468,7 +2506,7 @@ $(document).ready(function() {
                         console.log(data);
                     },
                 });
-            }); 
+            }
         }
     });
 

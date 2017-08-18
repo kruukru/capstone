@@ -38,9 +38,9 @@
 					<div class="box-body table-responsive">
 						<div class="box-body">
 							<div class="form-group">
-		            			<h3 id="time">wa</h3>
+		            			<h3 id="time"></h3>
 		            			<button class="btn btn-success pull-right" id="btnStart">START TEST</button>
-		            			<button class="btn btn-success pull-right" id="btnSubmit" style="display: none;">SAVE</button>
+		            			<button class="btn btn-success pull-right" id="btnSubmit" style="display: none;">DONE</button>
 			            	</div>
 						</div>
 					</div>
@@ -54,6 +54,28 @@
 			<div class="row" id="test-list"></div>
 		</form>
 	</section>
+
+	<!-- modal for confirmation -->
+	<div class="modal fade" id="modalConfirm">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<!-- modal header -->
+				<div class="modal-header">
+					<button class="close" data-dismiss="modal">&times;</button>
+					<h3>CONFIRMATION</h3>
+				</div>
+				<!-- modal body -->
+				<div class="modal-body">
+					Are you sure you are done?
+				</div>
+				<!-- modal footer -->
+				<div class="modal-footer">
+					<button class="btn btn-primary" id="btnConfirm">CONFIRM</button>
+        			<button class="btn btn-default" data-dismiss="modal">CANCEL</button>
+				</div>
+			</div>
+		</div>
+	</div>
 
 	@include('templates.myjs')
 	<script src="/js/custom/admin/transaction/test.js"></script>

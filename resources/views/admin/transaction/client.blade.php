@@ -282,10 +282,6 @@
 	<meta name="AuthenticatedID" content="{{ Auth::user()->admin->adminid }}" />
 @endsection
 
-@section('css')
-	<link rel="stylesheet" href="/css/custom/admin/transaction/client.css">
-@endsection
-
 @section('script')
 	<script src="/js/custom/admin/transaction/client.js"></script>
 @endsection
