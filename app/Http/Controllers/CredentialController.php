@@ -9,6 +9,7 @@ use Amcor\ApplicantRequirement;
 use Amcor\Requirement;
 use Carbon\Carbon;
 use Response;
+use Image;
 
 class CredentialController extends Controller
 {
@@ -74,6 +75,50 @@ class CredentialController extends Controller
 
     public function postAdminPersonalInfo(Request $request) {
         $applicant = Applicant::find($request->inputApplicantID);
-        
+        $applicant->lastname = $request->inputLastname;
+        $applicant->firstname = $request->inputFirstname;
+        $applicant->middlename = $request->inputMiddlename;
+        $applicant->suffix = $request->inputSuffix;
+        $applicant->cityaddress = $request->inputCityAddress;
+        $applicant->cityaddressprovince = $request->inputCityAddressProvince;
+        $applicant->cityaddresscity = $request->inputCityAddressCity;
+        $applicant->provincialaddress = $request->inputProvincialAddress;
+        $applicant->provincialaddressprovince = $request->inputProvincialAddressProvince;
+        $applicant->provincialaddresscity = $request->inputProvincialAddressCity;
+        $applicant->latitude = $request->inputLatitude;
+        $applicant->longitude = $request->inputLongitude;
+        $applicant->gender = $request->inputGender;
+        $applicant->dateofbirth = $request->inputDateOfBirth;
+        $applicant->placeofbirth = $request->inputPlaceOfBirth;
+        $applicant->age = $request->inputAge;
+        $applicant->civilstatus = $request->inputCivilStatus;
+        $applicant->religion = $request->inputReligion;
+        $applicant->bloodtype = $request->inputBloodType;
+        $applicant->appcontactno = $request->inputAppContactNo;
+        $applicant->height = $request->inputHeight;
+        $applicant->weight = $request->inputWeight;
+        $applicant->hobby = $request->inputHobby;
+        $applicant->skill = $request->inputSkill;
+        $applicant->save();
+
+        return Response::json($applicant);
+    }
+
+    public function postAdminProfileImageSave(Request $request) {
+        $applicant = Applicant::find($request->get('applicantid'));
+
+        if ($request->hasFile('image')) {
+            if (!($applicant->picture === "default.png")) {
+                \File::delete('applicant/' . $applicant->picture);
+            }
+
+            $picture = $request->file('image');
+
+            $filename = time() . $picture->getClientOriginalName();
+            Image::make($picture)->save('applicant/' . $filename);
+
+            $applicant->picture = $filename;
+            $applicant->save();
+        }
     }
 }

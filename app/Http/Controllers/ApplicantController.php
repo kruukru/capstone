@@ -26,12 +26,7 @@ use Image;
 
 class ApplicantController extends Controller
 {
-    public function getApplicantProfile() {
-        return view('applicant.profile');
-    }
-
     public function postApplicantPictureSave(Request $request) {
-        //saving of picture
         if ($request->hasFile('picture')) {
             if(!(Auth::user()->applicant->picture === "default.png")) {
                 \File::delete('applicant/' . Auth::user()->applicant->picture);
@@ -46,10 +41,6 @@ class ApplicantController extends Controller
             Auth::user()->applicant->save();
         }
 
-        return redirect()
-            ->back()
-            ->with('info', 'YOUR PROFILE HAS BEEN UPDATED');
-    }
-
-    
+        return redirect()->back()->with('info', 'YOUR PROFILE HAS BEEN UPDATED');
+    }    
 }

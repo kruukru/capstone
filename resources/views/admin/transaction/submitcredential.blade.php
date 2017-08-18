@@ -443,7 +443,7 @@
 		                    	<div class="box box-primary">
 		                    		<div class="box-body">
 	                    				<div class="col-md-5 col-md-offset-1">
-	                    					<form id="formImage" enctype="multipart/form-data" role="form" method="POST" action="{{ route('applicant-picture-save') }}">
+	                    					<form id="formImage" enctype="multipart/form-data" role="form" method="POST" action="">
 												<h3>PROFILE IMAGE</h3>
 												<div class="form-group">
 													<img id="pictureview" src="/applicant/default.png" alt="IMAGE" style="width: 50%; height: 50%;" class="center-block">
@@ -461,7 +461,7 @@
 												<input type="hidden" name="_token" value="{{ Session::token() }}">
 											</form>
 	                    				</div>
-			                    		<div class="col-md-5">
+			                    		<div class="col-md-4 col-md-offset-1">
 			                    			<form id="formAccount" data-parsley-validate>
 			                    				<h3>ACCOUNT INFORMATION</h3>
 				                    			<div class="form-group">

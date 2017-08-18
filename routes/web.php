@@ -67,7 +67,9 @@ Route::group(['middleware' => ['auth']], function() {
 		Route::post('/admin/transaction/requirement/pass', 'CredentialController@postAdminRequirementPass');
 		Route::post('/admin/transaction/requirement/remove', 'CredentialController@postAdminRequirementRemove');
 		Route::post('/admin/transaction/requirement/assess', 'CredentialController@postAdminRequirementAssess');
+
 		Route::post('/admin/transaction/applicantinfo/personalinfo', 'CredentialController@postAdminPersonalInfo');
+		Route::post('/admin/transaction/applicantinfo/profileimage/save', 'CredentialController@postAdminProfileImageSave');
 
 		//test login
 		Route::name('admin-transaction-testlogin')->get('/admin/transaction/testlogin', 'TestController@getAdminTestLogin');
@@ -282,14 +284,6 @@ Route::group(['middleware' => ['auth']], function() {
 
 	//client client client client client client client client client client client client client client client client client client 
 	Route::group(['middleware' => 'Amcor\Http\Middleware\ClientMiddleware'], function() {
-		Route::name('clientviolation')->get('/client/violation', 'ClientViolationController@getViolation');
-		Route::name('clientattendance')->get('/client/attendance', 'AttendanceController@getAttendance');
-		Route::name('clientmyrequest')->get('/client/myrequest', 'RequestController@getMyRequest');
-		Route::name('clientapproverequest')->get('/client/approverequest', 'RequestController@getApproveRequest');
-		Route::name('clientsecurityguard')->get('/client/securityguard', 'ClientSecurityGuardController@getClientSecurityGuard');
-		Route::name('clientdeploymentsitedetail')->get('/client/deploymentsitedetail', 'ClientDeploymentSiteController@getClientDeploymentSiteDetail');
-		Route::name('clientcontract')->get('/client/contract', 'ClientContractController@getClientContract');
-
 		Route::name('client-deploymentsite')->get('/client/deploymentsite', 'DeploymentSiteController@getClientDeploymentSite');
 		Route::get('/client/deploymentsite/qualification/validate', 'DeploymentSiteController@getClientQualificationValidate');
 		Route::post('/client/deploymentsite/qualification/new', 'DeploymentSiteController@postClientQualificationNew');
@@ -301,9 +295,6 @@ Route::group(['middleware' => ['auth']], function() {
 
 	//applicant applicant applicant applicant applicant applicant applicant applicant applicant applicant applicant applicant applicant
 	Route::group(['middleware' => 'Amcor\Http\Middleware\ApplicantMiddleware'], function() {
-		Route::name('applicant-profile')->get('/applicant/profile', 'ApplicantController@getApplicantProfile');
-		Route::name('applicant-picture-save')->post('/applicant/profile/picture-save', 'ApplicantController@postApplicantPictureSave');
-
 		Route::name('applicant-appointment')->get('/applicant/appointment', 'AppointmentController@getApplicantAppointment');
 		Route::get('/applicant/appointmentdate', 'AppointmentController@getApplicantAppointmentDate');
 		Route::post('/applicant/appointment/set', 'AppointmentController@postApplicantAppointmentSet');

@@ -2469,6 +2469,7 @@ $(document).ready(function() {
         }
     });
 
+    //applicant info table
     var table = $('#tblApplicant').DataTable({
         "aoColumns": [
             null,
@@ -2480,12 +2481,14 @@ $(document).ready(function() {
         ]
     });
     table.order([[1, 'asc']]).draw();
+    //table requirement
     var tableRequirement = $('#tblRequirement').DataTable({
         "aoColumns": [
             null,
             { "bSearchable": false, "bSortable": false, },
         ]
     });
+    //table passed requirement
     var tablePass = $('#tblPass').DataTable({
         "aoColumns": [
             null,
@@ -2522,54 +2525,6 @@ $(document).ready(function() {
         ],
     });
 
-    $('#modalCredential').on('hide.bs.modal', function() {
-        // $.ajaxSetup({
-        //     headers: {
-        //         'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
-        //     }
-        // })
-
-        // $.ajax({
-        //     type: "POST",
-        //     url: "/admin/transaction/requirement/assess",
-        //     data: { inputApplicantID: applicantid, inputStatus: tableRequirement.data().count(), },
-        //     dataType: "json",
-        //     success: function(data) {
-        //         console.log(data);
-
-        //         if (tableRequirement.data().count() == 0) {
-        //             table.row('#id' + data.applicantid).remove().draw(false);
-        //         } else {
-        //             var dt = [
-        //                 table.cell('#id'+applicantid, 0).data(),
-        //                 table.cell('#id'+applicantid, 1).data(),
-        //                 table.cell('#id'+applicantid, 2).data(),
-        //                 table.cell('#id'+applicantid, 3).data(),
-        //                 "FOR FOLLOW UP",
-        //                 table.cell('#id'+applicantid, 5).data(),
-        //             ];
-        //             table.row('#id' + data.applicantid).data(dt).draw(false);
-        //         }
-
-        //         tableRequirement.clear().draw();
-        //         tablePass.clear().draw();
-        //         toastr.success("SAVE SUCCESSFUL");
-        //     },
-        //     error: function(data) {
-        //         console.log(data);
-        //     },
-        // });
-    });
-
-    //editable select industry type
-    $('#erIndustryType').editableSelect({
-        effects: 'slide',
-    });
-    //editable select religion
-    $('#religion').editableSelect({
-        effects: 'slide',
-    });
-
     //contact pop up
     $('#appcontactno').on('focus', function() {
         $(this).popover({
@@ -2603,6 +2558,15 @@ $(document).ready(function() {
     $(document).on('click', '#appcontactnotn', function(e) {
         $('#appcontactno').val('');
         $('#appcontactno').inputmask("(99) 999 9999");
+    });
+
+    //editable select industry type
+    $('#erIndustryType').editableSelect({
+        effects: 'slide',
+    });
+    //editable select religion
+    $('#religion').editableSelect({
+        effects: 'slide',
     });
 
     //date picker
@@ -2679,16 +2643,6 @@ $(document).ready(function() {
         readURL(this);
     });
 
-    //validate if the picture is an image
-    $('#btnImageSave').click(function(e) {
-        var ext = $('#picture').val().split('.').pop().toLowerCase();
-        if ($.inArray(ext, ['gif','png','jpg','jpeg']) == -1) {
-            e.preventDefault();
-
-            toastr.error("INVALID IMAGE INPUT");
-        }
-    });
-
     //validate password
     $('.input-password').on('keyup', function() {
         if ($('#confirmpassword').val() != "") {
@@ -2723,6 +2677,108 @@ $(document).ready(function() {
         }
     })
 
+    //pass a requirement
+    $('#requirement-list').on('click', '#btnPass', function(e) {
+        e.preventDefault();
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+            }
+        });
+        var qid = $(this).val();
+
+        $.ajax({
+            type: "POST",
+            url: "/admin/transaction/requirement/pass",
+            data: { inputApplicantRequirementID: qid, inputApplicantID: applicantid, },
+            dataType: "json",
+            success: function(data) {
+                console.log(data);
+                
+                var row = "<tr id=in"+data.applicantrequirementid+">" +
+                    "<td>" + data.requirement.name + "</td>" +
+                    "<td style='text-align: center;'>" +
+                    "<button class='btn btn-danger btn-xs' id='btnRemove' value="+data.applicantrequirementid+">Remove</button> " +
+                    "</td>" +
+                    "</tr>";
+
+                tablePass.row.add($(row)[0]).draw();
+                tableRequirement.row('#out' + qid).remove().draw(false);
+            },
+        });
+    });
+
+    //remove a requirement
+    $('#pass-list').on('click', '#btnRemove', function(e) {
+        e.preventDefault();
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+            }
+        })
+        var qid = $(this).val();
+
+        $.ajax({
+            type: "POST",
+            url: "/admin/transaction/requirement/remove",
+            data: { inputApplicantRequirementID: qid, inputApplicantID: applicantid, },
+            dataType: "json",
+            success: function(data) {
+                console.log(data);
+                
+                var row = "<tr id=out"+data.applicantrequirementid+">" +
+                    "<td>" + data.requirement.name + "</td>" +
+                    "<td style='text-align: center;'>" +
+                    "<button class='btn btn-primary btn-xs' id='btnPass' value="+data.applicantrequirementid+">Submit</button> " +
+                    "</td>" +
+                    "</tr>";
+
+                tableRequirement.row.add($(row)[0]).draw();
+                tablePass.row("#in" + qid).remove().draw(false);
+            },
+        });
+    });
+
+    //save the requirement
+    $('#btnSave').click(function() {
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+            }
+        });
+
+        $.ajax({
+            type: "POST",
+            url: "/admin/transaction/requirement/assess",
+            data: { inputApplicantID: applicantid, inputStatus: tableRequirement.data().count(), },
+            dataType: "json",
+            success: function(data) {
+                console.log(data);
+
+                if (tableRequirement.data().count() == 0) {
+                    table.row('#id' + data.applicantid).remove().draw(false);
+                } else {
+                    var dt = [
+                        table.cell('#id'+applicantid, 0).data(),
+                        table.cell('#id'+applicantid, 1).data(),
+                        table.cell('#id'+applicantid, 2).data(),
+                        table.cell('#id'+applicantid, 3).data(),
+                        "FOR FOLLOW UP",
+                        table.cell('#id'+applicantid, 5).data(),
+                    ];
+                    table.row('#id' + data.applicantid).data(dt).draw(false);
+                }
+
+                $('#modalCredential').modal('hide');
+                toastr.success("SAVE SUCCESSFUL");
+            },
+            error: function(data) {
+                console.log(data);
+            },
+        });
+    });
+
+    //assess the click applicant
     $('#applicant-list').on('click', '#btnAssess', function(e) {
         e.preventDefault();
         resetModalCredential();
@@ -2736,6 +2792,7 @@ $(document).ready(function() {
             success: function(data) {
                 console.log(data);
 
+                $('#pictureview').attr('src', '/applicant/' + data.picture);
                 $('#lastname').val(data.lastname);
                 $('#firstname').val(data.firstname);
                 $('#middlename').val(data.middlename);
@@ -2816,7 +2873,7 @@ $(document).ready(function() {
         $('#modalCredential').modal('show');
     });
 
-    //personal information info
+    //personal information info save
      $('#btnPersonalInformationSave').click(function(e) {
         if ($('#formPersonalInformation').parsley().validate()) {
             e.preventDefault();
@@ -2825,6 +2882,23 @@ $(document).ready(function() {
                     'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
                 }
             });
+            var height = 0, weight = 0;
+
+            //computation for height
+            if ($('#heighttype').val() == "ft") {
+                height = $('#height').val() * 30.48;
+            } else if ($('#heighttype').val() == "m") {
+                height = $('#height').val() * 100;
+            } else {
+                height = $('#height').val();
+            }
+
+            //computation for weight
+            if ($('#weighttype').val() == "lbs") {
+                weight = $('#weight').val() * 0.454;
+            } else {
+                weight = $('#weight').val();
+            }
 
             var online = navigator.onLine;
             if (online) {
@@ -2856,6 +2930,8 @@ $(document).ready(function() {
                             inputAppContactNo: $('#appcontactno').val(),
                             inputHeight: height,
                             inputWeight: weight,
+                            inputHobby: $('#hobby').val(),
+                            inputSkills: $('#skill').val(),
                         }
                     } else {
                         formData = {
@@ -2870,8 +2946,8 @@ $(document).ready(function() {
                             inputProvincialAddress: $('#provincialaddress').val(),
                             inputProvincialAddressProvince: $('#inputprovincialaddressprovince').val(),
                             inputProvincialAddressCity: $('#inputprovincialaddresscity').val(),
-                            inputLatitude: results[0].geometry.location.lat(),
-                            inputLongitude: results[0].geometry.location.lng(),
+                            inputLatitude: null,
+                            inputLongitude: null,
                             inputGender: $('input:radio[name="gender"]:checked').val(),
                             inputDateOfBirth: $('#dateofbirth').val(),
                             inputPlaceOfBirth: $('#placeofbirth').val(),
@@ -2882,6 +2958,8 @@ $(document).ready(function() {
                             inputAppContactNo: $('#appcontactno').val(),
                             inputHeight: height,
                             inputWeight: weight,
+                            inputHobby: $('#hobby').val(),
+                            inputSkills: $('#skill').val(),
                         }
                     }
 
@@ -2893,7 +2971,8 @@ $(document).ready(function() {
                         success: function(data) {
                             console.log(data);
 
-
+                            $('#formPersonalInformation').parsley().reset();
+                            toastr.success("SAVE SUCCESSFUL");
                         },
                     });
                 });
@@ -2911,8 +2990,8 @@ $(document).ready(function() {
                     inputProvincialAddress: $('#provincialaddress').val(),
                     inputProvincialAddressProvince: $('#inputprovincialaddressprovince').val(),
                     inputProvincialAddressCity: $('#inputprovincialaddresscity').val(),
-                    inputLatitude: results[0].geometry.location.lat(),
-                    inputLongitude: results[0].geometry.location.lng(),
+                    inputLatitude: null,
+                    inputLongitude: null,
                     inputGender: $('input:radio[name="gender"]:checked').val(),
                     inputDateOfBirth: $('#dateofbirth').val(),
                     inputPlaceOfBirth: $('#placeofbirth').val(),
@@ -2923,6 +3002,8 @@ $(document).ready(function() {
                     inputAppContactNo: $('#appcontactno').val(),
                     inputHeight: height,
                     inputWeight: weight,
+                    inputHobby: $('#hobby').val(),
+                    inputSkills: $('#skill').val(),
                 }
 
                 $.ajax({
@@ -2933,71 +3014,47 @@ $(document).ready(function() {
                     success: function(data) {
                         console.log(data);
 
-
+                        $('#formPersonalInformation').parsley().reset();
+                        toastr.success("SAVE SUCCESSFUL");
                     },
                 });
             }
         }
     });
 
-    //pass a requirement
-    $('#requirement-list').on('click', '#btnPass', function(e) {
+    //profile image save
+    $('#btnImageSave').click(function(e) {
         e.preventDefault();
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
             }
         });
-        var qid = $(this).val();
+
+        var ext = $('#picture').val().split('.').pop().toLowerCase();
+        if ($.inArray(ext, ['gif','png','jpg','jpeg']) == -1) {
+            toastr.error("INVALID IMAGE INPUT");
+            return;
+        }
+        
+
+        var image = $('#picture')[0].files[0];
+        var form = new FormData();
+
+        form.append('applicantid', applicantid);
+        form.append('image', image);
 
         $.ajax({
             type: "POST",
-            url: "/admin/transaction/requirement/pass",
-            data: { inputApplicantRequirementID: qid, inputApplicantID: applicantid, },
-            dataType: "json",
+            url: "/admin/transaction/applicantinfo/profileimage/save",
+            data: form,
+            cache: false,
+            processData: false,
+            contentType: false,
             success: function(data) {
-                console.log(data);
-                
-                var row = "<tr id=in"+data.applicantrequirementid+">" +
-                    "<td>" + data.requirement.name + "</td>" +
-                    "<td style='text-align: center;'>" +
-                    "<button class='btn btn-danger btn-xs' id='btnRemove' value="+data.applicantrequirementid+">Remove</button> " +
-                    "</td>" +
-                    "</tr>";
 
-                tablePass.row.add($(row)[0]).draw();
-                tableRequirement.row('#out' + qid).remove().draw(false);
-            },
-        });
-    });
-
-    //remove a requirement
-    $('#pass-list').on('click', '#btnRemove', function(e) {
-        e.preventDefault();
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
-            }
-        })
-        var qid = $(this).val();
-
-        $.ajax({
-            type: "POST",
-            url: "/admin/transaction/requirement/remove",
-            data: { inputApplicantRequirementID: qid, inputApplicantID: applicantid, },
-            dataType: "json",
-            success: function(data) {
-                console.log(data);
-                
-                var row = "<tr id=out"+data.applicantrequirementid+">" +
-                    "<td>" + data.requirement.name + "</td>" +
-                    "<td style='text-align: center;'>" +
-                    "<button class='btn btn-primary btn-xs' id='btnPass' value="+data.applicantrequirementid+">Submit</button> " +
-                    "</td>" +
-                    "</tr>";
-
-                tableRequirement.row.add($(row)[0]).draw();
-                tablePass.row("#in" + qid).remove().draw(false);
+                $('#formImage').trigger('reset');
+                toastr.success("SAVE SUCCESSFUL");
             },
         });
     });
