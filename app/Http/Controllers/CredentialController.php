@@ -23,7 +23,7 @@ class CredentialController extends Controller
     	return view('admin.transaction.submitcredential', compact('applicants'));
     }
 
-    public function getAdminSubmitCredentialApplicantRequirement(Request $request) {
+    public function getAdminApplicantRequirement(Request $request) {
         $applicantrequirement = ApplicantRequirement::with('Requirement')
             ->where('applicantid', $request->inputApplicantID)
             ->get();
@@ -31,7 +31,7 @@ class CredentialController extends Controller
         return Response::json($applicantrequirement);
     }
 
-    public function postAdminSubmitCredentialApplicantRequirementPass(Request $request) {
+    public function postAdminRequirementPass(Request $request) {
         $applicantrequirement = ApplicantRequirement::with('Requirement')
             ->where('applicantid', $request->inputApplicantID)
             ->find($request->inputApplicantRequirementID);
@@ -42,7 +42,7 @@ class CredentialController extends Controller
         return Response::json($applicantrequirement);
     }
 
-    public function postAdminSubmitCredentialApplicantRequirementRemove(Request $request) {
+    public function postAdminRequirementRemove(Request $request) {
         $applicantrequirement = ApplicantRequirement::with('Requirement')
             ->where('applicantid', $request->inputApplicantID)
             ->find($request->inputApplicantRequirementID);
@@ -53,7 +53,7 @@ class CredentialController extends Controller
         return Response::json($applicantrequirement);
     }
 
-    public function postAdminSubmitCredentialApplicantRequirementAssess(Request $request) {
+    public function postAdminRequirementAssess(Request $request) {
         $applicant = Applicant::find($request->inputApplicantID);
 
         if ($request->inputStatus == 0) {
@@ -70,5 +70,10 @@ class CredentialController extends Controller
         $applicant->save();
 
         return Response::json($applicant);
+    }
+
+    public function postAdminPersonalInfo(Request $request) {
+        $applicant = Applicant::find($request->inputApplicantID);
+        
     }
 }

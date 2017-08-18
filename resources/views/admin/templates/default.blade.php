@@ -76,13 +76,13 @@
             <li class="treeview {{Request::path() == 'admin/transaction/submitcredential' ? 'active' : ''}} {{Request::path() == 'admin/transaction/testlogin' ? 'active' : ''}} {{Request::path() == 'admin/transaction/assesstest' ? 'active' : ''}} {{Request::path() == 'admin/transaction/assessinterview' ? 'active' : ''}} {{Request::path() == 'admin/transaction/securityguard' ? 'active' : ''}} {{Request::path() == 'admin/transaction/contract' ? 'active' : ''}} {{Request::path() == 'admin/transaction/client' ? 'active' : ''}} {{Request::path() == 'admin/transaction/inventory' ? 'active' : ''}} {{Request::path() == 'admin/transaction/deploysecurityguard' ? 'active' : ''}} {{Request::path() == 'admin/transaction/deployitem' ? 'active' : ''}}">
               <a href="#"><i class="fa fa-suitcase"></i><b>  TRANSACTION</b><i class="fa fa-angle-left pull-right"></i></a>
               <ul class="treeview-menu">
-                <li class="{{Request::path() == 'admin/transaction/submitcredential' ? 'active' : ''}}"><a href="{{ route('admin-transaction-submitcredential') }}"><i class="fa fa-circle-o"></i>Submit Credential</a></li>
+                <li class="{{Request::path() == 'admin/transaction/submitcredential' ? 'active' : ''}}"><a href="{{ route('admin-transaction-submitcredential') }}"><i class="fa fa-circle-o"></i>Submit Credentials</a></li>
                 <li class="{{Request::path() == 'admin/transaction/testlogin' ? 'active' : ''}}"><a href="{{ route('admin-transaction-testlogin') }}"><i class="fa fa-circle-o"></i>Testing</a></li>
                 <li class="{{Request::path() == 'admin/transaction/assesstest' ? 'active' : ''}}"><a href="{{ route('admin-transaction-assesstest') }}"><i class="fa fa-circle-o"></i>Assess Test</a></li>
                 <li class="{{Request::path() == 'admin/transaction/assessinterview' ? 'active' : ''}}"><a href="{{ route('admin-transaction-assessinterview') }}"><i class="fa fa-circle-o"></i>Assess Interview</a></li>
                 <li class="{{Request::path() == 'admin/transaction/securityguard' ? 'active' : ''}}"><a href="{{ route('admin-transaction-securityguard') }}"><i class="fa fa-circle-o"></i>Security Guard</a></li>
-                <li class="{{Request::path() == 'admin/transaction/contract' ? 'active' : ''}}"><a href="{{ route('admin-transaction-contract') }}"><i class="fa fa-circle-o"></i>Contract</a></li>
                 <li class="{{Request::path() == 'admin/transaction/client' ? 'active' : ''}}"><a href="{{ route('admin-transaction-client') }}"><i class="fa fa-circle-o"></i>Client</a></li>
+                <li class="{{Request::path() == 'admin/transaction/contract' ? 'active' : ''}}"><a href="{{ route('admin-transaction-contract') }}"><i class="fa fa-circle-o"></i>Contract</a></li>
                 <li class="{{Request::path() == 'admin/transaction/inventory' ? 'active' : ''}}"><a href="{{ route('admin-transaction-inventory') }}"><i class="fa fa-circle-o"></i>Inventory</a></li>
                 <li class="{{Request::path() == 'admin/transaction/deploysecurityguard' ? 'active' : ''}}"><a href="{{ route('admin-transaction-deploysecurityguard') }}"><i class="fa fa-circle-o"></i>Deploy Security Guard</a></li>
                 <li class="{{Request::path() == 'admin/transaction/deployitem' ? 'active' : ''}}"><a href="{{ route('admin-transaction-deployitem') }}"><i class="fa fa-circle-o"></i>Deploy Item</a></li>
@@ -118,18 +118,6 @@
                 <li class="{{Request::path() == 'admin/maintenance/violation' ? 'active' : ''}}"><a href="{{ route('admin-maintenance-violation') }}"><i class="fa fa-circle-o"></i>Violation</a></li>
               </ul>
             </li>
-            <!-- queries -->
-            <li class="treeview {{Request::path() == 'admin/query/securityguardscore' ? 'active' : ''}} {{Request::path() == 'admin/query/securityguardvacant' ? 'active' : ''}} {{Request::path() == 'admin/query/securityguardcommend' ? 'active' : ''}} {{Request::path() == 'admin/query/securityguardviolation' ? 'active' : ''}} {{Request::path() == 'admin/query/clientcontract' ? 'active' : ''}} {{Request::path() == 'admin/query/deploymentsitearea' ? 'active' : ''}}">
-              <a href="#"><i class="fa fa-book"></i><b>  QUERY</b><i class="fa fa-angle-left pull-right"></i></a>
-              <ul class="treeview-menu">
-                <li class="{{Request::path() == 'admin/query/securityguardscore' ? 'active' : ''}}"><a href="{{ route('admin-query-securityguardscore') }}"><i class="fa fa-circle-o"></i>SG Score</a></li>
-                <li class="{{Request::path() == 'admin/query/securityguardvacant' ? 'active' : ''}}"><a href="{{ route('admin-query-securityguardvacant') }}"><i class="fa fa-circle-o"></i>SG Vacant</a></li>
-                <li class="{{Request::path() == 'admin/query/securityguardcommend' ? 'active' : ''}}"><a href="{{ route('admin-query-securityguardcommend') }}"><i class="fa fa-circle-o"></i>SG Commend</a></li>
-                <li class="{{Request::path() == 'admin/query/securityguardviolation' ? 'active' : ''}}"><a href="{{ route('admin-query-securityguardviolation') }}"><i class="fa fa-circle-o"></i>SG Violation</a></li>
-                <li class="{{Request::path() == 'admin/query/clientcontract' ? 'active' : ''}}"><a href="{{ route('admin-query-clientcontract') }}"><i class="fa fa-circle-o"></i>Client Contract</a></li>
-                <li class="{{Request::path() == 'admin/query/deploymentsitearea' ? 'active' : ''}}"><a href="{{ route('admin-query-deploymentsitearea') }}"><i class="fa fa-circle-o"></i>Deployment Site Area</a></li>
-              </ul>
-            </li>
             <!-- utilities -->
             <li class="treeview {{Request::path() == 'admin/utility/appointment' ? 'active' : ''}}">
               <a href="#"><i class="fa fa-th-list"></i><b>  UTILITY</b><i class="fa fa-angle-left pull-right"></i></a>
@@ -152,9 +140,21 @@
                 <li class="{{Request::path() == 'admin/archive/violation' ? 'active' : ''}}"><a href="{{ route('admin-archive-violation') }}"><i class="fa fa-circle-o"></i>Violation</a></li>
               </ul>
             </li>
+            <!-- queries -->
+            <li class="treeview {{Request::path() == 'admin/query/securityguardscore' ? 'active' : ''}} {{Request::path() == 'admin/query/securityguardvacant' ? 'active' : ''}} {{Request::path() == 'admin/query/securityguardcommend' ? 'active' : ''}} {{Request::path() == 'admin/query/securityguardviolation' ? 'active' : ''}} {{Request::path() == 'admin/query/clientcontract' ? 'active' : ''}} {{Request::path() == 'admin/query/deploymentsitearea' ? 'active' : ''}}">
+              <a href="#"><i class="fa fa-book"></i><b>  QUERY</b><i class="fa fa-angle-left pull-right"></i></a>
+              <ul class="treeview-menu">
+                <li class="{{Request::path() == 'admin/query/securityguardscore' ? 'active' : ''}}"><a href="{{ route('admin-query-securityguardscore') }}"><i class="fa fa-circle-o"></i>SG Score</a></li>
+                <li class="{{Request::path() == 'admin/query/securityguardvacant' ? 'active' : ''}}"><a href="{{ route('admin-query-securityguardvacant') }}"><i class="fa fa-circle-o"></i>SG Vacant</a></li>
+                <li class="{{Request::path() == 'admin/query/securityguardcommend' ? 'active' : ''}}"><a href="{{ route('admin-query-securityguardcommend') }}"><i class="fa fa-circle-o"></i>SG Commend</a></li>
+                <li class="{{Request::path() == 'admin/query/securityguardviolation' ? 'active' : ''}}"><a href="{{ route('admin-query-securityguardviolation') }}"><i class="fa fa-circle-o"></i>SG Violation</a></li>
+                <li class="{{Request::path() == 'admin/query/clientcontract' ? 'active' : ''}}"><a href="{{ route('admin-query-clientcontract') }}"><i class="fa fa-circle-o"></i>Client Contract</a></li>
+                <li class="{{Request::path() == 'admin/query/deploymentsitearea' ? 'active' : ''}}"><a href="{{ route('admin-query-deploymentsitearea') }}"><i class="fa fa-circle-o"></i>Deployment Site Area</a></li>
+              </ul>
+            </li>
             <!-- reports -->
             <li class="treeview {{Request::path() == 'admin/report/firearmlicense' ? 'active' : ''}} {{Request::path() == 'admin/report/securitylicense' ? 'active' : ''}} {{Request::path() == 'admin/report/equipment' ? 'active' : ''}} {{Request::path() == 'admin/report/ddo' ? 'active' : ''}} {{Request::path() == 'admin/report/mdr' ? 'active' : ''}}">
-                <a href="#"><i class="fa fa-file-text"></i><b>  REPORTS</b><i class="fa fa-angle-left pull-right"></i></a>
+                <a href="#"><i class="fa fa-file-text"></i><b>  REPORT</b><i class="fa fa-angle-left pull-right"></i></a>
                 <ul class="treeview-menu">
                     <li class="{{Request::path() == 'admin/report/firearmlicense' ? 'active' : ''}}"><a href="{{ route('admin-report-firearmlicense') }}"><i class="fa fa-circle-o"></i>Firearm License</a></li>
                     <li class="{{Request::path() == 'admin/report/securitylicense' ? 'active' : ''}}"><a href="{{ route('admin-report-securitylicense') }}"><i class="fa fa-circle-o"></i>Security License</a></li>

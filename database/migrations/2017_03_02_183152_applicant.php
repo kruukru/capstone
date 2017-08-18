@@ -54,6 +54,7 @@ class Applicant extends Migration
             $table->string('contactperson');
             $table->string('contactno');
             $table->string('contacttelno')->nullable();
+            $table->date('lastdeployed')->nullable();
             $table->tinyInteger('status');
 
             $table->timestamps();

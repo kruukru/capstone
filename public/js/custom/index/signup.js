@@ -2881,7 +2881,6 @@ $(document).ready(function() {
             }
 
             var online = navigator.onLine;
-
             if (online) {
                 var geocoder = new google.maps.Geocoder();
                 var formData = {};
@@ -3019,7 +3018,6 @@ $(document).ready(function() {
                 });
             } else {
                 var formData = {};
-
                 formData = {
                     inputAppointmentDateID: appointmentdateid,
                     inputUsername: $('#username').val(),

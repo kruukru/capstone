@@ -60,20 +60,14 @@ Route::group(['middleware' => ['guest']], function() {
 Route::group(['middleware' => ['auth']], function() {
 	//admin admin admin admin admin admin admin admin admin admin admin admin admin admin admin admin admin admin admin admin admin admin 
 	Route::group(['middleware' => 'Amcor\Http\Middleware\AdminMiddleware'], function() {
-		//temp report temp report
-		Route::name('adminreportemployeepooling')->get('/admin/report/employeepooling', 'AdminReportController@getAdminReportEmployeePooling');
-		Route::name('adminreportsupply')->get('/admin/report/supply', 'AdminReportController@getAdminReportSupply');
-		Route::name('adminreportfirearmlicenseexpiration')->get('/admin/report/firearmlicenseexpiration', 'AdminReportController@getAdminReportFirearmLicenseExpiration');
-		Route::name('adminreportsecuritylicenseexpiration')->get('/admin/report/securitylicenseexpiration', 'AdminReportController@getAdminReportSecurityLicenseExpiration');
-		Route::name('adminreportwarrantyexpiration')->get('/admin/report/warrantyexpiration', 'AdminReportController@getAdminReportWarrantyExpiration');
-
 		//transaction transaction transaction transaction transaction transaction transaction transaction transaction transaction transaction
 		//submit credential
 		Route::name('admin-transaction-submitcredential')->get('/admin/transaction/submitcredential', 'CredentialController@getAdminSubmitCredential');
-		Route::get('/admin/transaction/submitcredential/applicantrequirement', 'CredentialController@getAdminSubmitCredentialApplicantRequirement');
-		Route::post('/admin/transaction/submitcredential/applicantrequirement/pass', 'CredentialController@postAdminSubmitCredentialApplicantRequirementPass');
-		Route::post('/admin/transaction/submitcredential/applicantrequirement/remove', 'CredentialController@postAdminSubmitCredentialApplicantRequirementRemove');
-		Route::post('/admin/transaction/submitcredential/applicantrequirement/assess', 'CredentialController@postAdminSubmitCredentialApplicantRequirementAssess');
+		Route::get('/admin/transaction/applicantrequirement', 'CredentialController@getAdminApplicantRequirement');
+		Route::post('/admin/transaction/requirement/pass', 'CredentialController@postAdminRequirementPass');
+		Route::post('/admin/transaction/requirement/remove', 'CredentialController@postAdminRequirementRemove');
+		Route::post('/admin/transaction/requirement/assess', 'CredentialController@postAdminRequirementAssess');
+		Route::post('/admin/transaction/applicantinfo/personalinfo', 'CredentialController@postAdminPersonalInfo');
 
 		//test login
 		Route::name('admin-transaction-testlogin')->get('/admin/transaction/testlogin', 'TestController@getAdminTestLogin');
