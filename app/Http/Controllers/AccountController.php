@@ -19,16 +19,6 @@ use PDF;
 
 class AccountController extends Controller
 {
-    //validate the username
-    public function getValidateUsername(Request $request) {
-        $account = Account::where('username', $request->inputUsername)->get();
-        if (!($account->isEmpty())) {
-            return Response::json("SAME USERNAME", 500);
-        }
-
-        return Response::json($account);
-    }
-
     //sign in
     public function getSignIn() {
     	return view('index.signin');

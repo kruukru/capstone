@@ -477,7 +477,7 @@
 				                        			<input type="password" class="form-control input-confirmpassword" id="confirmpassword" placeholder="Confirm Password" required>
 								            	</div>
 								            	<div class="form-group">
-				                        			<button class="btn btn-primary pull-right" id="btnIDsSave">SAVE</button>
+				                        			<button class="btn btn-primary pull-right" id="btnAccountSave">SAVE</button>
 				                        		</div>
 				                    		</form>
 			                    		</div>

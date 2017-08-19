@@ -43,6 +43,7 @@ Route::get('/json/industrytype/all', 'JSONController@getIndustryTypeAll');
 Route::get('/json/areatype/all', 'JSONController@getAreaTypeAll');
 Route::get('/json/assessmenttopic/all', 'JSONController@getAssessmentTopicAll');
 
+Route::get('/json/validate-username', 'JSONController@getValidateUsername');
 
 Route::group(['middleware' => ['guest']], function() {
 	//sign in
@@ -53,7 +54,6 @@ Route::group(['middleware' => ['guest']], function() {
 	Route::name('signup')->get('/signup', 'AccountController@getSignUp');
 	Route::get('/signup/appointmentdate', 'AppointmentController@getSignUpAppointmentDate');
 	Route::post('/signup/appointment/set', 'AppointmentController@postSignUpAppointmentSet');
-	Route::get('/signup-validateusername', 'AccountController@getValidateUsername');
 	Route::post('/signup', 'AccountController@postSignUp');
 });
 
@@ -69,7 +69,8 @@ Route::group(['middleware' => ['auth']], function() {
 		Route::post('/admin/transaction/requirement/assess', 'CredentialController@postAdminRequirementAssess');
 
 		Route::post('/admin/transaction/applicantinfo/personalinfo', 'CredentialController@postAdminPersonalInfo');
-		Route::post('/admin/transaction/applicantinfo/profileimage/save', 'CredentialController@postAdminProfileImageSave');
+		Route::post('/admin/transaction/applicantinfo/profileimage', 'CredentialController@postAdminProfileImage');
+		Route::post('/admin/transaction/applicantinfo/account', 'CredentialController@postAdminAccount');
 
 		//test login
 		Route::name('admin-transaction-testlogin')->get('/admin/transaction/testlogin', 'TestController@getAdminTestLogin');
@@ -104,7 +105,6 @@ Route::group(['middleware' => ['auth']], function() {
 
 		//client
 		Route::name('admin-transaction-client')->get('/admin/transaction/client', 'ClientController@getAdminClient');
-		Route::get('/admin/transaction/client-validateusername', 'ClientController@getValidateUsername');
 		Route::post('/admin/transaction/client/new', 'ClientController@postAdminClientNew');
 		Route::post('/admin/transaction/client/contract/new', 'ClientController@postAdminClientContractNew');
 

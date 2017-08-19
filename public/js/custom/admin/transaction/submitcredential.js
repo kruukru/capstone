@@ -2643,6 +2643,30 @@ $(document).ready(function() {
         readURL(this);
     });
 
+    //validate the username
+    $('#username').on('focusout', function() {
+        if ($(this).val() != "") {
+            $('#username').parsley().removeError('forcederror', {updateClass: true});
+            $.ajax({
+                type: "GET",
+                url: "/json/validate-username",
+                data: { inputUsername: $('#username').val(), },
+                dataType: "json",
+                success: function(data) {
+                    $('#username').parsley().removeError('forcederror', {updateClass: true});
+                },
+                error: function(data) {
+                    if (data.responseJSON == "SAME USERNAME") {
+                        $('#username').parsley().addError('forcederror', {
+                            message: 'Username already exist.',
+                            updateClass: true,
+                        });
+                    }
+                },
+            });
+        }
+    });
+
     //validate password
     $('.input-password').on('keyup', function() {
         if ($('#confirmpassword').val() != "") {
@@ -3046,7 +3070,7 @@ $(document).ready(function() {
 
         $.ajax({
             type: "POST",
-            url: "/admin/transaction/applicantinfo/profileimage/save",
+            url: "/admin/transaction/applicantinfo/profileimage",
             data: form,
             cache: false,
             processData: false,
@@ -3057,6 +3081,40 @@ $(document).ready(function() {
                 toastr.success("SAVE SUCCESSFUL");
             },
         });
+    });
+
+    $('#btnAccountSave').click(function(e) {
+        if ($('#formAccount').parsley().validate()) {
+            e.preventDefault();
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                }
+            });
+
+            if ($('#password').val() != $('#confirmpassword').val()) {
+                toastr.error("PASSWORD MISMATCH");
+            } else {
+                var formData = {
+                    inputApplicantID: applicantid,
+                    inputUsername: $('#username').val(),
+                    inputPassword: $('#password').val(),
+                };
+
+                $.ajax({
+                    type: "POST",
+                    url: "/admin/transaction/applicantinfo/account",
+                    data: formData,
+                    dataType: "json",
+                    success: function(data) {
+                        console.log(data);
+
+                        $('#formAccount').parsley().reset();
+                        toastr.success("SAVE SUCCESSFUL");
+                    },
+                });
+            }
+        }
     });
 
     function resetModalCredential() {

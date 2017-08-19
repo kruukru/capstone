@@ -2747,7 +2747,7 @@ $(document).ready(function() {
             $('#username').parsley().removeError('forcederror', {updateClass: true});
             $.ajax({
                 type: "GET",
-                url: "/signup-validateusername",
+                url: "/json/validate-username",
                 data: { inputUsername: $('#username').val(), },
                 dataType: "json",
                 success: function(data) {

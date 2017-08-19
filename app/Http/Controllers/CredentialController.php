@@ -104,7 +104,7 @@ class CredentialController extends Controller
         return Response::json($applicant);
     }
 
-    public function postAdminProfileImageSave(Request $request) {
+    public function postAdminProfileImage(Request $request) {
         $applicant = Applicant::find($request->get('applicantid'));
 
         if ($request->hasFile('image')) {
@@ -120,5 +120,14 @@ class CredentialController extends Controller
             $applicant->picture = $filename;
             $applicant->save();
         }
+    }
+
+    public function postAdminAccount(Request $request) {
+        $applicant = Applicant::find($request->inputApplicantID);
+        $applicant->account->username = $request->inputUsername;
+        $applicant->account->password = bcrypt($request->inputPassword);
+        $applicant->account->save();
+
+        return Response::json($applicant);
     }
 }

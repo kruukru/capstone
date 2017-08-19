@@ -17,6 +17,7 @@ use Amcor\AssessmentTopic;
 use Amcor\Commend;
 use Amcor\Holiday;
 use Amcor\ClientQualification;
+use Amcor\Account;
 use Response;
 
 class JSONController extends Controller
@@ -148,4 +149,15 @@ class JSONController extends Controller
 
         return Response::json($clientqualification);
     }
+
+
+
+    public function getValidateUsername(Request $request) {
+        $account = Account::where('username', $request->inputUsername)->get();
+        if (!($account->isEmpty())) {
+            return Response::json("SAME USERNAME", 500);
+        }
+
+        return Response::json($account);
+    }    
 }

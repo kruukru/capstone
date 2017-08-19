@@ -21,15 +21,6 @@ class ClientController extends Controller
     	return view('admin.transaction.client', compact('clients'));
     }
 
-    public function getValidateUsername(Request $request) {
-        $account = Account::where('username', $request->inputUsername)->get();
-        if (!($account->isEmpty())) {
-            return Response::json("SAME USERNAME", 500);
-        }
-
-        return Response::json($account);
-    }
-
     public function postAdminClientNew(Request $request) {
         $client = Client::where('name', $request->inputCompanyName)->get();
         if (!($client->isEmpty())) {

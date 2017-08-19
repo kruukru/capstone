@@ -2155,7 +2155,7 @@ $(document).ready(function() {
             $('#inputUsername').parsley().removeError('forcederror', {updateClass: true});
             $.ajax({
                 type: "GET",
-                url: "/admin/transaction/client-validateusername",
+                url: "/json/validate-username",
                 data: { inputUsername: $('#inputUsername').val(), },
                 dataType: "json",
                 success: function(data) {
