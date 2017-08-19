@@ -30,8 +30,8 @@ class Applicant extends Migration
             $table->double('longitude')->nullable();
             $table->string('gender');
             $table->text('picture');
-            $table->date('dateofbirth');
-            $table->string('placeofbirth');
+            $table->date('birthdate');
+            $table->string('birthplace');
             $table->tinyInteger('age');
             $table->string('civilstatus');
             $table->string('religion');
@@ -49,7 +49,7 @@ class Applicant extends Migration
             $table->text('hobby')->nullable();
             $table->text('skill')->nullable();
             $table->string('spousename')->nullable();
-            $table->date('spousedateofbirth')->nullable();
+            $table->date('spousebirthdate')->nullable();
             $table->string('spouseoccupation')->nullable();
             $table->string('contactperson');
             $table->string('contactno');

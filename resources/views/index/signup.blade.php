@@ -115,7 +115,7 @@
 									            		<div class="row">
 									            			<div class="col-md-2 col-md-offset-1">
 									            				<label>Birthdate *</label>
-									            				<input type="text" class="form-control mydatepicker" id="dateofbirth" placeholder="yyyy-mm-dd" required>
+									            				<input type="text" class="form-control mydatepicker" id="birthdate" placeholder="yyyy-mm-dd" required>
 									            			</div>
 									            			<div class="col-md-1">
 									            				<label>Age</label>
@@ -123,7 +123,7 @@
 									            			</div>
 									            			<div class="col-md-5">
 									            				<label>Birthplace *</label>
-									            				<input type="text" class="form-control" id="placeofbirth" placeholder="Birthplace" required>
+									            				<input type="text" class="form-control" id="birthplace" placeholder="Birthplace" required>
 									            			</div>
 									            			<div class="col-md-2">
 									            				<label>Contact # *</label>
@@ -756,11 +756,11 @@
 							</tr>
 							<tr>
 								<td>DATE OF BIRTH</td>
-								<td id="tdateofbirth"></td>
+								<td id="tbirthdate"></td>
 							</tr>
 							<tr>
 								<td>PLACE OF BIRTH</td>
-								<td id="tplaceofbirth"></td>
+								<td id="tbirthplace"></td>
 							</tr>
 							<tr>
 								<td>CIVIL STATUS</td>

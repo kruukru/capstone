@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    var applicantid, qid;
+    var applicantid, qid, idTable = 0;
 
     var abra = [
         "Bangued", 
@@ -2573,11 +2573,11 @@ $(document).ready(function() {
     $('.mydatepicker').change(function() {
         $(this).parsley().validate();
     });
-    $('#dateofbirth').change(function() {
-        $('#age').val(getAge($('#dateofbirth').val()));
+    $('#birthdate').change(function() {
+        $('#age').val(getAge($('#birthdate').val()));
     });
-    $('#dateofbirth').inputmask("9999-99-99");
-    $('#dateofbirth').datepicker({
+    $('#birthdate').inputmask("9999-99-99");
+    $('#birthdate').datepicker({
         format: 'yyyy-mm-dd',
         autoclose: true,
         startDate: '-100y',
@@ -2701,6 +2701,116 @@ $(document).ready(function() {
         }
     })
 
+    //add for training certificate
+    $('#btnAddEducationBackground').click(function(e) {
+        if ($('#formEducationBackground').parsley().isValid()) {
+            e.preventDefault();
+            var check = true;
+
+            if ($('#ebGraduateType').val() == "Elementary" || $('#ebGraduateType').val() == "High School") {
+                $('#tblEducationBackground > tbody > tr').each(function() {
+                    if ($(this).find('#inputEBGraduateType').text() == $('#ebGraduateType').val()) {
+                        check = false;
+                    }
+                });
+            }
+
+            if (check) {
+                var row = "<tr id=idEB" + idTable + ">" +
+                    "<td id='inputEBGraduateType'>" + $('#ebGraduateType').val() + "</td>" +
+                    "<td id='inputEBDegree'>" + $('#ebDegree').val() + "</td>" +
+                    "<td id='inputEBDateGraduated'>" + $('#ebDateGraduated').val() + "</td>" +
+                    "<td id='inputEBSchoolGraduated'>" + $('#ebSchoolGraduated').val() + "</td>" +
+                    "<td style='text-align: center;'>" +
+                        "<button class='btn btn-danger btn-xs' id='btnRemove' value=" + idTable + ">Remove</button>" +
+                    "</td>" +
+                    "</tr>";
+                tableEducationBackground.row.add($(row)[0]).draw();
+
+                $('#formEducationBackground').trigger('reset');
+                $('#formEducationBackground').parsley().reset();
+                $('.degree-info').hide();
+                idTable++;
+            } else {
+                toastr.error("SAME GRADUATE TYPE");
+            }
+        }
+    });
+
+    //add for employment record
+    $('#btnAddEmploymentRecord').click(function(e) {
+        if ($('#formEmploymentRecord').parsley().isValid()) {
+            e.preventDefault();
+            
+            var duration = 0;
+            var row = "<tr id=idER" + idTable + ">" +
+                "<td id='inputERCompany'>" + $('#erCompany').val() + "</td>" +
+                "<td id='inputERIndustryType'>" + $('#erIndustryType').val() + "</td>";
+            if ($('#durationtype').val() == "year") {
+                duration = $('#erDuration').val() * 12;
+                row += "<td id='inputERWorkExp'>" + duration + "</td>";
+            } else if ($('#durationtype').val() == "month") {
+                duration = $('#erDuration').val();
+                row += "<td id='inputERWorkExp'>" + duration + "</td>";
+            } else if ($('#durationtype').val() == "day") {
+                duration = $('#erDuration').val() / 30;
+                row += "<td id='inputERWorkExp'>" + duration.toFixed(2) + "</td>";
+            }
+            row += "<td id='inputERReason'>" + $('#erReason').val() + "</td>" +
+                "<td style='text-align: center;'>" +
+                    "<button class='btn btn-danger btn-xs' id='btnRemove' value=" + idTable + ">Remove</button>" +
+                "</td>" +
+                "</tr>";
+            tableEmploymentRecord.row.add($(row)[0]).draw();
+
+            $('#formEmploymentRecord').trigger('reset');
+            $('#formEmploymentRecord').parsley().reset();
+            idTable++;
+        }
+    });
+
+    //add for training certificate
+    $('#btnAddTrainingCertificate').click(function(e) {
+        if ($('#formTrainingCertificate').parsley().isValid()) {
+            e.preventDefault();
+
+            var row = "<tr id=idTC" + idTable + ">" +
+                "<td id='inputTCCertificate'>" + $('#tcCertificate').val() + "</td>" +
+                "<td id='inputTCConductedBy'>" + $('#tcConductedBy').val() + "</td>" +
+                "<td id='inputTCDateConducted'>" + $('#tcDateConducted').val() + "</td>" +
+                "<td style='text-align: center;'>" +
+                    "<button class='btn btn-danger btn-xs' id='btnRemove' value=" + idTable + ">Remove</button>" +
+                "</td>" +
+                "</tr>";
+            tableTrainingCertificate.row.add($(row)[0]).draw();
+
+            $('#formTrainingCertificate').trigger('reset');
+            $('#formTrainingCertificate').parsley().reset();
+            idTable++;
+        }
+    });
+
+    //remove for education background
+    $('#education-list').on('click', '#btnRemove', function(e) {
+        e.preventDefault();
+
+        tableEducationBackground.row('#idEB' + $(this).val()).remove().draw(false);
+    });
+
+    //remove for education background
+    $('#employment-list').on('click', '#btnRemove', function(e) {
+        e.preventDefault();
+
+        tableEmploymentRecord.row('#idER' + $(this).val()).remove().draw(false);
+    });
+
+    //remove for training certificate
+    $('#training-list').on('click', '#btnRemove', function(e) {
+        e.preventDefault();
+
+        tableTrainingCertificate.row('#idTC' + $(this).val()).remove().draw(false);
+    });
+
     //pass a requirement
     $('#requirement-list').on('click', '#btnPass', function(e) {
         e.preventDefault();
@@ -2816,14 +2926,19 @@ $(document).ready(function() {
             success: function(data) {
                 console.log(data);
 
+                if (data.middlename == null) {
+                    data.middlename = "";
+                }
+
+                $('#applicantName').text(data.lastname+", "+data.firstname+" "+data.middlename);
                 $('#pictureview').attr('src', '/applicant/' + data.picture);
                 $('#lastname').val(data.lastname);
                 $('#firstname').val(data.firstname);
                 $('#middlename').val(data.middlename);
                 $('#suffix').val(data.suffix);
-                $('#dateofbirth').val($.format.date(data.dateofbirth, "yyyy-MM-dd"));
+                $('#birthdate').val($.format.date(data.birthdate, "yyyy-MM-dd"));
                 $('#age').val(data.age);
-                $('#placeofbirth').val(data.placeofbirth);
+                $('#birthplace').val(data.birthplace);
                 $('#appcontactno').val(data.appcontactno);
                 if (data.gender == "Male") {
                     $('#gender[value="Male"]').prop('checked', true).iCheck('update');
@@ -2838,6 +2953,9 @@ $(document).ready(function() {
                 $('#weight').val(data.weight);
                 $('#bloodtype').val(data.bloodtype);
                 $('#cityaddress').val(data.cityaddress);
+                $('#cityaddressprovince').val(data.cityaddressprovince);
+                $('#cityaddresscity').empty();
+                $('#cityaddresscity').append('<option value="'+data.cityaddresscity+'">'+data.cityaddresscity+'</option>')
                 $('#provincialaddress').val(data.provincialaddress);
                 $('#hobby').val(data.hobby);
                 $('#skill').val(data.skill);
@@ -2858,9 +2976,88 @@ $(document).ready(function() {
                 } else {
                     $('.spouse-info').show();
                     $('#spousename').val(data.spousename);
-                    $('#spousebirthdate').val(data.spousedateofbirth);
+                    $('#spousebirthdate').val(data.spousebirthdate);
                     $('#spouseoccupation').val(data.spouseoccupation);
                 }
+            },
+        });
+
+        $.ajax({
+            type: "GET",
+            url: "/json/applicant/educationbackground",
+            data: { inputApplicantID: applicantid },
+            dataType: "json",
+            success: function(data) {
+                console.log(data);
+
+                $.each(data, function(index, value) {
+                    if (value.degree == null) {
+                        value.degree = "";
+                    }
+
+                    var row = "<tr id=idEB" + idTable + ">" +
+                        "<td id='inputEBGraduateType'>" + value.graduatetype + "</td>" +
+                        "<td id='inputEBDegree'>" + value.degree + "</td>" +
+                        "<td id='inputEBDateGraduated'>" + value.dategraduated + "</td>" +
+                        "<td id='inputEBSchoolGraduated'>" + value.schoolgraduated + "</td>" +
+                        "<td style='text-align: center;'>" +
+                            "<button class='btn btn-danger btn-xs' id='btnRemove' value=" + idTable + ">Remove</button>" +
+                        "</td>" +
+                        "</tr>";
+                    idTable++
+                    tableEducationBackground.row.add($(row)[0]).draw();
+                });
+            },
+        });
+
+        $.ajax({
+            type: "GET",
+            url: "/json/applicant/employmentrecord",
+            data: { inputApplicantID: applicantid },
+            dataType: "json",
+            success: function(data) {
+                console.log(data);
+
+                $.each(data, function(index, value) {
+                    if (value.reason == null) {
+                        value.reason = "";
+                    }
+
+                    var row = "<tr id=idER" + idTable + ">" +
+                        "<td id='inputERCompany'>" + value.company + "</td>" +
+                        "<td id='inputERIndustryType'>" + value.industrytype + "</td>" +
+                        "<td id='inputERWorkExp'>" + value.duration + "</td>" +
+                        "<td id='inputERReason'>" + value.reason + "</td>" +
+                        "<td style='text-align: center;'>" +
+                            "<button class='btn btn-danger btn-xs' id='btnRemove' value=" + idTable + ">Remove</button>" +
+                        "</td>" +
+                        "</tr>";
+                    idTable++
+                    tableEmploymentRecord.row.add($(row)[0]).draw();
+                });
+            },
+        });
+
+        $.ajax({
+            type: "GET",
+            url: "/json/applicant/trainingcertificate",
+            data: { inputApplicantID: applicantid },
+            dataType: "json",
+            success: function(data) {
+                console.log(data);
+
+                $.each(data, function(index, value) {
+                    var row = "<tr id=idTC" + idTable + ">" +
+                        "<td id='inputTCCertificate'>" + value.certificate + "</td>" +
+                        "<td id='inputTCConductedBy'>" + value.conductedby + "</td>" +
+                        "<td id='inputTCDateConducted'>" + value.dateconducted + "</td>" +
+                        "<td style='text-align: center;'>" +
+                            "<button class='btn btn-danger btn-xs' id='btnRemove' value=" + idTable + ">Remove</button>" +
+                        "</td>" +
+                        "</tr>";
+                    idTable++;
+                    tableTrainingCertificate.row.add($(row)[0]).draw();
+                });
             },
         });
 
@@ -2945,8 +3142,8 @@ $(document).ready(function() {
                             inputLatitude: results[0].geometry.location.lat(),
                             inputLongitude: results[0].geometry.location.lng(),
                             inputGender: $('input:radio[name="gender"]:checked').val(),
-                            inputDateOfBirth: $('#dateofbirth').val(),
-                            inputPlaceOfBirth: $('#placeofbirth').val(),
+                            inputBirthdate: $('#birthdate').val(),
+                            inputBirthplace: $('#birthplace').val(),
                             inputAge: $('#age').val(),
                             inputCivilStatus: $('#civilstatus').val(),
                             inputReligion: $('#religion').val(),
@@ -2973,8 +3170,8 @@ $(document).ready(function() {
                             inputLatitude: null,
                             inputLongitude: null,
                             inputGender: $('input:radio[name="gender"]:checked').val(),
-                            inputDateOfBirth: $('#dateofbirth').val(),
-                            inputPlaceOfBirth: $('#placeofbirth').val(),
+                            inputBirthdate: $('#birthdate').val(),
+                            inputBirthplace: $('#birthplace').val(),
                             inputAge: $('#age').val(),
                             inputCivilStatus: $('#civilstatus').val(),
                             inputReligion: $('#religion').val(),
@@ -2994,6 +3191,13 @@ $(document).ready(function() {
                         dataType: "json",
                         success: function(data) {
                             console.log(data);
+
+                            if (data.middlename == null) {
+                                data.middlename = "";
+                            }
+
+                            $('#applicantName').text(data.lastname+", "+data.firstname+" "+data.middlename);
+                            $('#applicant-list').find('#id'+data.applicantid).find('#appliListName').text(data.lastname+", "+data.firstname+" "+data.middlename);
 
                             $('#formPersonalInformation').parsley().reset();
                             toastr.success("SAVE SUCCESSFUL");
@@ -3017,8 +3221,8 @@ $(document).ready(function() {
                     inputLatitude: null,
                     inputLongitude: null,
                     inputGender: $('input:radio[name="gender"]:checked').val(),
-                    inputDateOfBirth: $('#dateofbirth').val(),
-                    inputPlaceOfBirth: $('#placeofbirth').val(),
+                    inputBirthdate: $('#birthdate').val(),
+                    inputBirthplace: $('#birthplace').val(),
                     inputAge: $('#age').val(),
                     inputCivilStatus: $('#civilstatus').val(),
                     inputReligion: $('#religion').val(),
@@ -3037,6 +3241,13 @@ $(document).ready(function() {
                     dataType: "json",
                     success: function(data) {
                         console.log(data);
+
+                        if (data.middlename == null) {
+                            data.middlename = "";
+                        }
+
+                        $('#applicantName').text(data.lastname+", "+data.firstname+" "+data.middlename);
+                        $('#applicant-list').find('#id'+data.applicantid).find('#appliListName').text(data.lastname+", "+data.firstname+" "+data.middlename);
 
                         $('#formPersonalInformation').parsley().reset();
                         toastr.success("SAVE SUCCESSFUL");
@@ -3112,6 +3323,11 @@ $(document).ready(function() {
                         $('#formAccount').parsley().reset();
                         toastr.success("SAVE SUCCESSFUL");
                     },
+                    error: function(data) {
+                        if (data.responseJSON == "SAME USERNAME") {
+                            toastr.error("USERNAME ALREADY EXISTS");
+                        }
+                    },
                 });
             }
         }
@@ -3126,28 +3342,25 @@ $(document).ready(function() {
                 }
             });
 
+            if (!$('#contactno').inputmask('isComplete')) {
+                toastr.error("INVALID CONTACT PERSON #");
+                return;
+            }
+
             formData = {
                 inputApplicantID: applicantid,
-                inputWorkExp: workExp,
-                inputHeight: height,
-                inputWeight: weight,
                 inputLicense: $('#license').val(),
                 inputLicenseExpiration: $('#licenseexpiration').val(),
                 inputSSS: $('#sss').val(),
                 inputPHILHEALTH: $('#philhealth').val(),
                 inputPAGIBIG: $('#pagibig').val(),
                 inputTIN: $('#tin').val(),
-                inputHobby: $('#hobby').val(),
-                inputSkill: $('#skill').val(),
                 inputSpouseName: $('#spousename').val(),
-                inputSpouseDateOfBirth: $('#sposedateofbirth').val(),
+                inputSpouseBirthdate: $('#sposebirthdate').val(),
                 inputSpouseOccupation: $('#spouseoccupation').val(),
                 inputContactPerson: $('#contactperson').val(),
                 inputContactNo: $('#contactno').val(),
                 inputContactTelNo: $('#contacttelno').val(),
-                inputEBList: EBList,
-                inputERList: ERList,
-                inputTCList: TCList,
             }
 
             $.ajax({
@@ -3161,9 +3374,107 @@ $(document).ready(function() {
                     $('#formIDs').parsley().reset();
                     toastr.success("SAVE SUCCESSFUL");
                 },
+                error: function(data) {
+                    if (data.responseJSON == "SAME SSS") {
+                        toastr.error("SSS ALREADY EXISTS");
+                    } else if (data.responseJSON == "SAME PHILHEALTH") {
+                        toastr.error("PHILHEALTH ALREADY EXISTS");
+                    } else if (data.responseJSON == "SAME PAGIBIG") {
+                        toastr.error("PAGIBIG ALREADY EXISTS");
+                    } else if (data.responseJSON == "SAME TIN") {
+                        toastr.error("TIN ALREADY EXISTS");
+                    } else if (data.responseJSON == "SAME LICENSE") {
+                        toastr.error("LICENSE ALREADY EXISTS");
+                    }
+                },
             });
         }
     });
+
+    $('#btnBackgroundInfoSave').click(function(e) {
+        e.preventDefault();
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+            }
+        });
+
+        if (!tableEducationBackground.data().count()) {
+            toastr.error("MUST ATLEAST 1 EDUCATION BACKGROUND");
+            return;
+        }
+
+        var EBList = [], ERList = [], TCList = [];
+        var workExp = 0;
+
+        //computation of work exp
+        if ($('#tblEmploymentRecord > tbody > tr').length != 0) {
+            $('#tblEmploymentRecord > tbody > tr').each(function() {
+                workExp += +($(this).find('#inputERWorkExp').text());
+            });
+        }
+
+        //getting the education background
+        if (tableEducationBackground.data().count()) {
+            tableEducationBackground.rows().every(function(rowIdx, tableLoop, rowLoop) {
+                var data = {
+                    inputGraduateType: this.cell(rowIdx, 0).data(),
+                    inputDegree: this.cell(rowIdx, 1).data(),
+                    inputDateGraduated: this.cell(rowIdx, 2).data(),
+                    inputSchoolGraduated: this.cell(rowIdx, 3).data(),
+                };
+
+                EBList.push(data);
+            });
+        }
+
+        //getting the employment record
+        if (tableEmploymentRecord.data().count()) {
+            tableEmploymentRecord.rows().every(function(rowIdx, tableLoop, rowLoop) {
+                var data = {
+                    inputCompany: this.cell(rowIdx, 0).data(),
+                    inputIndustryType: this.cell(rowIdx, 1).data(),
+                    inputDuration: this.cell(rowIdx, 2).data(),
+                    inputReason: this.cell(rowIdx, 3).data(),
+                };
+
+                ERList.push(data);
+            });
+        }
+
+        //getting the training certificate
+        if (tableTrainingCertificate.data().count()) {
+            tableTrainingCertificate.rows().every(function(rowIdx, tableLoop, rowLoop) {
+                var data = {
+                    inputCertificate: this.cell(rowIdx, 0).data(),
+                    inputConductedBy: this.cell(rowIdx, 1).data(),
+                    inputDateConducted: this.cell(rowIdx, 2).data(),
+                };
+
+                TCList.push(data);
+            });
+        }
+
+        var formData = {
+            inputApplicantID: applicantid,
+            inputEBList: EBList,
+            inputERList: ERList,
+            inputTCList: TCList,
+            inputWorkExp: workExp,
+        };
+
+        $.ajax({
+            type: "POST",
+            url: "/admin/transaction/applicantinfo/backgroundinfo",
+            data: formData,
+            dataType: "json",
+            success: function(data) {
+                console.log(data);
+
+                toastr.success("SAVE SUCCESSFUL");
+            },
+        });
+    })
 
     function resetModalCredential() {
         $('#formPersonalInformation').trigger('reset');

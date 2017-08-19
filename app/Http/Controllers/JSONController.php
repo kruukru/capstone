@@ -18,6 +18,9 @@ use Amcor\Commend;
 use Amcor\Holiday;
 use Amcor\ClientQualification;
 use Amcor\Account;
+use Amcor\EducationBackground;
+use Amcor\EmploymentRecord;
+use Amcor\TrainingCertificate;
 use Response;
 
 class JSONController extends Controller
@@ -148,6 +151,26 @@ class JSONController extends Controller
         $clientqualification = ClientQualification::find($request->inputClientQualificationID);
 
         return Response::json($clientqualification);
+    }
+
+
+
+    public function getApplicantEducationBackground(Request $request) {
+        $educationbackground = EducationBackground::where('applicantid', $request->inputApplicantID)->get();
+
+        return Response::json($educationbackground);
+    }
+
+    public function getApplicantEmploymentRecord(Request $request) {
+        $employmentrecord = EmploymentRecord::where('applicantid', $request->inputApplicantID)->get();
+
+        return Response::json($employmentrecord);
+    }
+
+    public function getApplicantTrainingCertificate(Request $request) {
+        $trainingcertificate = TrainingCertificate::where('applicantid', $request->inputApplicantID)->get();
+
+        return Response::json($trainingcertificate);
     }
 
 

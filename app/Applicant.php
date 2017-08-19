@@ -11,7 +11,7 @@ class Applicant extends Model
 
     protected $table = 'applicanttbl';
     protected $primaryKey = 'applicantid';
-    protected $dates = ['dateofbirth', 'licenseexpiration', 'spousedateofbirth', 'deleted_at'];
+    protected $dates = ['birthdate', 'licenseexpiration', 'spousebirthdate', 'deleted_at'];
 
     public function score() {
         return $this->hasMany('Amcor\Score', 'applicantid');

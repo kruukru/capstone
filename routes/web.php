@@ -43,6 +43,10 @@ Route::get('/json/industrytype/all', 'JSONController@getIndustryTypeAll');
 Route::get('/json/areatype/all', 'JSONController@getAreaTypeAll');
 Route::get('/json/assessmenttopic/all', 'JSONController@getAssessmentTopicAll');
 
+Route::get('/json/applicant/educationbackground', 'JSONController@getApplicantEducationBackground');
+Route::get('/json/applicant/employmentrecord', 'JSONController@getApplicantEmploymentRecord');
+Route::get('/json/applicant/trainingcertificate', 'JSONController@getApplicantTrainingCertificate');
+
 Route::get('/json/validate-username', 'JSONController@getValidateUsername');
 
 Route::group(['middleware' => ['guest']], function() {
@@ -72,6 +76,7 @@ Route::group(['middleware' => ['auth']], function() {
 		Route::post('/admin/transaction/applicantinfo/profileimage', 'CredentialController@postAdminProfileImage');
 		Route::post('/admin/transaction/applicantinfo/account', 'CredentialController@postAdminAccount');
 		Route::post('/admin/transaction/applicantinfo/id', 'CredentialController@postAdminID');
+		Route::post('/admin/transaction/applicantinfo/backgroundinfo', 'CredentialController@postBackgroundInfo');
 
 		//test login
 		Route::name('admin-transaction-testlogin')->get('/admin/transaction/testlogin', 'TestController@getAdminTestLogin');

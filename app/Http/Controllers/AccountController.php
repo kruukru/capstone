@@ -102,8 +102,8 @@ class AccountController extends Controller
         $applicant->longitude = $request->inputLongitude;
         $applicant->gender = $request->inputGender;
         $applicant->picture = "default.png";
-        $applicant->dateofbirth = $request->inputDateOfBirth;
-        $applicant->placeofbirth = $request->inputPlaceOfBirth;
+        $applicant->birthdate = $request->inputBirthdate;
+        $applicant->birthplace = $request->inputBirthplace;
         $applicant->age = $request->inputAge;
         $applicant->civilstatus = $request->inputCivilStatus;
         $applicant->religion = $request->inputReligion;
@@ -121,7 +121,7 @@ class AccountController extends Controller
         $applicant->hobby = $request->inputHobby;
         $applicant->skill = $request->inputSkill;
         $applicant->spousename = $request->inputSpouseName;
-        $applicant->spousedateofbirth = $request->inputSpouseDateOfBirth;
+        $applicant->spousebirthdate = $request->inputSpouseBirthdate;
         $applicant->spouseoccupation = $request->inputSpouseOccupation;
         $applicant->contactperson = $request->inputContactPerson;
         $applicant->contactno = $request->inputContactNo;

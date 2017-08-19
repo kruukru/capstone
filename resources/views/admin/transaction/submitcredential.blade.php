@@ -23,7 +23,7 @@
 								@foreach ($applicants as $applicant)
 								<tr id="id{{$applicant->applicantid}}">
 									<td>{{$applicant->applicantid}}</td>
-									<td>{{$applicant->lastname}}, {{$applicant->firstname}} {{$applicant->middlename}}</td>
+									<td id="appliListName">{{$applicant->lastname}}, {{$applicant->firstname}} {{$applicant->middlename}}</td>
 									<td>{{$applicant->appointment->appointmentid}}</td>
 									<td>{{$applicant->appointment->appointmentdate->date->format('l, M. d, Y')}}</td>
 									@if ($applicant->status == 0)
@@ -54,6 +54,10 @@
 				</div>
 				<!-- modal body -->
 				<div class="modal-body">
+					<div class="form-group">
+						<label>Applicant Name:</label>
+						<h3 id="applicantName"></h3>
+					</div>
 					<div class="wizard">
 			            <div class="wizard-inner">
 			                <ul class="nav nav-tabs" role="tablist">
@@ -124,7 +128,7 @@
 							            		<div class="row">
 							            			<div class="col-md-2 col-md-offset-1">
 							            				<label>Birthdate *</label>
-							            				<input type="text" class="form-control mydatepicker" id="dateofbirth" placeholder="yyyy-mm-dd" required>
+							            				<input type="text" class="form-control mydatepicker" id="birthdate" placeholder="yyyy-mm-dd" required>
 							            			</div>
 							            			<div class="col-md-1">
 							            				<label>Age</label>
@@ -132,7 +136,7 @@
 							            			</div>
 							            			<div class="col-md-5">
 							            				<label>Birthplace *</label>
-							            				<input type="text" class="form-control" id="placeofbirth" placeholder="Birthplace" required>
+							            				<input type="text" class="form-control" id="birthplace" placeholder="Birthplace" required>
 							            			</div>
 							            			<div class="col-md-2">
 							            				<label>Contact # *</label>
@@ -627,7 +631,7 @@
 												</form>
 		                        			</div>
 		                        		</div>
-		                        		<div class="box box-primary collapsed-box">
+		                        		<div class="box box-primary">
 		                        			<div class="box-header with-border">
 		                        				<h3 class="box-title">EMPLOYMENT RECORD</h3>
 		                        				<div class="box-tools pull-right">
@@ -692,7 +696,7 @@
 										        </form>
 		                        			</div>
 		                        		</div>
-		                        		<div class="box box-primary collapsed-box">
+		                        		<div class="box box-primary">
 		                        			<div class="box-header with-border">
 		                        				<h3 class="box-title">TRAINING CERTIFICATE</h3>
 		                        				<div class="box-tools pull-right">
@@ -736,6 +740,9 @@
 										        </form>
 		                        			</div>
 		                        		</div>
+			                        </div>
+			                        <div class="box-footer">
+			                        	<button class="btn btn-primary pull-right" id="btnBackgroundInfoSave">SAVE</button>
 			                        </div>
 								</div>
 		                    </div>

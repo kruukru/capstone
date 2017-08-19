@@ -2553,10 +2553,10 @@ $(document).ready(function() {
     $('.mydatepicker').change(function() {
         $(this).parsley().validate();
     });
-    $('#dateofbirth').change(function() {
-        $('#age').val(getAge($('#dateofbirth').val()));
+    $('#birthdate').change(function() {
+        $('#age').val(getAge($('#birthdate').val()));
     });
-    $('#dateofbirth').datepicker({
+    $('#birthdate').datepicker({
         format: 'yyyy-mm-dd',
         autoclose: true,
         startDate: '-100y',
@@ -2714,8 +2714,8 @@ $(document).ready(function() {
         $('#tcityaddress').text($('#cityaddress').val() + ", " + $('#cityaddresscity').val() + ", " + $('#cityaddressprovince').val());
         $('#tprovinceaddress').text($('#provincialaddress').val() + ", " + $('#provincialaddresscity').val() + ", " + $('#provincialaddressprovince').val());
         $('#tgender').text($('input:radio[name="gender"]:checked').val());
-        $('#tdateofbirth').text($('#dateofbirth').val());
-        $('#tplaceofbirth').text($('#placeofbirth').val());
+        $('#tbirthdate').text($('#birthdate').val());
+        $('#tbirthplace').text($('#birthplace').val());
         $('#tcivilstatus').text($('#civilstatus').val());
         $('#tnationality').text($('#nationality').val());
         $('#treligion').text($('#religion').val());
@@ -2732,7 +2732,7 @@ $(document).ready(function() {
         $('#thobby').text($('#hobby').val());
         $('#tskill').text($('#skill').val());
         $('#tspousename').text($('#spousename').val());
-        $('#tspousedateofbirth').text($('#sposedateofbirth').val());
+        $('#tspousebirthdate').text($('#sposebirthdate').val());
         $('#tspouseoccupation').text($('#spouseoccupation').val());
         $('#tcontactperson').text($('#contactperson').val());
         $('#tcontactno').text($('#contactno').val());
@@ -2821,7 +2821,7 @@ $(document).ready(function() {
             }
 
             //computation of age
-            age = getAge($('#dateofbirth').val());
+            age = getAge($('#birthdate').val());
 
             //computation for height
             if ($('#heighttype').val() == "ft") {
@@ -2903,8 +2903,8 @@ $(document).ready(function() {
                             inputLatitude: results[0].geometry.location.lat(),
                             inputLongitude: results[0].geometry.location.lng(),
                             inputGender: $('input:radio[name="gender"]:checked').val(),
-                            inputDateOfBirth: $('#dateofbirth').val(),
-                            inputPlaceOfBirth: $('#placeofbirth').val(),
+                            inputBirthdate: $('#birthdate').val(),
+                            inputBirthplace: $('#birthplace').val(),
                             inputAge: age,
                             inputCivilStatus: $('#civilstatus').val(),
                             inputReligion: $('#religion').val(),
@@ -2922,7 +2922,7 @@ $(document).ready(function() {
                             inputHobby: $('#hobby').val(),
                             inputSkill: $('#skill').val(),
                             inputSpouseName: $('#spousename').val(),
-                            inputSpouseDateOfBirth: $('#sposedateofbirth').val(),
+                            inputSpouseBirthplace: $('#sposebirthdate').val(),
                             inputSpouseOccupation: $('#spouseoccupation').val(),
                             inputContactPerson: $('#contactperson').val(),
                             inputContactNo: $('#contactno').val(),
@@ -2949,8 +2949,8 @@ $(document).ready(function() {
                             inputLatitude: null,
                             inputLongitude: null,
                             inputGender: $('input:radio[name="gender"]:checked').val(),
-                            inputDateOfBirth: $('#dateofbirth').val(),
-                            inputPlaceOfBirth: $('#placeofbirth').val(),
+                            inputBirthdate: $('#birthdate').val(),
+                            inputBirthplace: $('#birthplace').val(),
                             inputAge: age,
                             inputCivilStatus: $('#civilstatus').val(),
                             inputReligion: $('#religion').val(),
@@ -2968,7 +2968,7 @@ $(document).ready(function() {
                             inputHobby: $('#hobby').val(),
                             inputSkill: $('#skill').val(),
                             inputSpouseName: $('#spousename').val(),
-                            inputSpouseDateOfBirth: $('#sposedateofbirth').val(),
+                            inputSpouseBirthplace: $('#sposebirthdate').val(),
                             inputSpouseOccupation: $('#spouseoccupation').val(),
                             inputContactPerson: $('#contactperson').val(),
                             inputContactNo: $('#contactno').val(),
@@ -3035,8 +3035,8 @@ $(document).ready(function() {
                     inputLatitude: null,
                     inputLongitude: null,
                     inputGender: $('input:radio[name="gender"]:checked').val(),
-                    inputDateOfBirth: $('#dateofbirth').val(),
-                    inputPlaceOfBirth: $('#placeofbirth').val(),
+                    inputBirthdate: $('#birthdate').val(),
+                    inputBirthplace: $('#birthplace').val(),
                     inputAge: age,
                     inputCivilStatus: $('#civilstatus').val(),
                     inputReligion: $('#religion').val(),
@@ -3054,7 +3054,7 @@ $(document).ready(function() {
                     inputHobby: $('#hobby').val(),
                     inputSkill: $('#skill').val(),
                     inputSpouseName: $('#spousename').val(),
-                    inputSpouseDateOfBirth: $('#sposedateofbirth').val(),
+                    inputSpouseBirthplace: $('#sposebirthdate').val(),
                     inputSpouseOccupation: $('#spouseoccupation').val(),
                     inputContactPerson: $('#contactperson').val(),
                     inputContactNo: $('#contactno').val(),
@@ -3168,7 +3168,7 @@ $(document).ready(function() {
             
             var duration = 0;
             var row = "<tr id=idER" + idTable + ">" +
-                "<td id='inputERCompany'>qweqweqweqwe" + $('#erCompany').val() + "</td>" +
+                "<td id='inputERCompany'>" + $('#erCompany').val() + "</td>" +
                 "<td id='inputERIndustryType'>" + $('#erIndustryType').val() + "</td>";
             if ($('#durationtype').val() == "year") {
                 duration = $('#erDuration').val() * 12;
