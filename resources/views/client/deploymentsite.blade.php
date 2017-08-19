@@ -63,89 +63,104 @@
 					</div>
 					<!-- modal body -->
 					<div class="modal-body">
-	            		<div class="form-group">
-							<div class="row">
-								<div class="col-md-3">
-									<label>Number of security guard to hire *</label>
-									<input type="text" id="requireno" class="form-control" placeholder="# of Security Guard" style="text-align: right;" pattern="^[1-9][0-9]*$" required>
-								</div>
-								<div id="workingexperience-info" class="col-md-4" style="display: none;">
-									<label>Working Experience *</label>
-									<div class="column">
-										<div class="col-md-8 no-padding">
-											<input type="text" id="workexp" class="form-control" placeholder="Working Experience" style="text-align: right;" pattern="^[1-9][0-9]*$">
+	            		<div class="row">
+	            			<div class="col-md-6">
+		            			<div class="form-group">
+									<div class="row">
+										<div class="col-md-6">
+											<label>Number of security guard to hire *</label>
+											<input type="text" id="requireno" class="form-control" placeholder="# of Security Guard" style="text-align: right;" pattern="^[1-9][0-9]*$" required>
 										</div>
-										<div class="col-md-4 no-padding">
-			            					<select class="form-control" id="workingexperiencetype">
-					              				<option value="day">Day(s)</option>
-					              				<option value="month">Month(s)</option>
-					              				<option value="year">Year(s)</option>
-					              			</select>
-					              		</div>
+										<div id="workingexperience-info" class="col-md-6" style="display: none;">
+											<label>Working Experience *</label>
+											<div class="column">
+												<div class="col-md-8 no-padding">
+													<input type="text" id="workexp" class="form-control" placeholder="Working Experience" style="text-align: right;" pattern="^[1-9][0-9]*$">
+												</div>
+												<div class="col-md-4 no-padding">
+					            					<select class="form-control" id="workingexperiencetype">
+							              				<option value="day">Day(s)</option>
+							              				<option value="month">Month(s)</option>
+							              				<option value="year">Year(s)</option>
+							              			</select>
+							              		</div>
+											</div>
+										</div>
 									</div>
 								</div>
+								<div class="form-group">
+									<label><input type="checkbox" name="workingexperience" id="workingexperience">  Working Experience</label>
+								</div>
+								<div class="form-group">
+									<div class="row">
+										<div class="col-md-6">
+											<div class="form-group">
+												<label>Gender *</label><br>
+												<label><input type="checkbox" name="gender" id="gender" value="Male">  Male</label><br>
+												<label><input type="checkbox" name="gender" id="gender" value="Female">  Female</label>
+											</div>
+											<div class="form-group">
+												<label>Civil Status *</label><br>
+												<label><input type="checkbox" name="civilstatus" id="civilstatus" value="Single">  Single</label><br>
+												<label><input type="checkbox" name="civilstatus" id="civilstatus" value="Married">  Married</label><br>
+												<label><input type="checkbox" name="civilstatus" id="civilstatus" value="Divorced">  Divorced</label><br>
+												<label><input type="checkbox" name="civilstatus" id="civilstatus" value="Widowed">  Widowed</label>
+											</div>
+										</div>
+										<div class="col-md-6">
+											<div class="form-group">
+												<label>Level of Attainment *</label><br>
+												<label><input type="checkbox" name="attainment" id="attainment" value="Elementary">  Elementary</label><br>
+												<label><input type="checkbox" name="attainment" id="attainment" value="High School">  High School</label><br>
+												<label><input type="checkbox" name="attainment" id="attainment" value="College">  College</label><br>
+												<label><input type="checkbox" name="attainment" id="attainment" value="Vocational">  Vocational</label>
+											</div>
+										</div>
+									</div>
+								</div>
+		            		</div>
+							<div class="col-md-6">
+								<div class="form-group">
+					                <label>Age *</label>
+					                <div class="col-sm-12">
+					              		<b>18  </b><input type="text" class="form-control" id="agerange" style="width: 90%"><b>  80</b>
+					                </div>
+								</div>
+								<div class="form-group">
+				                	<label>Height(cm) *</label>
+				              		<div class="col-sm-12">
+				              			<b>120  </b><input type="text" class="form-control" id="heightrange" style="width: 90%"><b>  300</b>
+				              		</div>
+								</div>
+								<div class="form-group">
+				                	<label>Weight(cm) *</label>
+				              		<div class="col-sm-12">
+				              			<b>40  </b><input type="text" class="form-control" id="weightrange" style="width: 90%"><b>  200</b>
+				              		</div>
+								</div><br>
+								<div class="form-group">
+									<label>Preferred:</label>
+									<div class="row">
+										<div class="col-md-4">
+											<label>Age *</label>
+											<input type="text" class="form-control" id="preferage" placeholder="Age" pattern="^[1-9][0-9]*$" required>
+										</div>
+										<div class="col-md-4">
+											<label>Height *</label>
+											<input type="text" class="form-control" id="preferheight" placeholder="Height" pattern="^[1-9][0-9]*$" required>
+										</div>
+										<div class="col-md-4">
+											<label>Weight *</label>
+											<input type="text" class="form-control" id="preferweight" placeholder="Weight" pattern="^[1-9][0-9]*$" required>
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<button class="btn btn-primary pull-right" id="btnQualificationAdd">ADD</button>
+			            		</div>
 							</div>
-						</div>
-						<div class="form-group">
-							<label><input type="checkbox" name="workingexperience" id="workingexperience">  Working Experience</label>
-						</div>
-						<div class="form-group">
-							<label>Gender *:</label>
-							<label><input type="checkbox" name="gender" id="gender" value="Male">  Male</label>
-							<label><input type="checkbox" name="gender" id="gender" value="Female">  Female</label>
-						</div>
-						<div class="form-group">
-							<label>Level of Attainment *:</label>
-							<label><input type="checkbox" name="attainment" id="attainment" value="Elementary">  Elementary</label>
-							<label><input type="checkbox" name="attainment" id="attainment" value="High School">  High School</label>
-							<label><input type="checkbox" name="attainment" id="attainment" value="College">  College</label>
-							<label><input type="checkbox" name="attainment" id="attainment" value="Vocational">  Vocational</label>
-						</div>
-						<div class="form-group">
-							<label>Civil Status *:</label>
-							<label><input type="checkbox" name="civilstatus" id="civilstatus" value="Single">  Single</label>
-							<label><input type="checkbox" name="civilstatus" id="civilstatus" value="Married">  Married</label>
-							<label><input type="checkbox" name="civilstatus" id="civilstatus" value="Divorced">  Divorced</label>
-							<label><input type="checkbox" name="civilstatus" id="civilstatus" value="Widowed">  Widowed</label>
-						</div>
-						<div class="form-group">
-			                <label>Age *</label>
-			                <div class="col-sm-12">
-			              		<b>18  </b><input type="text" class="form-control" id="agerange" style="width: 92%"><b>  80</b>
-			                </div>
-						</div>
-						<div class="form-group">
-		                	<label>Height(cm) *</label>
-		              		<div class="col-sm-12">
-		              			<b>120  </b><input type="text" class="form-control" id="heightrange" style="width: 92%"><b>  300</b>
-		              		</div>
-						</div>
-						<div class="form-group">
-		                	<label>Weight(cm) *</label>
-		              		<div class="col-sm-12">
-		              			<b>40  </b><input type="text" class="form-control" id="weightrange" style="width: 92%"><b>  200</b>
-		              		</div>
-						</div><br>
-						<div class="form-group">
-							<label>Preferred:</label>
-							<div class="row">
-								<div class="col-md-3">
-									<label>Age *</label>
-									<input type="text" class="form-control" id="preferage" placeholder="Age" pattern="^[1-9][0-9]*$" required>
-								</div>
-								<div class="col-md-3">
-									<label>Height *</label>
-									<input type="text" class="form-control" id="preferheight" placeholder="Height" pattern="^[1-9][0-9]*$" required>
-								</div>
-								<div class="col-md-3">
-									<label>Weight *</label>
-									<input type="text" class="form-control" id="preferweight" placeholder="Weight" pattern="^[1-9][0-9]*$" required>
-								</div>
-								<div class="col-md-1">
-									<button class="btn btn-primary" id="btnQualificationAdd">ADD</button>
-								</div>
-							</div>
-						</div><hr>
+	            		</div>
+						<hr>
 						<div class="form-group">
 							<table id="tblQualification" class="table table-striped table-bordered">
 								<thead>

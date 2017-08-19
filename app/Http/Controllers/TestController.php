@@ -147,8 +147,8 @@ class TestController extends Controller
                 })->get();
 
             $testquestionitem = TestQuestion::where('testid', $test->testid)
-                ->whereHas('questionanswer', function($query) use ($request) {
-                    $query->where('applicantid', $request->inputApplicantID);
+                ->whereHas('question', function($query) {
+                    $query->has('choice');
                 })->get();
 
             if (count($testquestionitem) >= $test->maxquestion) {

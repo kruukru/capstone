@@ -2984,6 +2984,36 @@ $(document).ready(function() {
 
         $.ajax({
             type: "GET",
+            url: "/admin/transaction/applicantrequirement",
+            data: { inputApplicantID: applicantid },
+            dataType: "json",
+            success: function(data) {
+                console.log(data);
+
+                $.each(data, function(index, value) {
+                    if (value.issubmitted == 0) {
+                        var row = "<tr id=out" + value.applicantrequirementid + ">" +
+                            "<td>" + value.requirement.name + "</td>" +
+                            "<td style='text-align: center;'>" +
+                            "<button class='btn btn-primary btn-xs' id='btnPass' value="+value.applicantrequirementid+">Submit</button> " +
+                            "</td>" +
+                            "</tr>";
+                        tableRequirement.row.add($(row)[0]).draw();
+                    } else {
+                        var row = "<tr id=in" + value.applicantrequirementid + ">" +
+                            "<td>" + value.requirement.name + "</td>" +
+                            "<td style='text-align: center;'>" +
+                            "<button class='btn btn-danger btn-xs' id='btnRemove' value="+value.applicantrequirementid+">Remove</button> " +
+                            "</td>" +
+                            "</tr>";
+                        tablePass.row.add($(row)[0]).draw();
+                    }
+                });
+            },
+        });
+
+        $.ajax({
+            type: "GET",
             url: "/json/applicant/educationbackground",
             data: { inputApplicantID: applicantid },
             dataType: "json",
@@ -3057,36 +3087,6 @@ $(document).ready(function() {
                         "</tr>";
                     idTable++;
                     tableTrainingCertificate.row.add($(row)[0]).draw();
-                });
-            },
-        });
-
-        $.ajax({
-            type: "GET",
-            url: "/admin/transaction/applicantrequirement",
-            data: { inputApplicantID: applicantid },
-            dataType: "json",
-            success: function(data) {
-                console.log(data);
-
-                $.each(data, function(index, value) {
-                    if (value.issubmitted == 0) {
-                        var row = "<tr id=out" + value.applicantrequirementid + ">" +
-                            "<td>" + value.requirement.name + "</td>" +
-                            "<td style='text-align: center;'>" +
-                            "<button class='btn btn-primary btn-xs' id='btnPass' value="+value.applicantrequirementid+">Submit</button> " +
-                            "</td>" +
-                            "</tr>";
-                        tableRequirement.row.add($(row)[0]).draw();
-                    } else {
-                        var row = "<tr id=in" + value.applicantrequirementid + ">" +
-                            "<td>" + value.requirement.name + "</td>" +
-                            "<td style='text-align: center;'>" +
-                            "<button class='btn btn-danger btn-xs' id='btnRemove' value="+value.applicantrequirementid+">Remove</button> " +
-                            "</td>" +
-                            "</tr>";
-                        tablePass.row.add($(row)[0]).draw();
-                    }
                 });
             },
         });

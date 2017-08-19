@@ -71,19 +71,7 @@
         <!-- list of button -->
         <ul class="sidebar-menu">
             <li class="header"></li>
-            <li class="{{Request::path() == 'client/securityguard' ? 'active' : ''}}"><a href="{{ route('clientsecurityguard') }}"><i class="fa fa-circle-o"></i>Security Guard</a></li>
             <li class="{{Request::path() == 'client/deploymentsite' ? 'active' : ''}}"><a href="{{ route('client-deploymentsite') }}"><i class="fa fa-circle-o"></i>Deployment Site</a></li>
-            <li class="{{Request::path() == 'client/contract' ? 'active' : ''}}"><a href="{{ route('clientcontract') }}"><i class="fa fa-circle-o"></i>Contract</a></li>
-            <li class="{{Request::path() == 'client/violation' ? 'active' : ''}}"><a href="{{ route('clientviolation') }}"><i class="fa fa-circle-o"></i>Violation</a></li>
-            <li class="{{Request::path() == 'client/attendance' ? 'active' : ''}}"><a href="{{ route('clientattendance') }}"><i class="fa fa-circle-o"></i>Attendance</a></li>
-            <!-- treeview for request -->
-            <!-- <li class="treeview {{Request::path() == 'client/myrequest' ? 'active' : ''}} {{Request::path() == 'client/approverequest' ? 'active' : ''}}">
-              <a href="#"><span>Request</span> <i class="fa fa-angle-left pull-right"></i></a>
-              <ul class="treeview-menu">
-                <li class="{{Request::path() == 'client/myrequest' ? 'active' : ''}}"><a href="{{ route('clientmyrequest') }}">My Request</a></li>
-                <li class="{{Request::path() == 'client/approverequest' ? 'active' : ''}}"><a href="{{ route('clientapproverequest') }}">Approve Request</a></li>
-              </ul>
-            </li> -->
         </ul>
     </section>
   </aside>
