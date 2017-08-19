@@ -130,4 +130,8 @@ class CredentialController extends Controller
 
         return Response::json($applicant);
     }
+
+    public function postAdminID(Request $request) {
+        
+    }
 }

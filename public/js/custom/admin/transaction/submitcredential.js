@@ -3117,6 +3117,54 @@ $(document).ready(function() {
         }
     });
 
+    $('#btnIDsSave').click(function(e) {
+        if ($('#formIDs').parsley().validate()) {
+            e.preventDefault();
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                }
+            });
+
+            formData = {
+                inputApplicantID: applicantid,
+                inputWorkExp: workExp,
+                inputHeight: height,
+                inputWeight: weight,
+                inputLicense: $('#license').val(),
+                inputLicenseExpiration: $('#licenseexpiration').val(),
+                inputSSS: $('#sss').val(),
+                inputPHILHEALTH: $('#philhealth').val(),
+                inputPAGIBIG: $('#pagibig').val(),
+                inputTIN: $('#tin').val(),
+                inputHobby: $('#hobby').val(),
+                inputSkill: $('#skill').val(),
+                inputSpouseName: $('#spousename').val(),
+                inputSpouseDateOfBirth: $('#sposedateofbirth').val(),
+                inputSpouseOccupation: $('#spouseoccupation').val(),
+                inputContactPerson: $('#contactperson').val(),
+                inputContactNo: $('#contactno').val(),
+                inputContactTelNo: $('#contacttelno').val(),
+                inputEBList: EBList,
+                inputERList: ERList,
+                inputTCList: TCList,
+            }
+
+            $.ajax({
+                type: "POST",
+                url: "/admin/transaction/applicantinfo/id",
+                data: formData,
+                dataType: "json",
+                success: function(data) {
+                    console.log(data);
+
+                    $('#formIDs').parsley().reset();
+                    toastr.success("SAVE SUCCESSFUL");
+                },
+            });
+        }
+    });
+
     function resetModalCredential() {
         $('#formPersonalInformation').trigger('reset');
         $('#formPersonalInformation').parsley().reset();

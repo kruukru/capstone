@@ -71,6 +71,7 @@ Route::group(['middleware' => ['auth']], function() {
 		Route::post('/admin/transaction/applicantinfo/personalinfo', 'CredentialController@postAdminPersonalInfo');
 		Route::post('/admin/transaction/applicantinfo/profileimage', 'CredentialController@postAdminProfileImage');
 		Route::post('/admin/transaction/applicantinfo/account', 'CredentialController@postAdminAccount');
+		Route::post('/admin/transaction/applicantinfo/id', 'CredentialController@postAdminID');
 
 		//test login
 		Route::name('admin-transaction-testlogin')->get('/admin/transaction/testlogin', 'TestController@getAdminTestLogin');
