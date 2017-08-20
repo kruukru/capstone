@@ -15,7 +15,7 @@ class Attendance extends Migration
     {
         Schema::create('attendancetbl', function(Blueprint $table) {
             $table->increments('attendanceid');
-            $table->integer('deployid')->unsigned();
+            $table->integer('deploymentsiteid')->unsigned();
             $table->integer('applicantid')->unsigned();
             $table->date('date');
             $table->tinyInteger('status');
@@ -23,7 +23,7 @@ class Attendance extends Migration
             $table->timestamps();
             $table->softDeletes();
 
-            $table->foreign('deployid')->references('deployid')->on('deploytbl');
+            $table->foreign('deploymentsiteid')->references('deploymentsiteid')->on('deploymentsitetbl');
             $table->foreign('applicantid')->references('applicantid')->on('applicanttbl');
         });
     }

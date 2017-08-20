@@ -13,8 +13,8 @@ class Attendance extends Model
     protected $primaryKey = 'attendanceid';
     protected $dates = ['date', 'deleted_at'];
 
-    public function deploy() {
-    	return $this->belongsTo('Amcor\Deploy', 'deployid');
+    public function deploymentsite() {
+    	return $this->belongsTo('Amcor\DeploymentSite', 'deploymentsiteid');
     }
 
     public function applicant() {

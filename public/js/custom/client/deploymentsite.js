@@ -313,7 +313,7 @@ $(document).ready(function() {
                     }
                     row += "<td style='text-align: center;'>" +
                             "<button class='btn btn-default btn-xs' id='Accept' value="+value.applicantid+">Accept</button> " +
-                            "<button class='btn btn-default btn-xs' id='Decline' value="+value.applicantid+">Decline</button> " +
+                            "<button class='btn btn-default btn-xs' id='Decline' value="+value.applicantid+">Decline</button>" +
                         "</td>" +
                         "</tr>";
                     tableSecurityGuard.row.add($(row)[0]);
@@ -395,7 +395,7 @@ $(document).ready(function() {
                 toastr.error("YOU NEED TO ACCEPT " + (requireno - acceptsgno) + " MORE SECURITY GUARD");
             }
         } else {
-            toastr.error("PICK AN ACTION IN EVERY SECURITY GUARD")
+            toastr.error("PICK AN ACTION IN EVERY SECURITY GUARD");
         }
     });
 

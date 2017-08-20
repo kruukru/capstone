@@ -4,7 +4,7 @@ namespace Amcor\Http\Middleware;
 
 use Closure;
 
-class AdminMiddleware
+class ManagerMiddleware
 {
     /**
      * Handle an incoming request.
@@ -15,7 +15,7 @@ class AdminMiddleware
      */
     public function handle($request, Closure $next)
     {
-        if ($request->user()->accounttype != 0) {
+        if ($request->user()->accounttype != 11) {
             return redirect('/');
         }
 

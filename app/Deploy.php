@@ -24,8 +24,4 @@ class Deploy extends Model
     public function qualificationcheck() {
         return $this->hasMany('Amcor\QualificationCheck', 'deployid');
     }
-
-    public function attendance() {
-        return $this->hasMany('Amcor\Attendance', 'deployid');
-    }
 }

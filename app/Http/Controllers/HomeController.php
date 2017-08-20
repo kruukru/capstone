@@ -69,6 +69,8 @@ class HomeController extends Controller
 	    		return view('client.home');
 	    	} else if (Auth::user()->accounttype == 20) {
                 return view('applicant.home');
+            } else if (Auth::user()->accounttype == 11) {
+                return view('manager.home');
             }
     	}
 

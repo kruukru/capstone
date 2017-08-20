@@ -307,8 +307,17 @@ Route::group(['middleware' => ['auth']], function() {
 		Route::post('/client/manager/assigndeploymentsite', 'ManagerController@postClientAssignDeploymentSite');
 	});
 
+	//manager manager manager manager manager manager manager manager manager manager manager manager manager manager manager manager
+	Route::group(['middleware' => 'Amcor\Http\Middleware\ManagerMiddleware'], function() {
+		//attendance
+		Route::name('manager-attendance')->get('/manager/attendance', 'AttendanceController@getManagerAttendance');
+		Route::get('/manager/attendance/securityguard', 'AttendanceController@getManagerSecurityGuard');
+		Route::post('/manager/attendance/securityguard', 'AttendanceController@postManagerSecurityGuard');
+	});
+
 	//applicant applicant applicant applicant applicant applicant applicant applicant applicant applicant applicant applicant applicant
 	Route::group(['middleware' => 'Amcor\Http\Middleware\ApplicantMiddleware'], function() {
+		//appointment
 		Route::name('applicant-appointment')->get('/applicant/appointment', 'AppointmentController@getApplicantAppointment');
 		Route::get('/applicant/appointmentdate', 'AppointmentController@getApplicantAppointmentDate');
 		Route::post('/applicant/appointment/set', 'AppointmentController@postApplicantAppointmentSet');

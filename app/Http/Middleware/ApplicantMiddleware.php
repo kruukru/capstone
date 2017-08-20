@@ -15,7 +15,7 @@ class ApplicantMiddleware
      */
     public function handle($request, Closure $next)
     {
-        if($request->user()->accounttype != 20) {
+        if ($request->user()->accounttype != 20) {
             return redirect('/');
         }
 

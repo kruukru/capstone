@@ -15,7 +15,7 @@ class ClientMiddleware
      */
     public function handle($request, Closure $next)
     {
-        if($request->user()->accounttype != 10) {
+        if ($request->user()->accounttype != 10) {
             return redirect('/');
         }
 
