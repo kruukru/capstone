@@ -72,6 +72,7 @@
         <ul class="sidebar-menu">
             <li class="header"></li>
             <li class="{{Request::path() == 'client/deploymentsite' ? 'active' : ''}}"><a href="{{ route('client-deploymentsite') }}"><i class="fa fa-circle-o"></i>Deployment Site</a></li>
+            <li class="{{Request::path() == 'client/manager' ? 'active' : ''}}"><a href="{{ route('client-manager') }}"><i class="fa fa-circle-o"></i>Manager</a></li>
         </ul>
     </section>
   </aside>

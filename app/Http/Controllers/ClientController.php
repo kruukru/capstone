@@ -62,12 +62,13 @@ class ClientController extends Controller
         $contract->admin()->associate($admin);
     	$contract->client()->associate($client);
 		$contract->areatype()->associate($areatype);
-        if ($request->inputLengthType == 0) {
-            $contract->expiration = Carbon::today()->addDays($request->inputLength)->toDateString();
-        } else if ($request->inputLengthType == 1) {
-            $contract->expiration = Carbon::today()->addMonths($request->inputLength)->toDateString();
-        } else if ($request->inputLengthType == 2) {
-            $contract->expiration = Carbon::today()->addYears($request->inputLength)->toDateString();
+        $contract->startdate = $request->inputStartdate;
+        if ($request->inputLengthType == "day") {
+            $contract->expiration = Carbon::createFromFormat('Y-m-d', $request->inputStartdate)->addDays($request->inputLength)->toDateString();
+        } else if ($request->inputLengthType == "month") {
+            $contract->expiration = Carbon::createFromFormat('Y-m-d', $request->inputStartdate)->addMonths($request->inputLength)->toDateString();
+        } else if ($request->inputLengthType == "year") {
+            $contract->expiration = Carbon::createFromFormat('Y-m-d', $request->inputStartdate)->addYears($request->inputLength)->toDateString();
         }
 		$contract->placesigned = $request->inputPlaceHeld;
 		$contract->price = $request->inputPrice;

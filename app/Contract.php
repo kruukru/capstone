@@ -11,7 +11,7 @@ class Contract extends Model
 
     protected $table = 'contracttbl';
     protected $primaryKey = 'contractid';
-    protected $dates = ['expiration', 'deleted_at'];
+    protected $dates = ['startdate', 'expiration', 'deleted_at'];
 
     public function clientqualification() {
         return $this->hasMany('Amcor\ClientQualification', 'contractid');

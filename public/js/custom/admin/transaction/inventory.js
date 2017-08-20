@@ -42,6 +42,10 @@ $(document).ready(function(){
 
         var itemtype = $(this).closest('tr').find('#itemtype').text();
         if (itemtype.toUpperCase() === "FIREARM" || itemtype.toUpperCase() == "FIREARMS") {
+            $('#modalFirearm').modal('hide');
+            $('#formFirearm').trigger('reset');
+            $('#formFirearm').parsley().reset();
+            tableFirearm.clear().draw();
             $('#modalFirearm').modal('show');
         } else {
             $('#modalItem').modal('show');

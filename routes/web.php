@@ -139,12 +139,6 @@ Route::group(['middleware' => ['auth']], function() {
 		Route::post('/admin/maintenance/assessmenttopic/update', 'MaintenanceController@postAdminAssessmentTopicUpdate');
 		Route::post('/admin/maintenance/assessmenttopic/remove', 'MaintenanceController@postAdminAssessmentTopicRemove');
 
-		//industry type
-		Route::name('admin-maintenance-industrytype')->get('/admin/maintenance/industrytype', 'MaintenanceController@getAdminIndustryType');
-		Route::post('/admin/maintenance/industrytype/new', 'MaintenanceController@postAdminIndustryTypeNew');
-		Route::post('/admin/maintenance/industrytype/update', 'MaintenanceController@postAdminIndustryTypeUpdate');
-		Route::post('/admin/maintenance/industrytype/remove', 'MaintenanceController@postAdminIndustryTypeRemove');
-
 		//area type
 		Route::name('admin-maintenance-areatype')->get('/admin/maintenance/areatype', 'MaintenanceController@getAdminAreaType');
 		Route::post('/admin/maintenance/areatype/new', 'MaintenanceController@postAdminAreaTypeNew');
@@ -290,6 +284,7 @@ Route::group(['middleware' => ['auth']], function() {
 
 	//client client client client client client client client client client client client client client client client client client 
 	Route::group(['middleware' => 'Amcor\Http\Middleware\ClientMiddleware'], function() {
+		//deployment site
 		Route::name('client-deploymentsite')->get('/client/deploymentsite', 'DeploymentSiteController@getClientDeploymentSite');
 		Route::get('/client/deploymentsite/qualification/validate', 'DeploymentSiteController@getClientQualificationValidate');
 		Route::post('/client/deploymentsite/qualification/new', 'DeploymentSiteController@postClientQualificationNew');
@@ -297,6 +292,12 @@ Route::group(['middleware' => ['auth']], function() {
 		Route::post('/client/deploymentsite/securityguard/list', 'DeploymentSiteController@postClientSecurityGuardList');
 
 		Route::get('/client/deploymentsite/applicant/get', 'ClientDeploymentSiteController@getClientDeploymentSiteSecurityGuard');
+
+		//manager
+		Route::name('client-manager')->get('/client/manager', 'ManagerController@getClientManager');
+		Route::post('/client/manager/new', 'ManagerController@postClientManagerNew');
+		Route::post('/client/manager/update', 'ManagerController@postClientManagerUpdate');
+		Route::post('/client/manager/remove', 'ManagerController@postClientManagerRemove');
 	});
 
 	//applicant applicant applicant applicant applicant applicant applicant applicant applicant applicant applicant applicant applicant

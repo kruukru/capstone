@@ -13,8 +13,10 @@
 						<table id="tblContract" class="table table-striped table-bordered">
 							<thead>
 								<th>Contract No.</th>
+								<th>Deployment Site</th>
 								<th>Company Name</th>
 								<th>Contact Person Name</th>
+								<th>Contract Start Date</th>
 								<th>Contract Expiration</th>
 								<th style="text-align: center;">Status</th>
 								<th style="text-align: center;">Action</th>
@@ -23,8 +25,10 @@
 								@foreach ($contracts as $contract)
 								<tr id="id{{$contract->contractid}}">
 									<td>{{$contract->contractid}}</td>
+									<td>{{$contract->deploymentsite->sitename}}</td>
 									<td>{{$contract->client->name}}</td>
 									<td>{{$contract->client->contactperson}}</td>
+									<td>{{$contract->startdate->format('M. d, Y')}}</td>
 									<td>{{$contract->expiration->format('M. d, Y')}}</td>
 									@if($contract->status == 0)
 										<td style="text-align: center;">Active</td>

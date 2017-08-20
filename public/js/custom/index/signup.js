@@ -2556,30 +2556,35 @@ $(document).ready(function() {
     $('#birthdate').change(function() {
         $('#age').val(getAge($('#birthdate').val()));
     });
+    $('#birthdate').inputmask("9999-99-99");
     $('#birthdate').datepicker({
         format: 'yyyy-mm-dd',
         autoclose: true,
         startDate: '-100y',
         endDate: '-18y',
     });
+    $('#spousebirthdate').inputmask("9999-99-99");
     $('#spousebirthdate').datepicker({
         format: 'yyyy-mm-dd',
         autoclose: true,
         startDate: '-100y',
         endDate: '-18y',
     });
+    $('#licenseexpiration').inputmask("9999-99-99");
     $('#licenseexpiration').datepicker({
         format: 'yyyy-mm-dd',
         autoclose: true,
         startDate: '1d',
         endDate: '+100y',
     });
+    $('#ebDateGraduated').inputmask("9999-99-99");
     $('#ebDateGraduated').datepicker({
         format: 'yyyy-mm-dd',
         autoclose: true,
         startDate: '-100y',
         endDate: '-1d',
     });
+    $('#tcDateConducted').inputmask("9999-99-99");
     $('#tcDateConducted').datepicker({
         format: 'yyyy-mm-dd',
         autoclose: true,

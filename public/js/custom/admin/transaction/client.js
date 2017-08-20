@@ -2149,6 +2149,18 @@ $(document).ready(function() {
     });
     table.order([[0, 'asc']]).draw();
 
+    //date picker
+    $('.mydatepicker').change(function() {
+        $(this).parsley().validate();
+    });
+    $('#startdate').inputmask("9999-99-99");
+    $('#startdate').datepicker({
+        format: 'yyyy-mm-dd',
+        autoclose: true,
+        startDate: '1d',
+        endDate: '+100y',
+    });
+
     //validate the username
     $('#inputUsername').on('focusout', function() {
         if ($(this).val() != "") {
@@ -2281,6 +2293,9 @@ $(document).ready(function() {
 
     //get all the area type
     $('#client-list').on('click', '#btnNewContract', function(e) {
+        $('#formContract').trigger('reset');
+        $('#formContract').parsley().reset();
+        $('#inputAreaType').empty();
         clientid = $(this).val();
 
         $.ajax({
@@ -2308,11 +2323,6 @@ $(document).ready(function() {
     $('#modalClient').on('hide.bs.modal', function() {
         $('#formClient').trigger('reset');
         $('#formClient').parsley().reset();
-    });
-    $('#modalContract').on('hide.bs.modal', function() {
-        $('#formContract').trigger('reset');
-        $('#formContract').parsley().reset();
-        $('#inputAreaType').empty();
     });
 
     //contract price
@@ -2427,6 +2437,7 @@ $(document).ready(function() {
                             inputAdminID: adminid,
                             inputClientID: clientid,
                             inputAreaTypeID: $('#inputAreaType').val(),
+                            inputStartdate: $('#startdate').val(),
                             inputLength: $('#inputLength').val(),
                             inputLengthType: $('#lengthtype').val(),
                             inputPrice: $('#inputPrice').val(),
@@ -2443,6 +2454,7 @@ $(document).ready(function() {
                             inputAdminID: adminid,
                             inputClientID: clientid,
                             inputAreaTypeID: $('#inputAreaType').val(),
+                            inputStartdate: $('#startdate').val(),
                             inputLength: $('#inputLength').val(),
                             inputLengthType: $('#lengthtype').val(),
                             inputPrice: $('#inputPrice').val(),
@@ -2479,6 +2491,7 @@ $(document).ready(function() {
                     inputAdminID: adminid,
                     inputClientID: clientid,
                     inputAreaTypeID: $('#inputAreaType').val(),
+                    inputStartdate: $('#startdate').val(),
                     inputLength: $('#inputLength').val(),
                     inputLengthType: $('#lengthtype').val(),
                     inputPrice: $('#inputPrice').val(),

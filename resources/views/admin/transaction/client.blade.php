@@ -130,7 +130,11 @@
                 		<h3>CONTRACT DETAILS</h3>
                 		<div class="form-group">
 							<div class="row">
-								<div class="col-md-12">
+								<div class="col-md-6">
+									<label>Start Date *</label>
+									<input type="text" class="form-control mydatepicker" id="startdate" placeholder="yyyy-mm-dd" required>
+								</div>
+								<div class="col-md-6">
 									<label>Area Type *</label>
 									<select class="form-control" id="inputAreaType" required></select>
 								</div>

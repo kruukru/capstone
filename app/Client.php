@@ -20,4 +20,8 @@ class Client extends Model
     public function account() {
     	return $this->belongsTo('Amcor\Account', 'accountid');
     }
+
+    public function manager() {
+        return $this->belongsTo('Amcor\Manager', 'clientid');
+    }
 }

@@ -56,4 +56,8 @@ class Applicant extends Model
     public function appointment() {
         return $this->hasOne('Amcor\Appointment', 'applicantid');
     }
+
+    public function attendance() {
+        return $this->hasMany('Amcor\Attendance', 'applicantid');
+    }
 }

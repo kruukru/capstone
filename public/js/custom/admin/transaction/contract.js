@@ -7,10 +7,12 @@ $(document).ready(function() {
             null,
             null,
             null,
+            null,
+            null,
             { "bSearchable": false, "bSortable": false, },
         ]
     });
-    table.order([[1, 'asc']]).draw();
+    table.order([[2, 'asc']]).draw();
 
 
 

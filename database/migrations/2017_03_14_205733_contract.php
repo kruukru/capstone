@@ -19,6 +19,7 @@ class Contract extends Migration
             $table->integer('adminid')->unsigned();
             $table->integer('areatypeid')->unsigned();
             $table->integer('parentcontractid')->unsigned()->nullable();
+            $table->date('startdate');
             $table->date('expiration');
             $table->string('placesigned');
             $table->string('price');

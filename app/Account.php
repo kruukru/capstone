@@ -28,14 +28,18 @@ class Account extends Model implements AuthenticatableContract
     ];
 
     public function admin() {
-    	return $this->hasOne('Amcor\Admin', 'accountid', 'accountid');
+    	return $this->hasOne('Amcor\Admin', 'accountid');
     }
 
     public function applicant() {
-        return $this->hasOne('Amcor\Applicant', 'accountid', 'accountid');
+        return $this->hasOne('Amcor\Applicant', 'accountid');
     }
 
     public function client() {
-        return $this->hasOne('Amcor\Client', 'accountid', 'accountid');
+        return $this->hasOne('Amcor\Client', 'accountid');
+    }
+
+    public function manager() {
+        return $this->hasOne('Amcor\Manager', 'accountid');
     }
 }
