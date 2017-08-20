@@ -20,4 +20,8 @@ class Manager extends Model
     public function account() {
     	return $this->belongsTo('Amcor\Account', 'accountid');
     }
+
+    public function managersite() {
+        return $this->hasMany('Amcor\ManagerSite', 'managerid');
+    }
 }

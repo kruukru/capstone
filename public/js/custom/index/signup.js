@@ -2802,7 +2802,7 @@ $(document).ready(function() {
                 });
             }
         }
-    })
+    });
 
     //saving of applicant
     $('#btnSave').click(function (e) {

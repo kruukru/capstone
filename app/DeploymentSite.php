@@ -20,4 +20,8 @@ class DeploymentSite extends Model
     public function deploy() {
         return $this->hasMany('Amcor\Deploy', 'deploymentsiteid');
     }
+
+    public function managersite() {
+        return $this->hasMany('Amcor\ManagerSite', 'deploymentsiteid');
+    }
 }

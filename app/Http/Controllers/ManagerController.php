@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Amcor\Manager;
 use Amcor\Account;
 use Amcor\Client;
+use Amcor\DeploymentSite;
+use Amcor\ManagerSite;
 use Auth;
 use Response;
 
@@ -42,32 +44,77 @@ class ManagerController extends Controller
     }
 
     public function postClientManagerUpdate(Request $request) {
-        $requirement = Requirement::withTrashed()
-            ->where([
-                ['name', $request->inputRequirement],
-                ['requirementid', '!=', $request->inputRequirementID],
-            ])->first();
+        $manager = Manager::with('Account')->find($request->inputManagerID);
+        $manager->lastname = $request->inputLastname;
+        $manager->firstname = $request->inputFirstname;
+        $manager->middlename = $request->inputMiddlename;
+        $manager->save();
 
-        if ($requirement === null) {
-            $requirement = Requirement::find($request->inputRequirementID);
-            $requirement->name = $request->inputRequirement;
-            $requirement->description = $request->inputRequirementDescription;
-            $requirement->save();
-        } else {
-            if ($requirement->deleted_at === null) {
-                return Response::json("SAME NAME", 500);
-            } else {
-                return Response::json("SAME NAME TRASH", 500);
-            }
+        return Response::json($manager);
+    }
+
+    public function postClientManagerUpdateAccount(Request $request) {
+        $account = Account::where('username', $request->inputUsername)->get();
+        if (!($account->isEmpty())) {
+            return Response::json("SAME USERNAME", 500);
         }
 
-        return Response::json($requirement);
+        $manager = Manager::find($request->inputManagerID);
+        $manager->account->username = $request->inputUsername;
+        $manager->account->password = bcrypt($request->inputPassword);
+        $manager->account->save();
+
+        return Response::json($manager);
     }
 
     public function postClientManagerRemove(Request $request) {
-        $requirement = Requirement::find($request->inputRequirementID);
-        $requirement->delete();
+        $manager = Manager::find($request->inputManagerID);
+        $manager->managersite()->forceDelete();
+        $manager->forceDelete();
+        $manager->account()->forceDelete();
 
-        return Response::json($requirement);
+        return Response::json($manager);
+    }
+
+    public function getClientDeploymentSite(Request $request) {
+        $deploymentsite = DeploymentSite::whereHas('contract', function($query) {
+            $query->where('clientid', Auth::user()->client->clientid);
+        })->whereDoesntHave('managersite', function($query) use ($request) {
+            $query->where('managerid', $request->inputManagerID);
+        })->get();
+
+        return Response::json($deploymentsite);
+    }
+
+    public function getClientAssignDeploymentSite(Request $request) {
+        $deploymentsite = DeploymentSite::whereHas('contract', function($query) {
+            $query->where('clientid', Auth::user()->client->clientid);
+        })->whereHas('managersite', function($query) use ($request) {
+            $query->where('managerid', $request->inputManagerID);
+        })->get();
+
+        return Response::json($deploymentsite);
+    }
+
+    public function postClientDeploymentSite(Request $request) {
+        $deploymentsite = DeploymentSite::find($request->inputDeploymentSiteID);
+        $manager = Manager::find($request->inputManagerID);
+
+        $managersite = new ManagerSite;
+        $managersite->manager()->associate($manager);
+        $managersite->deploymentsite()->associate($deploymentsite);
+        $managersite->save();
+
+        return Response::json($deploymentsite);
+    }
+
+    public function postClientAssignDeploymentSite(Request $request) {
+        $deploymentsite = DeploymentSite::find($request->inputDeploymentSiteID);
+        ManagerSite::where([
+                ['managerid', $request->inputManagerID],
+                ['deploymentsiteid', $request->inputDeploymentSiteID],
+            ])->forceDelete();
+
+        return Response::json($deploymentsite);
     }
 }

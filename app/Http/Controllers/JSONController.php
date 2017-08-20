@@ -21,6 +21,7 @@ use Amcor\Account;
 use Amcor\EducationBackground;
 use Amcor\EmploymentRecord;
 use Amcor\TrainingCertificate;
+use Amcor\Manager;
 use Response;
 
 class JSONController extends Controller
@@ -151,6 +152,12 @@ class JSONController extends Controller
         $clientqualification = ClientQualification::find($request->inputClientQualificationID);
 
         return Response::json($clientqualification);
+    }
+
+    public function getManagerOne(Request $request) {
+        $manager = Manager::find($request->inputManagerID);
+
+        return Response::json($manager);
     }
 
 

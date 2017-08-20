@@ -36,6 +36,7 @@ Route::get('/json/assessmenttopic/one', 'JSONController@getAssessmentTopicOne');
 Route::get('/json/commend/one', 'JSONController@getCommendOne');
 Route::get('/json/holiday/one', 'JSONController@getHolidayOne');
 Route::get('/json/clientqualification/one', 'JSONController@getClientQualificationOne');
+Route::get('/json/manager/one', 'JSONController@getManagerOne');
 
 Route::get('/json/itemtype/all', 'JSONController@getItemTypeAll');
 Route::get('/json/questionchoice/all', 'JSONController@getQuestionChoiceAll');
@@ -297,7 +298,13 @@ Route::group(['middleware' => ['auth']], function() {
 		Route::name('client-manager')->get('/client/manager', 'ManagerController@getClientManager');
 		Route::post('/client/manager/new', 'ManagerController@postClientManagerNew');
 		Route::post('/client/manager/update', 'ManagerController@postClientManagerUpdate');
+		Route::post('/client/manager/update-account', 'ManagerController@postClientManagerUpdateAccount');
 		Route::post('/client/manager/remove', 'ManagerController@postClientManagerRemove');
+
+		Route::get('/client/manager/deploymentsite', 'ManagerController@getClientDeploymentSite');
+		Route::get('/client/manager/assigndeploymentsite', 'ManagerController@getClientAssignDeploymentSite');
+		Route::post('/client/manager/deploymentsite', 'ManagerController@postClientDeploymentSite');
+		Route::post('/client/manager/assigndeploymentsite', 'ManagerController@postClientAssignDeploymentSite');
 	});
 
 	//applicant applicant applicant applicant applicant applicant applicant applicant applicant applicant applicant applicant applicant

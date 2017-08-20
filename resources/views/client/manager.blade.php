@@ -37,7 +37,7 @@
 		</div>
 	</section>
 
-	<!-- modal for new and update -->
+	<!-- modal for new -->
 	<div class="modal fade" id="modalManager">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -45,7 +45,7 @@
 					<!-- modal header -->
 					<div class="modal-header">
 						<button class="close" data-dismiss="modal">&times;</button>
-						<h3 id="modalTitle">XXX</h3>
+						<h3>New Manager</h3>
 					</div>
 					<!-- modal body -->
 					<div class="modal-body">
@@ -82,6 +82,126 @@
 						</div>
 					</div>
 				</form>
+			</div>
+		</div>
+	</div>
+
+	<!-- modal for update -->
+	<div class="modal fade" id="modalManagerUpdate">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<!-- modal header -->
+				<div class="modal-header">
+					<button class="close" data-dismiss="modal">&times;</button>
+					<h3>Update Manager</h3>
+				</div>
+				<!-- modal body -->
+				<div class="modal-body">
+					<form id="formAccountUpdate" data-parsley-validate>
+						<div class="form-group">
+	    					<label>New Username *</label>
+	    					<input type="text" class="form-control" id="updateusername" placeholder="Username" required>
+	    				</div>
+	    				<div class="form-group">
+	    					<label>New Password *</label>
+	    					<input type="password" class="form-control updateinput-password" id="updatepassword" placeholder="Password" required>
+	    				</div>
+	    				<div class="form-group">
+	    					<label>Confirm Password *</label>
+	    					<input type="password" class="form-control updateinput-confirmpassword" id="updateconfirmpassword" placeholder="Confirm Password" required>
+	    				</div>
+	    				<div class="form-group">
+							<button class="btn btn-primary" id="btnAccountSave" >SAVE</button>
+						</div>
+					</form>
+    				<hr>
+					<form id="formManagerUpdate" data-parsley-validate>
+	    				<div class="form-group">
+	    					<label>Lastname *</label>
+	    					<input type="text" class="form-control" id="updateinputLastname" placeholder="Lastname" required>
+	    				</div>
+	    				<div class="form-group">
+	    					<label>Firstname *</label>
+	    					<input type="text" class="form-control" id="updateinputFirstname" placeholder="Firstname" required>
+	    				</div>
+	    				<div class="form-group">
+	    					<label>Middlename</label>
+	    					<input type="text" class="form-control" id="updateinputMiddlename" placeholder="Middlename">
+	    				</div>
+	    				<div class="form-group">
+							<button class="btn btn-primary" id="btnManagerSave" >SAVE</button>
+	        				<button class="btn btn-default pull-right" data-dismiss="modal">CANCEL</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- modal for assign -->
+	<div class="modal fade" id="modalAssign">
+		<div class="modal-dialog modal-70">
+			<div class="modal-content">
+				<!-- modal header -->
+				<div class="modal-header">
+					<button class="close" data-dismiss="modal">&times;</button>
+					<h3>Assign Manager</h3>
+				</div>
+				<!-- modal body -->
+				<div class="modal-body">
+					<div class="form-group">
+						<label>Manager Name:</label>
+						<h3 id="managerName"></h3>
+					</div><hr>
+					<div class="form-group">
+						<h3>DEPLOYMENT SITE LIST</h3>
+						<table id="tblDeploymentSite" class="table table-striped table-bordered">
+							<thead>
+								<th>Deployment Site</th>
+								<th>Address</th>
+								<th style="text-align: center;">Action</th>
+							</thead>
+							<tbody id="deploymentsite-list"></tbody>
+						</table>
+					</div><hr>
+					<div class="form-group">
+						<h3>ASSIGNED DEPLOYMENT SITE</h3>
+						<table id="tblAssignDeploymentSite" class="table table-striped table-bordered">
+							<thead>
+								<th>Deployment Site</th>
+								<th>Address</th>
+								<th style="text-align: center;">Action</th>
+							</thead>
+							<tbody id="assigndeploymentsite-list"></tbody>
+						</table>
+					</div>
+				</div>
+				<!-- modal footer -->
+				<div class="modal-footer">
+        			<button type="button" class="btn btn-default" data-dismiss="modal">CANCEL</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- modal for remove -->
+	<div class="modal fade" id="modalManagerRemove">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<!-- modal header -->
+				<div class="modal-header">
+					<button class="close" data-dismiss="modal">&times;</button>
+					<h3>CONFIRMATION</h3>
+				</div>
+				<!-- modal body -->
+				<div class="modal-body">
+					Are you sure you want to remove this?
+				</div>
+				<!-- modal footer -->
+				<div class="modal-footer">
+					<button type="button" class="btn btn-danger" id="btnRemoveConfirm">CONFIRM</button>
+        			<button type="button" class="btn btn-default" data-dismiss="modal">CANCEL</button>
+				</div>
 			</div>
 		</div>
 	</div>

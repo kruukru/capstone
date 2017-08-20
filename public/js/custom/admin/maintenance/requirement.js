@@ -128,7 +128,6 @@ $(document).ready(function() {
                             "<button class='btn btn-danger btn-xs' id='btnRemove' value="+data.requirementid+">Remove</button>" +
                             "</td>" +
                             "</tr>";
-
                         table.row.add($(row)[0]).draw();
                     } else {
                         var data = [
@@ -137,7 +136,6 @@ $(document).ready(function() {
                             "<button class='btn btn-warning btn-xs' id='btnUpdate' value="+data.requirementid+">Update</button> " +
                             "<button class='btn btn-danger btn-xs' id='btnRemove' value="+data.requirementid+">Remove</button>",
                         ];
-
                         table.row('#id' + requirementid).data(data).draw(false);
                     }
 
