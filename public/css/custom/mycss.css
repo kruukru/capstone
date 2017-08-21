@@ -23,3 +23,7 @@
 textarea {
   resize: vertical;
 }
+
+.modal {
+  overflow-y: auto;
+}

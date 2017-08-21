@@ -22,8 +22,18 @@ $(document).ready(function() {
         ]
     })
 
+    //status
+    $('#status-list').on('click', '.btn', function() {
+        $(this).parents('#status-list').find('.btn').addClass('btn-default');
+        $(this).parents('#status-list').find('.btn').removeClass('btn-primary');
+        $(this).addClass('btn-primary');
+        $(this).removeClass('btn-default');
+    });
+
     //reset modal when hide
     $('#modalAssess').on('hide.bs.modal', function() {
+        $('#status-list').find('.btn').addClass('btn-default');
+        $('#status-list').find('.btn').removeClass('btn-primary');
         $('#formAssessment').trigger('reset');
         $('#formAssessment').parsley().reset();
         $('#assessmenttopic').empty();
@@ -63,34 +73,78 @@ $(document).ready(function() {
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
             }
-        })
+        });
         adminid = $('meta[name="AuthenticatedID"]').attr('content');
 
-        var formData = [];
-        tableAssessment.rows().every(function(rowIdx, tableLoop, rowLoop) {
-            var data = {
-                inputAssessmentTopic: this.cell(rowIdx, 0).data(),
-                inputAssessment: this.cell(rowIdx, 1).data(),
-            };
-            formData.push(data);
-        });    
+        var check = true;
+        if (!$('#status-list').find('.btn').hasClass('btn-primary')) {
+            check = false;
+        }
 
-        formData = { 
-            inputApplicantID: applicantid,
-            inputAdminID: adminid,
-            formData: formData,
-        };
+        if (check) {
+            var formData = [];
+            tableAssessment.rows().every(function(rowIdx, tableLoop, rowLoop) {
+                var data = {
+                    inputAssessmentTopic: this.cell(rowIdx, 0).data(),
+                    inputAssessment: this.cell(rowIdx, 1).data(),
+                };
+                formData.push(data);
+            });    
+
+            formData = { 
+                inputApplicantID: applicantid,
+                inputAdminID: adminid,
+                inputStatus: $('#status-list').find('.btn-primary').attr('id'),
+                formData: formData,
+            };
+
+            $.ajax({
+                type: "POST",
+                url: "/admin/transaction/assessmentinterview",
+                data: formData,
+                dataType: "json",
+                success: function(data) {
+                    console.log(data);
+
+                    table.row('#id' + data.applicantid).remove().draw(false);
+
+                    $('#modalAssess').modal('hide');
+                    toastr.success("ASSESS SUCCESSFUL");
+                },
+                error: function(data) {
+                    console.log(data);
+                },
+            });
+        } else {
+            toastr.error("PICK AN ACTION");
+        }
+    });
+
+    $('#btnFail').click(function(e) {
+        e.preventDefault();
+
+        $('#modalConfirmation').modal('show');
+    });
+
+    $('#btnConfirm').click(function(e) {
+        e.preventDefault();
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+            }
+        });
 
         $.ajax({
             type: "POST",
-            url: "/admin/transaction/assessmentinterview",
-            data: formData,
+            url: "/admin/transaction/assessmentfail",
+            data: { inputApplicantID: applicantid },
             dataType: "json",
             success: function(data) {
                 console.log(data);
 
-                table.row('#id' + data.applicantid).remove().draw(false);
+                table.row('#id' + applicantid).remove().draw(false);
 
+                $('#modalConfirmation').modal('hide');
                 $('#modalAssess').modal('hide');
                 toastr.success("ASSESS SUCCESSFUL");
             },
@@ -100,7 +154,7 @@ $(document).ready(function() {
         });
     });
 
-    $('#applicant-list').on('click', '#btnAssess', function() { 
+    $('#applicant-list').on('click', '#btnAssess', function() {
         applicantid = $(this).val();
 
         $.ajax({

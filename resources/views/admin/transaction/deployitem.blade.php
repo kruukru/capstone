@@ -132,14 +132,6 @@
 	</div>
 @endsection
 
-@section('css')
-	<style type="text/css">
-		.modal {
-			overflow-y: auto;
-		}
-	</style>
-@endsection
-
 @section('meta')
 	<meta name="_token" content="{{ Session::token() }}" />
 @endsection

@@ -18,15 +18,6 @@
 						</thead>
 						<tbody id="deploymentsite-list">
 							@foreach ($deploymentsites as $deploymentsite)
-							@if ($deploymentsite->attendance->count())
-								<tr id="id{{$deploymentsite->deploymentsiteid}}">
-									<td>{{$deploymentsite->sitename}}qweqweqwe</td>
-									<td>{{$deploymentsite->location}}qweqweqwe</td>
-									<td style="text-align: center;">
-										<button class="btn btn-primary btn-xs" id="btnAttendance" value="{{$deploymentsite->deploymentsiteid}}">Attendance</button>
-									</td>
-								</tr>
-							@else
 								<tr id="id{{$deploymentsite->deploymentsiteid}}">
 									<td>{{$deploymentsite->sitename}}</td>
 									<td>{{$deploymentsite->location}}</td>
@@ -34,7 +25,6 @@
 										<button class="btn btn-primary btn-xs" id="btnAttendance" value="{{$deploymentsite->deploymentsiteid}}">Attendance</button>
 									</td>
 								</tr>
-							@endif
 							@endforeach
 						</tbody>
 					</table>

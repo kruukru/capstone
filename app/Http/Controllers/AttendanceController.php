@@ -5,6 +5,7 @@ namespace Amcor\Http\Controllers;
 use Illuminate\Http\Request;
 use Amcor\DeploymentSite;
 use Amcor\Applicant;
+use Amcor\Attendance;
 use Carbon\Carbon;
 use Response;
 use Auth;
@@ -19,7 +20,9 @@ class AttendanceController extends Controller
 				['startdate', '<=', Carbon::today()],
 				['expiration', '>=', Carbon::today()],
 			]);
-    	})->get();
+    	})->whereDoesntHave('attendance', function($query) {
+            $query->where('date', Carbon::today());
+        })->get();
 
     	return view ('manager.attendance', compact('deploymentsites'));
     }
@@ -38,6 +41,23 @@ class AttendanceController extends Controller
 
     public function postManagerSecurityGuard(Request $request) {
     	$deploymentsite = DeploymentSite::find($request->inputDeploymentSiteID);
+
+        foreach ($request->formData as $data) {
+            $applicant = Applicant::find($data['inputApplicantID']);
+
+            $attendance = new Attendance;
+            $attendance->deploymentsite()->associate($deploymentsite);
+            $attendance->applicant()->associate($applicant);
+            $attendance->date = Carbon::today();
+            if ($data['inputStatus'] == "Present") {
+                $attendance->status = 0;
+            } else if ($data['inputStatus'] == "Late") {
+                $attendance->status = 1;
+            } else if ($data['inputStatus'] == "Absent") {
+                $attendance->status = 2;
+            }
+            $attendance->save();
+        }
 
     	return Response::json($deploymentsite);
     }

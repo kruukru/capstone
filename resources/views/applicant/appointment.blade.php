@@ -289,6 +289,9 @@
 				                    </div>
 				                </div>
 					        </div>
+					    @elseif (Auth::user()->applicant->status == 125)
+					    	<h3>YOU FAILED</h3>
+					    	<h5>You cannot make an appointment temporarily until {{Auth::user()->applicant->updated_at->addMonths(3)->format('M. d, Y')}}.</h5>
 						@endif
 					</div>
 				</div>

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Amcor\AppointmentSlot;
 use Amcor\AppointmentDate;
 use Amcor\Holiday;
+use Amcor\Applicant;
 use Carbon\Carbon;
 use Auth;
 
@@ -59,8 +60,15 @@ class HomeController extends Controller
                 }
             }
         }
+        AppointmentDate::where('date', '<', Carbon::today())->forceDelete();
 
-        AppointmentDate::where('date', '<', Carbon::today())->delete();
+        $applicants = Applicant::where('updated_at', '<=', Carbon::today()->addMonths(-3))->get();
+        if (!($applicants->isEmpty())) {
+            $applicants->each(function($applicant) {
+                $applicant->status = 0;
+                $applicant->save();
+            });
+        }
 
     	if (Auth::check()) {
     		if (Auth::user()->accounttype == 0) {

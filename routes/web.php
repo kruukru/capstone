@@ -101,6 +101,7 @@ Route::group(['middleware' => ['auth']], function() {
 		Route::name('admin-transaction-assessinterview')->get('/admin/transaction/assessinterview', 'AssessController@getAdminAssessInterview');
 		Route::get('/admin/transaction/testassessment', 'AssessController@getAdminTestAssessment');
 		Route::post('/admin/transaction/assessmentinterview', 'AssessController@postAdminAssessmentInterview');
+		Route::post('/admin/transaction/assessmentfail', 'AssessController@postAdminAssessmentFail');
 
 		//security guard
 		Route::name('admin-transaction-securityguard')->get('/admin/transaction/securityguard', 'SecurityGuardController@getAdminSecurityGuard');

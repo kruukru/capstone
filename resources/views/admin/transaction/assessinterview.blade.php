@@ -99,9 +99,36 @@
 				<!-- modal footer -->
 				<div class="modal-footer">
 					<div class="form-group">
+						<div id="status-list">
+							<button type="button" class="btn btn-default pull-left" id="Regular">REGULAR</button>
+							<button type="button" class="btn btn-default pull-left" id="Reliever">RELIEVER</button>
+						</div>
 						<button type="button" class="btn btn-primary" id="btnSubmit">SAVE</button>
+						<button type="button" class="btn btn-danger" id="btnFail">FAIL</button>
         				<button type="button" class="btn btn-default" data-dismiss="modal">CANCEL</button>
 					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- modal for remove -->
+	<div class="modal fade" id="modalConfirmation">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<!-- modal header -->
+				<div class="modal-header">
+					<button class="close" data-dismiss="modal">&times;</button>
+					<h3>CONFIRMATION</h3>
+				</div>
+				<!-- modal body -->
+				<div class="modal-body">
+					Are you sure you want to fail this applicant?
+				</div>
+				<!-- modal footer -->
+				<div class="modal-footer">
+					<button type="button" class="btn btn-danger" id="btnConfirm">CONFIRM</button>
+        			<button type="button" class="btn btn-default" data-dismiss="modal">CANCEL</button>
 				</div>
 			</div>
 		</div>

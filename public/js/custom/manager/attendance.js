@@ -92,6 +92,11 @@ $(document).ready(function() {
                 dataType: "json",
                 success: function(data) {
                     console.log(data);
+
+                    table.row('#id' + deploymentsiteid).remove().draw(false);
+                    
+                    $('#modalAttendance').modal('hide');
+                    toastr.success("SAVE SUCCESSFUL");
                 },
             });
         } else {

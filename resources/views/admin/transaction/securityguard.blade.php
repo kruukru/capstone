@@ -23,7 +23,7 @@
 								<tr id="id{{$applicant->applicantid}}">
 									<td>{{$applicant->lastname}}, {{$applicant->firstname}} {{$applicant->middlename}}</td>
 									<td>{{$applicant->license}}</td>
-									<td>{{$applicant->licenseexpiration}}</td>
+									<td>{{$applicant->licenseexpiration->format('M. d, Y')}}</td>
 									@if ($applicant->status == 0)
 										<td style="text-align: center;">FOR SUBMISSION</td>
 									@elseif ($applicant->status == 1)
@@ -46,6 +46,8 @@
 										<td style="text-align: center;">PENDING</td>
 									@elseif ($applicant->status == 10)
 										<td style="text-align: center;">DEPLOYED</td>
+									@elseif ($applicant->status == 125)
+										<td style="text-align: center;">FAILED</td>
 									@endif
 									<td style="text-align: center;">
 										<button class="btn btn-primary btn-xs">View Profile</button>

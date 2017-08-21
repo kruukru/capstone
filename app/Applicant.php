@@ -41,8 +41,12 @@ class Applicant extends Model
         return $this->hasMany('Amcor\EssayAnswer', 'applicantid');
     }
 
-    public function assessment() {
-        return $this->hasOne('Amcor\Assessment', 'applicantid');
+    public function testassessment() {
+        return $this->hasMany('Amcor\TestAssessment', 'applicantid');
+    }
+
+    public function interviewassessment() {
+        return $this->hasMany('Amcor\InterviewAssessment', 'applicantid');
     }
 
     public function applicantrequirement() {

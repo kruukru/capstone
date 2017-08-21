@@ -115,4 +115,17 @@ class AssessController extends Controller
 
         return Response::json($applicant);
     }
+
+    public function postAdminAssessmentFail(Request $request) {
+        $applicant = Applicant::find($request->inputApplicantID);
+
+        $applicant->score()->forceDelete();
+        $applicant->questionanswer()->forceDelete();
+        $applicant->essayanswer()->forceDelete();
+        $applicant->testassessment()->forceDelete();
+        $applicant->status = 125;
+        $applicant->save();
+
+        return Response::json($applicant);
+    }
 }
