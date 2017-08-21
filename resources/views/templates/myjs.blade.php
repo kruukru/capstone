@@ -15,7 +15,7 @@
 <script type="text/javascript" async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAz8UabCPXa7xocIO-TEyQJkXrkVN0JmJI"></script>
 <!-- <script type="text/javascript" src="http://maps.google.com/maps/api/js"></script> -->
 <!-- <script type="test/javascript" src="/js/googlemap.js"></script> -->
-<!-- <script type="text/javascript" src="/js/select2.min.js"></script> -->
+<script type="text/javascript" src="/js/select2.min.js"></script>
 <script type="text/javascript" src="/js/bootstrap-slider.min.js"></script>
 <script type="text/javascript" src="/js/icheck.min.js"></script>
 <script type="text/javascript" src="/js/jquery-editable-select.min.js"></script>

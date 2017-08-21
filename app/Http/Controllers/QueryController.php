@@ -17,7 +17,7 @@ class QueryController extends Controller
     }
 
     public function getAdminSecurityGuardVacant() {
-    	$applicants = Applicant::get();
+    	$applicants = Applicant::where('lastdeployed', '!=', null)->get();
 
     	return view('admin.query.securityguardvacant', compact('applicants'));
     }

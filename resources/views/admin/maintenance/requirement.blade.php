@@ -10,26 +10,26 @@
 			<div class="container col-sm-12">
 				<div class="box box-primary">
 					<div class="box-body table-responsive">
-					<button id="btnNew" class="btn btn-primary btn-md">New Applicant Requirement</button><hr>
-					<table id="tblRequirement" class="table table-striped table-bordered">
-						<thead>
-							<th>Applicant Requirement</th>
-							<th>Description</th>
-							<th style="text-align: center;">Action</th>
-						</thead>
-						<tbody id="requirement-list">
-							@foreach ($requirements as $requirement)
-							<tr id="id{{$requirement->requirementid}}">
-								<td>{{$requirement->name}}</td>
-								<td>{{$requirement->description}}</td>
-								<td style="text-align: center;">
-									<button class="btn btn-warning btn-xs" id="btnUpdate" value="{{$requirement->requirementid}}">Update</button>
-									<button class="btn btn-danger btn-xs" id="btnRemove" value="{{$requirement->requirementid}}">Remove</button>
-								</td>
-							</tr>
-							@endforeach
-						</tbody>
-					</table>
+						<button id="btnNew" class="btn btn-primary btn-md">New Applicant Requirement</button><hr>
+						<table id="tblRequirement" class="table table-striped table-bordered">
+							<thead>
+								<th>Applicant Requirement</th>
+								<th>Description</th>
+								<th style="text-align: center;">Action</th>
+							</thead>
+							<tbody id="requirement-list">
+								@foreach ($requirements as $requirement)
+								<tr id="id{{$requirement->requirementid}}">
+									<td>{{$requirement->name}}</td>
+									<td>{{$requirement->description}}</td>
+									<td style="text-align: center;">
+										<button class="btn btn-warning btn-xs" id="btnUpdate" value="{{$requirement->requirementid}}">Update</button>
+										<button class="btn btn-danger btn-xs" id="btnRemove" value="{{$requirement->requirementid}}">Remove</button>
+									</td>
+								</tr>
+								@endforeach
+							</tbody>
+						</table>
 					</div>
 				</div>
 			</div>

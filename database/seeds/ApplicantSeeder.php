@@ -99,7 +99,7 @@ class ApplicantSeeder extends Seeder
             'lastdeployed' => null,
             'status' => 0,
             'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now()->addDays(-13),
+            'updated_at' => Carbon::now(),
         ]);
 
         DB::table('applicanttbl')->insert([
@@ -144,7 +144,7 @@ class ApplicantSeeder extends Seeder
             'lastdeployed' => null,
             'status' => 0,
             'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now()->addDays(-23),
+            'updated_at' => Carbon::now(),
         ]);
 
         DB::table('applicanttbl')->insert([
@@ -189,7 +189,7 @@ class ApplicantSeeder extends Seeder
             'lastdeployed' => null,
             'status' => 0,
             'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now()->addDays(-48),
+            'updated_at' => Carbon::now(),
         ]);
     }
 }

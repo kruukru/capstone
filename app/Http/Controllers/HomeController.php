@@ -5,6 +5,7 @@ namespace Amcor\Http\Controllers;
 use Illuminate\Http\Request;
 use Amcor\AppointmentSlot;
 use Amcor\AppointmentDate;
+use Amcor\Appointment;
 use Amcor\Holiday;
 use Amcor\Applicant;
 use Carbon\Carbon;
@@ -60,9 +61,16 @@ class HomeController extends Controller
                 }
             }
         }
+
+        Appointment::whereHas('appointmentdate', function($query) {
+            $query->where('date', '<', Carbon::today());
+        })->forceDelete();
         AppointmentDate::where('date', '<', Carbon::today())->forceDelete();
 
-        $applicants = Applicant::where('updated_at', '<=', Carbon::today()->addMonths(-3))->get();
+        $applicants = Applicant::where([
+            ['updated_at', '<=', Carbon::today()->addMonths(-3)],
+            ['status', 125],
+        ])->get();
         if (!($applicants->isEmpty())) {
             $applicants->each(function($applicant) {
                 $applicant->status = 0;

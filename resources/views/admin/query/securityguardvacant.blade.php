@@ -19,7 +19,7 @@
 								@foreach ($applicants as $applicant)
 								<tr>
 									<td>{{$applicant->lastname}}, {{$applicant->firstname}} {{$applicant->middlename}}</td>
-									<td style="text-align: right;">{{$applicant->updated_at->diffInDays(Carbon\Carbon::today())}}</td>
+									<td style="text-align: right;">{{$applicant->lastdeployed->diffInDays(Carbon\Carbon::today())}}</td>
 								</tr>
 								@endforeach
 							</tbody>

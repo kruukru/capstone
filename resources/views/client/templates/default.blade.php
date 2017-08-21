@@ -73,6 +73,8 @@
             <li class="header"></li>
             <li class="{{Request::path() == 'client/deploymentsite' ? 'active' : ''}}"><a href="{{ route('client-deploymentsite') }}"><i class="fa fa-circle-o"></i>Deployment Site</a></li>
             <li class="{{Request::path() == 'client/manager' ? 'active' : ''}}"><a href="{{ route('client-manager') }}"><i class="fa fa-circle-o"></i>Manager</a></li>
+            <li class="{{Request::path() == 'client/request' ? 'active' : ''}}"><a href="{{ route('client-request') }}"><i class="fa fa-circle-o"></i>Request</a></li>
+            <li class="{{Request::path() == 'client/report' ? 'active' : ''}}"><a href="{{ route('client-report') }}"><i class="fa fa-circle-o"></i>Report</a></li>
         </ul>
     </section>
   </aside>

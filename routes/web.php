@@ -306,6 +306,14 @@ Route::group(['middleware' => ['auth']], function() {
 		Route::get('/client/manager/assigndeploymentsite', 'ManagerController@getClientAssignDeploymentSite');
 		Route::post('/client/manager/deploymentsite', 'ManagerController@postClientDeploymentSite');
 		Route::post('/client/manager/assigndeploymentsite', 'ManagerController@postClientAssignDeploymentSite');
+
+		//request
+		Route::name('client-request')->get('/client/request', 'RequestController@getClientRequest');
+		Route::get('/client/request/deploymentsite', 'RequestController@getClientDeploymentSite');
+		Route::get('/client/request/item', 'RequestController@getClientItem');
+
+		//report
+		Route::name('client-report')->get('/client/report', 'ReportController@getClientReport');
 	});
 
 	//manager manager manager manager manager manager manager manager manager manager manager manager manager manager manager manager

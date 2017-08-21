@@ -13,7 +13,7 @@ use Auth;
 class AttendanceController extends Controller
 {
     public function getManagerAttendance() {
-    	$deploymentsites = DeploymentSite::whereHas('managersite', function($query) {
+    	$deploymentsites = DeploymentSite::where('status', 3)->whereHas('managersite', function($query) {
     		$query->where('managerid', Auth::user()->manager->managerid);
     	})->whereHas('contract', function($query) {
     		$query->where([

@@ -42,4 +42,9 @@ class ReportController extends Controller
     	$pdf = PDF::loadView('admin.report.mdr');
     	return $pdf->stream();
     }
+
+
+    public function getClientReport() {
+        return view('client.report');
+    }
 }

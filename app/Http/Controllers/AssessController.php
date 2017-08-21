@@ -10,6 +10,7 @@ use Amcor\InterviewAssessment;
 use Amcor\AssessmentTopic;
 use Amcor\Requirement;
 use Amcor\ApplicantRequirement;
+use Carbon\Carbon;
 use Response;
 use DB;
 
@@ -96,8 +97,8 @@ class AssessController extends Controller
         if ($request->formData != NULL) {
             foreach($request->formData as $data) {
                 $assessmenttopic = AssessmentTopic::where('name', $data['inputAssessmentTopic'])->first();
+                
                 $interviewassessment = new InterviewAssessment;
-
                 $interviewassessment->applicant()->associate($applicant);
                 $interviewassessment->admin()->associate($admin);
                 $interviewassessment->assessmenttopic()->associate($assessmenttopic);
@@ -111,6 +112,7 @@ class AssessController extends Controller
         } else {
             $applicant->status = 8;
         }
+        $applicant->lastdeployed = Carbon::today();
         $applicant->save();
 
         return Response::json($applicant);
