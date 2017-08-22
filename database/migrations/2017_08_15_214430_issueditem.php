@@ -15,6 +15,7 @@ class Issueditem extends Migration
     {
         Schema::create('issueditemtbl', function(Blueprint $table) {
             $table->increments('issueditemid');
+            $table->integer('deploymentsiteid')->unsigned();
             $table->integer('deployid')->unsigned();
             $table->integer('itemid')->unsigned();
             $table->date('dateissued');
@@ -23,6 +24,7 @@ class Issueditem extends Migration
             $table->timestamps();
             $table->softDeletes();
 
+            $table->foreign('deploymentsiteid')->references('deploymentsiteid')->on('deploymentsitetbl');
             $table->foreign('deployid')->references('deployid')->on('deploytbl');
             $table->foreign('itemid')->references('itemid')->on('itemtbl');
         });

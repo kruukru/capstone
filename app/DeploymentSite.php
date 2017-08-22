@@ -17,8 +17,16 @@ class DeploymentSite extends Model
     	return $this->belongsTo('Amcor\Contract', 'contractid');
     }
 
+    public function clientqualification() {
+        return $this->hasMany('Amcor\ClientQualification', 'deploymentsiteid');
+    }
+
     public function deploy() {
-        return $this->hasOne('Amcor\Deploy', 'deploymentsiteid');
+        return $this->hasMany('Amcor\Deploy', 'deploymentsiteid');
+    }
+
+    public function qualificationcheck() {
+        return $this->hasMany('Amcor\QualificationCheck', 'deploymentsiteid');
     }
 
     public function managersite() {

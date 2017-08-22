@@ -13,8 +13,8 @@ class ClientQualification extends Model
     protected $primaryKey = 'clientqualificationid';
     protected $dates = ['deleted_at'];
 
-    public function contract() {
-    	return $this->belongsTo('Amcor\Contract', 'contractid');
+    public function deploymentsite() {
+    	return $this->belongsTo('Amcor\DeploymentSite', 'deploymentsiteid');
     }
 
     public function qualificationcheck() {

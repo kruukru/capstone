@@ -39,11 +39,10 @@ class DeploymentSiteController extends Controller
 
     public function postClientQualificationNew(Request $request) {
     	$deploymentsite = DeploymentSite::find($request->inputDeploymentSiteID);
-    	$contract = Contract::find($deploymentsite->contractid);
 
         foreach($request->formData as $data) {
             $clientqualification = new ClientQualification;
-            $clientqualification->contract()->associate($contract);
+            $clientqualification->deploymentsite()->associate($deploymentsite);
             $clientqualification->requireno = $data['inputRequireNo'];
             $clientqualification->gender = rtrim($data['inputGender'], ",");
             $clientqualification->attainment = rtrim($data['inputAttainment'], ",");

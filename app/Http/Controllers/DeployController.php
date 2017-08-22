@@ -99,15 +99,14 @@ class DeployController extends Controller
     }
 
     public function getClientQualification(Request $request) {
-        $deploymentsite = DeploymentSite::find($request->inputDeploymentSiteID);
-        $clientqualification = ClientQualification::where('contractid', $deploymentsite->contractid)->get();
+        $clientqualification = ClientQualification::where('deploymentsiteid', $request->inputDeploymentSiteID)->get();
 
     	return Response::json($clientqualification);
     }
 
     public function getSecurityGuardPercent(Request $request) {
     	$clientqualification = ClientQualification::find($request->inputClientQualificationID);
-        $deploymentsite = DeploymentSite::where('contractid', $clientqualification->contractid)->first();
+        $deploymentsite = DeploymentSite::find($clientqualification->deploymentsiteid);
     	$securityguards = Applicant::where('status', 8)->get();
 
         $pool = collect();
@@ -263,6 +262,7 @@ class DeployController extends Controller
 
     public function postSecurityGuardAdd(Request $request) {
         $deploymentsite = DeploymentSite::find($request->inputDeploymentSiteID);
+        
         $deploy = new Deploy();
         $deploy->deploymentsite()->associate($deploymentsite);
         $deploy->dateissued = Carbon::today();
@@ -272,6 +272,7 @@ class DeployController extends Controller
 
         foreach ($request->formData as $data) {
             $qualificationcheck = new QualificationCheck();
+            $qualificationcheck->deploymentsite()->associate($deploymentsite);
             $qualificationcheck->deploy()->associate($deploy);
             $qualificationcheck->applicant()->associate(Applicant::find($data['inputApplicantID']));
             $qualificationcheck->status = 0;

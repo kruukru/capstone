@@ -15,6 +15,7 @@ class Qualificationcheck extends Migration
     {
         Schema::create('qualificationchecktbl', function(Blueprint $table) {
             $table->increments('qualificationcheckid');
+            $table->integer('deploymentsiteid')->unsigned();
             $table->integer('deployid')->unsigned();
             $table->integer('applicantid')->unsigned();
             $table->tinyInteger('status');
@@ -22,6 +23,7 @@ class Qualificationcheck extends Migration
             $table->timestamps();
             $table->softDeletes();
 
+            $table->foreign('deploymentsiteid')->references('deploymentsiteid')->on('deploymentsitetbl');
             $table->foreign('deployid')->references('deployid')->on('deploytbl');
             $table->foreign('applicantid')->references('applicantid')->on('applicanttbl');
         });

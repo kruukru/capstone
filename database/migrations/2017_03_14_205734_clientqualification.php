@@ -15,7 +15,8 @@ class Clientqualification extends Migration
     {
         Schema::create('clientqualificationtbl', function(Blueprint $table) {
             $table->increments('clientqualificationid');
-            $table->integer('contractid')->unsigned();
+            $table->integer('deploymentsiteid')->unsigned();
+            $table->integer('requestid')->unsigned()->nullable();
             $table->integer('requireno');
             $table->string('gender');
             $table->string('attainment');
@@ -28,7 +29,8 @@ class Clientqualification extends Migration
             $table->timestamps();
             $table->softDeletes();
 
-            $table->foreign('contractid')->references('contractid')->on('contracttbl');
+            $table->foreign('deploymentsiteid')->references('deploymentsiteid')->on('deploymentsitetbl');
+            $table->foreign('requestid')->references('requestid')->on('requesttbl');
         });
     }
 
