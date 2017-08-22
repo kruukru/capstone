@@ -18,7 +18,6 @@ class Issueditem extends Migration
             $table->integer('deploymentsiteid')->unsigned();
             $table->integer('deployid')->unsigned();
             $table->integer('itemid')->unsigned();
-            $table->date('dateissued');
             $table->integer('qty');
 
             $table->timestamps();

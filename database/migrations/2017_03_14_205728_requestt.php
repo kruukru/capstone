@@ -19,6 +19,7 @@ class Requestt extends Migration
             $table->integer('accountid')->unsigned();
             $table->string('type');
             $table->date('datecreated');
+            $table->tinyInteger('status');
 
             $table->timestamps();
             $table->softDeletes();

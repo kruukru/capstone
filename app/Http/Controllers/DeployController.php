@@ -30,7 +30,10 @@ class DeployController extends Controller
 
     public function postAdminDeployItem(Request $request) {
         $deploymentsite = DeploymentSite::find($request->inputDeploymentSiteID);
-        $deploy = Deploy::where('deploymentsiteid', $deploymentsite->deploymentsiteid)->first();
+        $deploy = Deploy::where([
+            ['deploymentsiteid', $deploymentsite->deploymentsiteid],
+            ['requestid', null],
+        ])->first();
 
         foreach ($request->inputItemList as $data) {
             $item = Item::find($data['inputItemID']);
@@ -38,21 +41,19 @@ class DeployController extends Controller
             $item->save();
 
             $issueditem = new IssuedItem;
+            $issueditem->deploymentsite()->associate($deploymentsite);
             $issueditem->deploy()->associate($deploy);
             $issueditem->item()->associate($item);
-            $issueditem->dateissued = Carbon::today();
             $issueditem->qty = $data['inputQty'];
             $issueditem->save();
 
             foreach ($request->inputFirearmList as $data) {
                 if ($issueditem->itemid == $data['inputItemID']) {
-                    foreach ($request->inputFirearmList as $data) {
-                        $firearm = Firearm::find($data['inputFirearmID']);
-                        $issuedfirearm = new IssuedFirearm;
-                        $issuedfirearm->issueditem()->associate($issueditem);
-                        $issuedfirearm->firearm()->associate($firearm);
-                        $issuedfirearm->save();
-                    }
+                    $firearm = Firearm::find($data['inputFirearmID']);
+                    $issuedfirearm = new IssuedFirearm;
+                    $issuedfirearm->issueditem()->associate($issueditem);
+                    $issuedfirearm->firearm()->associate($firearm);
+                    $issuedfirearm->save();
                 }
             }
         }
@@ -99,7 +100,10 @@ class DeployController extends Controller
     }
 
     public function getClientQualification(Request $request) {
-        $clientqualification = ClientQualification::where('deploymentsiteid', $request->inputDeploymentSiteID)->get();
+        $clientqualification = ClientQualification::where([
+            ['deploymentsiteid', $request->inputDeploymentSiteID],
+            ['requestid', null],
+        ])->get();
 
     	return Response::json($clientqualification);
     }

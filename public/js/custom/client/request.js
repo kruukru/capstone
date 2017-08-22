@@ -113,6 +113,21 @@ $(document).ready(function() {
         if ($('#formRequestItem').parsley().validate()) {
             e.preventDefault();
 
+            if (tableRequestItem.row().count() == 0) {
+                toastr.error("NO REQUEST ITEM");
+                return;
+            }
+
+            $('#tblRequestItem > tbody > tr').each(function() {
+                var data = {
+                    inputItemID: $(this).find('#btnRemove').val(),
+                    inputQty: $(this).find('#qtyavailable').text(),
+                };
+                formData.push(data);
+            });
+
+
+
             toastr.success("HELLO");
         }
     });

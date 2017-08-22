@@ -62,8 +62,14 @@ class DeploymentSiteController extends Controller
 
     public function getClientSecurityGuardList(Request $request) {
         $deploymentsite = DeploymentSite::find($request->inputDeploymentSiteID);
-        $deploy = Deploy::where('deploymentsiteid', $request->inputDeploymentSiteID)->first();
-        $clientqualifications = ClientQualification::where('contractid', $deploymentsite->deploymentsiteid)->get();
+        $deploy = Deploy::where([
+            ['deploymentsiteid', $request->inputDeploymentSiteID],
+            ['requestid', null],
+        ])->first();
+        $clientqualifications = ClientQualification::where([
+            ['deploymentsiteid', $request->inputDeploymentSiteID],
+            ['requestid', null],
+        ])->get();
 
         $requireno = 0;
         foreach ($clientqualifications as $clientqualification) {
@@ -100,7 +106,10 @@ class DeploymentSiteController extends Controller
 
     public function postClientSecurityGuardList(Request $request) {
         $deploymentsite = DeploymentSite::find($request->inputDeploymentSiteID);
-        $deploy = Deploy::where('deploymentsiteid', $request->inputDeploymentSiteID)->first();
+        $deploy = Deploy::where([
+            ['deploymentsiteid', $request->inputDeploymentSiteID],
+            ['requestid', null],
+        ])->first();
 
         foreach ($request->formData as $data) {
             $applicant = Applicant::find($data['inputApplicantID']);

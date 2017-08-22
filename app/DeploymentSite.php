@@ -29,6 +29,10 @@ class DeploymentSite extends Model
         return $this->hasMany('Amcor\QualificationCheck', 'deploymentsiteid');
     }
 
+    public function issueditem() {
+        return $this->hasMany('Amcor\IssuedItem', 'deploymentsiteid');
+    }
+
     public function managersite() {
         return $this->hasMany('Amcor\ManagerSite', 'deploymentsiteid');
     }

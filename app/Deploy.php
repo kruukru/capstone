@@ -17,6 +17,10 @@ class Deploy extends Model
     	return $this->belongsTo('Amcor\DeploymentSite', 'deploymentsiteid');
     }
 
+    public function request() {
+        return $this->belongsTo('Amcor\Request', 'requestid');
+    }
+
     public function issueditem() {
     	return $this->hasMany('Amcor\IssuedItem', 'deployid');
     }

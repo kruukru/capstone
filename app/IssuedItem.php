@@ -11,7 +11,11 @@ class IssuedItem extends Model
 
     protected $table = 'issueditemtbl';
     protected $primaryKey = 'issueditemid';
-    protected $dates = ['dateissued', 'deleted_at'];
+    protected $dates = ['deleted_at'];
+
+    public function deploymentsite() {
+        return $this->belongsTo('Amcor\DeploymentSite', 'deploymentsiteid');
+    }
 
     public function deploy() {
     	return $this->belongsTo('Amcor\Deploy', 'deployid');

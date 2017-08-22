@@ -16,6 +16,7 @@ class Deploy extends Migration
         Schema::create('deploytbl', function(Blueprint $table) {
             $table->increments('deployid');
             $table->integer('deploymentsiteid')->unsigned();
+            $table->integer('requestid')->unsigned()->nullable();
             $table->date('dateissued');
             $table->date('expiration');
             $table->tinyInteger('status');
@@ -24,6 +25,7 @@ class Deploy extends Migration
             $table->softDeletes();
 
             $table->foreign('deploymentsiteid')->references('deploymentsiteid')->on('deploymentsitetbl');
+            $table->foreign('requestid')->references('requestid')->on('requesttbl');
         });
     }
 

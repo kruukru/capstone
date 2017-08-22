@@ -32,7 +32,7 @@ class AttendanceController extends Controller
     	$applicant = Applicant::whereHas('qualificationcheck', function($query) use ($deploymentsite) {
     		$query->where([
     			['status', 1],
-    			['deployid', $deploymentsite->deploy->deployid],
+    			['deploymentsiteid', $deploymentsite->deploymentsiteid],
     		]);
     	})->get();
 
