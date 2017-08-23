@@ -21,6 +21,10 @@ class Requestt extends Model
     	return $this->hasMany('Amcor\Deploy', 'requestid');
     }
 
+    public function requestitem() {
+        return $this->hasMany('Amcor\RequestItem', 'requestid');
+    }
+
     public function account() {
         return $this->belongsTo('Amcor\Account', 'accountid');
     }

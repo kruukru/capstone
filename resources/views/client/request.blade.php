@@ -20,6 +20,7 @@
 								<th>Deployment Site</th>
 								<th>Location</th>
 								<th style="text-align: center;">Status</th>
+								<th style="text-align: center;">Action</th>
 							</thead>
 							<tbody id="request-list">
 								@foreach ($requests as $request)
@@ -33,7 +34,12 @@
 									@endif
 									<td>{{$request->deploymentsite->sitename}}</td>
 									<td>{{$request->deploymentsite->location}}</td>
-									<td style="text-align: center;">PENDING</td>
+									@if ($request->status == 0)
+										<td style="text-align: center;">PENDING</td>
+									@endif
+									<td style="text-align: center;">
+										<button class="btn btn-danger btn-xs" id="btnCancel" value="{{$request->requestid}}">Cancel</button>
+									</td>
 								</tr>
 								@endforeach
 							</tbody>
@@ -43,6 +49,28 @@
 			</div>
 		</div>
 	</section>
+
+	<!-- modal for cancel -->
+	<div class="modal fade" id="modalCancelConfirmation">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<!-- modal header -->
+				<div class="modal-header">
+					<button class="close" data-dismiss="modal">&times;</button>
+					<h3>CONFIRMATION</h3>
+				</div>
+				<!-- modal body -->
+				<div class="modal-body">
+					Are you sure you want to cancel this request?
+				</div>
+				<!-- modal footer -->
+				<div class="modal-footer">
+					<button type="button" class="btn btn-danger" id="btnRemoveConfirm">CONFIRM</button>
+        			<button type="button" class="btn btn-default" data-dismiss="modal">CANCEL</button>
+				</div>
+			</div>
+		</div>
+	</div>
 
 	<div class="modal fade" id="modalRequestItem">
 		<div class="modal-dialog">

@@ -8,6 +8,7 @@ $(document).ready(function() {
             null,
             null,
             null,
+            { "bSearchable": false, "bSortable": false, },
         ]
     });
     table.order([[0, 'asc']]).draw();
@@ -48,8 +49,6 @@ $(document).ready(function() {
                 $.each(data, function(index, value) {
                     $('#deploymentsitelist').append('<option value='+value.deploymentsiteid+'>'+value.sitename+'</option>');
                 });
-
-                $('#modalRequestItem').modal('show');
             },
         });
 
@@ -70,10 +69,10 @@ $(document).ready(function() {
                         "</tr>";
                     tableInventory.row.add($(row)[0]).draw();
                 });
-
-                $('#modalRequestItem').modal('show');
             },
         });
+
+        $('#modalRequestItem').modal('show');
     });
 
     $('#inventory-list').on('click', '#btnAdd', function(e) {
@@ -112,25 +111,94 @@ $(document).ready(function() {
     $('#btnRequestItemSave').click(function(e) {
         if ($('#formRequestItem').parsley().validate()) {
             e.preventDefault();
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                }
+            });
 
             if (tableRequestItem.row().count() == 0) {
                 toastr.error("NO REQUEST ITEM");
                 return;
             }
 
+            var formData = [];
             $('#tblRequestItem > tbody > tr').each(function() {
+                if ($(this).find('#approxqty').val() == "") {
+                    $(this).find('#approxqty').val(0);
+                }
+
                 var data = {
                     inputItemID: $(this).find('#btnRemove').val(),
-                    inputQty: $(this).find('#qtyavailable').text(),
+                    inputQty: $(this).find('#approxqty').val(),
                 };
                 formData.push(data);
             });
 
+            formData = {
+                inputDeploymentSiteID: $('#deploymentsitelist').val(),
+                formData: formData,
+            };
 
+            $.ajax({
+                type: "POST",
+                url: "/client/request/item",
+                data: formData,
+                dataType: "json",
+                success: function(data) {
+                    console.log(data);
 
-            toastr.success("HELLO");
+                    var row = "<tr id=id" + data.requestid + ">" +
+                        "<td>" + data.requestid + "</td>" +
+                        "<td>" + data.type + "</td>" +
+                        "<td>Me</td>" +
+                        "<td>" + data.deploymentsite.sitename + "</td>" +
+                        "<td>" + data.deploymentsite.location + "</td>" +
+                        "<td style='text-align: center;'>PENDING</td>" +
+                        "<td style='text-align: center;'>" +
+                            "<button class='btn btn-danger btn-xs' id='btnCancel' value="+data.requestid+">Cancel</button> " +
+                        "</td>" +
+                        "</tr>";
+                    table.row.add($(row)[0]).draw();
+
+                    $('#modalRequestItem').modal('hide');
+                    toastr.success("SAVE SUCCESSFUL");
+                },
+            });
         }
     });
+
+    $('#request-list').on('click', '#btnCancel', function(e) {
+        e.preventDefault();
+        requestid = $(this).val();
+
+        $('#modalCancelConfirmation').modal('show');
+    });
+
+    $('#btnRemoveConfirm').click(function(e) {
+        e.preventDefault();
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+            }
+        });
+
+        $.ajax({
+            type: "POST",
+            url: "/client/request/item/remove",
+            data: { inputRequestID: requestid },
+            dataType: "json",
+            success: function(data) {
+                console.log(data);
+
+                table.row('#id' + requestid).remove().draw(false);
+                
+                $('#modalCancelConfirmation').modal('hide');
+                toastr.success("CANCEL SUCCESSFUL");
+            },
+        });
+    });
+
 
 
 });

@@ -24,4 +24,8 @@ class Item extends Model
     public function issueditem() {
         return $this->hasMany('Amcor\IssuedItem', 'itemid');
     }
+
+    public function requestitem() {
+        return $this->hasMany('Amcor\RequestItem', 'itemid');
+    }
 }

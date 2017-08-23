@@ -15,6 +15,7 @@ use Amcor\Item;
 use Amcor\Firearm;
 use Amcor\IssuedItem;
 use Amcor\IssuedFirearm;
+use Amcor\Requestt;
 use Carbon\Carbon;
 use Geotools;
 use Response;
@@ -24,8 +25,9 @@ class DeployController extends Controller
     //deploy item
     public function getAdminDeployItem() {
         $deploymentsites = DeploymentSite::where('status', 3)->get();
+        $requests = Requestt::get();
 
-        return view('admin.transaction.deployitem', compact('deploymentsites'));
+        return view('admin.transaction.deployitem', compact('deploymentsites', 'requests'));
     }
 
     public function postAdminDeployItem(Request $request) {

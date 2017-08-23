@@ -311,6 +311,8 @@ Route::group(['middleware' => ['auth']], function() {
 		Route::name('client-request')->get('/client/request', 'RequestController@getClientRequest');
 		Route::get('/client/request/deploymentsite', 'RequestController@getClientDeploymentSite');
 		Route::get('/client/request/item', 'RequestController@getClientItem');
+		Route::post('/client/request/item', 'RequestController@postClientItem');
+		Route::post('/client/request/item/remove', 'RequestController@postClientItemRemove');
 
 		//report
 		Route::name('client-report')->get('/client/report', 'ReportController@getClientReport');
