@@ -182,6 +182,10 @@ $(document).ready(function() {
                 console.log(data);
 
                 $.each(data, function(index, value) {
+                    if (value.answer == null) {
+                        value.answer = "";
+                    }
+
                     var row = "<tr>" +
                         "<td>" + value.question + "</td>" +
                         "<td>" + value.answer + "</td>" +

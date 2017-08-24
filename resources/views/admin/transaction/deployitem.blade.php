@@ -23,10 +23,17 @@
 									<tr id="id{{$deploymentsite->deploymentsiteid}}">
 										<td>{{$deploymentsite->sitename}}</td>
 										<td>{{$deploymentsite->location}}, {{$deploymentsite->city}}, {{$deploymentsite->province}}</td>
-										<td style="text-align: center;">DEPLOY ITEM</td>
-										<td style="text-align: center;">
-											<button class="btn btn-primary btn-xs" id="btnDeploy" value="{{$deploymentsite->deploymentsiteid}}">Deploy</button>
-										</td>
+										@if ($deploymentsite->status == 3)
+											<td style="text-align: center;">DEPLOY ITEM</td>
+											<td style="text-align: center;">
+												<button class="btn btn-primary btn-xs" id="btnDeploy" value="{{$deploymentsite->deploymentsiteid}}">Deploy</button>
+											</td>
+										@elseif ($deploymentsite->status == 4)
+											<td style="text-align: center;">PENDING RECEIVE</td>
+											<td style="text-align: center;"> 
+												<button class="btn btn-primary btn-xs" id="btnUpdate" value="{{$deploymentsite->deploymentsiteid}}">Update</button>
+											</td>
+										@endif
 									</tr>
 								@endforeach
 							</tbody>

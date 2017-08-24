@@ -23,7 +23,7 @@ $(document).ready(function() {
             testtime -= 1;
             $("#time").text("TIME LEFT : "+hhmmss(testtime));
 
-            if(testtime == 0) {
+            if (testtime == 0) {
                 //get all the radio button
                 $(".box-body :radio:checked").each(function() {
                     var data = {

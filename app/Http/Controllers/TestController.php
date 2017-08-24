@@ -148,20 +148,14 @@ class TestController extends Controller
 
             $testquestionitem = TestQuestion::where('testid', $test->testid)
                 ->whereHas('question', function($query) {
-                    $query->has('choice');
+                    $query->where('type', '!=', 3);
                 })->get();
-
-            if (count($testquestionitem) >= $test->maxquestion) {
-                $testquestionitem = $test->maxquestion;
-            } else {
-                $testquestionitem = count($testquestionitem);
-            }
 
             $score = new Score;
             $score->applicant()->associate($applicant);
             $score->test()->associate($test);
             $score->score = count($testquestion);
-            $score->item = $testquestionitem;
+            $score->item = count($testquestionitem);
             $score->save();
         }
 

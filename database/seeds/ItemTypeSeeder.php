@@ -13,8 +13,9 @@ class ItemTypeSeeder extends Seeder
     {
         $itemtype = [
             ['name' => 'Firearm'],
-            ['name' => 'Electronic'],
-            ['name' => 'Consumable'],
+            ['name' => 'Equipment'],
+            ['name' => 'Accessory'],
+            ['name' => 'Supply'],
         ];
         DB::table('itemtypetbl')->insert($itemtype);
     }

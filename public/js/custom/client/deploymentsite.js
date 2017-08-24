@@ -30,7 +30,20 @@ $(document).ready(function() {
             { "bSearchable": false, "bSortable": false, },
         ]
     });
-    tableSecurityGuard.order([[0, 'desc']]).draw();
+    var tableFirearm = $('#tblFirearm').DataTable({
+        "aoColumns": [
+            null,
+            null,
+            null,
+        ]
+    });
+    var tableItem = $('#tblItem').DataTable({
+        "aoColumns": [
+            null,
+            null,
+            null,
+        ]
+    });
 
     //declare all checkbox an icheck
     $('input').iCheck({
@@ -189,7 +202,7 @@ $(document).ready(function() {
                             row += "<td>" + duration + "</td>";
                         }
                         row += "<td style='text-align: center;'>" +
-                            "<button class='btn btn-danger btn-xs' id='btnRemove' value="+data.requirementid+">Remove</button>" +
+                            "<button class='btn btn-danger btn-xs' id='btnRemove' value=" + idTable + ">Remove</button>" +
                             "</td>" +
                             "</tr>";
                         tableQualification.row.add($(row)[0]).draw();
@@ -223,15 +236,15 @@ $(document).ready(function() {
     });
 
     //input a qualification button
-    $('#deploy-list').on('click', '#btnQualification', function(e) {
+    $('#deploymentsite-list').on('click', '#btnQualification', function(e) {
         deploymentsiteid = $(this).val();
 
         $('#modalQualification').modal('show');
     });
 
     $('#btnQualificationSave').click(function(e) {
+        e.preventDefault();
         if (tableQualification.data().count() != 0) {
-            e.preventDefault();
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
@@ -288,7 +301,7 @@ $(document).ready(function() {
         }
     });
 
-    $('#deploy-list').on('click', '#btnSGList', function(e) {
+    $('#deploymentsite-list').on('click', '#btnSGList', function(e) {
         deploymentsiteid = $(this).val();
 
         $.ajax({
@@ -380,9 +393,9 @@ $(document).ready(function() {
                         var dt = [
                             data.sitename,
                             data.location + ", " + data.city + ", " + data.province,
-                            "ACTIVE",
+                            "PENDING ITEMS",
                             "<td style='text-align: center;'>" +
-                                "<button class='btn btn-primary btn-xs' id='btnView' value='"+data.deploymentsiteid+"'>View</button>" +
+                                "<button class='btn btn-primary btn-xs' id='btnUpdate' value='"+data.deploymentsiteid+"'>Update</button>" +
                             "</td>",
                         ];
                         table.row('#id' + deploymentsiteid).data(dt).draw(false);
@@ -397,6 +410,59 @@ $(document).ready(function() {
         } else {
             toastr.error("PICK AN ACTION IN EVERY SECURITY GUARD");
         }
+    });
+
+    $('#deploymentsite-list').on('click', '#btnItem', function(e) {
+        e.preventDefault();
+        deploymentsiteid = $(this).val();
+        tableFirearm.clear().draw();
+        tableItem.clear().draw();
+
+        $.ajax({
+            type: "GET",
+            url: "/client/deploymentsite/item/get",
+            data: { inputDeploymentSiteID: deploymentsiteid },
+            dataType: "json",
+            success: function(data) {
+                console.log(data);
+
+                $.each(data, function(index, value) {
+                    var row = "<tr id=id" + value.issueditemid + ">" +
+                        "<td>" + value.item.name + "</td>" +
+                        "<td>" + value.item.itemtype.name + "</td>" +
+                        "<td>" + value.qty + "</td>" +
+                        "</tr>";
+                    tableItem.row.add($(row)[0]).draw();
+                });
+            },
+        });
+
+        $.ajax({
+            type: "GET",
+            url: "/client/deploymentsite/firearm/get",
+            data: { inputDeploymentSiteID: deploymentsiteid },
+            dataType: "json",
+            success: function(data) {
+                console.log(data);
+
+                $.each(data, function(index, value) {
+                    var row = "<tr id=id" + value.issuedfirearmid + ">" +
+                        "<td>" + value.firearm.item.name + "</td>" +
+                        "<td>" + value.firearm.license + "</td>" +
+                        "<td>" + $.format.date(value.firearm.expiration, "MMM. d, yyyy") + "</td>" +
+                        "</tr>";
+                    tableFirearm.row.add($(row)[0]).draw();
+                });
+            },
+        });
+
+        $('#modalItem').modal('show');
+    });
+
+    $('#btnReceive').click(function(e) {
+        e.preventDefault();
+
+
     });
 
 

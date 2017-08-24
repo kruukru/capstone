@@ -9,7 +9,6 @@
 
   @include('templates.mycss')
   @yield('css')
-
 </head>
 <body class="skin-purple">
   <header class="main-header">

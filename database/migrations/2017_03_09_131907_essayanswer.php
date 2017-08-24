@@ -17,7 +17,7 @@ class Essayanswer extends Migration
             $table->increments('essayanswerid');
             $table->integer('applicantid')->unsigned();
             $table->integer('testquestionid')->unsigned();
-            $table->text('answer');
+            $table->text('answer')->nullable();
 
             $table->timestamps();
             $table->softDeletes();

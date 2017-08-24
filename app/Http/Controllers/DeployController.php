@@ -24,7 +24,10 @@ class DeployController extends Controller
 {
     //deploy item
     public function getAdminDeployItem() {
-        $deploymentsites = DeploymentSite::where('status', 3)->get();
+        $deploymentsites = DeploymentSite::where([
+            ['status', '>=', 3],
+            ['status', '<=', 4],
+        ])->get();
         $requests = Requestt::get();
 
         return view('admin.transaction.deployitem', compact('deploymentsites', 'requests'));

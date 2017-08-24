@@ -293,7 +293,8 @@ Route::group(['middleware' => ['auth']], function() {
 		Route::get('/client/deploymentsite/securityguard/list', 'DeploymentSiteController@getClientSecurityGuardList');
 		Route::post('/client/deploymentsite/securityguard/list', 'DeploymentSiteController@postClientSecurityGuardList');
 
-		Route::get('/client/deploymentsite/applicant/get', 'ClientDeploymentSiteController@getClientDeploymentSiteSecurityGuard');
+		Route::get('/client/deploymentsite/item/get', 'DeploymentSiteController@getClientItemGet');
+		Route::get('/client/deploymentsite/firearm/get', 'DeploymentSiteController@getClientFirearmGet');
 
 		//manager
 		Route::name('client-manager')->get('/client/manager', 'ManagerController@getClientManager');

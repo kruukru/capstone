@@ -210,6 +210,7 @@ $(document).ready(function() {
 		itemid = $(this).val();
 		qtyavailable = parseInt($('#inventory-list').find('#id' + itemid).find('#qtyavailable').text());
 		qtyinput = parseInt($(this).closest('tr').find('#qtyavailable').text());
+		itemtype = $(this).closest('tr').find('#itemtype').text();
 
 		var firearmtemp = [];
 		if (itemtype.toUpperCase() == "FIREARM" || itemtype.toUpperCase() == "FIREARMS") {
@@ -368,7 +369,15 @@ $(document).ready(function() {
 	            success: function(data) {
 	                console.log(data);
 
-					table.row('#id' + deploymentsiteid).remove().draw(false);
+					var dt = [
+                        data.sitename,
+                        data.location + " " + data.city + " " + data.province,
+                        "PENDING RECEIVE",
+                        "<td style='text-align: center;'>" +
+                            "<button class='btn btn-primary btn-xs' id='btnUpdate' value='"+data.deploymentsiteid+"'>Update</button>" +
+                        "</td>",
+                    ];
+                    table.row('#id' + deploymentsiteid).data(dt).draw(false);
 
 					$('#modalDeploy').modal('hide');
 	                toastr.success("SAVE SUCCESSFUL");

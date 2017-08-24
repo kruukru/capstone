@@ -61,16 +61,14 @@
             <span class="ContractData">{{$contract->client->name}}</span>, a corporation duly organized and existing under and by 
             virtue of the laws of the Republic of the Philippines, with office 
             address at the <span class="ContractHighlight">{{$contract->deploymentsite->location}}</span>, represented in this act by its 
-            <span class="ContractData">*REPRESENTATIVE POSITION HERE!*</span>, <span class="ContractData">*REPRESENTATIVE NAME HERE!!*</span> hereinafter known 
-            as the <b>"CLIENT"</b>. <br/><br/>
+            <span class="ContractData">ADMIN</span>, <span class="ContractData">{{$contract->client->contactperson}}</span> hereinafter known 
+            as the <b>"CLIENT"</b>.<br/><br/>
         </p>
         
         <center>- and -</center><br/>
 
         <p class="ContractInfo">
-            <span class="ContractData">{{$contract->client->name}}</span>, a company
-            duly organized and existing unbder and by virtue of the laws of the
-            Philippines, with principal office address at <span class="ContractData">*AGENCY NAME HERE!!*</span> represented by its <span class="ContractData">*AGENCY REP. POSITION HERE!!*</span>, <span class="ContractData">*CLIENT NAME HERE!!*</span>, hereinafter referred to as the “CONTRACTOR”.<br/><br/><br/>
+            <span class="ContractData">Amcor Security & Investigation Agency, Inc.</span>, a company duly organized and existing under and by virtue of the laws of the Philippines, with principal office address at <span class="ContractData">353 Doña Dolores Bldg., San Rafael St. Brgy. Plainview, Mandaluyong City</span> represented by its <span class="ContractData">ADMIN</span>, <span class="ContractData">{{$contract->admin->firstname}} {{$contract->admin->lastname}}</span>, hereinafter referred to as the “CONTRACTOR”.<br/><br/><br/>
         </p>
 
         <center>W I T N E S S E T H, That:</center><br/><br/>
@@ -92,9 +90,9 @@
         <div class="Section">
         <span class="SecName">SECTION 1. TERM</span> -
 
-            This AGREEMENT between the CONTRACTOR and CLIENT is for a period of *CONTRACT LENGTH HERE!!*, more or less, and automatically terminates upon the expiration of said period, unless the parties mutually agree to enter into a new contract by signing a renewal agreement embodying the same terms and conditions, or unless the AGREEMENT is (a) earlier terminated by CLIENT without cause upon fifteen (15) days prior written notice to the CONTRACTOR, with option to take over the performance of the services in whole or in part within the said fifteen (15) day period, without further notice to CONTRACTOR, or (b) earlier terminated by CLIENT with cause, in which case the termination shall take effect immediately upon the service of the notice of termination by the CLIENT upon the CONTRACTOR, pursuant to Section 9 hereof.”<br/><br/>
+            This AGREEMENT between the CONTRACTOR and CLIENT is for a period of {{$contract->expiration->diffInDays($contract->startdate)}} day/s, more or less, and automatically terminates upon the expiration of said period, unless the parties mutually agree to enter into a new contract by signing a renewal agreement embodying the same terms and conditions, or unless the AGREEMENT is (a) earlier terminated by CLIENT without cause upon fifteen (15) days prior written notice to the CONTRACTOR, with option to take over the performance of the services in whole or in part within the said fifteen (15) day period, without further notice to CONTRACTOR, or (b) earlier terminated by CLIENT with cause, in which case the termination shall take effect immediately upon the service of the notice of termination by the CLIENT upon the CONTRACTOR, pursuant to Section 9 hereof.”<br/><br/>
 
-            The period shall be in effect from the *DATE START HERE!!* up to the *DATE END HERE!!*.
+            The period shall be in effect from the {{$contract->startdate->format('M. d, Y')}} up to the {{$contract->expiration->format('M. d, Y')}}.
         </div><br/><br/><br/>
 
         <div class="Section">
@@ -102,7 +100,7 @@
 
         The CONTRACTOR shall be paid by CLIENT a MONTHLY FEE/STIPEND or<br/><br/>
 
-        • PESOS: *PRICE HERE!!* for the services of each hired SECURITY GUARD.
+        • PESOS: {{$contract->price}} for the services of each hired SECURITY GUARD.
         </div><br/><br/><br/>
 
         <div class="Section">
@@ -225,7 +223,7 @@
             </div><br/><br/><br/>
 
         <p class="NonSection">
-            IN WITNESS WHEREOF, the parties hereto signed these presents on this 2017-07-21 at Amcor, Philppines.
+            IN WITNESS WHEREOF, the parties hereto signed these presents on this {{Carbon\Carbon::today()->format('M. d, Y')}} at Amcor, Philppines.
         </p>
     </div>
 </body>

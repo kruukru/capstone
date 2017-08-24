@@ -9,9 +9,12 @@ use Amcor\Contract;
 use Amcor\Deploy;
 use Amcor\QualificationCheck;
 use Amcor\Applicant;
+use Amcor\IssuedItem;
+use Amcor\IssuedFirearm;
 use Geotools;
 use Response;
 use Auth;
+use DB;
 
 class DeploymentSiteController extends Controller
 {
@@ -137,6 +140,38 @@ class DeploymentSiteController extends Controller
         $deploymentsite->save();
 
         return Response::json($deploymentsite);
+    }
+
+    public function getClientItemGet(Request $request) {
+        $deploymentsite = DeploymentSite::find($request->inputDeploymentSiteID);
+        $deploy = Deploy::where([
+            ['deploymentsiteid', $request->inputDeploymentSiteID],
+            ['requestid', null],
+        ])->first();
+
+        $issueditem = IssuedItem::with('item.itemtype')->where([
+            ['deploymentsiteid', $request->inputDeploymentSiteID],
+            ['deployid', $deploy->deployid],
+        ])->get();
+
+        return Response::json($issueditem);
+    }
+
+    public function getClientFirearmGet(Request $request) {
+        $deploymentsite = DeploymentSite::find($request->inputDeploymentSiteID);
+        $deploy = Deploy::where([
+            ['deploymentsiteid', $request->inputDeploymentSiteID],
+            ['requestid', null],
+        ])->first();
+
+        $issuedfirearm = IssuedFirearm::with('firearm.item')->whereHas('issueditem', function($query) use ($request, $deploy) {
+            $query->where([
+                ['deploymentsiteid', $request->inputDeploymentSiteID],
+                ['deployid', $deploy->deployid],
+            ]);
+        })->get();
+
+        return Response::json($issuedfirearm);
     }
 
 
