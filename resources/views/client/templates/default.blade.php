@@ -9,13 +9,15 @@
 
   @include('templates.mycss')
   @yield('css')
-  
 </head>
-<body class="skin-purple">
+<body class="skin-purple fixed hold-transition sidebar-mini sidebar-collapse">
   <!-- HEADER -->
   <header class="main-header">
     <!-- Logo -->
-    <a href="{{ route('home') }}" class="logo"><img src="/images/amcor.png" style="height: 40px; width: 40px;"><b>  AMCOR</b></a>
+    <a href="{{ route('home') }}" class="logo">
+      <span class="logo-mini"><img src="/images/amcor.png" style="height: 30px; width: 30px;"></span>
+      <span class="logo-lg"><img src="/images/amcor.png" style="height: 40px; width: 40px;"><b> AMCOR</b></span>
+    </a>
 
     <!-- Header Navbar -->
     <nav class="navbar navbar-static-top" role="navigation">
@@ -71,10 +73,10 @@
         <!-- list of button -->
         <ul class="sidebar-menu">
             <li class="header"></li>
-            <li class="{{Request::path() == 'client/deploymentsite' ? 'active' : ''}}"><a href="{{ route('client-deploymentsite') }}"><i class="fa fa-circle-o"></i>Deployment Site</a></li>
-            <li class="{{Request::path() == 'client/manager' ? 'active' : ''}}"><a href="{{ route('client-manager') }}"><i class="fa fa-circle-o"></i>Manager</a></li>
-            <li class="{{Request::path() == 'client/request' ? 'active' : ''}}"><a href="{{ route('client-request') }}"><i class="fa fa-circle-o"></i>Request</a></li>
-            <li class="{{Request::path() == 'client/report' ? 'active' : ''}}"><a href="{{ route('client-report') }}"><i class="fa fa-circle-o"></i>Report</a></li>
+            <li class="{{Request::path() == 'client/deploymentsite' ? 'active' : ''}}"><a href="{{ route('client-deploymentsite') }}"><i class="fa fa-building-o"></i><span>Deployment Site</span></a></li>
+            <li class="{{Request::path() == 'client/manager' ? 'active' : ''}}"><a href="{{ route('client-manager') }}"><i class="fa fa-users"></i><span>Manager</span></a></li>
+            <li class="{{Request::path() == 'client/request' ? 'active' : ''}}"><a href="{{ route('client-request') }}"><i class="fa fa-share-square-o"></i><span>Request</span></a></li>
+            <li class="{{Request::path() == 'client/report' ? 'active' : ''}}"><a href="{{ route('client-report') }}"><i class="fa fa-file-text"></i><span>Report</span></a></li>
         </ul>
     </section>
   </aside>

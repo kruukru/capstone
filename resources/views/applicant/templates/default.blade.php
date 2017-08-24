@@ -11,11 +11,14 @@
   @yield('css')
   
 </head>
-<body class="skin-purple">
+<body class="skin-purple fixed hold-transition sidebar-mini sidebar-collapse">
   <!-- HEADER -->
   <header class="main-header">
     <!-- Logo -->
-    <a href="{{ route('home') }}" class="logo"><img src="/images/amcor.png" style="height: 40px; width: 40px;"><b>  AMCOR</b></a>
+    <a href="{{ route('home') }}" class="logo">
+      <span class="logo-mini"><img src="/images/amcor.png" style="height: 30px; width: 30px;"></span>
+      <span class="logo-lg"><img src="/images/amcor.png" style="height: 40px; width: 40px;"><b> AMCOR</b></span>
+    </a>
 
     <!-- Header Navbar -->
     <nav class="navbar navbar-static-top" role="navigation">
@@ -40,7 +43,7 @@
                         <!-- The user image in the menu -->
                         <li class="user-header">
                             <img src="/applicant/{{Auth::user()->applicant->picture}}" class="img-circle" alt="User Image" />
-                            <p>{{Auth::user()->applicant->lastname}}, {{Auth::user()->applicant->firstname}}</p>
+                            <p>{{Auth::user()->applicant->firstname}} {{Auth::user()->applicant->lastname}}</p>
                         </li>
                         <!-- Menu Footer-->
                         <li class="user-footer">
@@ -64,14 +67,15 @@
                 <img src="/applicant/{{Auth::user()->applicant->picture}}" class="img-circle" alt="User Image" />
             </div>
             <div class="pull-left info">
-                <p>{{Auth::user()->applicant->firstname}} {{Auth::user()->applicant->lastname}}</p>
+                <p>{{Auth::user()->applicant->lastname}}</p>
+                <p>{{Auth::user()->applicant->firstname}}</p>
             </div>
         </div>
 
         <!-- list of button -->
         <ul class="sidebar-menu">
             <li class="header"></li>
-            <li class="{{Request::path() == 'applicant/appointment' ? 'active' : ''}}"><a href="{{ route('applicant-appointment') }}"><i class="fa fa-circle-o"></i>Appointment</a></li>
+            <li class="{{Request::path() == 'applicant/appointment' ? 'active' : ''}}"><a href="{{ route('applicant-appointment') }}"><i class="fa fa-calendar"></i><span>Appointment</span></a></li>
         </ul>
     </section>
   </aside>
