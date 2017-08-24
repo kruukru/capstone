@@ -10,7 +10,6 @@
 			<div class="container col-sm-12">
 				<div class="box box-primary">
 					<div class="box-body table-responsive">
-						<h3>Initial Deploy</h3>
 						<table id="tblDeploymentSite" class="table table-striped table-bordered">
 							<thead>
 								<th>Deployment Site</th>
@@ -35,33 +34,6 @@
 											</td>
 										@endif
 									</tr>
-								@endforeach
-							</tbody>
-						</table><hr>
-						<h3>Requests</h3>
-						<table id="tblRequest" class="table table-striped table-bordered">
-							<thead>
-								<th>Request No.</th>
-								<th>Requested By</th>
-								<th>Deployment Site</th>
-								<th>Location</th>
-								<th style="text-align: center;">Action</th>
-							</thead>
-							<tbody id="request-list">
-								@foreach ($requests as $request)
-								<tr id="id{{$request->requestid}}">
-									<td>{{$request->requestid}}</td>
-									@if ($request->account->client)
-										<td>{{$request->account->client->contactperson}}</td>
-									@else
-										<td>{{$request->account->manager->lastname}}, {{$request->account->manager->firstname}} {{$request->account->manager->middlename}}</td>
-									@endif
-									<td>{{$request->deploymentsite->sitename}}</td>
-									<td>{{$request->deploymentsite->location}}</td>
-									<td style="text-align: center;">
-										<button class="btn btn-primary btn-xs" id="btnDeploy" value="{{$request->requestid}}">Deploy</button>
-									</td>
-								</tr>
 								@endforeach
 							</tbody>
 						</table>

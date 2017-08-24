@@ -124,10 +124,6 @@ $(document).ready(function() {
 
             var formData = [];
             $('#tblRequestItem > tbody > tr').each(function() {
-                if ($(this).find('#approxqty').val() == "") {
-                    $(this).find('#approxqty').val(0);
-                }
-
                 var data = {
                     inputItemID: $(this).find('#btnRemove').val(),
                     inputQty: $(this).find('#approxqty').val(),
@@ -151,9 +147,9 @@ $(document).ready(function() {
                     var row = "<tr id=id" + data.requestid + ">" +
                         "<td>" + data.requestid + "</td>" +
                         "<td>" + data.type + "</td>" +
-                        "<td>Me</td>" +
                         "<td>" + data.deploymentsite.sitename + "</td>" +
                         "<td>" + data.deploymentsite.location + "</td>" +
+                        "<td>Me</td>" +
                         "<td style='text-align: center;'>PENDING</td>" +
                         "<td style='text-align: center;'>" +
                             "<button class='btn btn-danger btn-xs' id='btnCancel' value="+data.requestid+">Cancel</button> " +

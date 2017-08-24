@@ -10,16 +10,6 @@ $(document).ready(function() {
         ]
     });
     table.order([[0, 'asc']]).draw();
-    var tableRequest = $('#tblRequest').DataTable({
-        "aoColumns": [
-            null,
-            null,
-            null,
-            null,
-            { "bSearchable": false, "bSortable": false, },
-        ]
-    });
-    tableRequest.order([[0, 'asc']]).draw();
     var tableSecurityGuard = $('#tblSecurityGuard').DataTable({
         "aoColumns": [
             null,

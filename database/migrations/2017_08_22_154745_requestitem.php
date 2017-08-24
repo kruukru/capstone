@@ -17,7 +17,7 @@ class Requestitem extends Migration
             $table->increments('requestitemid');
             $table->integer('requestid')->unsigned();
             $table->integer('itemid')->unsigned();
-            $table->integer('qty');
+            $table->integer('qty')->nullable();
 
             $table->timestamps();
             $table->softDeletes();

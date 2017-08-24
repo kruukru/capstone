@@ -1,8 +1,8 @@
-@extends('client.templates.default')
+@extends('admin.templates.default')
 
 @section('content')
-	<section class="content-header">
-		<h1>Request</h1>
+    <section class="content-header">
+		<h1>Requests</h1>
 	</section>
 
 	<section class="content">
@@ -10,8 +10,6 @@
 			<div class="container col-sm-12">
 				<div class="box box-primary">
 					<div class="box-body table-responsive">
-						<button class="btn btn-primary btn-md" id="btnNewRequestItem">New Request Item</button>
-						<button class="btn btn-primary btn-md" id="btnNewRequestSG">New Request Security Guard</button><hr>
 						<table id="tblRequest" class="table table-striped table-bordered">
 							<thead>
 								<th>Request No.</th>
@@ -19,14 +17,13 @@
 								<th>Deployment Site</th>
 								<th>Location</th>
 								<th>Requested By</th>
-								<th style="text-align: center;">Status</th>
 								<th style="text-align: center;">Action</th>
 							</thead>
 							<tbody id="request-list">
 								@foreach ($requests as $request)
 								<tr id="id{{$request->requestid}}">
 									<td>{{$request->requestid}}</td>
-									<td>{{$request->type}}</td>
+									<td id="requesttype">{{$request->type}}</td>
 									<td>{{$request->deploymentsite->sitename}}</td>
 									<td>{{$request->deploymentsite->location}}</td>
 									@if ($request->account->client)
@@ -34,15 +31,10 @@
 									@else
 										<td>{{$request->account->manager->lastname}}, {{$request->account->manager->firstname}} {{$request->account->manager->middlename}}</td>
 									@endif
-									@if ($request->deleted_at != null)
-										<td style="text-align: center;">DECLINED</td>
-										<td></td>
-									@elseif ($request->status == 0)
-										<td style="text-align: center;">PENDING</td>
-										<td style="text-align: center;">
-											<button class="btn btn-danger btn-xs" id="btnCancel" value="{{$request->requestid}}">Cancel</button>
-										</td>
-									@endif
+									<td style="text-align: center;">
+										<button class="btn btn-primary btn-xs" id="btnDeploy" value="{{$request->requestid}}">Deploy</button>
+										<button class="btn btn-danger btn-xs" id="btnDecline" value="{{$request->requestid}}">Decline</button>
+									</td>
 								</tr>
 								@endforeach
 							</tbody>
@@ -53,8 +45,62 @@
 		</div>
 	</section>
 
-	<!-- modal for cancel -->
-	<div class="modal fade" id="modalCancelConfirmation">
+	<!-- modal for deploy item -->
+	<div class="modal fade" id="modalItem">
+		<div class="modal-dialog modal-70">
+			<div class="modal-content">
+				<form id="formDeploy" data-parsley-validate>
+					<!-- modal header -->
+					<div class="modal-header">
+						<button class="close" data-dismiss="modal">&times;</button>
+						<h3>Deploy Item</h3>
+					</div>
+					<!-- modal body -->
+					<div class="modal-body">
+						<h3>Requested Item</h3>
+						<table id="tblRequestItem" class="table table-striped table-bordered">
+							<thead>
+								<th>Item Name</th>
+								<th>Item Type</th>
+								<th>Approx Quantity</th>
+							</thead>
+							<tbody id="requestitem-list"></tbody>
+						</table><hr>
+						<h3>Inventory</h3>
+						<table id="tblInventory" class="table table-striped table-bordered">
+							<thead>
+								<th>Item Name</th>
+								<th>Item Type</th>
+								<th style="text-align: center;">Quantity Available</th>
+								<th style="text-align: center;">Action</th>
+							</thead>
+							<tbody id="inventory-list"></tbody>
+						</table><hr>
+						<h3>Deploy Item</h3>
+						<table id="tblDeployItem" class="table table-striped table-bordered">
+							<thead>
+								<th>Item Name</th>
+								<th>Item Type</th>
+								<th style="text-align: center;">Quantity</th>
+								<th style="text-align: center;">Action</th>
+							</thead>
+							<tbody id="deployitem-list"></tbody>
+						</table>
+					</div>
+					<!-- modal footer -->
+					<div class="modal-footer">
+						<div class="form-group">
+							<button id="btnSave" class="btn btn-primary">SAVE</button>
+	        				<button class="btn btn-default" data-dismiss="modal">CANCEL</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<!-- modal for remove -->
+	<div class="modal fade" id="modalDeclineConfirmation">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<!-- modal header -->
@@ -64,60 +110,13 @@
 				</div>
 				<!-- modal body -->
 				<div class="modal-body">
-					Are you sure you want to cancel this request?
+					Are you sure you want to decline this request?
 				</div>
 				<!-- modal footer -->
 				<div class="modal-footer">
-					<button type="button" class="btn btn-danger" id="btnRemoveConfirm">CONFIRM</button>
+					<button type="button" class="btn btn-danger" id="btnDeclineConfirm">CONFIRM</button>
         			<button type="button" class="btn btn-default" data-dismiss="modal">CANCEL</button>
 				</div>
-			</div>
-		</div>
-	</div>
-
-	<div class="modal fade" id="modalRequestItem">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<form id="formRequestItem" data-parsley-validate>
-					<!-- modal header -->
-					<div class="modal-header">
-						<button class="close" data-dismiss="modal">&times;</button>
-						<h3>New Request Item</h3>
-					</div>
-					<!-- modal body -->
-					<div class="modal-body">
-						<div class="form-group">
-							<label>Deployment Site *</label>
-							<select id="deploymentsitelist" class="form-control" style="width: 100%" required></select>
-						</div>
-						<h3>Inventory</h3>
-						<table id="tblInventory" class="table table-striped table-bordered">
-							<thead>
-								<th>Item Name</th>
-								<th>Item Type</th>
-								<th style="text-align: center;">Action</th>
-							</thead>
-							<tbody id="inventory-list"></tbody>
-						</table><hr>
-						<h3>Request Item</h3>
-						<table id="tblRequestItem" class="table table-striped table-bordered">
-							<thead>
-								<th>Item Name</th>
-								<th>Item Type</th>
-								<th style="text-align: center;">Approx Quantity</th>
-								<th style="text-align: center;">Action</th>
-							</thead>
-							<tbody id="requestitem-list"></tbody>
-						</table>
-					</div>
-					<!-- modal footer -->
-					<div class="modal-footer">
-						<div class="form-group">
-							<button class="btn btn-primary" id="btnRequestItemSave">SAVE</button>
-	        				<button class="btn btn-default" data-dismiss="modal">CANCEL</button>
-						</div>
-					</div>
-				</form>
 			</div>
 		</div>
 	</div>
@@ -128,5 +127,5 @@
 @endsection
 
 @section('script')
-	<script src="/js/custom/client/request.js"></script>
+	<script src="/js/custom/admin/transaction/request.js"></script>
 @endsection

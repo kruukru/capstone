@@ -14,8 +14,24 @@ use DB;
 
 class RequestController extends Controller
 {
+    //admin
+    public function getAdminRequest() {
+        $requests = Requestt::get();
+
+        return view('admin.transaction.request', compact('requests'));
+    }
+
+    public function postAdminDecline(Request $request) {
+        $requestt = Requestt::find($request->inputRequestID);
+        $requestt->requestitem()->delete();
+        $requestt->delete();
+
+        return Response::json($requestt);
+    }
+
+    //client
     public function getClientRequest() {
-        $requests = Requestt::whereHas('deploymentsite.contract', function($query) {
+        $requests = Requestt::withTrashed()->whereHas('deploymentsite.contract', function($query) {
             $query->where('clientid', Auth::user()->client->clientid);
         })->get();
 
@@ -23,7 +39,7 @@ class RequestController extends Controller
     }
 
     public function getClientDeploymentSite() {
-    	$deploymentsite = DeploymentSite::where('status', 4)->whereHas('contract', function($query) {
+    	$deploymentsite = DeploymentSite::where('status', 5)->whereHas('contract', function($query) {
     		$query->where('clientid', Auth::user()->client->clientid);
     	})->get();
 

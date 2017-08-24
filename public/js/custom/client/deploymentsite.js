@@ -281,7 +281,7 @@ $(document).ready(function() {
 
                     var dt = [
                         data.sitename,
-                        data.location + " " + data.city + " " + data.province,
+                        data.location + ", " + data.city + ", " + data.province,
                         "PENDING REQUEST",
                         "<td style='text-align: center;'>" +
                             "<button class='btn btn-primary btn-xs' id='btnApprove' value='"+data.deploymentsiteid+"'>Update</button>" +
@@ -348,7 +348,8 @@ $(document).ready(function() {
         $(this).removeClass('btn-default');
     });
 
-    $('#btnSGSave').click(function() {
+    $('#btnSGSave').click(function(e) {
+        e.preventDefault();
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
@@ -461,8 +462,34 @@ $(document).ready(function() {
 
     $('#btnReceive').click(function(e) {
         e.preventDefault();
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+            }
+        });
 
+        $.ajax({
+            type: "POST",
+            url: "/client/deploymentsite/item",
+            data: { inputDeploymentSiteID: deploymentsiteid },
+            dataType: "json",
+            success: function(data) {
+                console.log(data);
 
+                var dt = [
+                    data.sitename,
+                    data.location + ", " + data.city + ", " + data.province,
+                    "ACTIVE",
+                    "<td style='text-align: center;'>" +
+                        "<button class='btn btn-primary btn-xs' id='btnView' value='"+data.deploymentsiteid+"'>View</button>" +
+                    "</td>",
+                ];
+                table.row('#id' + deploymentsiteid).data(dt).draw(false);
+
+                $('#modalItem').modal('hide');
+                toastr.success("SAVE SUCCESSFUL");
+            },
+        });
     });
 
 

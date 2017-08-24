@@ -134,6 +134,10 @@ Route::group(['middleware' => ['auth']], function() {
 		Route::get('/admin/transaction/deployitem/firearm', 'DeployController@getAdminFirearm');
 		Route::get('/admin/transaction/deployitem/sg/inventory', 'DeployController@getAdminSGInventory');
 
+		//request
+		Route::name('admin-transaction-request')->get('/admin/transaction/request', 'RequestController@getAdminRequest');
+		Route::post('/admin/transaction/request/decline', 'RequestController@postAdminDecline');
+
 		//maintenance maintenance maintenance maintenance maintenance maintenance maintenance maintenance maintenance maintenance maintenance
 		//assessment topic
 		Route::name('admin-maintenance-assessmenttopic')->get('/admin/maintenance/assessmenttopic', 'MaintenanceController@getAdminAssessmentTopic');
@@ -295,6 +299,7 @@ Route::group(['middleware' => ['auth']], function() {
 
 		Route::get('/client/deploymentsite/item/get', 'DeploymentSiteController@getClientItemGet');
 		Route::get('/client/deploymentsite/firearm/get', 'DeploymentSiteController@getClientFirearmGet');
+		Route::post('/client/deploymentsite/item', 'DeploymentSiteController@postClientItem');
 
 		//manager
 		Route::name('client-manager')->get('/client/manager', 'ManagerController@getClientManager');

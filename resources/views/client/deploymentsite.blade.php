@@ -265,6 +265,7 @@
 				<!-- modal footer -->
 				<div class="modal-footer">
 					<div class="form-group">
+						<button type="button" class="btn btn-danger" id="btnIncomplete">INCOMPLETE</button>
 						<button type="button" class="btn btn-primary" id="btnReceive">RECEIVE</button>
         				<button type="button" class="btn btn-default" data-dismiss="modal">CANCEL</button>
 					</div>

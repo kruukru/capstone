@@ -174,6 +174,14 @@ class DeploymentSiteController extends Controller
         return Response::json($issuedfirearm);
     }
 
+    public function postClientItem(Request $request) {
+        $deploymentsite = DeploymentSite::find($request->inputDeploymentSiteID);
+        $deploymentsite->status = 5;
+        $deploymentsite->save();
+
+        return Response::json($deploymentsite);
+    }
+
 
 
 }
