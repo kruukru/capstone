@@ -136,6 +136,9 @@ Route::group(['middleware' => ['auth']], function() {
 
 		//request
 		Route::name('admin-transaction-request')->get('/admin/transaction/request', 'RequestController@getAdminRequest');
+		Route::post('/admin/transaction/request/item', 'RequestController@postAdminRequestItem');
+		Route::get('/admin/transaction/request/item/inventory', 'RequestController@getAdminItemInventory');
+		Route::get('/admin/transaction/request/firearm', 'RequestController@getAdminFirearm');
 		Route::post('/admin/transaction/request/decline', 'RequestController@postAdminDecline');
 
 		//maintenance maintenance maintenance maintenance maintenance maintenance maintenance maintenance maintenance maintenance maintenance

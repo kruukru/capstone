@@ -76,7 +76,10 @@ class DeployController extends Controller
 
     public function getAdminSGInventory(Request $request) {
         $item = Item::with('ItemType')->get();
-        $deploy = Deploy::where('deploymentsiteid', $request->inputDeploymentSiteID)->first();
+        $deploy = Deploy::where([
+            ['deploymentsiteid', $request->inputDeploymentSiteID],
+            ['requestid', null],
+        ])->first();
         $applicant = Applicant::whereHas('qualificationcheck', function($query) use ($deploy) {
             $query->where([
                 ['deployid', $deploy->deployid],

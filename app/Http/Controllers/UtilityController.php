@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Amcor\Holiday;
 use Amcor\AppointmentSlot;
 use Amcor\AppointmentDate;
+use Amcor\Appointment;
 use Carbon\Carbon;
 use DateTime;
 use DateInterval;
@@ -36,7 +37,7 @@ class UtilityController extends Controller
         $appointmentslot->save();
 
         $begin = new DateTime(Carbon::today());
-        $end = new DateTime(Carbon::today()->addDays($request->inputDay));
+        $end = new DateTime(Carbon::today()->addDays($appointmentslot->noofday));
 
         $interval = DateInterval::createFromDateString('1 day');
         $period = new DatePeriod($begin, $interval, $end);
@@ -137,8 +138,14 @@ class UtilityController extends Controller
             }
         }
 
-        AppointmentDate::where('date', '<', Carbon::today())->delete();
-        AppointmentDate::where('date', '>=', Carbon::today()->addDays($request->inputDay))->delete();
+        Appointment::whereHas('appointmentdate', function($query) {
+            $query->where('date', '<', Carbon::today());
+        })->forceDelete();
+        Appointment::whereHas('appointmentdate', function($query) use ($appointmentslot) {
+            $query->where('date', '>=', Carbon::today()->addDays($appointmentslot->noofday));
+        })->forceDelete();
+        AppointmentDate::where('date', '<', Carbon::today())->forceDelete();
+        AppointmentDate::where('date', '>=', Carbon::today()->addDays($appointmentslot->noofday))->forceDelete();
 
         return Response::json($appointmentslot);
     }

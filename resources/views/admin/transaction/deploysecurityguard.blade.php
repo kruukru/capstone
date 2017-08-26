@@ -81,7 +81,7 @@
 							<th>Gender</th>
 							<th>Civil Status</th>
 							<th>Attainment</th>
-							<th style="text-align: center;">Distance(km)</th>
+							<th style="text-align: center;">Approx Distance(km)</th>
 							<th style="text-align: center;">Percent</th>
 							<th style="text-align: center;">Action</th>
 						</thead>

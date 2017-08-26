@@ -376,7 +376,7 @@ $(document).ready(function() {
 		} else {
 			toastr.error("NO DEPLOY ITEM");
 		}
-	})
+	});
 
 
 
