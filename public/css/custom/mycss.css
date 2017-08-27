@@ -27,3 +27,7 @@ textarea {
 .modal {
   overflow-y: auto;
 }
+
+.slider-selection {
+  background: lightblue;
+}

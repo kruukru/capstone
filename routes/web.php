@@ -136,10 +136,15 @@ Route::group(['middleware' => ['auth']], function() {
 
 		//request
 		Route::name('admin-transaction-request')->get('/admin/transaction/request', 'RequestController@getAdminRequest');
-		Route::post('/admin/transaction/request/item', 'RequestController@postAdminRequestItem');
+		Route::post('/admin/transaction/request/decline', 'RequestController@postAdminDecline');
+
 		Route::get('/admin/transaction/request/item/inventory', 'RequestController@getAdminItemInventory');
 		Route::get('/admin/transaction/request/firearm', 'RequestController@getAdminFirearm');
-		Route::post('/admin/transaction/request/decline', 'RequestController@postAdminDecline');
+		Route::post('/admin/transaction/request/item', 'RequestController@postAdminRequestItem');
+
+		Route::get('/admin/transaction/request/clientqualification', 'RequestController@getAdminClientQualification');
+		Route::post('/admin/transaction/request/clientqualification', 'RequestController@postAdminClientQualification');
+		Route::get('/admin/transaction/request/securityguard/percent', 'RequestController@getAdminSecurityGuardPercent');
 
 		//maintenance maintenance maintenance maintenance maintenance maintenance maintenance maintenance maintenance maintenance maintenance
 		//assessment topic
@@ -319,13 +324,17 @@ Route::group(['middleware' => ['auth']], function() {
 		//request
 		Route::name('client-request')->get('/client/request', 'RequestController@getClientRequest');
 		Route::get('/client/request/deploymentsite', 'RequestController@getClientDeploymentSite');
+		Route::post('/client/request/remove', 'RequestController@postClientRemove');
+
 		Route::get('/client/request/item', 'RequestController@getClientItem');
 		Route::post('/client/request/item', 'RequestController@postClientItem');
-		Route::post('/client/request/item/remove', 'RequestController@postClientItemRemove');
-
 		Route::get('/client/request/item/get', 'RequestController@getClientItemGet');
 		Route::get('/client/request/firearm/get', 'RequestController@getClientFirearmGet');
 		Route::post('/client/request/item/receive', 'RequestController@postClientItemReceive');
+
+		Route::post('/client/request/clientqualification', 'RequestController@postClientClientQualification');
+		Route::get('/client/request/securityguard/list', 'RequestController@getClientSecurityGuardList');
+		Route::post('/client/request/securityguard/list', 'RequestController@postClientSecurityGuardList');
 
 		//report
 		Route::name('client-report')->get('/client/report', 'ReportController@getClientReport');

@@ -43,7 +43,7 @@
 		</div>
 	</section>
 
-	<!-- modal for update client -->
+	<!-- modal for deploy sg -->
 	<div class="modal fade" id="modalDeploy">
 		<div class="modal-dialog modal-90">
 			<div class="modal-content">

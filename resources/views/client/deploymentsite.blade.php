@@ -32,7 +32,7 @@
 												<button class="btn btn-primary btn-xs" id="btnUpdate" value="{{$deploymentsite->deploymentsiteid}}">Update</button>
 											</td>
 										@elseif ($deploymentsite->status == 2)
-											<td style="text-align: center;">SECURITY GUARD LIST RECEIVE</td>
+											<td style="text-align: center;">SECURITY GUARD LIST RECEIVED</td>
 											<td style="text-align: center;">
 												<button class="btn btn-primary btn-xs" id="btnSGList" value="{{$deploymentsite->deploymentsiteid}}">Assess</button>
 											</td>
@@ -171,7 +171,7 @@
 							</div>
 	            		</div>
 						<hr>
-						<div class="form-group">
+						<div class="form-group table-responsive">
 							<table id="tblQualification" class="table table-striped table-bordered">
 								<thead>
 									<th># of SG</th>
@@ -273,14 +273,6 @@
 			</div>
 		</div>
 	</div>
-@endsection
-
-@section('css')
-	<style type="text/css">
-		.slider-selection {
-			background: lightblue;
-		}
-	</style>
 @endsection
 
 @section('meta')

@@ -244,7 +244,7 @@ $(document).ready(function() {
 
     $('#btnQualificationSave').click(function(e) {
         e.preventDefault();
-        if (tableQualification.data().count() != 0) {
+        if (tableQualification.row().count() != 0) {
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')

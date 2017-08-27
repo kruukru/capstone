@@ -45,10 +45,17 @@
 											<button class="btn btn-danger btn-xs" id="btnCancel" value="{{$request->requestid}}">Cancel</button>
 										</td>
 									@elseif ($request->status == 1)
-										<td style="text-align: center;">ITEMS RECEIVE</td>
-										<td style="text-align: center;">
-											<button class="btn btn-primary btn-xs" id="btnItem" value="{{$request->requestid}}">Check</button>
-										</td>
+										@if ($request->type == "ITEM")
+											<td style="text-align: center;">ITEM LIST RECEIVED</td>
+											<td style="text-align: center;">
+												<button class="btn btn-primary btn-xs" id="btnAcceptItem" value="{{$request->requestid}}">Check</button>
+											</td>
+										@elseif ($request->type == "PERSONNEL")
+											<td style="text-align: center;">SECURITY GUARD LIST RECEIVED</td>
+											<td style="text-align: center;">
+												<button class="btn btn-primary btn-xs" id="btnAcceptSecurityGuard" value="{{$request->requestid}}">Check</button>
+											</td>
+										@endif
 									@endif
 								</tr>
 								@endforeach
@@ -95,7 +102,7 @@
 					<div class="modal-body">
 						<div class="form-group">
 							<label>Deployment Site *</label>
-							<select id="deploymentsitelist" class="form-control" style="width: 100%" required></select>
+							<select id="deploymentsitelistitem" class="form-control" style="width: 100%" required></select>
 						</div>
 						<h3>Inventory</h3>
 						<table id="tblInventory" class="table table-striped table-bordered">
@@ -167,6 +174,177 @@
 					<div class="form-group">
 						<button type="button" class="btn btn-danger" id="btnIncomplete">INCOMPLETE</button>
 						<button type="button" class="btn btn-primary" id="btnReceive">RECEIVE</button>
+        				<button type="button" class="btn btn-default" data-dismiss="modal">CANCEL</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="modalQualification">
+		<div class="modal-dialog modal-90">
+			<div class="modal-content">
+				<form id="formQualification" data-parsley-validate>
+					<!-- modal header -->
+					<div class="modal-header">
+						<button class="close" data-dismiss="modal">&times;</button>
+						<h3>Security Guard Qualification</h3>
+					</div>
+					<!-- modal body -->
+					<div class="modal-body">
+						<div class="form-group">
+							<label>Deployment Site *</label>
+							<select id="deploymentsitelistsg" class="form-control" style="width: 100%" required></select>
+						</div>
+	            		<div class="row">
+	            			<div class="col-md-6">
+		            			<div class="form-group">
+									<div class="row">
+										<div class="col-md-6">
+											<label>Number of security guard to hire *</label>
+											<input type="text" id="requireno" class="form-control" placeholder="# of Security Guard" style="text-align: right;" pattern="^[1-9][0-9]*$" required>
+										</div>
+										<div id="workingexperience-info" class="col-md-6" style="display: none;">
+											<label>Working Experience *</label>
+											<div class="column">
+												<div class="col-md-8 no-padding">
+													<input type="text" id="workexp" class="form-control" placeholder="Working Experience" style="text-align: right;" pattern="^[1-9][0-9]*$">
+												</div>
+												<div class="col-md-4 no-padding">
+					            					<select class="form-control" id="workingexperiencetype">
+							              				<option value="day">Day(s)</option>
+							              				<option value="month">Month(s)</option>
+							              				<option value="year">Year(s)</option>
+							              			</select>
+							              		</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<label><input type="checkbox" name="workingexperience" id="workingexperience">  Working Experience</label>
+								</div>
+								<div class="form-group">
+									<div class="row">
+										<div class="col-md-6">
+											<div class="form-group">
+												<label>Gender *</label><br>
+												<label><input type="checkbox" name="gender" id="gender" value="Male">  Male</label><br>
+												<label><input type="checkbox" name="gender" id="gender" value="Female">  Female</label>
+											</div>
+											<div class="form-group">
+												<label>Civil Status *</label><br>
+												<label><input type="checkbox" name="civilstatus" id="civilstatus" value="Single">  Single</label><br>
+												<label><input type="checkbox" name="civilstatus" id="civilstatus" value="Married">  Married</label><br>
+												<label><input type="checkbox" name="civilstatus" id="civilstatus" value="Divorced">  Divorced</label><br>
+												<label><input type="checkbox" name="civilstatus" id="civilstatus" value="Widowed">  Widowed</label>
+											</div>
+										</div>
+										<div class="col-md-6">
+											<div class="form-group">
+												<label>Level of Attainment *</label><br>
+												<label><input type="checkbox" name="attainment" id="attainment" value="Elementary">  Elementary</label><br>
+												<label><input type="checkbox" name="attainment" id="attainment" value="High School">  High School</label><br>
+												<label><input type="checkbox" name="attainment" id="attainment" value="College">  College</label><br>
+												<label><input type="checkbox" name="attainment" id="attainment" value="Vocational">  Vocational</label>
+											</div>
+										</div>
+									</div>
+								</div>
+		            		</div>
+							<div class="col-md-6">
+								<div class="form-group">
+					                <label>Age *</label>
+					                <div class="col-sm-12">
+					              		<b>18  </b><input type="text" class="form-control" id="agerange" style="width: 80%"><b>  80</b>
+					                </div>
+								</div>
+								<div class="form-group">
+				                	<label>Height(cm) *</label>
+				              		<div class="col-sm-12">
+				              			<b>120  </b><input type="text" class="form-control" id="heightrange" style="width: 80%"><b>  300</b>
+				              		</div>
+								</div>
+								<div class="form-group">
+				                	<label>Weight(cm) *</label>
+				              		<div class="col-sm-12">
+				              			<b>40  </b><input type="text" class="form-control" id="weightrange" style="width: 80%"><b>  200</b>
+				              		</div>
+								</div><br>
+								<div class="form-group">
+									<label>Preferred:</label>
+									<div class="row">
+										<div class="col-md-4">
+											<label>Age *</label>
+											<input type="text" class="form-control" id="preferage" placeholder="Age" pattern="^[1-9][0-9]*$" required>
+										</div>
+										<div class="col-md-4">
+											<label>Height *</label>
+											<input type="text" class="form-control" id="preferheight" placeholder="Height" pattern="^[1-9][0-9]*$" required>
+										</div>
+										<div class="col-md-4">
+											<label>Weight *</label>
+											<input type="text" class="form-control" id="preferweight" placeholder="Weight" pattern="^[1-9][0-9]*$" required>
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<button class="btn btn-primary pull-right" id="btnQualificationAdd">ADD</button>
+			            		</div>
+							</div>
+	            		</div>
+						<hr>
+						<div class="form-group table-responsive">
+							<table id="tblQualification" class="table table-striped table-bordered">
+								<thead>
+									<th># of SG</th>
+									<th>Gender</th>
+									<th>Attainment</th>
+									<th>Civil Status</th>
+									<th>Age (min,prefer,max)</th>
+									<th>Height (min,prefer,max)</th>
+									<th>Weight (min,prefer,max)</th>
+									<th>Work Experience (months)</th>
+									<th style="text-align: center;">Action</th>
+								</thead>
+								<tbody id="qualification-list"></tbody>
+							</table>
+						</div>
+					</div>
+					<!-- modal footer -->
+					<div class="modal-footer">
+						<button class="btn btn-primary" id="btnQualificationSave">SAVE</button>
+        				<button type="button" class="btn btn-default" data-dismiss="modal">CANCEL</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="modalSecurityGuard">
+		<div class="modal-dialog modal-70">
+			<div class="modal-content">
+				<!-- modal header -->
+				<div class="modal-header">
+					<button class="close" data-dismiss="modal">&times;</button>
+					<h3>Security Guard List</h3>
+				</div>
+				<!-- modal body -->
+				<div class="modal-body">
+					<table id="tblSecurityGuard" class="table table-striped table-bordered">
+						<thead>
+							<th>Name</th>
+							<th style="text-align: center;">Work Experience(months)</th>
+							<th style="text-align: center;">Distance(km)</th>
+							<th style="text-align: center;">Action</th>
+						</thead>
+						<tbody id="securityguard-list"></tbody>
+					</table>
+				</div>
+				<!-- modal footer -->
+				<div class="modal-footer">
+					<div class="form-group">
+						<button type="button" class="btn btn-primary" id="btnSecurityGuardSave">SAVE</button>
         				<button type="button" class="btn btn-default" data-dismiss="modal">CANCEL</button>
 					</div>
 				</div>
