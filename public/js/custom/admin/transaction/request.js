@@ -9,10 +9,11 @@ $(document).ready(function() {
             null,
             null,
             null,
+            null,
             { "bSearchable": false, "bSortable": false, },
         ]
     });
-    table.order([[0, 'asc']]).draw();
+    table.order([[5, 'asc']]).draw();
     var tableRequestItem = $('#tblRequestItem').DataTable({
         "aoColumns": [
             null,
@@ -405,12 +406,20 @@ $(document).ready(function() {
                 success: function(data) {
                     console.log(data);
 
+                    var name;
+                    if (data.account.client == null) {
+                        name = data.account.manager.firstname + " " + data.account.manager.lastname;
+                    } else {
+                        name = data.account.client.contactperson;
+                    }
+
                     var dt = [
                         data.requestid,
                         data.type,
                         data.deploymentsite.sitename,
                         data.deploymentsite.location,
-                        "CLIENT/MANAGER NAME HERE",
+                        name,
+                        $.format.date(data.datecreated, "yyyy-MM-dd"),
                         "PENDING RECEIVE",
                         "<td style='text-align: center;'>" +
                             "<button class='btn btn-primary btn-xs' id='btnUpdate' value='"+data.requestid+"'>Update</button>" +

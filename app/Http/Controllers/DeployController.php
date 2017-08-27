@@ -50,13 +50,15 @@ class DeployController extends Controller
             $issueditem->qty = $data['inputQty'];
             $issueditem->save();
 
-            foreach ($request->inputFirearmList as $data) {
-                if ($issueditem->itemid == $data['inputItemID']) {
-                    $firearm = Firearm::find($data['inputFirearmID']);
-                    $issuedfirearm = new IssuedFirearm;
-                    $issuedfirearm->issueditem()->associate($issueditem);
-                    $issuedfirearm->firearm()->associate($firearm);
-                    $issuedfirearm->save();
+            if ($request->inputFirearmList != null) {
+                foreach ($request->inputFirearmList as $data) {
+                    if ($issueditem->itemid == $data['inputItemID']) {
+                        $firearm = Firearm::find($data['inputFirearmID']);
+                        $issuedfirearm = new IssuedFirearm;
+                        $issuedfirearm->issueditem()->associate($issueditem);
+                        $issuedfirearm->firearm()->associate($firearm);
+                        $issuedfirearm->save();
+                    }
                 }
             }
         }

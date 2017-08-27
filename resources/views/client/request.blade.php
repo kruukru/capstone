@@ -19,6 +19,7 @@
 								<th>Deployment Site</th>
 								<th>Location</th>
 								<th>Requested By</th>
+								<th>Requested At</th>
 								<th style="text-align: center;">Status</th>
 								<th style="text-align: center;">Action</th>
 							</thead>
@@ -34,6 +35,7 @@
 									@else
 										<td>{{$request->account->manager->lastname}}, {{$request->account->manager->firstname}} {{$request->account->manager->middlename}}</td>
 									@endif
+									<td>{{$request->datecreated->format('Y-m-d')}}</td>
 									@if ($request->deleted_at != null)
 										<td style="text-align: center;">DECLINED</td>
 										<td></td>
@@ -41,6 +43,11 @@
 										<td style="text-align: center;">PENDING</td>
 										<td style="text-align: center;">
 											<button class="btn btn-danger btn-xs" id="btnCancel" value="{{$request->requestid}}">Cancel</button>
+										</td>
+									@elseif ($request->status == 1)
+										<td style="text-align: center;">ITEMS RECEIVE</td>
+										<td style="text-align: center;">
+											<button class="btn btn-primary btn-xs" id="btnItem" value="{{$request->requestid}}">Check</button>
 										</td>
 									@endif
 								</tr>
@@ -118,6 +125,51 @@
 						</div>
 					</div>
 				</form>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="modalItem">
+		<div class="modal-dialog modal-70">
+			<div class="modal-content">
+				<!-- modal header -->
+				<div class="modal-header">
+					<button class="close" data-dismiss="modal">&times;</button>
+					<h3>Item List</h3>
+				</div>
+				<!-- modal body -->
+				<div class="modal-body">
+					<div class="form-group">
+						<h3>Firearm</h3>
+						<table id="tblFirearm" class="table table-striped table-bordered">
+							<thead>
+								<th>Name</th>
+								<th>License</th>
+								<th>Expiration</th>
+							</thead>
+							<tbody id="firearm-list"></tbody>
+						</table>
+					</div>
+					<div class="form-group">
+						<h3>Item</h3>
+						<table id="tblItem" class="table table-striped table-bordered">
+							<thead>
+								<th>Name</th>
+								<th>Item Type</th>
+								<th>Quantity</th>
+							</thead>
+							<tbody id="item-list"></tbody>
+						</table>
+					</div>
+				</div>
+				<!-- modal footer -->
+				<div class="modal-footer">
+					<div class="form-group">
+						<button type="button" class="btn btn-danger" id="btnIncomplete">INCOMPLETE</button>
+						<button type="button" class="btn btn-primary" id="btnReceive">RECEIVE</button>
+        				<button type="button" class="btn btn-default" data-dismiss="modal">CANCEL</button>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>

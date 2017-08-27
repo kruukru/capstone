@@ -323,6 +323,10 @@ Route::group(['middleware' => ['auth']], function() {
 		Route::post('/client/request/item', 'RequestController@postClientItem');
 		Route::post('/client/request/item/remove', 'RequestController@postClientItemRemove');
 
+		Route::get('/client/request/item/get', 'RequestController@getClientItemGet');
+		Route::get('/client/request/firearm/get', 'RequestController@getClientFirearmGet');
+		Route::post('/client/request/item/receive', 'RequestController@postClientItemReceive');
+
 		//report
 		Route::name('client-report')->get('/client/report', 'ReportController@getClientReport');
 	});

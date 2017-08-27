@@ -17,6 +17,7 @@
 								<th>Deployment Site</th>
 								<th>Location</th>
 								<th>Requested By</th>
+								<th>Requested At</th>
 								<th style="text-align: center;">Status</th>
 								<th style="text-align: center;">Action</th>
 							</thead>
@@ -32,6 +33,7 @@
 									@else
 										<td>{{$request->account->manager->lastname}}, {{$request->account->manager->firstname}} {{$request->account->manager->middlename}}</td>
 									@endif
+									<td>{{$request->datecreated->format('Y-m-d')}}</td>
 									@if ($request->status == 0)
 										<td style="text-align: center;">DEPLOY</td>
 										<td style="text-align: center;">
@@ -43,6 +45,9 @@
 										<td style="text-align: center;">
 											<button class="btn btn-primary btn-xs" id="btnUpdate" value="{{$request->requestid}}">Update</button>
 										</td>
+									@elseif ($request->status == 2)
+										<td style="text-align: center;">ITEMS RECEIVED</td>
+										<td></td>
 									@endif
 								</tr>
 								@endforeach

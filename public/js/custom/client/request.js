@@ -8,10 +8,11 @@ $(document).ready(function() {
             null,
             null,
             null,
+            null,
             { "bSearchable": false, "bSortable": false, },
         ]
     });
-    table.order([[0, 'asc']]).draw();
+    table.order([[5, 'asc']]).draw();
     var tableInventory = $('#tblInventory').DataTable({
         "aoColumns": [
             null,
@@ -25,6 +26,20 @@ $(document).ready(function() {
             null,
             null,
             { "bSearchable": false, "bSortable": false, },
+        ]
+    });
+    var tableFirearm = $('#tblFirearm').DataTable({
+        "aoColumns": [
+            null,
+            null,
+            null,
+        ]
+    });
+    var tableItem = $('#tblItem').DataTable({
+        "aoColumns": [
+            null,
+            null,
+            null,
         ]
     });
 
@@ -150,6 +165,7 @@ $(document).ready(function() {
                         "<td>" + data.deploymentsite.sitename + "</td>" +
                         "<td>" + data.deploymentsite.location + "</td>" +
                         "<td>Me</td>" +
+                        "<td>Right Now</td>" +
                         "<td style='text-align: center;'>PENDING</td>" +
                         "<td style='text-align: center;'>" +
                             "<button class='btn btn-danger btn-xs' id='btnCancel' value="+data.requestid+">Cancel</button> " +
@@ -191,6 +207,77 @@ $(document).ready(function() {
                 
                 $('#modalCancelConfirmation').modal('hide');
                 toastr.success("CANCEL SUCCESSFUL");
+            },
+        });
+    });
+
+    $('#request-list').on('click', '#btnItem', function(e) {
+        e.preventDefault();
+        requestid = $(this).val();
+        tableFirearm.clear().draw();
+        tableItem.clear().draw();
+
+        $.ajax({
+            type: "GET",
+            url: "/client/request/item/get",
+            data: { inputRequestID: requestid },
+            dataType: "json",
+            success: function(data) {
+                console.log(data);
+
+                $.each(data, function(index, value) {
+                    var row = "<tr id=id" + value.issueditemid + ">" +
+                        "<td>" + value.item.name + "</td>" +
+                        "<td>" + value.item.itemtype.name + "</td>" +
+                        "<td>" + value.qty + "</td>" +
+                        "</tr>";
+                    tableItem.row.add($(row)[0]).draw();
+                });
+            },
+        });
+
+        $.ajax({
+            type: "GET",
+            url: "/client/request/firearm/get",
+            data: { inputRequestID: requestid },
+            dataType: "json",
+            success: function(data) {
+                console.log(data);
+
+                $.each(data, function(index, value) {
+                    var row = "<tr id=id" + value.issuedfirearmid + ">" +
+                        "<td>" + value.firearm.item.name + "</td>" +
+                        "<td>" + value.firearm.license + "</td>" +
+                        "<td>" + $.format.date(value.firearm.expiration, "MMM. d, yyyy") + "</td>" +
+                        "</tr>";
+                    tableFirearm.row.add($(row)[0]).draw();
+                });
+            },
+        });
+
+        $('#modalItem').modal('show');
+    });
+
+    $('#btnReceive').click(function(e) {
+        e.preventDefault();
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+            }
+        });
+
+        $.ajax({
+            type: "POST",
+            url: "/client/request/item/receive",
+            data: { inputRequestID: requestid },
+            dataType: "json",
+            success: function(data) {
+                console.log(data);
+
+                table.row('#id' + requestid).remove().draw(false);
+
+                $('#modalItem').modal('hide');
+                toastr.success("SAVE SUCCESSFUL");
             },
         });
     });

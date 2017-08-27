@@ -18,7 +18,7 @@ class Deploy extends Model
     }
 
     public function request() {
-        return $this->belongsTo('Amcor\Request', 'requestid');
+        return $this->belongsTo('Amcor\Requestt', 'requestid');
     }
 
     public function issueditem() {

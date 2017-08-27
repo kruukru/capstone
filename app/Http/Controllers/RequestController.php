@@ -18,7 +18,7 @@ use DB;
 
 class RequestController extends Controller
 {
-    //admin
+    //admin item
     public function getAdminRequest() {
         $requests = Requestt::get();
 
@@ -56,46 +56,52 @@ class RequestController extends Controller
     public function postAdminRequestItem(Request $request) {
         $requestt = Requestt::with('deploymentsite')->with('account.client')
             ->with('account.manager')->find($request->inputRequestID);
-        // $deploymentsite = DeploymentSite::find($requestt->deploymentsiteid);
-        // $deploy = new Deploy();
-        // $deploy->deploymentsite()->associate($deploymentsite);
-        // $deploy->dateissued = Carbon::today();
-        // $deploy->expiration = '2020-10-10';
-        // $deploy->status = 0;
-        // $deploy->save();
+        $deploymentsite = DeploymentSite::find($requestt->deploymentsiteid);
+        $deploy = new Deploy();
+        $deploy->deploymentsite()->associate($deploymentsite);
+        $deploy->request()->associate($requestt);
+        $deploy->dateissued = Carbon::today();
+        $deploy->expiration = '2020-10-10';
+        $deploy->status = 0;
+        $deploy->save();
 
-        // foreach ($request->inputItemList as $data) {
-        //     $item = Item::find($data['inputItemID']);
-        //     $item->qtyavailable -= $data['inputQty'];
-        //     $item->save();
+        foreach ($request->inputItemList as $data) {
+            $item = Item::find($data['inputItemID']);
+            $item->qtyavailable -= $data['inputQty'];
+            $item->save();
 
-        //     $issueditem = new IssuedItem;
-        //     $issueditem->deploymentsite()->associate($deploymentsite);
-        //     $issueditem->deploy()->associate($deploy);
-        //     $issueditem->item()->associate($item);
-        //     $issueditem->qty = $data['inputQty'];
-        //     $issueditem->save();
+            $issueditem = new IssuedItem;
+            $issueditem->deploymentsite()->associate($deploymentsite);
+            $issueditem->deploy()->associate($deploy);
+            $issueditem->item()->associate($item);
+            $issueditem->qty = $data['inputQty'];
+            $issueditem->save();
 
-        //     foreach ($request->inputFirearmList as $data) {
-        //         if ($issueditem->itemid == $data['inputItemID']) {
-        //             $firearm = Firearm::find($data['inputFirearmID']);
-        //             $issuedfirearm = new IssuedFirearm;
-        //             $issuedfirearm->issueditem()->associate($issueditem);
-        //             $issuedfirearm->firearm()->associate($firearm);
-        //             $issuedfirearm->save();
-        //         }
-        //     }
-        // }
+            if ($request->inputFirearmList != null) {
+                foreach ($request->inputFirearmList as $data) {
+                    if ($issueditem->itemid == $data['inputItemID']) {
+                        $firearm = Firearm::find($data['inputFirearmID']);
+                        $issuedfirearm = new IssuedFirearm;
+                        $issuedfirearm->issueditem()->associate($issueditem);
+                        $issuedfirearm->firearm()->associate($firearm);
+                        $issuedfirearm->save();
+                    }
+                }
+            }
+        }
 
-        // $requestt->status = 1;
-        // $requestt->save();
+        $requestt->status = 1;
+        $requestt->save();
 
         return Response::json($requestt);
     }
 
-    //client
+    //client item
     public function getClientRequest() {
-        $requests = Requestt::withTrashed()->whereHas('deploymentsite.contract', function($query) {
+        $requests = Requestt::withTrashed()->where([
+            ['status', '>=', 0],
+            ['status', '<=', 1],
+        ])->whereHas('deploymentsite.contract', function($query) {
             $query->where('clientid', Auth::user()->client->clientid);
         })->get();
 
@@ -144,6 +150,46 @@ class RequestController extends Controller
         $requestt = Requestt::find($request->inputRequestID);
         $requestt->requestitem()->forceDelete();
         $requestt->forceDelete();
+
+        return Response::json($requestt);
+    }
+
+    public function getClientItemGet(Request $request) {
+        $requestt = Requestt::find($request->inputRequestID);
+        $deploy = Deploy::where([
+            ['deploymentsiteid', $requestt->deploymentsiteid],
+            ['requestid', $requestt->requestid],
+        ])->first();
+
+        $issueditem = IssuedItem::with('item.itemtype')->where([
+            ['deploymentsiteid', $requestt->deploymentsiteid],
+            ['deployid', $deploy->deployid],
+        ])->get();
+
+        return Response::json($issueditem);
+    }
+
+    public function getClientFirearmGet(Request $request) {
+        $requestt = Requestt::find($request->inputRequestID);
+        $deploy = Deploy::where([
+            ['deploymentsiteid', $requestt->deploymentsiteid],
+            ['requestid', $requestt->requestid],
+        ])->first();
+
+        $issuedfirearm = IssuedFirearm::with('firearm.item')->whereHas('issueditem', function($query) use ($requestt, $deploy) {
+            $query->where([
+                ['deploymentsiteid', $requestt->deploymentsiteid],
+                ['deployid', $deploy->deployid],
+            ]);
+        })->get();
+
+        return Response::json($issuedfirearm);
+    }
+
+    public function postClientItemReceive(Request $request) {
+        $requestt = Requestt::find($request->inputRequestID);
+        $requestt->status = 2;
+        $requestt->save();
 
         return Response::json($requestt);
     }

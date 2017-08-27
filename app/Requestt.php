@@ -11,7 +11,7 @@ class Requestt extends Model
 
     protected $table = 'requesttbl';
     protected $primaryKey = 'requestid';
-    protected $dates = ['deleted_at'];
+    protected $dates = ['datecreated', 'deleted_at'];
 
     public function clientqualification() {
     	return $this->hasMany('Amcor\ClientQualification', 'requestid');
