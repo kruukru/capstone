@@ -10,6 +10,7 @@ use Amcor\Requirement;
 use Amcor\EducationBackground;
 use Amcor\EmploymentRecord;
 use Amcor\TrainingCertificate;
+use Amcor\Account;
 use Carbon\Carbon;
 use Response;
 use Image;

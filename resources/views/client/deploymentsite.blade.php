@@ -133,19 +133,19 @@
 								<div class="form-group">
 					                <label>Age *</label>
 					                <div class="col-sm-12">
-					              		<b>18  </b><input type="text" class="form-control" id="agerange" style="width: 90%"><b>  80</b>
+					              		<b>18  </b><input type="text" class="form-control" id="agerange" style="width: 80%"><b>  80</b>
 					                </div>
 								</div>
 								<div class="form-group">
 				                	<label>Height(cm) *</label>
 				              		<div class="col-sm-12">
-				              			<b>120  </b><input type="text" class="form-control" id="heightrange" style="width: 90%"><b>  300</b>
+				              			<b>120  </b><input type="text" class="form-control" id="heightrange" style="width: 80%"><b>  300</b>
 				              		</div>
 								</div>
 								<div class="form-group">
 				                	<label>Weight(cm) *</label>
 				              		<div class="col-sm-12">
-				              			<b>40  </b><input type="text" class="form-control" id="weightrange" style="width: 90%"><b>  200</b>
+				              			<b>40  </b><input type="text" class="form-control" id="weightrange" style="width: 80%"><b>  200</b>
 				              		</div>
 								</div><br>
 								<div class="form-group">

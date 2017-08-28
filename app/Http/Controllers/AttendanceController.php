@@ -13,7 +13,7 @@ use Auth;
 class AttendanceController extends Controller
 {
     public function getManagerAttendance() {
-    	$deploymentsites = DeploymentSite::where('status', 3)->whereHas('managersite', function($query) {
+    	$deploymentsites = DeploymentSite::where('status', 5)->whereHas('managersite', function($query) {
     		$query->where('managerid', Auth::user()->manager->managerid);
     	})->whereHas('contract', function($query) {
     		$query->where([
@@ -23,6 +23,8 @@ class AttendanceController extends Controller
     	})->whereDoesntHave('attendance', function($query) {
             $query->where('date', Carbon::today());
         })->get();
+
+
 
     	return view ('manager.attendance', compact('deploymentsites'));
     }
@@ -44,7 +46,7 @@ class AttendanceController extends Controller
 
         foreach ($request->formData as $data) {
             $applicant = Applicant::find($data['inputApplicantID']);
-
+            
             $attendance = new Attendance;
             $attendance->deploymentsite()->associate($deploymentsite);
             $attendance->applicant()->associate($applicant);

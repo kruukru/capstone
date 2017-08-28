@@ -568,16 +568,18 @@
 											            			</div>
 											            		</div>
 											            	</div>
-											            	<table class="table table-striped table-bordered" id="tblEducationBackground">
-																<thead>
-																	<th>Graduate Type</th>
-																	<th>Degree</th>
-																	<th>Date Graduated</th>
-																	<th>School Graduated</th>
-																	<th style="text-align: center;">Action</th>
-																</thead>
-																<tbody id="education-list"></tbody>
-															</table>
+											            	<div class="form-group table-responsive">
+											            		<table class="table table-striped table-bordered" id="tblEducationBackground">
+																	<thead>
+																		<th>Graduate Type</th>
+																		<th>Degree</th>
+																		<th>Date Graduated</th>
+																		<th>School Graduated</th>
+																		<th style="text-align: center;">Action</th>
+																	</thead>
+																	<tbody id="education-list"></tbody>
+																</table>
+											            	</div>
 														</form>
 				                        			</div>
 				                        		</div>
@@ -633,16 +635,18 @@
 											            			</div>
 											            		</div>
 											            	</div>
-											            	<table class="table table-striped table-bordered" id="tblEmploymentRecord">
-																<thead>
-																	<th>Company</th>
-																	<th>Industry Type</th>
-																	<th>Duration (months)</th>
-																	<th>Reason For Leaving</th>
-																	<th style="text-align: center;">Action</th>
-																</thead>
-																<tbody id="employment-list"></tbody>
-															</table>
+											            	<div class="form-group table-responsive">
+											            		<table class="table table-striped table-bordered" id="tblEmploymentRecord">
+																	<thead>
+																		<th>Company</th>
+																		<th>Industry Type</th>
+																		<th>Duration (months)</th>
+																		<th>Reason For Leaving</th>
+																		<th style="text-align: center;">Action</th>
+																	</thead>
+																	<tbody id="employment-list"></tbody>
+																</table>
+											            	</div>
 												        </form>
 				                        			</div>
 				                        		</div>
@@ -678,15 +682,17 @@
 											            			</div>
 											            		</div>
 											            	</div>
-											            	<table class="table table-striped table-bordered" id="tblTrainingCertificate">
-																<thead>
-																	<th>Certificate</th>
-																	<th>Conducted By</th>
-																	<th>Date Conducted</th>
-																	<th style="text-align: center;">Action</th>
-																</thead>
-																<tbody id="training-list"></tbody>
-															</table>
+												            <div class="form-group table-responsive">
+												            	<table class="table table-striped table-bordered" id="tblTrainingCertificate">
+																	<thead>
+																		<th>Certificate</th>
+																		<th>Conducted By</th>
+																		<th>Date Conducted</th>
+																		<th style="text-align: center;">Action</th>
+																	</thead>
+																	<tbody id="training-list"></tbody>
+																</table>
+												            </div>
 												        </form>
 				                        			</div>
 				                        		</div>
