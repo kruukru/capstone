@@ -2746,6 +2746,126 @@ $(document).ready(function() {
         $('#modalInfo').modal('show');
     });
 
+    //validate the security guard license
+    $('#license').on('focusout', function() {
+        if ($(this).val() != "") {
+            $('#license').parsley().removeError('forcederror', {updateClass: true});
+            $.ajax({
+                type: "GET",
+                url: "/json/validate-securityguardlicense",
+                data: { inputLicense: $('#license').val(), },
+                dataType: "json",
+                success: function(data) {
+                    $('#license').parsley().removeError('forcederror', {updateClass: true});
+                },
+                error: function(data) {
+                    if (data.responseJSON == "SAME LICENSE") {
+                        $('#license').parsley().addError('forcederror', {
+                            message: 'License already exist.',
+                            updateClass: true,
+                        });
+                    }
+                },
+            });
+        }
+    });
+
+    //validate the SSS
+    $('#sss').on('focusout', function() {
+        if ($(this).val() != "") {
+            $('#sss').parsley().removeError('forcederror', {updateClass: true});
+            $.ajax({
+                type: "GET",
+                url: "/json/validate-sss",
+                data: { inputSSS: $('#sss').val(), },
+                dataType: "json",
+                success: function(data) {
+                    $('#sss').parsley().removeError('forcederror', {updateClass: true});
+                },
+                error: function(data) {
+                    if (data.responseJSON == "SAME SSS") {
+                        $('#sss').parsley().addError('forcederror', {
+                            message: 'SSS already exist.',
+                            updateClass: true,
+                        });
+                    }
+                },
+            });
+        }
+    });
+
+    //validate the PHILHEALTH
+    $('#philhealth').on('focusout', function() {
+        if ($(this).val() != "") {
+            $('#philhealth').parsley().removeError('forcederror', {updateClass: true});
+            $.ajax({
+                type: "GET",
+                url: "/json/validate-philhealth",
+                data: { inputPHILHEALTH: $('#philhealth').val(), },
+                dataType: "json",
+                success: function(data) {
+                    $('#philhealth').parsley().removeError('forcederror', {updateClass: true});
+                },
+                error: function(data) {
+                    if (data.responseJSON == "SAME PHILHEALTH") {
+                        $('#philhealth').parsley().addError('forcederror', {
+                            message: 'PHILHEALTH already exist.',
+                            updateClass: true,
+                        });
+                    }
+                },
+            });
+        }
+    });
+
+    //validate the PAGIBIG
+    $('#pagibig').on('focusout', function() {
+        if ($(this).val() != "") {
+            $('#pagibig').parsley().removeError('forcederror', {updateClass: true});
+            $.ajax({
+                type: "GET",
+                url: "/json/validate-pagibig",
+                data: { inputPAGIBIG: $('#pagibig').val(), },
+                dataType: "json",
+                success: function(data) {
+                    $('#pagibig').parsley().removeError('forcederror', {updateClass: true});
+                },
+                error: function(data) {
+                    if (data.responseJSON == "SAME PAGIBIG") {
+                        $('#pagibig').parsley().addError('forcederror', {
+                            message: 'PAGIBIG already exist.',
+                            updateClass: true,
+                        });
+                    }
+                },
+            });
+        }
+    });
+
+    //validate the username
+    $('#tin').on('focusout', function() {
+        if ($(this).val() != "") {
+            $('#tin').parsley().removeError('forcederror', {updateClass: true});
+            $.ajax({
+                type: "GET",
+                url: "/json/validate-tin",
+                data: { inputTIN: $('#tin').val(), },
+                dataType: "json",
+                success: function(data) {
+                    $('#tin').parsley().removeError('forcederror', {updateClass: true});
+                },
+                error: function(data) {
+                    if (data.responseJSON == "SAME TIN") {
+                        $('#tin').parsley().addError('forcederror', {
+                            message: 'TIN already exist.',
+                            updateClass: true,
+                        });
+                    }
+                },
+            });
+        }
+    });
+
     //validate the username
     $('#username').on('focusout', function() {
         if ($(this).val() != "") {

@@ -190,6 +190,17 @@
 					</table>
 					<hr>
 					<div class="form-group table-responsive">
+						<table id="legend">
+							<tr>
+								<td style="padding-right: 20px;"><b>LEGEND:</b></td>
+								<td class="leg grn"></td>
+								<td id="legName">FULLY QUALIFIED</td>
+								<td class="leg red"></td>
+								<td id="legName">LESS QUALIFIED</td>
+							</tr>
+						</table>
+					</div>
+					<div class="form-group table-responsive">
 						<h3>Pool</h3>
 						<table id="tblPool" class="table table-bordered table-striped">
 							<thead>
@@ -266,6 +277,31 @@
 		.nega {
 			font-weight: bolder;
 			color: red;
+		}
+		#legend {
+			padding: 10px;
+			margin-top: 10px;
+		}
+		.leg {
+			min-width: 30px;
+		}
+		.red {
+			background-color: #ffbdbd;
+		}
+		.blue {
+			background-color: #a9daff;
+		}
+		.grn {
+			background-color: #b0f7be;
+		}
+		.yllw {
+			background-color: #fffca9;
+		}
+		.orng {
+			background-color: #ffeeba;
+		}
+		#legName {
+			padding:5px 25px 5px 10px;
 		}
 	</style>
 @endsection

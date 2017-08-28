@@ -201,6 +201,51 @@ class JSONController extends Controller
         return Response::json($firearm);
     }
 
+    public function getValidateSecurityGuardLicense(Request $request) {
+        $applicant = Applicant::where('license', $request->inputLicense)->get();
+        if (!($applicant->isEmpty())) {
+            return Response::json("SAME LICENSE", 500);
+        }
+
+        return Response::json($applicant);
+    }
+
+    public function getValidateSSS(Request $request) {
+        $applicant = Applicant::where('sss', $request->inputSSS)->get();
+        if (!($applicant->isEmpty())) {
+            return Response::json("SAME SSS", 500);
+        }
+
+        return Response::json($applicant);
+    }
+
+    public function getValidatePHILHEALTH(Request $request) {
+        $applicant = Applicant::where('philhealth', $request->inputPHILHEALTH)->get();
+        if (!($applicant->isEmpty())) {
+            return Response::json("SAME PHILHEALTH", 500);
+        }
+
+        return Response::json($applicant);
+    }
+
+    public function getValidatePAGIBIG(Request $request) {
+        $applicant = Applicant::where('pagibig', $request->inputPAGIBIG)->get();
+        if (!($applicant->isEmpty())) {
+            return Response::json("SAME PAGIBIG", 500);
+        }
+
+        return Response::json($applicant);
+    }
+
+    public function getValidateTIN(Request $request) {
+        $applicant = Applicant::where('tin', $request->inputTIN)->get();
+        if (!($applicant->isEmpty())) {
+            return Response::json("SAME TIN", 500);
+        }
+
+        return Response::json($applicant);
+    }
+
 
 
 }

@@ -65,43 +65,60 @@
 							</div>
 						</div>
 					</div>
-					<table id="tblQualification" class="table table-striped table-bordered">
-						<thead>
-							<th>Type</th>
-							<th>Qualification</th>
-						</thead>
-						<tbody id="clientqualification-list"></tbody>
-					</table>
+					<div class="form-group table-responsive">
+						<table id="tblQualification" class="table table-striped table-bordered">
+							<thead>
+								<th>Type</th>
+								<th>Qualification</th>
+							</thead>
+							<tbody id="clientqualification-list"></tbody>
+						</table>
+					</div>
 					<hr>
-					<h3>Pool</h3>
-					<table id="tblPool" class="table table-bordered table-striped">
-						<thead>
-							<th>No.</th>
-							<th>Name</th>
-							<th>Gender</th>
-							<th>Civil Status</th>
-							<th>Attainment</th>
-							<th style="text-align: center;">Approx Distance(km)</th>
-							<th style="text-align: center;">Percent</th>
-							<th style="text-align: center;">Action</th>
-						</thead>
-						<tbody id="pool-list"></tbody>
-					</table>
+					<div class="form-group table-responsive">
+						<table id="legend">
+							<tr>
+								<td style="padding-right: 20px;"><b>LEGEND:</b></td>
+								<td class="leg grn"></td>
+								<td id="legName">FULLY QUALIFIED</td>
+								<td class="leg red"></td>
+								<td id="legName">LESS QUALIFIED</td>
+							</tr>
+						</table>
+					</div>
+					<div class="form-group table-responsive">
+						<h3>Pool</h3>
+						<table id="tblPool" class="table table-bordered table-striped">
+							<thead>
+								<th>No.</th>
+								<th>Name</th>
+								<th>Gender</th>
+								<th>Civil Status</th>
+								<th>Attainment</th>
+								<th style="text-align: center;">Approx Distance(km)</th>
+								<th style="text-align: center;">Percent</th>
+								<th style="text-align: center;">Action</th>
+							</thead>
+							<tbody id="pool-list"></tbody>
+						</table>
+					</div>
 					<hr>
-					<h3>Deploy Security Guard</h3>
-					<table id="tblDeploy" class="table table-striped table-bordered">
-						<thead>
-							<th>No.</th>
-							<th>Name</th>
-							<th>Gender</th>
-							<th>Civil Status</th>
-							<th>Attainment</th>
-							<th style="text-align: center;">Approx Distance(km)</th>
-							<th style="text-align: center;">Percent</th>
-							<th style="text-align: center;">Action</th>
-						</thead>
-						<tbody id="deployed-list"></tbody>
-					</table>
+					<div class="form-group table-responsive">
+						<h3>Deploy Security Guard</h3>
+						<table id="tblDeploy" class="table table-striped table-bordered">
+							<thead>
+								<th>No.</th>
+								<th>Name</th>
+								<th>Gender</th>
+								<th>Civil Status</th>
+								<th>Attainment</th>
+								<th style="text-align: center;">Approx Distance(km)</th>
+								<th style="text-align: center;">Percent</th>
+								<th style="text-align: center;">Action</th>
+							</thead>
+							<tbody id="deployed-list"></tbody>
+						</table>
+					</div>
 				</div>
 				<!-- modal footer -->
 				<div class="modal-footer">
@@ -124,6 +141,31 @@
 		.nega {
 			font-weight: bolder;
 			color: red;
+		}
+		#legend {
+			padding: 10px;
+			margin-top: 10px;
+		}
+		.leg {
+			min-width: 30px;
+		}
+		.red {
+			background-color: #ffbdbd;
+		}
+		.blue {
+			background-color: #a9daff;
+		}
+		.grn {
+			background-color: #b0f7be;
+		}
+		.yllw {
+			background-color: #fffca9;
+		}
+		.orng {
+			background-color: #ffeeba;
+		}
+		#legName {
+			padding:5px 25px 5px 10px;
 		}
 	</style>
 @endsection

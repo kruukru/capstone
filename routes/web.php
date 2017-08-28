@@ -50,6 +50,11 @@ Route::get('/json/applicant/trainingcertificate', 'JSONController@getApplicantTr
 
 Route::get('/json/validate-username', 'JSONController@getValidateUsername');
 Route::get('/json/validate-firearm', 'JSONController@getValidateFirearm');
+Route::get('/json/validate-securityguardlicense', 'JSONController@getValidateSecurityGuardLicense');
+Route::get('/json/validate-sss', 'JSONController@getValidateSSS');
+Route::get('/json/validate-philhealth', 'JSONController@getValidatePHILHEALTH');
+Route::get('/json/validate-pagibig', 'JSONController@getValidatePAGIBIG');
+Route::get('/json/validate-tin', 'JSONController@getValidateTIN');
 
 Route::group(['middleware' => ['guest']], function() {
 	//sign in
