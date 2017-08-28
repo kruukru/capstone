@@ -105,7 +105,7 @@ $(document).ready(function() {
 
                 $.ajax({
                     type: "GET",
-                    url: "/admin/transaction/securityguard/percent",
+                    url: "/admin/transaction/deploysecurityguard/securityguard/percent",
                     data: { inputClientQualificationID: clientqualificationid, },
                     dataType: "json",
                     success: function(data) {
@@ -174,7 +174,7 @@ $(document).ready(function() {
 
         $.ajax({
             type: "GET",
-            url: "/admin/transaction/clientqualification/get",
+            url: "/admin/transaction/deploysecurityguard/clientqualification",
             data: { inputDeploymentSiteID: deploymentsiteid, },
             dataType: "json",
             success: function(data) {
@@ -206,7 +206,7 @@ $(document).ready(function() {
 
                 $.ajax({
                     type: "GET",
-                    url: "/admin/transaction/securityguard/percent",
+                    url: "/admin/transaction/deploysecurityguard/securityguard/percent",
                     data: { inputClientQualificationID: clientqualificationid, },
                     dataType: "json",
                     success: function(data) {
@@ -286,7 +286,7 @@ $(document).ready(function() {
 
             $.ajax({
                 type: "POST",
-                url: "/admin/transaction/securityguard/add",
+                url: "/admin/transaction/deploysecurityguard",
                 data: formData,
                 dataType: "json",
                 success: function(data) {

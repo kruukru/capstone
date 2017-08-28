@@ -413,7 +413,7 @@ $(document).ready(function() {
 
         $.ajax({
             type: "GET",
-            url: "/client/manager/assigndeploymentsite",
+            url: "/client/manager/assign/deploymentsite",
             data: { inputManagerID: managerid },
             dataType: "json",
             success: function(data) {
@@ -474,7 +474,7 @@ $(document).ready(function() {
 
         $.ajax({
             type: "POST",
-            url: "/client/manager/assigndeploymentsite",
+            url: "/client/manager/assign/deploymentsite",
             data: { inputDeploymentSiteID: deploymentsiteid, inputManagerID: managerid },
             dataType: "json",
             success: function(data) {

@@ -162,68 +162,48 @@ $(document).ready(function() {
                 check = false;
             }
 
+            if (!(Number(age[0]) <= Number($('#preferage').val()) && Number(age[1]) >= Number($('#preferage').val()))) {
+                toastr.error("AGE: PREFER AGE MUST BE INSIDE OF AGE RANGE");
+                check = false;
+            }
+            if (!(Number(height[0]) <= Number($('#preferheight').val()) && Number(height[1]) >= Number($('#preferheight').val()))) {
+                toastr.error("HEIGHT: PREFER HEIGHT MUST BE INSIDE OF HEIGHT RANGE");
+                check = false;
+            }
+            if (!(Number(weight[0]) <= Number($('#preferweight').val()) && Number(weight[1]) >= Number($('#preferweight').val()))) {
+                toastr.error("WEIGHT: PREFER HEIGHT MUST BE INSIDE OF HEIGHT RANGE");
+                check = false;
+            }
+
             if (check) {
-                var formData = {
-                    inputMinAge: age[0],
-                    inputMaxAge: age[1],
-                    inputPreferAge: $('#preferage').val(),
-                    inputMinHeight: height[0],
-                    inputMaxHeight: height[1],
-                    inputPreferHeight: $('#preferheight').val(),
-                    inputMinWeight: weight[0],
-                    inputMaxWeight: weight[1],
-                    inputPreferWeight: $('#preferweight').val(),
-                };
+                var row = "<tr id=id" + idTable + ">" +
+                    "<td>" + $('#requireno').val() + "</td>" +
+                    "<td>" + gender + "</td>" +
+                    "<td>" + attainment + "</td>" +
+                    "<td>" + civilstatus + "</td>" +
+                    "<td>" + age[0] + "," + $('#preferage').val() + "," + age[1] + "</td>" +
+                    "<td>" + height[0] + "," + $('#preferheight').val() + "," + height[1] + "</td>" +
+                    "<td>" + weight[0] + "," + $('#preferweight').val() + "," + weight[1] + "</td>";
+                if ($('#workingexperiencetype').val() == "day") {
+                    duration = $('#workexp').val() / 30;
+                    row += "<td>" + duration.toFixed(2) + "</td>";
+                } else if ($('#workingexperiencetype').val() == "month") {
+                    duration = $('#workexp').val();
+                    row += "<td>" + duration + "</td>";
+                } else if ($('#workingexperiencetype').val() == "year") {
+                    duration = $('#workexp').val() * 365;
+                    row += "<td>" + duration + "</td>";
+                }
+                row += "<td style='text-align: center;'>" +
+                    "<button class='btn btn-danger btn-xs' id='btnRemove' value=" + idTable + ">Remove</button>" +
+                    "</td>" +
+                    "</tr>";
+                tableQualification.row.add($(row)[0]).draw();
+                idTable++;
 
-                $.ajax({
-                    type: "GET",
-                    url: "/client/deploymentsite/qualification/validate",
-                    data: formData,
-                    dataType: "json",
-                    success: function(data) {
-                        console.log(data);
-
-                        var row = "<tr id=id" + idTable + ">" +
-                            "<td>" + $('#requireno').val() + "</td>" +
-                            "<td>" + gender + "</td>" +
-                            "<td>" + attainment + "</td>" +
-                            "<td>" + civilstatus + "</td>" +
-                            "<td>" + age[0] + "," + $('#preferage').val() + "," + age[1] + "</td>" +
-                            "<td>" + height[0] + "," + $('#preferheight').val() + "," + height[1] + "</td>" +
-                            "<td>" + weight[0] + "," + $('#preferweight').val() + "," + weight[1] + "</td>";
-                        if ($('#workingexperiencetype').val() == "day") {
-                            duration = $('#workexp').val() / 30;
-                            row += "<td>" + duration.toFixed(2) + "</td>";
-                        } else if ($('#workingexperiencetype').val() == "month") {
-                            duration = $('#workexp').val();
-                            row += "<td>" + duration + "</td>";
-                        } else if ($('#workingexperiencetype').val() == "year") {
-                            duration = $('#workexp').val() * 365;
-                            row += "<td>" + duration + "</td>";
-                        }
-                        row += "<td style='text-align: center;'>" +
-                            "<button class='btn btn-danger btn-xs' id='btnRemove' value=" + idTable + ">Remove</button>" +
-                            "</td>" +
-                            "</tr>";
-                        tableQualification.row.add($(row)[0]).draw();
-                        idTable++;
-
-                        $('input').iCheck('uncheck');
-                        $('#formQualification').trigger('reset');
-                        $('#formQualification').parsley().reset();
-                    },
-                    error: function(data) {
-                        console.log(data);
-
-                        if (data.responseJSON == "INVALID AGE") {
-                            toastr.error("AGE: PREFER AGE MUST BE INSIDE OF AGE RANGE");
-                        } else if (data.responseJSON == "INVALID HEIGHT") {
-                            toastr.error("HEIGHT: PREFER HEIGHT MUST BE INSIDE OF HEIGHT RANGE");
-                        } else if (data.responseJSON == "INVALID WEIGHT") {
-                            toastr.error("WEIGHT: PREFER WEIGHT MUST BE INSIDE OF WEIGHT RANGE");
-                        }
-                    },
-                });
+                $('input').iCheck('uncheck');
+                $('#formQualification').trigger('reset');
+                $('#formQualification').parsley().reset();
             }
         }
     });
@@ -273,7 +253,7 @@ $(document).ready(function() {
 
             $.ajax({
                 type: "POST",
-                url: "/client/deploymentsite/qualification/new",
+                url: "/client/deploymentsite/clientqualification",
                 data: formData,
                 dataType: "json",
                 success: function(data) {
@@ -421,7 +401,7 @@ $(document).ready(function() {
 
         $.ajax({
             type: "GET",
-            url: "/client/deploymentsite/item/get",
+            url: "/client/deploymentsite/item",
             data: { inputDeploymentSiteID: deploymentsiteid },
             dataType: "json",
             success: function(data) {
@@ -440,7 +420,7 @@ $(document).ready(function() {
 
         $.ajax({
             type: "GET",
-            url: "/client/deploymentsite/firearm/get",
+            url: "/client/deploymentsite/firearm",
             data: { inputDeploymentSiteID: deploymentsiteid },
             dataType: "json",
             success: function(data) {

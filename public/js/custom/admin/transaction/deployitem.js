@@ -63,8 +63,8 @@ $(document).ready(function() {
 
     	$.ajax({
             type: "GET",
-            url: "/admin/transaction/deployitem/sg/inventory",
-            data: { inputDeploymentSiteID: deploymentsiteid, },
+            url: "/admin/transaction/deployitem/inventory/securityguard",
+            data: { inputDeploymentSiteID: deploymentsiteid },
             dataType: "json",
             success: function(data) {
                 console.log(data);
@@ -119,7 +119,7 @@ $(document).ready(function() {
 					$.ajax({
 			            type: "GET",
 			            url: "/admin/transaction/deployitem/firearm",
-			            data: { inputItemID: itemid, },
+			            data: { inputItemID: itemid },
 			            dataType: "json",
 			            success: function(data) {
 			                console.log(data);

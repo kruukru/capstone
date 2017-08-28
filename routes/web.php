@@ -58,9 +58,9 @@ Route::group(['middleware' => ['guest']], function() {
 
 	//sign up
 	Route::name('signup')->get('/signup', 'AccountController@getSignUp');
-	Route::get('/signup/appointmentdate', 'AppointmentController@getSignUpAppointmentDate');
-	Route::post('/signup/appointment/set', 'AppointmentController@postSignUpAppointmentSet');
 	Route::post('/signup', 'AccountController@postSignUp');
+	Route::get('/signup/appointmentdate', 'AppointmentController@getSignUpAppointmentDate');
+	Route::post('/signup/appointment', 'AppointmentController@postSignUpAppointment');
 });
 
 Route::group(['middleware' => ['auth']], function() {
@@ -124,27 +124,27 @@ Route::group(['middleware' => ['auth']], function() {
 
 		//deploy security guard
 		Route::name('admin-transaction-deploysecurityguard')->get('/admin/transaction/deploysecurityguard', 'DeployController@getAdminDeploySecurityGuard');
-		Route::get('/admin/transaction/clientqualification/get', 'DeployController@getClientQualification');
-		Route::get('/admin/transaction/securityguard/percent', 'DeployController@getSecurityGuardPercent');
-		Route::post('/admin/transaction/securityguard/add', 'DeployController@postSecurityGuardAdd');
+		Route::post('/admin/transaction/deploysecurityguard', 'DeployController@postAdminDeploySecurityGuard');
+		Route::get('/admin/transaction/deploysecurityguard/clientqualification', 'DeployController@getAdminClientQualification');
+		Route::get('/admin/transaction/deploysecurityguard/securityguard/percent', 'DeployController@getAdminSecurityGuardPercent');
 
 		//deploy item
 		Route::name('admin-transaction-deployitem')->get('/admin/transaction/deployitem', 'DeployController@getAdminDeployItem');
 		Route::post('/admin/transaction/deployitem', 'DeployController@postAdminDeployItem');
 		Route::get('/admin/transaction/deployitem/firearm', 'DeployController@getAdminFirearm');
-		Route::get('/admin/transaction/deployitem/sg/inventory', 'DeployController@getAdminSGInventory');
+		Route::get('/admin/transaction/deployitem/inventory/securityguard', 'DeployController@getAdminInventorySecurityGuard');
 
 		//request
 		Route::name('admin-transaction-request')->get('/admin/transaction/request', 'RequestController@getAdminRequest');
 		Route::post('/admin/transaction/request/decline', 'RequestController@postAdminDecline');
 
+		Route::get('/admin/transaction/request/clientqualification', 'RequestController@getAdminClientQualification');
+		Route::get('/admin/transaction/request/securityguard/percent', 'RequestController@getAdminSecurityGuardPercent');
+		Route::post('/admin/transaction/request/clientqualification', 'RequestController@postAdminClientQualification');
+
 		Route::get('/admin/transaction/request/item/inventory', 'RequestController@getAdminItemInventory');
 		Route::get('/admin/transaction/request/firearm', 'RequestController@getAdminFirearm');
-		Route::post('/admin/transaction/request/item', 'RequestController@postAdminRequestItem');
-
-		Route::get('/admin/transaction/request/clientqualification', 'RequestController@getAdminClientQualification');
-		Route::post('/admin/transaction/request/clientqualification', 'RequestController@postAdminClientQualification');
-		Route::get('/admin/transaction/request/securityguard/percent', 'RequestController@getAdminSecurityGuardPercent');
+		Route::post('/admin/transaction/request/item', 'RequestController@postAdminItem');
 
 		//maintenance maintenance maintenance maintenance maintenance maintenance maintenance maintenance maintenance maintenance maintenance
 		//assessment topic
@@ -300,41 +300,40 @@ Route::group(['middleware' => ['auth']], function() {
 	Route::group(['middleware' => 'Amcor\Http\Middleware\ClientMiddleware'], function() {
 		//deployment site
 		Route::name('client-deploymentsite')->get('/client/deploymentsite', 'DeploymentSiteController@getClientDeploymentSite');
-		Route::get('/client/deploymentsite/qualification/validate', 'DeploymentSiteController@getClientQualificationValidate');
-		Route::post('/client/deploymentsite/qualification/new', 'DeploymentSiteController@postClientQualificationNew');
+		Route::post('/client/deploymentsite/clientqualification', 'DeploymentSiteController@postClientClientQualification');
 		Route::get('/client/deploymentsite/securityguard/list', 'DeploymentSiteController@getClientSecurityGuardList');
 		Route::post('/client/deploymentsite/securityguard/list', 'DeploymentSiteController@postClientSecurityGuardList');
 
-		Route::get('/client/deploymentsite/item/get', 'DeploymentSiteController@getClientItemGet');
-		Route::get('/client/deploymentsite/firearm/get', 'DeploymentSiteController@getClientFirearmGet');
+		Route::get('/client/deploymentsite/item', 'DeploymentSiteController@getClientItem');
+		Route::get('/client/deploymentsite/firearm', 'DeploymentSiteController@getClientFirearm');
 		Route::post('/client/deploymentsite/item', 'DeploymentSiteController@postClientItem');
 
 		//manager
 		Route::name('client-manager')->get('/client/manager', 'ManagerController@getClientManager');
-		Route::post('/client/manager/new', 'ManagerController@postClientManagerNew');
-		Route::post('/client/manager/update', 'ManagerController@postClientManagerUpdate');
-		Route::post('/client/manager/update-account', 'ManagerController@postClientManagerUpdateAccount');
-		Route::post('/client/manager/remove', 'ManagerController@postClientManagerRemove');
+		Route::post('/client/manager/new', 'ManagerController@postClientNew');
+		Route::post('/client/manager/update', 'ManagerController@postClientUpdate');
+		Route::post('/client/manager/update-account', 'ManagerController@postClientUpdateAccount');
+		Route::post('/client/manager/remove', 'ManagerController@postClientRemove');
 
 		Route::get('/client/manager/deploymentsite', 'ManagerController@getClientDeploymentSite');
-		Route::get('/client/manager/assigndeploymentsite', 'ManagerController@getClientAssignDeploymentSite');
 		Route::post('/client/manager/deploymentsite', 'ManagerController@postClientDeploymentSite');
-		Route::post('/client/manager/assigndeploymentsite', 'ManagerController@postClientAssignDeploymentSite');
+		Route::get('/client/manager/assign/deploymentsite', 'ManagerController@getClientAssignDeploymentSite');
+		Route::post('/client/manager/assign/deploymentsite', 'ManagerController@postClientAssignDeploymentSite');
 
 		//request
 		Route::name('client-request')->get('/client/request', 'RequestController@getClientRequest');
 		Route::get('/client/request/deploymentsite', 'RequestController@getClientDeploymentSite');
 		Route::post('/client/request/remove', 'RequestController@postClientRemove');
 
-		Route::get('/client/request/item', 'RequestController@getClientItem');
-		Route::post('/client/request/item', 'RequestController@postClientItem');
-		Route::get('/client/request/item/get', 'RequestController@getClientItemGet');
-		Route::get('/client/request/firearm/get', 'RequestController@getClientFirearmGet');
-		Route::post('/client/request/item/receive', 'RequestController@postClientItemReceive');
-
 		Route::post('/client/request/clientqualification', 'RequestController@postClientClientQualification');
 		Route::get('/client/request/securityguard/list', 'RequestController@getClientSecurityGuardList');
 		Route::post('/client/request/securityguard/list', 'RequestController@postClientSecurityGuardList');
+
+		Route::get('/client/request/inventory', 'RequestController@getClientInventory');
+		Route::post('/client/request/inventory', 'RequestController@postClientInventory');
+		Route::get('/client/request/item', 'RequestController@getClientItem');
+		Route::get('/client/request/firearm', 'RequestController@getClientFirearm');
+		Route::post('/client/request/item', 'RequestController@postClientItem');
 
 		//report
 		Route::name('client-report')->get('/client/report', 'ReportController@getClientReport');
@@ -352,11 +351,11 @@ Route::group(['middleware' => ['auth']], function() {
 	Route::group(['middleware' => 'Amcor\Http\Middleware\ApplicantMiddleware'], function() {
 		//appointment
 		Route::name('applicant-appointment')->get('/applicant/appointment', 'AppointmentController@getApplicantAppointment');
+		Route::post('/applicant/appointment', 'AppointmentController@postApplicantAppointment');
 		Route::get('/applicant/appointmentdate', 'AppointmentController@getApplicantAppointmentDate');
-		Route::post('/applicant/appointment/set', 'AppointmentController@postApplicantAppointmentSet');
+		Route::post('/applicant/appointment/remove', 'AppointmentController@postApplicantRemove');
 
 		Route::name('applicant-appointment-voucher')->get('/applicant/appointment/voucher', 'PDFController@getApplicantAppointmentVoucher');
-		Route::post('/applicant/appointment/remove', 'AppointmentController@postApplicantAppointmentRemove');
 	});
 
 

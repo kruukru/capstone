@@ -21,105 +21,29 @@ use Response;
 
 class DeployController extends Controller
 {
-    //deploy item
-    public function getAdminDeployItem() {
-        $deploymentsites = DeploymentSite::where([
-            ['status', '>=', 3],
-            ['status', '<=', 4],
-        ])->get();
-
-        return view('admin.transaction.deployitem', compact('deploymentsites'));
-    }
-
-    public function postAdminDeployItem(Request $request) {
-        $deploymentsite = DeploymentSite::find($request->inputDeploymentSiteID);
-        $deploy = Deploy::where([
-            ['deploymentsiteid', $deploymentsite->deploymentsiteid],
-            ['requestid', null],
-        ])->first();
-
-        foreach ($request->inputItemList as $data) {
-            $item = Item::find($data['inputItemID']);
-            $item->qtyavailable -= $data['inputQty'];
-            $item->save();
-
-            $issueditem = new IssuedItem;
-            $issueditem->deploymentsite()->associate($deploymentsite);
-            $issueditem->deploy()->associate($deploy);
-            $issueditem->item()->associate($item);
-            $issueditem->qty = $data['inputQty'];
-            $issueditem->save();
-
-            if ($request->inputFirearmList != null) {
-                foreach ($request->inputFirearmList as $data) {
-                    if ($issueditem->itemid == $data['inputItemID']) {
-                        $firearm = Firearm::find($data['inputFirearmID']);
-                        $issuedfirearm = new IssuedFirearm;
-                        $issuedfirearm->issueditem()->associate($issueditem);
-                        $issuedfirearm->firearm()->associate($firearm);
-                        $issuedfirearm->save();
-                    }
-                }
-            }
-        }
-
-        $deploymentsite->status = 4;
-        $deploymentsite->save();
-
-        return Response::json($deploymentsite);
-    }
-
-    public function getAdminFirearm(Request $request) {
-        $firearm = Firearm::doesntHave('issuedfirearm')
-            ->where('itemid', $request->inputItemID)->get();
-
-        return Response::json($firearm);
-    }
-
-    public function getAdminSGInventory(Request $request) {
-        $item = Item::with('ItemType')->get();
-        $deploy = Deploy::where([
-            ['deploymentsiteid', $request->inputDeploymentSiteID],
-            ['requestid', null],
-        ])->first();
-        $applicant = Applicant::whereHas('qualificationcheck', function($query) use ($deploy) {
-            $query->where([
-                ['deployid', $deploy->deployid],
-                ['status', 1],
-            ]);
-        })->get();
-
-        $arrayData = array(
-            'item' => $item,
-            'applicant' => $applicant,
-        );        
-
-        return Response::json($arrayData);
-    }
-
     //deploy security guard
     public function getAdminDeploySecurityGuard() {
-    	$deploymentsites = DeploymentSite::where([
+        $deploymentsites = DeploymentSite::where([
                 ['status', '>=', 1],
                 ['status', '<=', 2],
             ])->get();
 
-    	return view('admin.transaction.deploysecurityguard', compact('deploymentsites'));
+        return view('admin.transaction.deploysecurityguard', compact('deploymentsites'));
     }
 
-    public function getClientQualification(Request $request) {
+    public function getAdminClientQualification(Request $request) {
         $clientqualification = ClientQualification::where([
             ['deploymentsiteid', $request->inputDeploymentSiteID],
             ['requestid', null],
         ])->get();
 
-    	return Response::json($clientqualification);
+        return Response::json($clientqualification);
     }
 
-    public function getSecurityGuardPercent(Request $request) {
-    	$clientqualification = ClientQualification::find($request->inputClientQualificationID);
+    public function getAdminSecurityGuardPercent(Request $request) {
+        $clientqualification = ClientQualification::find($request->inputClientQualificationID);
         $deploymentsite = DeploymentSite::find($clientqualification->deploymentsiteid);
-    	$securityguards = Applicant::where('status', 8)->get();
+        $securityguards = Applicant::where('status', 8)->get();
 
         $pool = collect();
         foreach ($securityguards as $securityguard) {
@@ -269,10 +193,10 @@ class DeployController extends Controller
             ]);
         }
 
-    	return Response::json($pool);
+        return Response::json($pool);
     }
 
-    public function postSecurityGuardAdd(Request $request) {
+    public function postAdminDeploySecurityGuard(Request $request) {
         $deploymentsite = DeploymentSite::find($request->inputDeploymentSiteID);
         
         $deploy = new Deploy();
@@ -300,4 +224,85 @@ class DeployController extends Controller
 
         return Response::json($deploymentsite);
     }
+
+    
+
+    //deploy item
+    public function getAdminDeployItem() {
+        $deploymentsites = DeploymentSite::where([
+            ['status', '>=', 3],
+            ['status', '<=', 4],
+        ])->get();
+
+        return view('admin.transaction.deployitem', compact('deploymentsites'));
+    }
+
+    public function postAdminDeployItem(Request $request) {
+        $deploymentsite = DeploymentSite::find($request->inputDeploymentSiteID);
+        $deploy = Deploy::where([
+            ['deploymentsiteid', $deploymentsite->deploymentsiteid],
+            ['requestid', null],
+        ])->first();
+
+        foreach ($request->inputItemList as $data) {
+            $item = Item::find($data['inputItemID']);
+            $item->qtyavailable -= $data['inputQty'];
+            $item->save();
+
+            $issueditem = new IssuedItem;
+            $issueditem->deploymentsite()->associate($deploymentsite);
+            $issueditem->deploy()->associate($deploy);
+            $issueditem->item()->associate($item);
+            $issueditem->qty = $data['inputQty'];
+            $issueditem->save();
+
+            if ($request->inputFirearmList != null) {
+                foreach ($request->inputFirearmList as $data) {
+                    if ($issueditem->itemid == $data['inputItemID']) {
+                        $firearm = Firearm::find($data['inputFirearmID']);
+                        $issuedfirearm = new IssuedFirearm;
+                        $issuedfirearm->issueditem()->associate($issueditem);
+                        $issuedfirearm->firearm()->associate($firearm);
+                        $issuedfirearm->save();
+                    }
+                }
+            }
+        }
+
+        $deploymentsite->status = 4;
+        $deploymentsite->save();
+
+        return Response::json($deploymentsite);
+    }
+
+    public function getAdminFirearm(Request $request) {
+        $firearm = Firearm::doesntHave('issuedfirearm')
+            ->where('itemid', $request->inputItemID)->get();
+
+        return Response::json($firearm);
+    }
+
+    public function getAdminInventorySecurityGuard(Request $request) {
+        $item = Item::with('ItemType')->get();
+        $deploy = Deploy::where([
+            ['deploymentsiteid', $request->inputDeploymentSiteID],
+            ['requestid', null],
+        ])->first();
+        $applicant = Applicant::whereHas('qualificationcheck', function($query) use ($deploy) {
+            $query->where([
+                ['deployid', $deploy->deployid],
+                ['status', 1],
+            ]);
+        })->get();
+
+        $arrayData = array(
+            'item' => $item,
+            'applicant' => $applicant,
+        );        
+
+        return Response::json($arrayData);
+    }
+
+
+
 }

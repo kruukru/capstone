@@ -18,6 +18,7 @@ use DB;
 
 class DeploymentSiteController extends Controller
 {
+    //client
     public function getClientDeploymentSite() {
         $deploymentsites = DeploymentSite::whereHas('contract', function($query) {
             $query->where('clientid', Auth::user()->client->clientid);
@@ -26,21 +27,8 @@ class DeploymentSiteController extends Controller
     	return view('client.deploymentsite', compact('deploymentsites'));
     }
 
-    public function getClientQualificationValidate(Request $request) {
-        if (!($request->inputMinAge <= $request->inputPreferAge && $request->inputMaxAge >= $request->inputPreferAge)) {
-            return Response::json("INVALID AGE", 500);
-        }
-        if (!($request->inputMinHeight <= $request->inputPreferHeight && $request->inputMaxHeight >= $request->inputPreferHeight)) {
-            return Response::json("INVALID HEIGHT", 500);
-        }
-        if (!($request->inputMinWeight <= $request->inputPreferWeight && $request->inputMaxWeight >= $request->inputPreferWeight)) {
-            return Response::json("INVALID WEIGHT", 500);
-        }
-
-        return Response::json("SUCCESS", 200);
-    }
-
-    public function postClientQualificationNew(Request $request) {
+    //client security guard
+    public function postClientClientQualification(Request $request) {
     	$deploymentsite = DeploymentSite::find($request->inputDeploymentSiteID);
 
         foreach($request->formData as $data) {
@@ -142,7 +130,8 @@ class DeploymentSiteController extends Controller
         return Response::json($deploymentsite);
     }
 
-    public function getClientItemGet(Request $request) {
+    //client item
+    public function getClientItem(Request $request) {
         $deploymentsite = DeploymentSite::find($request->inputDeploymentSiteID);
         $deploy = Deploy::where([
             ['deploymentsiteid', $request->inputDeploymentSiteID],
@@ -157,7 +146,7 @@ class DeploymentSiteController extends Controller
         return Response::json($issueditem);
     }
 
-    public function getClientFirearmGet(Request $request) {
+    public function getClientFirearm(Request $request) {
         $deploymentsite = DeploymentSite::find($request->inputDeploymentSiteID);
         $deploy = Deploy::where([
             ['deploymentsiteid', $request->inputDeploymentSiteID],

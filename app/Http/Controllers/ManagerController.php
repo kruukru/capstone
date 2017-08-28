@@ -19,7 +19,7 @@ class ManagerController extends Controller
     	return view('client.manager', compact('managers'));
     }
 
-    public function postClientManagerNew(Request $request) {
+    public function postClientNew(Request $request) {
     	$account = Account::where('username', $request->inputUsername)->get();
         if (!($account->isEmpty())) {
             return Response::json("SAME USERNAME", 500);
@@ -43,7 +43,7 @@ class ManagerController extends Controller
         return Response::json($manager);
     }
 
-    public function postClientManagerUpdate(Request $request) {
+    public function postClientUpdate(Request $request) {
         $manager = Manager::with('Account')->find($request->inputManagerID);
         $manager->lastname = $request->inputLastname;
         $manager->firstname = $request->inputFirstname;
@@ -53,7 +53,7 @@ class ManagerController extends Controller
         return Response::json($manager);
     }
 
-    public function postClientManagerUpdateAccount(Request $request) {
+    public function postClientUpdateAccount(Request $request) {
         $account = Account::where('username', $request->inputUsername)->get();
         if (!($account->isEmpty())) {
             return Response::json("SAME USERNAME", 500);
@@ -67,7 +67,7 @@ class ManagerController extends Controller
         return Response::json($manager);
     }
 
-    public function postClientManagerRemove(Request $request) {
+    public function postClientRemove(Request $request) {
         $manager = Manager::find($request->inputManagerID);
         $manager->managersite()->forceDelete();
         $manager->forceDelete();

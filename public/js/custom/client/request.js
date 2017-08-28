@@ -195,7 +195,7 @@ $(document).ready(function() {
 
         $.ajax({
             type: "GET",
-            url: "/client/request/item",
+            url: "/client/request/inventory",
             dataType: "json",
             success: function(data) {
                 console.log(data);
@@ -279,7 +279,7 @@ $(document).ready(function() {
 
             $.ajax({
                 type: "POST",
-                url: "/client/request/item",
+                url: "/client/request/inventory",
                 data: formData,
                 dataType: "json",
                 success: function(data) {
@@ -314,7 +314,7 @@ $(document).ready(function() {
 
         $.ajax({
             type: "GET",
-            url: "/client/request/item/get",
+            url: "/client/request/item",
             data: { inputRequestID: requestid },
             dataType: "json",
             success: function(data) {
@@ -333,7 +333,7 @@ $(document).ready(function() {
 
         $.ajax({
             type: "GET",
-            url: "/client/request/firearm/get",
+            url: "/client/request/firearm",
             data: { inputRequestID: requestid },
             dataType: "json",
             success: function(data) {
@@ -363,7 +363,7 @@ $(document).ready(function() {
 
         $.ajax({
             type: "POST",
-            url: "/client/request/item/receive",
+            url: "/client/request/item",
             data: { inputRequestID: requestid },
             dataType: "json",
             success: function(data) {

@@ -60,7 +60,7 @@ class AppointmentController extends Controller
         return Response::json($collection);
     }
 
-    public function postApplicantAppointmentSet(Request $request) {
+    public function postApplicantAppointment(Request $request) {
         $appointment = new Appointment;
         $appointment->applicantid = Auth::user()->applicant->applicantid;
         $appointment->appointmentdateid = $request->inputAppointmentDateID;
@@ -69,7 +69,7 @@ class AppointmentController extends Controller
         return Response::json($appointment);
     }
 
-    public function postApplicantAppointmentRemove(Request $request) {
+    public function postApplicantRemove(Request $request) {
         $appointment = Appointment::find($request->inputAppointmentDateID);
         $appointment->delete();
 
@@ -110,7 +110,7 @@ class AppointmentController extends Controller
         return Response::json($collection);
     }
 
-    public function postSignUpAppointmentSet(Request $request) {
+    public function postSignUpAppointment(Request $request) {
         $appointment = new Appointment;
         $appointment->applicantid = Auth::user()->applicant->applicantid;
         $appointment->appointmentslotid = $request->inputAppointmentSlotID;

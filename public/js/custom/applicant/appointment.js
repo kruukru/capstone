@@ -66,7 +66,7 @@ $(document).ready(function() {
 
     	$.ajax({
             type: "POST",
-            url: "/applicant/appointment/set",
+            url: "/applicant/appointment",
             data: { inputAppointmentDateID: appointmentdateid, },
             dataType: "json",
             success: function(data) {
