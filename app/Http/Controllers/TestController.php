@@ -56,7 +56,7 @@ class TestController extends Controller
         return view('admin.transaction.test');
     }
 
-    public function getAdminTestCheck() {
+    public function getAdminCheckTest() {
         $tests = Test::get();
 
         //validation for test

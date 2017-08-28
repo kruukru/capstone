@@ -49,6 +49,7 @@ Route::get('/json/applicant/employmentrecord', 'JSONController@getApplicantEmplo
 Route::get('/json/applicant/trainingcertificate', 'JSONController@getApplicantTrainingCertificate');
 
 Route::get('/json/validate-username', 'JSONController@getValidateUsername');
+Route::get('/json/validate-firearm', 'JSONController@getValidateFirearm');
 
 Route::group(['middleware' => ['guest']], function() {
 	//sign in
@@ -68,47 +69,47 @@ Route::group(['middleware' => ['auth']], function() {
 		//transaction transaction transaction transaction transaction transaction transaction transaction transaction transaction transaction
 		//submit credential
 		Route::name('admin-transaction-submitcredential')->get('/admin/transaction/submitcredential', 'CredentialController@getAdminSubmitCredential');
-		Route::get('/admin/transaction/applicantrequirement', 'CredentialController@getAdminApplicantRequirement');
-		Route::post('/admin/transaction/requirement/pass', 'CredentialController@postAdminRequirementPass');
-		Route::post('/admin/transaction/requirement/remove', 'CredentialController@postAdminRequirementRemove');
-		Route::post('/admin/transaction/requirement/assess', 'CredentialController@postAdminRequirementAssess');
+		Route::get('/admin/transaction/submitcredential/applicantrequirement', 'CredentialController@getAdminApplicantRequirement');
+		Route::post('/admin/transaction/submitcredential/requirement/pass', 'CredentialController@postAdminRequirementPass');
+		Route::post('/admin/transaction/submitcredential/requirement/remove', 'CredentialController@postAdminRequirementRemove');
+		Route::post('/admin/transaction/submitcredential/requirement/assess', 'CredentialController@postAdminRequirementAssess');
 
-		Route::post('/admin/transaction/applicantinfo/personalinfo', 'CredentialController@postAdminPersonalInfo');
-		Route::post('/admin/transaction/applicantinfo/profileimage', 'CredentialController@postAdminProfileImage');
-		Route::post('/admin/transaction/applicantinfo/account', 'CredentialController@postAdminAccount');
-		Route::post('/admin/transaction/applicantinfo/id', 'CredentialController@postAdminID');
-		Route::post('/admin/transaction/applicantinfo/backgroundinfo', 'CredentialController@postBackgroundInfo');
+		Route::post('/admin/transaction/submitcredential/applicantinfo/personalinfo', 'CredentialController@postAdminPersonalInfo');
+		Route::post('/admin/transaction/submitcredential/applicantinfo/profileimage', 'CredentialController@postAdminProfileImage');
+		Route::post('/admin/transaction/submitcredential/applicantinfo/account', 'CredentialController@postAdminAccount');
+		Route::post('/admin/transaction/submitcredential/applicantinfo/id', 'CredentialController@postAdminID');
+		Route::post('/admin/transaction/submitcredential/applicantinfo/backgroundinfo', 'CredentialController@postBackgroundInfo');
 
 		//test login
 		Route::name('admin-transaction-testlogin')->get('/admin/transaction/testlogin', 'TestController@getAdminTestLogin');
 		Route::post('/admin/transaction/testlogin', 'TestController@postAdminTestLogin');
-		Route::get('/admin/transaction/test', 'TestController@getAdminTest');
+		Route::get('/admin/transaction/testlogin/test', 'TestController@getAdminTest');
 
 		//applicant test
-		Route::get('/admin/transaction/test-check', 'TestController@getAdminTestCheck');
-		Route::get('/admin/transaction/testquestion', 'TestController@getAdminTestQuestion');
-		Route::get('/admin/transaction/question', 'TestController@getAdminQuestion');
-		Route::post('/admin/transaction/testquestionanswer', 'TestController@postAdminTestQuestionAnswer');
-		Route::post('/admin/transaction/applicantexamstatus', 'TestController@postAdminApplicantExamStatus');
+		Route::get('/admin/transaction/test/checktest', 'TestController@getAdminCheckTest');
+		Route::get('/admin/transaction/test/testquestion', 'TestController@getAdminTestQuestion');
+		Route::get('/admin/transaction/test/question', 'TestController@getAdminQuestion');
+		Route::post('/admin/transaction/test/testquestionanswer', 'TestController@postAdminTestQuestionAnswer');
+		Route::post('/admin/transaction/test/applicantexamstatus', 'TestController@postAdminApplicantExamStatus');
 
 		//assess test
 		Route::name('admin-transaction-assesstest')->get('/admin/transaction/assesstest', 'AssessController@getAdminAssessTest');
-		Route::get('/admin/transaction/testscore', 'AssessController@getAdminTestScore');
-		Route::get('/admin/transaction/essayanswer', 'AssessController@getAdminEssayAnswer');
-		Route::post('/admin/transaction/assessmenttest', 'AssessController@postAdminAssessmentTest');
+		Route::post('/admin/transaction/assesstest', 'AssessController@postAdminAssessTest');
+		Route::get('/admin/transaction/assesstest/testscore', 'AssessController@getAdminTestScore');
+		Route::get('/admin/transaction/assesstest/essayanswer', 'AssessController@getAdminEssayAnswer');
 
 		//assess interview
 		Route::name('admin-transaction-assessinterview')->get('/admin/transaction/assessinterview', 'AssessController@getAdminAssessInterview');
-		Route::get('/admin/transaction/testassessment', 'AssessController@getAdminTestAssessment');
-		Route::post('/admin/transaction/assessmentinterview', 'AssessController@postAdminAssessmentInterview');
-		Route::post('/admin/transaction/assessmentfail', 'AssessController@postAdminAssessmentFail');
+		Route::post('/admin/transaction/assessinterview', 'AssessController@postAdminAssessInterview');
+		Route::post('/admin/transaction/assessinterview/fail', 'AssessController@postAdminAssessInterviewFail');
+		Route::get('/admin/transaction/assessinterview/testassessment', 'AssessController@getAdminTestAssessment');
 
 		//security guard
 		Route::name('admin-transaction-securityguard')->get('/admin/transaction/securityguard', 'SecurityGuardController@getAdminSecurityGuard');
 
 		//contract
 		Route::name('admin-transaction-contract')->get('/admin/transaction/contract', 'ContractController@getAdminContract');
-		Route::post('/admin/transaction/contract/renew', 'ContractController@postAdminContractRenew');
+
 		Route::name('admin-contract-document')->get('/admin/contract/document/{contractid}', 'PDFController@getAdminContractDocument');
 
 		//client
@@ -118,9 +119,8 @@ Route::group(['middleware' => ['auth']], function() {
 
 		//inventory
 		Route::name('admin-transaction-inventory')->get('/admin/transaction/inventory', 'InventoryController@getAdminInventory');
-		Route::get('/admin/transaction/inventory/firearm-validate', 'InventoryController@getValidateFirearm');
-		Route::post('/admin/transaction/inventory/additem', 'InventoryController@postAdminInventoryAddItem');
-		Route::post('/admin/transaction/inventory/addfirearm', 'InventoryController@postAdminInventoryAddFirearm');
+		Route::post('/admin/transaction/inventory/item/add', 'InventoryController@postAdminItemAdd');
+		Route::post('/admin/transaction/inventory/firearm/add', 'InventoryController@postAdminFirearmAdd');
 
 		//deploy security guard
 		Route::name('admin-transaction-deploysecurityguard')->get('/admin/transaction/deploysecurityguard', 'DeployController@getAdminDeploySecurityGuard');

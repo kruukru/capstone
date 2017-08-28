@@ -100,7 +100,7 @@ $(document).ready(function() {
 
             $.ajax({
                 type: "POST",
-                url: "/admin/transaction/assessmentinterview",
+                url: "/admin/transaction/assessinterview",
                 data: formData,
                 dataType: "json",
                 success: function(data) {
@@ -136,7 +136,7 @@ $(document).ready(function() {
 
         $.ajax({
             type: "POST",
-            url: "/admin/transaction/assessmentfail",
+            url: "/admin/transaction/assessinterview/fail",
             data: { inputApplicantID: applicantid },
             dataType: "json",
             success: function(data) {
@@ -196,7 +196,7 @@ $(document).ready(function() {
 
         $.ajax({
             type: "GET",
-            url: "/admin/transaction/testassessment",
+            url: "/admin/transaction/assessinterview/testassessment",
             data: { inputApplicantID: applicantid },
             dataType: "json",
             success: function(data) {

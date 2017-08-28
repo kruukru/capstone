@@ -16,18 +16,7 @@ class InventoryController extends Controller
         return view('admin.transaction.inventory', compact('items'));
     }
 
-    public function getValidateFirearm(Request $request) {
-        $firearm = Firearm::where('license', $request->inputLicense)
-            ->first();
-
-        if ($firearm !== null) {
-            return Response::json("SAME LICENSE", 500);
-        }
-
-        return Response::json($firearm);
-    }
-
-    public function postAdminInventoryAddItem(Request $request) {
+    public function postAdminItemAdd(Request $request) {
     	$item = Item::with('ItemType')->find($request->inputItemID);
     	$item->qty += $request->inputQuantity;
     	$item->qtyavailable += $request->inputQuantity;
@@ -36,7 +25,7 @@ class InventoryController extends Controller
     	return Response::json($item);
     }
 
-    public function postAdminInventoryAddFirearm(Request $request) {
+    public function postAdminFirearmAdd(Request $request) {
         $item = Item::with('ItemType')->find($request->inputItemID);
 
         $count = 0;

@@ -2823,7 +2823,7 @@ $(document).ready(function() {
 
         $.ajax({
             type: "POST",
-            url: "/admin/transaction/requirement/pass",
+            url: "/admin/transaction/submitcredential/requirement/pass",
             data: { inputApplicantRequirementID: qid, inputApplicantID: applicantid, },
             dataType: "json",
             success: function(data) {
@@ -2854,7 +2854,7 @@ $(document).ready(function() {
 
         $.ajax({
             type: "POST",
-            url: "/admin/transaction/requirement/remove",
+            url: "/admin/transaction/submitcredential/requirement/remove",
             data: { inputApplicantRequirementID: qid, inputApplicantID: applicantid, },
             dataType: "json",
             success: function(data) {
@@ -2883,7 +2883,7 @@ $(document).ready(function() {
 
         $.ajax({
             type: "POST",
-            url: "/admin/transaction/requirement/assess",
+            url: "/admin/transaction/submitcredential/requirement/assess",
             data: { inputApplicantID: applicantid, inputStatus: tableRequirement.data().count(), },
             dataType: "json",
             success: function(data) {
@@ -2984,7 +2984,7 @@ $(document).ready(function() {
 
         $.ajax({
             type: "GET",
-            url: "/admin/transaction/applicantrequirement",
+            url: "/admin/transaction/submitcredential/applicantrequirement",
             data: { inputApplicantID: applicantid },
             dataType: "json",
             success: function(data) {
@@ -3186,7 +3186,7 @@ $(document).ready(function() {
 
                     $.ajax({
                         type: "POST",
-                        url: "/admin/transaction/applicantinfo/personalinfo",
+                        url: "/admin/transaction/submitcredential/applicantinfo/personalinfo",
                         data: formData,
                         dataType: "json",
                         success: function(data) {
@@ -3236,7 +3236,7 @@ $(document).ready(function() {
 
                 $.ajax({
                     type: "POST",
-                    url: "/admin/transaction/applicantinfo/personalinfo",
+                    url: "/admin/transaction/submitcredential/applicantinfo/personalinfo",
                     data: formData,
                     dataType: "json",
                     success: function(data) {
@@ -3281,7 +3281,7 @@ $(document).ready(function() {
 
         $.ajax({
             type: "POST",
-            url: "/admin/transaction/applicantinfo/profileimage",
+            url: "/admin/transaction/submitcredential/applicantinfo/profileimage",
             data: form,
             cache: false,
             processData: false,
@@ -3314,7 +3314,7 @@ $(document).ready(function() {
 
                 $.ajax({
                     type: "POST",
-                    url: "/admin/transaction/applicantinfo/account",
+                    url: "/admin/transaction/submitcredential/applicantinfo/account",
                     data: formData,
                     dataType: "json",
                     success: function(data) {
@@ -3365,7 +3365,7 @@ $(document).ready(function() {
 
             $.ajax({
                 type: "POST",
-                url: "/admin/transaction/applicantinfo/id",
+                url: "/admin/transaction/submitcredential/applicantinfo/id",
                 data: formData,
                 dataType: "json",
                 success: function(data) {
@@ -3465,7 +3465,7 @@ $(document).ready(function() {
 
         $.ajax({
             type: "POST",
-            url: "/admin/transaction/applicantinfo/backgroundinfo",
+            url: "/admin/transaction/submitcredential/applicantinfo/backgroundinfo",
             data: formData,
             dataType: "json",
             success: function(data) {

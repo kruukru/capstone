@@ -91,7 +91,7 @@ $(document).ready(function() {
 
         $.ajax({
             type: "POST",
-            url: "/admin/transaction/assessmenttest",
+            url: "/admin/transaction/assesstest",
             data: formData,
             dataType: "json",
             success: function(data) {
@@ -150,7 +150,7 @@ $(document).ready(function() {
 
         $.ajax({
             type: "GET",
-            url: "/admin/transaction/testscore",
+            url: "/admin/transaction/assesstest/testscore",
             data: { inputApplicantID: applicantid },
             dataType: "json",
             success: function(data) {
@@ -175,7 +175,7 @@ $(document).ready(function() {
 
         $.ajax({
             type: "GET",
-            url: "/admin/transaction/essayanswer",
+            url: "/admin/transaction/assesstest/essayanswer",
             data: { inputApplicantID: applicantid },
             dataType: "json",
             success: function(data) {

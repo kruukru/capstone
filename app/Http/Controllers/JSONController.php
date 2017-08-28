@@ -22,6 +22,7 @@ use Amcor\EducationBackground;
 use Amcor\EmploymentRecord;
 use Amcor\TrainingCertificate;
 use Amcor\Manager;
+use Amcor\Firearm;
 use Response;
 
 class JSONController extends Controller
@@ -189,5 +190,17 @@ class JSONController extends Controller
         }
 
         return Response::json($account);
-    }    
+    }
+
+    public function getValidateFirearm(Request $request) {
+        $firearm = Firearm::where('license', $request->inputLicense)->get();
+        if (!($firearm->isEmpty())) {
+            return Response::json("SAME LICENSE", 500);
+        }
+
+        return Response::json($firearm);
+    }
+
+
+
 }

@@ -17,7 +17,7 @@ $(document).ready(function() {
                     console.log(data);
 
                     window.localStorage.setItem("applicantid", data.applicantid);
-                    window.location.href = "/admin/transaction/test";
+                    window.location.href = "/admin/transaction/testlogin/test";
                 },
                 error: function(data) {
                     console.log(data);

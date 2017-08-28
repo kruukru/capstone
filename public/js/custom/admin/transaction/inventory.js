@@ -80,7 +80,7 @@ $(document).ready(function(){
 
             $.ajax({
                 type: "GET",
-                url: "/admin/transaction/inventory/firearm-validate",
+                url: "/json/validate-firearm",
                 data: formData,
                 dataType: "json",
                 success: function(data) {
@@ -128,7 +128,7 @@ $(document).ready(function(){
 
             $.ajax({
                 type: "POST",
-                url: "/admin/transaction/inventory/additem",
+                url: "/admin/transaction/inventory/item/add",
                 data: { inputItemID: itemid, inputQuantity: $('#inputQuantity').val(), },
                 dataType: "json",
                 success: function(data) {
@@ -180,7 +180,7 @@ $(document).ready(function(){
 
             $.ajax({
                 type: "POST",
-                url: "/admin/transaction/inventory/addfirearm",
+                url: "/admin/transaction/inventory/firearm/add",
                 data: formData,
                 dataType: "json",
                 success: function(data) {

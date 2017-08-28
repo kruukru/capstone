@@ -45,7 +45,7 @@ class AssessController extends Controller
         return Response::json($essayanswer);
     }
 
-    public function postAdminAssessmentTest(Request $request) {
+    public function postAdminAssessTest(Request $request) {
         $applicant = Applicant::find($request->inputApplicantID);
         $admin = Admin::find($request->inputAdminID);
 
@@ -90,7 +90,7 @@ class AssessController extends Controller
         return Response::json($testassessment);
     }
 
-    public function postAdminAssessmentInterview(Request $request) {
+    public function postAdminAssessInterview(Request $request) {
         $applicant = Applicant::find($request->inputApplicantID);
         $admin = Admin::find($request->inputAdminID);
 
@@ -118,7 +118,7 @@ class AssessController extends Controller
         return Response::json($applicant);
     }
 
-    public function postAdminAssessmentFail(Request $request) {
+    public function postAdminAssessInterviewFail(Request $request) {
         $applicant = Applicant::find($request->inputApplicantID);
 
         $applicant->score()->forceDelete();

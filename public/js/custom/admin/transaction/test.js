@@ -66,7 +66,7 @@ $(document).ready(function() {
 
         $.ajax({
             type: "POST",
-            url: "/admin/transaction/testquestionanswer",
+            url: "/admin/transaction/test/testquestionanswer",
             data: formData,
             dataType: "json",
             success: function(data) {
@@ -79,7 +79,7 @@ $(document).ready(function() {
 
         $.ajax({
             type: "POST",
-            url: "/admin/transaction/applicantexamstatus",
+            url: "/admin/transaction/test/applicantexamstatus",
             data: { inputApplicantID: applicantid },
             success: function(data) {
                 console.log(data);
@@ -105,7 +105,7 @@ $(document).ready(function() {
 
         $.ajax({
             type: "GET",
-            url: "/admin/transaction/test-check",
+            url: "/admin/transaction/test/checktest",
             dataType: "json",
             success: function(dataTest) {
                 console.log(dataTest);
@@ -116,7 +116,7 @@ $(document).ready(function() {
 
                     $.ajax({
                         type: "GET",
-                        url: "/admin/transaction/testquestion",
+                        url: "/admin/transaction/test/testquestion",
                         data: { inputTestID: dataTestEach.testid, inputMaxQuestion: dataTestEach.maxquestion, },
                         dataType: "json",
                         success: function(dataTestQuestion) {
@@ -137,7 +137,7 @@ $(document).ready(function() {
 
                                 $.ajax({
                                     type: "GET",
-                                    url: "/admin/transaction/question",
+                                    url: "/admin/transaction/test/question",
                                     data: { inputQuestionID: dataTestQuestionEach.questionid },
                                     dataType: "json",
                                     success: function(dataQuestion) {
@@ -179,9 +179,9 @@ $(document).ready(function() {
             error: function(data) {
                 console.log(data);
 
-                if(data.responseJSON == "NO TEST") {
+                if (data.responseJSON == "NO TEST") {
                     alert("NO TEST FOUND - CONTACT ADMINISTRATOR");
-                } else if(data.responseJSON == "NO QUESTION") {
+                } else if (data.responseJSON == "NO QUESTION") {
                     alert("NO QUESTION FOUND - CONTACT ADMINISTRATOR");
                 }
 
