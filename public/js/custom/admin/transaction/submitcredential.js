@@ -2955,8 +2955,11 @@ $(document).ready(function() {
                 $('#cityaddress').val(data.cityaddress);
                 $('#cityaddressprovince').val(data.cityaddressprovince);
                 $('#cityaddresscity').empty();
-                $('#cityaddresscity').append('<option value="'+data.cityaddresscity+'">'+data.cityaddresscity+'</option>')
+                $('#cityaddresscity').append('<option value="'+data.cityaddresscity+'">'+data.cityaddresscity+'</option>');
                 $('#provincialaddress').val(data.provincialaddress);
+                $('#provincialaddressprovince').val(data.provincialaddressprovince);
+                $('#provincialaddresscity').empty();
+                $('#provincialaddresscity').append('<option value ="'+data.provincialaddresscity+'">'+data.provincialaddresscity+'</option>');
                 $('#hobby').val(data.hobby);
                 $('#skill').val(data.skill);
                 $('#license').val(data.license);
@@ -3137,8 +3140,8 @@ $(document).ready(function() {
                             inputCityAddressProvince: $('#cityaddressprovince').val(),
                             inputCityAddressCity: $('#cityaddresscity').val(),
                             inputProvincialAddress: $('#provincialaddress').val(),
-                            inputProvincialAddressProvince: $('#inputprovincialaddressprovince').val(),
-                            inputProvincialAddressCity: $('#inputprovincialaddresscity').val(),
+                            inputProvincialAddressProvince: $('#provincialaddressprovince').val(),
+                            inputProvincialAddressCity: $('#provincialaddresscity').val(),
                             inputLatitude: results[0].geometry.location.lat(),
                             inputLongitude: results[0].geometry.location.lng(),
                             inputGender: $('input:radio[name="gender"]:checked').val(),
@@ -3152,7 +3155,7 @@ $(document).ready(function() {
                             inputHeight: height,
                             inputWeight: weight,
                             inputHobby: $('#hobby').val(),
-                            inputSkills: $('#skill').val(),
+                            inputSkill: $('#skill').val(),
                         }
                     } else {
                         formData = {
@@ -3165,8 +3168,8 @@ $(document).ready(function() {
                             inputCityAddressProvince: $('#cityaddressprovince').val(),
                             inputCityAddressCity: $('#cityaddresscity').val(),
                             inputProvincialAddress: $('#provincialaddress').val(),
-                            inputProvincialAddressProvince: $('#inputprovincialaddressprovince').val(),
-                            inputProvincialAddressCity: $('#inputprovincialaddresscity').val(),
+                            inputProvincialAddressProvince: $('#provincialaddressprovince').val(),
+                            inputProvincialAddressCity: $('#provincialaddresscity').val(),
                             inputLatitude: null,
                             inputLongitude: null,
                             inputGender: $('input:radio[name="gender"]:checked').val(),
@@ -3180,7 +3183,7 @@ $(document).ready(function() {
                             inputHeight: height,
                             inputWeight: weight,
                             inputHobby: $('#hobby').val(),
-                            inputSkills: $('#skill').val(),
+                            inputSkill: $('#skill').val(),
                         }
                     }
 
@@ -3216,8 +3219,8 @@ $(document).ready(function() {
                     inputCityAddressProvince: $('#cityaddressprovince').val(),
                     inputCityAddressCity: $('#cityaddresscity').val(),
                     inputProvincialAddress: $('#provincialaddress').val(),
-                    inputProvincialAddressProvince: $('#inputprovincialaddressprovince').val(),
-                    inputProvincialAddressCity: $('#inputprovincialaddresscity').val(),
+                    inputProvincialAddressProvince: $('#provincialaddressprovince').val(),
+                    inputProvincialAddressCity: $('#provincialaddresscity').val(),
                     inputLatitude: null,
                     inputLongitude: null,
                     inputGender: $('input:radio[name="gender"]:checked').val(),
@@ -3231,7 +3234,7 @@ $(document).ready(function() {
                     inputHeight: height,
                     inputWeight: weight,
                     inputHobby: $('#hobby').val(),
-                    inputSkills: $('#skill').val(),
+                    inputSkill: $('#skill').val(),
                 }
 
                 $.ajax({
