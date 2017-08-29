@@ -8,6 +8,7 @@ use Amcor\AppointmentDate;
 use Amcor\Appointment;
 use Amcor\Holiday;
 use Amcor\Applicant;
+use Amcor\Contract;
 use Carbon\Carbon;
 use DateTime;
 use DateInterval;
@@ -147,7 +148,79 @@ class HomeController extends Controller
 
     	if (Auth::check()) {
     		if (Auth::user()->accounttype == 0) {
-	    		return view('admin.home');
+                $notifications = collect();
+
+                //pooling vacant
+                $applicants = Applicant::where('lastdeployed', '<=', Carbon::today()->addDays(-30))->get();
+                foreach ($applicants as $applicant) {
+                    $description = $applicant->firstname . " " . $applicant->lastname .
+                        " has been vacant for " . $applicant->lastdeployed->diffInDays(Carbon::today()) . " day(s)";
+
+                    $priority = 2;
+                    if ($applicant->lastdeployed->diffInDays(Carbon::today()) >= 60) {
+                        $priority = 1;
+                    }
+
+                    $notifications->push([
+                        'topic' => "POOLING",
+                        'description' => $description,
+                        'priority' => $priority,
+                    ]);
+                }
+
+                //contract expiraiton
+                $contracts = Contract::where('expiration', '<=', Carbon::today()->addDays(60))->get();
+                foreach ($contracts as $contract) {
+                    $description = $contract->deploymentsite->sitename . " will expire in " .
+                        $contract->expiration->diffInDays(Carbon::today()) . " day(s)";
+
+                    $priority = 2;
+                    if (Carbon::today()->diffInDays($contract->expiration, false) <= 30) {
+                        $priority = 1;
+                    }
+
+                    if (Carbon::today()->diffInDays($contract->expiration, false) <= 0) {
+                        $notifications->push([
+                            'topic' => "CONTRACT",
+                            'description' => $contract->deploymentsite->sitename . " has expired",
+                            'priority' => $priority,
+                        ]);
+                    } else {
+                        $notifications->push([
+                            'topic' => "CONTRACT",
+                            'description' => $description,
+                            'priority' => $priority,
+                        ]);
+                    }
+                }
+
+                //security guard license expiration
+                $applicants = Applicant::where('licenseexpiration', '<=', Carbon::today()->addDays(60))->get();
+                foreach ($applicants as $applicant) {
+                    $description = $applicant->firstname . " " . $applicant->lastname . " license will expire in " .
+                        $applicant->licenseexpiration->diffInDays(Carbon::today()) . " day(s)";
+
+                    $priority = 2;
+                    if (Carbon::today()->diffInDays($applicant->licenseexpiration, false) <= 30) {
+                        $priority = 1;
+                    }
+
+                    if (Carbon::today()->diffInDays($applicant->licenseexpiration, false) <= 0) {
+                        $notifications->push([
+                            'topic' => "SECURITY GUARD LICENSE",
+                            'description' => $applicant->firstname . " " . $applicant->lastname . " license has expired",
+                            'priority' => $priority,
+                        ]);
+                    } else {
+                        $notifications->push([
+                            'topic' => "SECURITY GUARD LICENSE",
+                            'description' => $description,
+                            'priority' => $priority,
+                        ]);
+                    }
+                }
+
+	    		return view('admin.home', compact('notifications'));
 	    	} else if (Auth::user()->accounttype == 10) {
 	    		return view('client.home');
 	    	} else if (Auth::user()->accounttype == 20) {

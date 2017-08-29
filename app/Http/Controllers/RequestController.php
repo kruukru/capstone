@@ -392,6 +392,7 @@ class RequestController extends Controller
 
             if ($data['inputStatus'] == 'Accept') {
                 $data['inputStatus'] = 1;
+                $applicant->lastdeployed = null;
                 $applicant->status = 10;
                 $applicant->save();
             } else if ($data['inputStatus'] == 'Decline') {

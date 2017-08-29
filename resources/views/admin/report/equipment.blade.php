@@ -110,7 +110,7 @@
         <table id="header">
             <tr>
                 <td id="hdrLogo"> 
-                    <img src="images/amcor.png" id="imgLogo">
+                    <img src="images/amcor1.png" id="imgLogo">
                 <td id="hdrLeft">
                     <span id="hdrAgencyName">AMCOR SECURITY & INVESTIGATION AGENCY, INC.</span><br>
                     <p id="hdrDetails">353 Doña Dolores Building, San Rafael St., Brgy. Plainview, Mandaluyong City<br/>*AGENCY TELEPHONE/ CONTACT NUMBER*</p>

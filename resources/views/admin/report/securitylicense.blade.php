@@ -76,7 +76,7 @@
 	</head>
 	<body>
 		<div class="header">
-			<img src="images/amcor.png" id="logo">
+			<img src="images/amcor1.png" id="logo">
 			<p id="txtHeader">AMCOR SECURITY & INVESTIGATION AGENCY, INC.</p>
 			<p>353 Doña Dolores Building, San Rafael St., Brgy. Plainview, Mandaluyong City</p>
 			<h2 id="title">FIREARM LICENSE EXPIRATION REPORT</h2>

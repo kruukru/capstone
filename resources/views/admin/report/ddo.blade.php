@@ -129,7 +129,7 @@
         <table id="header">
             <tr>
                 <td>
-                    <img src="images/amcor.png" id="imgLogo"><br/>
+                    <img src="images/amcor1.png" id="imgLogo"><br/>
                 </td>
                 <td align="center">
                     <span id="hdrAgencyName">AMCOR SECURITY & INVESTIGATION AGENCY, INC.</span>
