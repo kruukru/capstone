@@ -153,7 +153,7 @@
 						<label>Manager Name:</label>
 						<h3 id="managerName"></h3>
 					</div><hr>
-					<div class="form-group">
+					<div class="form-group table-responsive">
 						<h3>DEPLOYMENT SITE LIST</h3>
 						<table id="tblDeploymentSite" class="table table-striped table-bordered">
 							<thead>
@@ -164,7 +164,7 @@
 							<tbody id="deploymentsite-list"></tbody>
 						</table>
 					</div><hr>
-					<div class="form-group">
+					<div class="form-group table-responsive">
 						<h3>ASSIGNED DEPLOYMENT SITE</h3>
 						<table id="tblAssignDeploymentSite" class="table table-striped table-bordered">
 							<thead>

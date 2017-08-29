@@ -72,35 +72,41 @@
 					</div>
 					<!-- modal body -->
 					<div class="modal-body">
-						<h3>Requested Item</h3>
-						<table id="tblRequestItem" class="table table-striped table-bordered">
-							<thead>
-								<th>Item Name</th>
-								<th>Item Type</th>
-								<th>Approx Quantity</th>
-							</thead>
-							<tbody id="requestitem-list"></tbody>
-						</table><hr>
-						<h3>Inventory</h3>
-						<table id="tblInventory" class="table table-striped table-bordered">
-							<thead>
-								<th>Item Name</th>
-								<th>Item Type</th>
-								<th style="text-align: center;">Quantity Available</th>
-								<th style="text-align: center;">Action</th>
-							</thead>
-							<tbody id="inventory-list"></tbody>
-						</table><hr>
-						<h3>Deploy Item</h3>
-						<table id="tblDeployItem" class="table table-striped table-bordered">
-							<thead>
-								<th>Item Name</th>
-								<th>Item Type</th>
-								<th style="text-align: center;">Quantity</th>
-								<th style="text-align: center;">Action</th>
-							</thead>
-							<tbody id="deployitem-list"></tbody>
-						</table>
+						<div class="form-group table-responsive">
+							<h3>Requested Item</h3>
+							<table id="tblRequestItem" class="table table-striped table-bordered">
+								<thead>
+									<th>Item Name</th>
+									<th>Item Type</th>
+									<th>Approx Quantity</th>
+								</thead>
+								<tbody id="requestitem-list"></tbody>
+							</table>
+						</div><hr>
+						<div class="form-group table-responsive">
+							<h3>Inventory</h3>
+							<table id="tblInventory" class="table table-striped table-bordered">
+								<thead>
+									<th>Item Name</th>
+									<th>Item Type</th>
+									<th style="text-align: center;">Quantity Available</th>
+									<th style="text-align: center;">Action</th>
+								</thead>
+								<tbody id="inventory-list"></tbody>
+							</table>
+						</div><hr>
+						<div class="form-group table-responsive">
+							<h3>Deploy Item</h3>
+							<table id="tblDeployItem" class="table table-striped table-bordered">
+								<thead>
+									<th>Item Name</th>
+									<th>Item Type</th>
+									<th style="text-align: center;">Quantity</th>
+									<th style="text-align: center;">Action</th>
+								</thead>
+								<tbody id="deployitem-list"></tbody>
+							</table>
+						</div>
 					</div>
 					<!-- modal footer -->
 					<div class="modal-footer">
@@ -133,23 +139,27 @@
 							</div>
 						</div>
 					</div>
-					<table id="tblFirearm" class="table table-striped table-bordered">
-						<thead>
-							<th>License</th>
-							<th>Expiration</th>
-							<th style="text-align: center;">Action</th>
-						</thead>
-						<tbody id="firearm-list"></tbody>
-					</table><hr>
-					<h3>Deploy Firearm</h3>
-					<table id="tblDeployFirearm" class="table table-striped table-bordered">
-						<thead>
-							<th>License</th>
-							<th>Expiration</th>
-							<th style="text-align: center;">Action</th>
-						</thead>
-						<tbody id="deployfirearm-list"></tbody>
-					</table>
+					<div class="form-group table-responsive">
+						<table id="tblFirearm" class="table table-striped table-bordered">
+							<thead>
+								<th>License</th>
+								<th>Expiration</th>
+								<th style="text-align: center;">Action</th>
+							</thead>
+							<tbody id="firearm-list"></tbody>
+						</table>
+					</div><hr>
+					<div class="form-group table-responsive">
+						<h3>Deploy Firearm</h3>
+						<table id="tblDeployFirearm" class="table table-striped table-bordered">
+							<thead>
+								<th>License</th>
+								<th>Expiration</th>
+								<th style="text-align: center;">Action</th>
+							</thead>
+							<tbody id="deployfirearm-list"></tbody>
+						</table>
+					</div>
 				</div>
 				<div class="modal-footer">
 					<button class="btn btn-primary" id="btnFirearmSave">SAVE</button>
@@ -181,14 +191,15 @@
 							</div>
 						</div>
 					</div>
-					<table id="tblQualification" class="table table-striped table-bordered">
-						<thead>
-							<th>Type</th>
-							<th>Qualification</th>
-						</thead>
-						<tbody id="clientqualification-list"></tbody>
-					</table>
-					<hr>
+					<div class="form-group table-responsive">
+						<table id="tblQualification" class="table table-striped table-bordered">
+							<thead>
+								<th>Type</th>
+								<th>Qualification</th>
+							</thead>
+							<tbody id="clientqualification-list"></tbody>
+						</table>
+					</div><hr>
 					<div class="form-group table-responsive">
 						<table id="legend">
 							<tr>
@@ -215,8 +226,7 @@
 							</thead>
 							<tbody id="pool-list"></tbody>
 						</table>
-					</div>
-					<hr>
+					</div><hr>
 					<div class="form-group table-responsive">
 						<h3>Deploy Security Guard</h3>
 						<table id="tblDeploy" class="table table-striped table-bordered">

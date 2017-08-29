@@ -49,7 +49,7 @@
 						<label>Applicant Name:</label>
 						<h3 id="applicantName">Name</h3>
 					</div><hr>
-					<div class="form-group">
+					<div class="form-group table-responsive">
 						<h3>Test</h3>
 						<table class="table table-striped table-bordered" id="tblPassFail">
 							<thead>
@@ -60,7 +60,7 @@
 							<tbody></tbody>
 						</table>
 					</div><hr>
-					<div class="form-group">
+					<div class="form-group table-responsive">
 						<h3>Essay</h3>
 						<table class="table table-striped table-bordered" id="tblEssay">
 							<thead>
@@ -96,7 +96,7 @@
 							</div>
 						</div>
 					</form>
-					<div class="form-group">
+					<div class="form-group table-responsive">
 						<table class="table table-striped table-bordered" id="tblAssessment">
 							<thead>
 								<th>Topic</th>

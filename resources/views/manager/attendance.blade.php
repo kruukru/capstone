@@ -45,7 +45,7 @@
 				</div>
 				<!-- modal body -->
 				<div class="modal-body">
-					<div class="form-group">
+					<div class="form-group table-responsive">
 						<h3>SECURITY GUARD</h3>
 						<table id="tblSecurityGuard" class="table table-striped table-bordered">
 							<thead>

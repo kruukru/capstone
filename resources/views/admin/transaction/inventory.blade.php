@@ -96,7 +96,7 @@
 								</div>
 							</div>
 						</div><hr>
-						<div class="form-group">
+						<div class="form-group table-responsive">
 							<table id="tblFirearm" class="table table-striped table-bordered">
 								<thead>
 									<th>License</th>

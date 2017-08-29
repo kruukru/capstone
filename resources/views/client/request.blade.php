@@ -104,25 +104,29 @@
 							<label>Deployment Site *</label>
 							<select id="deploymentsitelistitem" class="form-control" style="width: 100%" required></select>
 						</div>
-						<h3>Inventory</h3>
-						<table id="tblInventory" class="table table-striped table-bordered">
-							<thead>
-								<th>Item Name</th>
-								<th>Item Type</th>
-								<th style="text-align: center;">Action</th>
-							</thead>
-							<tbody id="inventory-list"></tbody>
-						</table><hr>
+						<div class="form-group table-responsive">
+							<h3>Inventory</h3>
+							<table id="tblInventory" class="table table-striped table-bordered">
+								<thead>
+									<th>Item Name</th>
+									<th>Item Type</th>
+									<th style="text-align: center;">Action</th>
+								</thead>
+								<tbody id="inventory-list"></tbody>
+							</table>
+						</div><hr>
 						<h3>Request Item</h3>
-						<table id="tblRequestItem" class="table table-striped table-bordered">
-							<thead>
-								<th>Item Name</th>
-								<th>Item Type</th>
-								<th style="text-align: center;">Approx Quantity</th>
-								<th style="text-align: center;">Action</th>
-							</thead>
-							<tbody id="requestitem-list"></tbody>
-						</table>
+						<div class="form-group table-responsive">
+							<table id="tblRequestItem" class="table table-striped table-bordered">
+								<thead>
+									<th>Item Name</th>
+									<th>Item Type</th>
+									<th style="text-align: center;">Approx Quantity</th>
+									<th style="text-align: center;">Action</th>
+								</thead>
+								<tbody id="requestitem-list"></tbody>
+							</table>
+						</div>
 					</div>
 					<!-- modal footer -->
 					<div class="modal-footer">
@@ -146,7 +150,7 @@
 				</div>
 				<!-- modal body -->
 				<div class="modal-body">
-					<div class="form-group">
+					<div class="form-group table-responsive">
 						<h3>Firearm</h3>
 						<table id="tblFirearm" class="table table-striped table-bordered">
 							<thead>
@@ -157,7 +161,7 @@
 							<tbody id="firearm-list"></tbody>
 						</table>
 					</div>
-					<div class="form-group">
+					<div class="form-group table-responsive">
 						<h3>Item</h3>
 						<table id="tblItem" class="table table-striped table-bordered">
 							<thead>
@@ -331,15 +335,17 @@
 				</div>
 				<!-- modal body -->
 				<div class="modal-body">
-					<table id="tblSecurityGuard" class="table table-striped table-bordered">
-						<thead>
-							<th>Name</th>
-							<th style="text-align: center;">Work Experience(months)</th>
-							<th style="text-align: center;">Distance(km)</th>
-							<th style="text-align: center;">Action</th>
-						</thead>
-						<tbody id="securityguard-list"></tbody>
-					</table>
+					<div class="form-group table-responsive">
+						<table id="tblSecurityGuard" class="table table-striped table-bordered">
+							<thead>
+								<th>Name</th>
+								<th style="text-align: center;">Work Experience(months)</th>
+								<th style="text-align: center;">Distance(km)</th>
+								<th style="text-align: center;">Action</th>
+							</thead>
+							<tbody id="securityguard-list"></tbody>
+						</table>
+					</div>
 				</div>
 				<!-- modal footer -->
 				<div class="modal-footer">

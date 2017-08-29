@@ -23,6 +23,7 @@ $(document).ready(function(){
         $(this).parsley().validate();
     });
     //expiration firearm license
+    $('#inputFirearmExpiration').inputmask("9999-99-99");
     $('#inputFirearmExpiration').datepicker({
         format: 'yyyy-mm-dd',
         autoclose: true,

@@ -54,33 +54,39 @@
 					</div>
 					<!-- modal body -->
 					<div class="modal-body">
-						<h3>Security Guard List</h3>
-						<table id="tblSecurityGuard" class="table table-striped table-bordered">
-							<thead>
-								<th>Name</th>
-							</thead>
-							<tbody id="securityguard-list"></tbody>
-						</table><hr>
-						<h3>Inventory</h3>
-						<table id="tblInventory" class="table table-striped table-bordered">
-							<thead>
-								<th>Item Name</th>
-								<th>Item Type</th>
-								<th style="text-align: center;">Quantity Available</th>
-								<th style="text-align: center;">Action</th>
-							</thead>
-							<tbody id="inventory-list"></tbody>
-						</table><hr>
-						<h3>Deploy Item</h3>
-						<table id="tblDeployItem" class="table table-striped table-bordered">
-							<thead>
-								<th>Item Name</th>
-								<th>Item Type</th>
-								<th style="text-align: center;">Quantity</th>
-								<th style="text-align: center;">Action</th>
-							</thead>
-							<tbody id="deployitem-list"></tbody>
-						</table>
+						<div class="form-group table-responsive">
+							<h3>Security Guard List</h3>
+							<table id="tblSecurityGuard" class="table table-striped table-bordered">
+								<thead>
+									<th>Name</th>
+								</thead>
+								<tbody id="securityguard-list"></tbody>
+							</table>
+						</div><hr>
+						<div class="form-group table-responsive">
+							<h3>Inventory</h3>
+							<table id="tblInventory" class="table table-striped table-bordered">
+								<thead>
+									<th>Item Name</th>
+									<th>Item Type</th>
+									<th style="text-align: center;">Quantity Available</th>
+									<th style="text-align: center;">Action</th>
+								</thead>
+								<tbody id="inventory-list"></tbody>
+							</table>
+						</div><hr>
+						<div class="form-group table-responsive">
+							<h3>Deploy Item</h3>
+							<table id="tblDeployItem" class="table table-striped table-bordered">
+								<thead>
+									<th>Item Name</th>
+									<th>Item Type</th>
+									<th style="text-align: center;">Quantity</th>
+									<th style="text-align: center;">Action</th>
+								</thead>
+								<tbody id="deployitem-list"></tbody>
+							</table>
+						</div>
 					</div>
 					<!-- modal footer -->
 					<div class="modal-footer">

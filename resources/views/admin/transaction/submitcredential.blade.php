@@ -618,16 +618,18 @@
 									            			</div>
 									            		</div>
 									            	</div>
-									            	<table class="table table-striped table-bordered" id="tblEducationBackground">
-														<thead>
-															<th>Graduate Type</th>
-															<th>Degree</th>
-															<th>Date Graduated</th>
-															<th>School Graduated</th>
-															<th style="text-align: center;">Action</th>
-														</thead>
-														<tbody id="education-list"></tbody>
-													</table>
+										            <div class="form-group table-responsive">
+										            	<table class="table table-striped table-bordered" id="tblEducationBackground">
+															<thead>
+																<th>Graduate Type</th>
+																<th>Degree</th>
+																<th>Date Graduated</th>
+																<th>School Graduated</th>
+																<th style="text-align: center;">Action</th>
+															</thead>
+															<tbody id="education-list"></tbody>
+														</table>
+										            </div>
 												</form>
 		                        			</div>
 		                        		</div>
@@ -683,16 +685,18 @@
 									            			</div>
 									            		</div>
 									            	</div>
-									            	<table class="table table-striped table-bordered" id="tblEmploymentRecord">
-														<thead>
-															<th>Company</th>
-															<th>Industry Type</th>
-															<th>Duration (months)</th>
-															<th>Reason For Leaving</th>
-															<th style="text-align: center;">Action</th>
-														</thead>
-														<tbody id="employment-list"></tbody>
-													</table>
+									            	<div class="form-group table-responsive">
+									            		<table class="table table-striped table-bordered" id="tblEmploymentRecord">
+															<thead>
+																<th>Company</th>
+																<th>Industry Type</th>
+																<th>Duration (months)</th>
+																<th>Reason For Leaving</th>
+																<th style="text-align: center;">Action</th>
+															</thead>
+															<tbody id="employment-list"></tbody>
+														</table>
+									            	</div>
 										        </form>
 		                        			</div>
 		                        		</div>
@@ -728,15 +732,17 @@
 									            			</div>
 									            		</div>
 									            	</div>
-									            	<table class="table table-striped table-bordered" id="tblTrainingCertificate">
-														<thead>
-															<th>Certificate</th>
-															<th>Conducted By</th>
-															<th>Date Conducted</th>
-															<th style="text-align: center;">Action</th>
-														</thead>
-														<tbody id="training-list"></tbody>
-													</table>
+										            <div class="form-group table-responsive">
+										            	<table class="table table-striped table-bordered" id="tblTrainingCertificate">
+															<thead>
+																<th>Certificate</th>
+																<th>Conducted By</th>
+																<th>Date Conducted</th>
+																<th style="text-align: center;">Action</th>
+															</thead>
+															<tbody id="training-list"></tbody>
+														</table>
+										            </div>
 										        </form>
 		                        			</div>
 		                        		</div>
@@ -751,24 +757,28 @@
 					<div class="form-group">
 						<div class="row">
 							<div class="col-md-6">
-								 <h3>LIST OF REQUIREMENTS</h3>
-								 <table id="tblRequirement" class="table table-striped table-bordered">
-									<thead>
-										<th>Credentials</th>
-										<th style="text-align: center;">Action</th>
-									</thead>
-									<tbody id="requirement-list"></tbody>
-								</table>
+								 <div class="form-group table-responsive">
+								 	<h3>LIST OF REQUIREMENTS</h3>
+									 <table id="tblRequirement" class="table table-striped table-bordered">
+										<thead>
+											<th>Credentials</th>
+											<th style="text-align: center;">Action</th>
+										</thead>
+										<tbody id="requirement-list"></tbody>
+									</table>
+								 </div>
 							</div>
 							<div class="col-md-6">
-								<h3>PASSED</h3>
-								<table id="tblPass" class="table table-striped table-bordered">
-									<thead>
-										<th>Credentials</th>
-										<th style="text-align: center;">Action</th>
-									</thead>
-									<tbody id="pass-list"></tbody>
-								</table>
+								<div class="form-group table-responsive">
+									<h3>PASSED</h3>
+									<table id="tblPass" class="table table-striped table-bordered">
+										<thead>
+											<th>Credentials</th>
+											<th style="text-align: center;">Action</th>
+										</thead>
+										<tbody id="pass-list"></tbody>
+									</table>
+								</div>
 							</div>
 						</div>
 					</div>
