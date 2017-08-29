@@ -153,7 +153,12 @@ class MaintenanceController extends Controller
 
     public function postAdminAssessmentTopicRemove(Request $request) {
         $assessmenttopic = AssessmentTopic::find($request->inputAssessmentTopicID);
-        $assessmenttopic->delete();
+
+        if (count($assessmenttopic->testassessment) || count($assessmenttopic->interviewassessment)) {
+            return Response::json("CANNOT REMOVE", 500);
+        } else {
+            $assessmenttopic->delete();
+        }
 
         return Response::json($assessmenttopic);
     }
@@ -213,7 +218,12 @@ class MaintenanceController extends Controller
 
     public function postAdminAreaTypeRemove(Request $request) {
         $areatype = AreaType::find($request->inputAreaTypeID);
-        $areatype->delete();
+
+        if (count($areatype->contract)) {
+            return Response::json("CANNOT REMOVE", 500);
+        } else {
+            $areatype->delete();
+        }
 
         return Response::json($areatype);
     }
@@ -274,7 +284,7 @@ class MaintenanceController extends Controller
         $itemtype = ItemType::find($request->inputItemTypeID);
 
         if (count($itemtype->item()->withTrashed()->get())) {
-            return Response::json("ERROR", 500);
+            return Response::json("CANNOT REMOVE", 500);
         } else {
             $itemtype->delete();
         }
@@ -341,7 +351,12 @@ class MaintenanceController extends Controller
 
     public function postAdminItemRemove(Request $request) {
         $item = Item::find($request->inputItemID);
-        $item->delete();
+
+        if (count($item->firearm) || count($item->issueditem) || count($item->requestitem)) {
+            return Response::json("CANNOT REMOVE", 500);
+        } else {
+            $item->delete();
+        }
 
         return Response::json($item);
     }
@@ -399,8 +414,13 @@ class MaintenanceController extends Controller
 
     public function postAdminRequirementRemove(Request $request) {
         $requirement = Requirement::find($request->inputRequirementID);
-        $requirement->delete();
 
+        if (count($requirement->applicantrequirement()->get())) {
+            return Response::json("CANNOT REMOVE", 500);
+        } else {
+            $requirement->delete();
+        }
+            
         return Response::json($requirement);
     }
 
@@ -580,10 +600,12 @@ class MaintenanceController extends Controller
     public function postAdminTestRemove(Request $request) {
         $test = Test::find($request->inputTestID);
 
-        if (count($test->testquestion)) {
+        if (count($test->testquestion) || count($test->score)) {
+            return Response::json("CANNOT REMOVE", 500);
+        } else {
             $test->testquestion()->forceDelete();
+            $test->delete();
         }
-        $test->delete();
 
         return Response::json($test);
     }
@@ -597,36 +619,44 @@ class MaintenanceController extends Controller
     }
 
     public function postAdminMultipleChoiceNew(Request $request) {
-        $question = Question::where([
-                ['type', 0],
-                ['question', $request->inputQuestion],
-            ])->get();
+        $question = Question::withTrashed()->where([
+            ['type', 0],
+            ['question', $request->inputQuestion],
+        ])->first();
 
-        if ($question->isEmpty()) {
+        if ($question === null) {
             $question = new Question;
             $question->question = $request->inputQuestion;
             $question->type = 0;
             $question->save();
         } else {
-            return Response::json("SAME NAME", 500);
+            if ($question->deleted_at === null) {
+                return Response::json("SAME NAME", 500);
+            } else {
+                return Response::json("SAME NAME TRASH", 500);
+            }
         }
 
         return Response::json($question);
     }
 
     public function postAdminMultipleChoiceUpdate(Request $request) {
-        $question = Question::where([
-                ['type', 0],
-                ['question', $request->inputQuestion],
-                ['questionid', '!=', $request->inputQuestionID],
-            ])->get();
+        $question = Question::withTrashed()->where([
+            ['type', 0],
+            ['question', $request->inputQuestion],
+            ['questionid', '!=', $request->inputQuestionID],
+        ])->first();
 
-        if ($question->isEmpty()) {
+        if ($question === null) {
             $question = Question::find($request->inputQuestionID);
             $question->question = $request->inputQuestion;
             $question->save();
         } else {
-            return Response::json("SAME NAME", 500);
+            if ($question->deleted_at === null) {
+                return Response::json("SAME NAME", 500);
+            } else {
+                return Response::json("SAME NAME TRASH", 500);
+            }
         }
 
         return Response::json($question);
@@ -636,7 +666,7 @@ class MaintenanceController extends Controller
         $question = Question::find($request->inputQuestionID);
 
         if (count($question->testquestion)) {
-            return Response::json("BEING USED", 500);
+            return Response::json("CANNOT REMOVE", 500);
         } else {
             Choice::where('questionid', $request->inputQuestionID)->delete();
             $question->delete();
@@ -653,36 +683,44 @@ class MaintenanceController extends Controller
     }
 
     public function postAdminTrueOrFalseNew(Request $request) {
-        $question = Question::where([
-                ['type', 1],
-                ['question', $request->inputQuestion],
-            ])->get();
+        $question = Question::withTrashed()->where([
+            ['type', 1],
+            ['question', $request->inputQuestion],
+        ])->first();
 
-        if ($question->isEmpty()) {
+        if ($question === null) {
             $question = new Question;
             $question->question = $request->inputQuestion;
             $question->type = 1;
             $question->save();
         } else {
-            return Response::json("SAME NAME", 500);
+            if ($question->deleted_at === null) {
+                return Response::json("SAME NAME", 500);
+            } else {
+                return Response::json("SAME NAME TRASH", 500);
+            }
         }
 
         return Response::json($question);
     }
 
     public function postAdminTrueOrFalseUpdate(Request $request) {
-        $question = Question::where([
-                ['type', 1],
-                ['question', $request->inputQuestion],
-                ['questionid', '!=', $request->inputQuestionID],
-            ])->get();
+        $question = Question::withTrashed()->where([
+            ['type', 1],
+            ['question', $request->inputQuestion],
+            ['questionid', '!=', $request->inputQuestionID],
+        ])->first();
 
-        if ($question->isEmpty()) {
+        if ($question === null) {
             $question = Question::find($request->inputQuestionID);
             $question->question = $request->inputQuestion;
             $question->save();
         } else {
-            return Response::json("SAME NAME", 500);
+            if ($question->deleted_at === null) {
+                return Response::json("SAME NAME", 500);
+            } else {
+                return Response::json("SAME NAME TRASH", 500);
+            }
         }
 
         return Response::json($question);
@@ -692,7 +730,7 @@ class MaintenanceController extends Controller
         $question = Question::find($request->inputQuestionID);
 
         if (count($question->testquestion)) {
-            return Response::json("BEING USED", 500);
+            return Response::json("CANNOT REMOVE", 500);
         } else {
             Choice::where('questionid', $request->inputQuestionID)->delete();
             $question->delete();
@@ -709,36 +747,44 @@ class MaintenanceController extends Controller
     }
 
     public function postAdminIdentificationNew(Request $request) {
-        $question = Question::where([
-                ['type', 2],
-                ['question', $request->inputQuestion]
-            ])->get();
+        $question = Question::withTrashed()->where([
+            ['type', 2],
+            ['question', $request->inputQuestion],
+        ])->first();
 
-        if ($question->isEmpty()) {
+        if ($question === null) {
             $question = new Question;
             $question->question = $request->inputQuestion;
             $question->type = 2;
             $question->save();
         } else {
-            return Response::json("SAME NAME", 500);
+            if ($question->deleted_at === null) {
+                return Response::json("SAME NAME", 500);
+            } else {
+                return Response::json("SAME NAME TRASH", 500);
+            }
         }
 
         return Response::json($question);
     }
 
     public function postAdminIdentificationUpdate(Request $request) {
-        $question = Question::where([
-                ['type', 2],
-                ['question', $request->inputQuestion],
-                ['questionid', '!=', $request->inputQuestionID],
-            ])->get();
+        $question = Question::withTrashed()->where([
+            ['type', 2],
+            ['question', $request->inputQuestion],
+            ['questionid', '!=', $request->inputQuestionID],
+        ])->first();
 
-        if ($question->isEmpty()) {
+        if ($question === null) {
             $question = Question::find($request->inputQuestionID);
             $question->question = $request->inputQuestion;
             $question->save();
         } else {
-            return Response::json("SAME NAME", 500);
+            if ($question->deleted_at === null) {
+                return Response::json("SAME NAME", 500);
+            } else {
+                return Response::json("SAME NAME TRASH", 500);
+            }
         }
 
         return Response::json($question);
@@ -748,7 +794,7 @@ class MaintenanceController extends Controller
         $question = Question::find($request->inputQuestionID);
 
         if (count($question->testquestion)) {
-            return Response::json("BEING USED", 500);
+            return Response::json("CANNOT REMOVE", 500);
         } else {
             Choice::where('questionid', $request->inputQuestionID)->delete();
             $question->delete();
@@ -765,36 +811,44 @@ class MaintenanceController extends Controller
     }
 
     public function postAdminEssayNew(Request $request) {
-        $question = Question::where([
-                ['type', 3],
-                ['question', $request->inputQuestion],
-            ])->get();
+        $question = Question::withTrashed()->where([
+            ['type', 3],
+            ['question', $request->inputQuestion],
+        ])->first();
 
-        if ($question->isEmpty()) {
+        if ($question === null) {
             $question = new Question;
             $question->question = $request->inputQuestion;
             $question->type = 3;
             $question->save();
         } else {
-            return Response::json("SAME NAME", 500);
+            if ($question->deleted_at === null) {
+                return Response::json("SAME NAME", 500);
+            } else {
+                return Response::json("SAME NAME TRASH", 500);
+            }
         }
 
         return Response::json($question);
     }
 
     public function postAdminEssayUpdate(Request $request) {
-        $question = Question::where([
-                ['type', 3],
-                ['question', $request->inputQuestion],
-                ['questionid', '!=', $request->inputQuestionID],
-            ])->get();
+        $question = Question::withTrashed()->where([
+            ['type', 3],
+            ['question', $request->inputQuestion],
+            ['questionid', '!=', $request->inputQuestionID],
+        ])->first();
 
-        if ($question->isEmpty()) {
+        if ($question === null) {
             $question = Question::find($request->inputQuestionID);
             $question->question = $request->inputQuestion;
             $question->save();
         } else {
-            return Response::json("SAME NAME", 500);
+            if ($question->deleted_at === null) {
+                return Response::json("SAME NAME", 500);
+            } else {
+                return Response::json("SAME NAME TRASH", 500);
+            }
         }
 
         return Response::json($question);
@@ -804,7 +858,7 @@ class MaintenanceController extends Controller
         $question = Question::find($request->inputQuestionID);
 
         if (count($question->testquestion)) {
-            return Response::json("BEING USED", 500);
+            return Response::json("CANNOT REMOVE", 500);
         } else {
             $question->delete();
         }

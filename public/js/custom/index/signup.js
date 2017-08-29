@@ -2547,6 +2547,15 @@ $(document).ready(function() {
     //icheck
     $('input').iCheck({
         radioClass: 'iradio_flat-blue',
+        checkboxClass: 'icheckbox_flat-blue',
+    });
+
+    //check the same as city address
+    $('#sameascity').on('ifChecked', function(event) {
+        $('#provincialaddress').val($('#cityaddress').val());
+        $('#provincialaddressprovince').val($('#cityaddressprovince').val());
+        $('#provincialaddresscity').empty();
+        $('#provincialaddresscity').append('<option value ="'+$('#cityaddresscity').val()+'">'+$('#cityaddresscity').val()+'</option>');
     });
 
     //date picker

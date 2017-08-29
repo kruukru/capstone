@@ -84,7 +84,7 @@ $(document).ready(function() {
             error: function(data) {
                 console.log(data);
 
-                if(data.responseJSON == "BEING USED") {
+                if(data.responseJSON == "CANNOT REMOVE") {
                     toastr.error("CANNOT REMOVE WHILE BEING USED");
                 }
             },
@@ -193,6 +193,8 @@ $(document).ready(function() {
 
                     if (data.responseJSON == "SAME NAME") {
                         toastr.error("QUESTION ALREADY EXIST");
+                    } else if (data.responseJSON == "SAME NAME TRASH") {
+                        toastr.error("QUESTION ALREADY EXIST IN ARCHIVE");
                     }
                 }
             });

@@ -226,7 +226,9 @@ $(document).ready(function() {
             error: function (data) {
                 console.log(data);
 
-                toastr.error("CANNOT REMOVE WHILE THERE'S A QUESTION");
+                if (data.responseJSON == "CANNOT REMOVE") {
+                    toastr.error("CANNOT REMOVE WHILE BEING USED");
+                }
             },
         });
     });

@@ -412,6 +412,11 @@
 									            		</div>
 									            	</div>
 									            	<div class="form-group">
+									            		<div class="col-md-offset-1">
+									            			<label><input type="checkbox" id="sameascity" name="sameascity"> SAME AS CITY ADDRESS</label>
+									            		</div>
+									            	</div>
+									            	<div class="form-group">
 									            		<div class="row">
 									            			<div class="col-md-5 col-md-offset-1">
 									            				<label>Hobbies</label>

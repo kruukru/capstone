@@ -151,11 +151,18 @@ class TestController extends Controller
                     $query->where('type', '!=', 3);
                 })->get();
 
+            $item = 0;
+            if ($test->maxquestion < count($testquestionitem)) {
+                $item = $test->maxquestion;
+            } else {
+                $item = count($testquestionitem);
+            }
+
             $score = new Score;
             $score->applicant()->associate($applicant);
             $score->test()->associate($test);
             $score->score = count($testquestion);
-            $score->item = count($testquestionitem);
+            $score->item = $item;
             $score->save();
         }
 

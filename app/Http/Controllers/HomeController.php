@@ -17,59 +17,6 @@ use Auth;
 class HomeController extends Controller
 {
     public function index() {
-        // $appointmentslot = AppointmentSlot::first();
-        // $lastday = Carbon::today()->addDays($appointmentslot->noofday - 1);
-        // $appointmentdate = AppointmentDate::where('date', $lastday->format("Y-m-d"))->first();
-        // if ($appointmentdate == null) {
-        //     $holiday = Holiday::whereMonth('date', $lastday->format("m"))
-        //             ->whereDay('date', $lastday->format("d"))->first();
-        //     if ($holiday == null) {
-        //         $check = false;
-        //         if ($lastday->format("D") == ($appointmentslot->sunday == 1? "Sun": "")) {
-        //             $check = true;
-        //         } else if ($lastday->format("D") == ($appointmentslot->monday == 1? "Mon": "")) {
-        //             $check = true;
-        //         } else if ($lastday->format("D") == ($appointmentslot->tuesday == 1? "Tue": "")) {
-        //             $check = true;
-        //         } else if ($lastday->format("D") == ($appointmentslot->wednesday == 1? "Wed": "")) {
-        //             $check = true;
-        //         } else if ($lastday->format("D") == ($appointmentslot->thursday == 1? "Thu": "")) {
-        //             $check = true;
-        //         } else if ($lastday->format("D") == ($appointmentslot->friday == 1? "Fri": "")) {
-        //             $check = true;
-        //         } else if ($lastday->format("D") == ($appointmentslot->saturday == 1? "Sat": "")) {
-        //             $check = true;
-        //         }
-
-        //         if ($check) {
-        //             $appointmentdate = new AppointmentDate;
-        //             $appointmentdate->date = $lastday->format("Y-m-d");
-        //             $appointmentdate->save();
-        //         }
-        //     } else if ($holiday->yearly == 1) {
-        //         $appointmentdate = new AppointmentDate;
-        //         $appointmentdate->holiday()->associate($holiday);
-        //         $appointmentdate->date = $lastday->format("Y-m-d");
-        //         $appointmentdate->save();
-        //     } else if ($holiday->yearly == 0) {
-        //         if ($holiday->date->format("Y") == $lastday->format("Y")) {
-        //             $appointmentdate = new AppointmentDate;
-        //             $appointmentdate->holiday()->associate($holiday);
-        //             $appointmentdate->date = $lastday->format("Y-m-d");
-        //             $appointmentdate->save();
-        //         } else {
-        //             $appointmentdate = new AppointmentDate;
-        //             $appointmentdate->date = $lastday->format("Y-m-d");
-        //             $appointmentdate->save();
-        //         }
-        //     }
-        // }
-
-        // Appointment::whereHas('appointmentdate', function($query) {
-        //     $query->where('date', '<', Carbon::today());
-        // })->forceDelete();
-        // AppointmentDate::where('date', '<', Carbon::today())->forceDelete();
-
         $appointmentslot = AppointmentSlot::first();
         $begin = new DateTime(Carbon::today());
         $end = new DateTime(Carbon::today()->addDays($appointmentslot->noofday));
@@ -175,11 +122,15 @@ class HomeController extends Controller
 
         Appointment::whereHas('appointmentdate', function($query) {
             $query->where('date', '<', Carbon::today());
+        })->whereHas('applicant', function($query) {
+            $query->where('status', 0);
         })->forceDelete();
         Appointment::whereHas('appointmentdate', function($query) use ($appointmentslot) {
             $query->where('date', '>=', Carbon::today()->addDays($appointmentslot->noofday));
         })->forceDelete();
-        AppointmentDate::where('date', '<', Carbon::today())->forceDelete();
+        
+        AppointmentDate::where('date', '<', Carbon::today())
+            ->whereDoesntHave('appointment')->forceDelete();
         AppointmentDate::where('date', '>=', Carbon::today()->addDays($appointmentslot->noofday))->forceDelete();
 
         //for resetting the fail status of applicant in 3 month rule

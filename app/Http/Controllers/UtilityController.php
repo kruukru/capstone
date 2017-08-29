@@ -140,11 +140,15 @@ class UtilityController extends Controller
 
         Appointment::whereHas('appointmentdate', function($query) {
             $query->where('date', '<', Carbon::today());
+        })->whereHas('applicant', function($query) {
+            $query->where('status', 0);
         })->forceDelete();
         Appointment::whereHas('appointmentdate', function($query) use ($appointmentslot) {
             $query->where('date', '>=', Carbon::today()->addDays($appointmentslot->noofday));
         })->forceDelete();
-        AppointmentDate::where('date', '<', Carbon::today())->forceDelete();
+        
+        AppointmentDate::where('date', '<', Carbon::today())
+            ->whereDoesntHave('appointment')->forceDelete();
         AppointmentDate::where('date', '>=', Carbon::today()->addDays($appointmentslot->noofday))->forceDelete();
 
         return Response::json($appointmentslot);

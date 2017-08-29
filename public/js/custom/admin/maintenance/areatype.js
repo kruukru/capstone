@@ -85,7 +85,9 @@ $(document).ready(function() {
             error: function (data) {
                 console.log(data);
 
-                toastr.error("CANNOT REMOVE WHILE BEING USED");
+                if (data.responseJSON == "CANNOT REMOVE") {
+                    toastr.error("CANNOT REMOVE WHILE BEING USED");
+                }
             },
         });
     });
