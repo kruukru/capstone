@@ -8,11 +8,15 @@ use Amcor\Applicant;
 use Amcor\Appointment;
 use Amcor\ApplicantRequirement;
 use Amcor\Score;
+use Amcor\Attendance;
+use Amcor\DeploymentSite;
+use Carbon\Carbon;
 use PDF;
 use Auth;
 
 class PDFController extends Controller
 {
+    //admin
     public function getAdminContractDocument($contractid) {
         $contract = Contract::with('Client', 'DeploymentSite')->find($contractid);
 
@@ -35,6 +39,23 @@ class PDFController extends Controller
         return $pdf->stream();
     }
 
+    //manager
+    public function getManagerAttendanceDocument($deploymentsiteid) {
+        $deploymentsite = DeploymentSite::find($deploymentsiteid);
+        $attendances = Attendance::where([
+            ['deploymentsiteid', $deploymentsiteid],
+            ['date', Carbon::today()],
+        ])->orderBy('status')->get();
+
+        if ($deploymentsite == null) {
+            return view('errors.404');
+        }
+
+        $pdf = PDF::loadView('manager.pdf.attendance', compact('attendances', 'deploymentsite'));
+        return $pdf->stream();
+    }
+
+    //applicant
     public function getApplicantAppointmentVoucher() {
     	$applicant = Applicant::find(Auth::user()->applicant->applicantid);
     	$applicantrequirements = ApplicantRequirement::with('Requirement')

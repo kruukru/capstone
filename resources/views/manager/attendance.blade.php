@@ -26,6 +26,15 @@
 									</td>
 								</tr>
 							@endforeach
+							@foreach ($deploymentsitess as $deploymentsite)
+								<tr id="id{{$deploymentsite->deploymentsiteid}}">
+									<td>{{$deploymentsite->sitename}}</td>
+									<td>{{$deploymentsite->location}}</td>
+									<td style="text-align: center;">
+										<a href="{{ route('manager-attendance-document', ['deploymentsiteid' => $deploymentsite->deploymentsiteid]) }}"><button class="btn btn-primary btn-xs">Print Attendance</button></a>
+									</td>
+								</tr>
+							@endforeach
 						</tbody>
 					</table>
 					</div>

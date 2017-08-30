@@ -60,6 +60,7 @@ $(document).ready(function() {
             null,
             null,
             null,
+            null,
             { "bSearchable": false, "bSortable": false, },
         ]
     });
@@ -250,6 +251,7 @@ $(document).ready(function() {
                                     row += "<td style='text-align: center'>" + value.distance.toFixed(2) + "</td>";
                                 }
                                 row += "<td style='text-align: center;'>" + value.points.toFixed(2) + "%</td>" +
+                                    "<td style='text-align: center;'>" + value.vacant + "</td>" +
                                     "<td style='text-align: center;'>" +
                                         "<button class='btn btn-primary btn-xs' id='btnAdd' value="+value.applicantid+">Add</button> " +
                                     "</td>" +
@@ -258,7 +260,7 @@ $(document).ready(function() {
                                 tablePool.row.add($(row)[0]);
                             });
 
-                            tablePool.order([5, 'asc']).draw();
+                            tablePool.order([7, 'desc']).draw();
                         },
                     });
                 },
@@ -637,6 +639,7 @@ $(document).ready(function() {
                                     row += "<td style='text-align: center'>" + value.distance.toFixed(2) + "</td>";
                                 }
                                 row += "<td style='text-align: center;'>" + value.points.toFixed(2) + "%</td>" +
+                                    "<td style='text-align: center;'>" + value.vacant + "</td>" +
                                     "<td style='text-align: center;'>" +
                                         "<button class='btn btn-primary btn-xs' id='btnAdd' value="+value.applicantid+">Add</button> " +
                                     "</td>" +
@@ -645,7 +648,7 @@ $(document).ready(function() {
                             }
                         });
 
-                        tablePool.order([5, 'asc']).draw();
+                        tablePool.order([7, 'desc']).draw();
                     },
                 });
             },

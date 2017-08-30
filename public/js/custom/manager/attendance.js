@@ -93,7 +93,13 @@ $(document).ready(function() {
                 success: function(data) {
                     console.log(data);
 
-                    table.row('#id' + deploymentsiteid).remove().draw(false);
+                    var data = [
+                        data.sitename,
+                        data.location,
+                        "<a href='/manager/attendance/document/" + deploymentsiteid + "'>" +
+                        "<button class='btn btn-primary btn-xs'>Print Attendance</button></a>",
+                    ];
+                    table.row('#id' + deploymentsiteid).data(data).draw(false);
                     
                     $('#modalAttendance').modal('hide');
                     toastr.success("SAVE SUCCESSFUL");

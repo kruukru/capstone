@@ -352,6 +352,8 @@ Route::group(['middleware' => ['auth']], function() {
 		Route::name('manager-attendance')->get('/manager/attendance', 'AttendanceController@getManagerAttendance');
 		Route::get('/manager/attendance/securityguard', 'AttendanceController@getManagerSecurityGuard');
 		Route::post('/manager/attendance/securityguard', 'AttendanceController@postManagerSecurityGuard');
+
+		Route::name('manager-attendance-document')->get('/manager/attendance/document/{deploymentsiteid}', 'PDFController@getManagerAttendanceDocument');
 	});
 
 	//applicant applicant applicant applicant applicant applicant applicant applicant applicant applicant applicant applicant applicant

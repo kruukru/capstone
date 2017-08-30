@@ -24,9 +24,18 @@ class AttendanceController extends Controller
             $query->where('date', Carbon::today());
         })->get();
 
+        $deploymentsitess = DeploymentSite::where('status', 5)->whereHas('managersite', function($query) {
+            $query->where('managerid', Auth::user()->manager->managerid);
+        })->whereHas('contract', function($query) {
+            $query->where([
+                ['startdate', '<=', Carbon::today()],
+                ['expiration', '>=', Carbon::today()],
+            ]);
+        })->whereHas('attendance', function($query) {
+            $query->where('date', Carbon::today());
+        })->get();
 
-
-    	return view ('manager.attendance', compact('deploymentsites'));
+    	return view ('manager.attendance', compact('deploymentsites', 'deploymentsitess'));
     }
 
     public function getManagerSecurityGuard(Request $request) {

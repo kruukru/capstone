@@ -233,6 +233,7 @@ class RequestController extends Controller
                 'name' => $securityguard->lastname . ", " . $securityguard->firstname . " " . $securityguard->middlename,
                 'distance' => $distance,
                 'points' => ($points / 400) * 100,
+                'vacant' => $securityguard->lastdeployed->diffInDays(Carbon::today()),
             ]);
         }
 

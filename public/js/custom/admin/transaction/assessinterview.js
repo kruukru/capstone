@@ -77,9 +77,9 @@ $(document).ready(function() {
         adminid = $('meta[name="AuthenticatedID"]').attr('content');
 
         var check = true;
-        if (!$('#status-list').find('.btn').hasClass('btn-primary')) {
-            check = false;
-        }
+        // if (!$('#status-list').find('.btn').hasClass('btn-primary')) {
+        //     check = false;
+        // }
 
         if (check) {
             var formData = [];

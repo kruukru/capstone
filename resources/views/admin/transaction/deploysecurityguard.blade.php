@@ -97,6 +97,7 @@
 								<th>Attainment</th>
 								<th style="text-align: center;">Approx Distance(km)</th>
 								<th style="text-align: center;">Percent</th>
+								<th style="text-align: center;">Vacant(day)</th>
 								<th style="text-align: center;">Action</th>
 							</thead>
 							<tbody id="pool-list"></tbody>

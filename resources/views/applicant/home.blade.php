@@ -1,7 +1,7 @@
 @extends('applicant.templates.default')
 
 @section('content')
-	<section class="content-header">
+	<!-- <section class="content-header">
         <h1>APPLICANT SIDE</h1>
-    </section>
+    </section> -->
 @endsection
