@@ -97,6 +97,8 @@ Route::group(['middleware' => ['auth']], function() {
 		Route::post('/admin/transaction/test/testquestionanswer', 'TestController@postAdminTestQuestionAnswer');
 		Route::post('/admin/transaction/test/applicantexamstatus', 'TestController@postAdminApplicantExamStatus');
 
+		Route::name('admin-testresult-document')->get('/admin/testresult/document/{applicantid}', 'PDFController@getAdminTestResultDocument');
+
 		//assess test
 		Route::name('admin-transaction-assesstest')->get('/admin/transaction/assesstest', 'AssessController@getAdminAssessTest');
 		Route::post('/admin/transaction/assesstest', 'AssessController@postAdminAssessTest');

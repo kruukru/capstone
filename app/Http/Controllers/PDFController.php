@@ -7,6 +7,7 @@ use Amcor\Contract;
 use Amcor\Applicant;
 use Amcor\Appointment;
 use Amcor\ApplicantRequirement;
+use Amcor\Score;
 use PDF;
 use Auth;
 
@@ -16,6 +17,21 @@ class PDFController extends Controller
         $contract = Contract::with('Client', 'DeploymentSite')->find($contractid);
 
         $pdf = PDF::loadView('admin.pdf.contract', compact('contract'));
+        return $pdf->stream();
+    }
+
+    public function getAdminTestResultDocument($applicantid) {
+        $applicant = Applicant::find($applicantid);
+        $scores = Score::where([
+            ['applicantid', $applicantid],
+            ['item', '!=', 0],
+        ])->get();
+
+        if ($applicant == null || $scores->isEmpty()) {
+            return view('errors.404');
+        }
+
+        $pdf = PDF::loadView('admin.pdf.testresult', compact('applicant', 'scores'));
         return $pdf->stream();
     }
 

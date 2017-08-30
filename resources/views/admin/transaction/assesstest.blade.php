@@ -21,9 +21,15 @@
 								<tr id="id{{$applicant->applicantid}}">
 									<td>{{$applicant->applicantid}}</td>
 									<td>{{$applicant->lastname}}, {{$applicant->firstname}} {{$applicant->middlename}}</td>
-									<td style="text-align: center;">
-										<button class="btn btn-warning btn-xs" id="btnAssess" value="{{$applicant->applicantid}}">Assess</button>
-									</td>
+									@if ($applicant->status == 2 || $applicant->status == 6)
+										<td style="text-align: center;">
+											<button class="btn btn-warning btn-xs" id="btnAssess" value="{{$applicant->applicantid}}">Assess</button>
+										</td>
+									@else
+										<td style="text-align: center;">
+											<a href="{{ route('admin-testresult-document', ['applicantid' => $applicant->applicantid]) }}"><button class="btn btn-primary btn-xs">Test Result</button></a>
+										</td>
+									@endif 
 								</tr>
 								@endforeach
 							</tbody>

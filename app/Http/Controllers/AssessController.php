@@ -18,10 +18,14 @@ class AssessController extends Controller
 {
 	//assess test
     public function getAdminAssessTest(Request $request) {
-    	$applicants = Applicant::where(function($query) {
-            $query->where('status', 2)
-                ->orWhere('status', 6);
-        })->get();
+    	// $applicants = Applicant::where(function($query) {
+     //        $query->where('status', 2)
+     //            ->orWhere('status', 3)
+     //            ->orWHere('status', 6)
+     //            ->orWHere('status', 7);
+     //    })->get();
+
+        $applicants = Applicant::where('status', '>=', 2)->get();
 
         return view('admin.transaction.assesstest', compact('applicants'));
     }

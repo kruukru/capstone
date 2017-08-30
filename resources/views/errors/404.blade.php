@@ -14,7 +14,7 @@
   <header class="main-header">
     <!-- Logo -->
     <a href="{{ route('home') }}" class="logo">
-      <img src="images/amcor.png" style="height: 40px; width: 40px;">
+      <img src="/images/amcor.png" style="height: 40px; width: 40px;">
       <span class="logo-sm"><b>AMCOR</b></span>
     </a>
 

@@ -4,7 +4,7 @@ $(document).ready(function() {
         "aoColumns": [
             null,
             null,
-            { "bSearchable": false, "bSortable": false, },
+            null,
         ]
     });
     table.order([[1, 'asc']]).draw();
@@ -97,7 +97,13 @@ $(document).ready(function() {
             success: function(data) {
                 console.log(data);
 
-                table.row('#id' + data.applicantid).remove().draw(false);
+                var data = [
+                    data.applicantid,
+                    data.lastname + ", " + data.firstname + " " + data.middlename,
+                    "<a href='/admin/testresult/document/" + applicantid + "'>" +
+                    "<button class='btn btn-primary btn-xs'>Test Result</button></a>",
+                ];
+                table.row('#id' + applicantid).data(data).draw(false);
 
                 $('#modalAssess').modal('hide');
                 toastr.success("ASSESS SUCCESSFUL");
