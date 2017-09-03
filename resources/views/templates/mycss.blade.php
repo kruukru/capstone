@@ -14,5 +14,40 @@
 <link rel="stylesheet" type="text/css" href="/css/bootstrap-slider.min.css">
 <link rel="stylesheet" type="text/css" href="/css/icheckblue.css">
 <link rel="stylesheet" type="text/css" href="/css/jquery-editable-select.min.css">
+<link rel="stylesheet" type="text/css" href="/css/jquery.loading.min.css">
 
-<link rel="stylesheet" type="text/css" href="/css/custom/mycss.css">
+<style type="text/css">
+	@media (min-width: 768px) {
+		.modal-dialog {
+			width: 50%;
+			margin: 30px auto;
+		}
+
+		.modal-70 {
+			width: 70%;
+			margin: 30px auto;
+		}
+
+		.modal-90 {
+			width: 90%;
+			margin: 30px auto;
+		}
+	}
+
+	.no-padding {
+		padding: 0 !important;
+		margin: 0 !important;
+	}
+
+	textarea {
+		resize: vertical;
+	}
+
+	.modal {
+		overflow-y: auto;
+	}
+
+	.slider-selection {
+		background: lightblue;
+	}
+</style>
