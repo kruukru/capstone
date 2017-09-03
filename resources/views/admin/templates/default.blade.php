@@ -174,9 +174,6 @@
 			@include('templates.alert')
 			@yield('content')
 		</div>
-		<div id="loadingoverlay" style="display: none; text-align: center;">
-			<img src="/images/loading.gif" style="width: 50%; height: 50%;">
-		</div>
 	</div>
 
 	@include('templates.myjs')

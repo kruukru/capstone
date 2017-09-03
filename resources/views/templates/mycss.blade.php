@@ -15,6 +15,7 @@
 <link rel="stylesheet" type="text/css" href="/css/icheckblue.css">
 <link rel="stylesheet" type="text/css" href="/css/jquery-editable-select.min.css">
 <link rel="stylesheet" type="text/css" href="/css/jquery.loading.min.css">
+<!-- <link rel="stylesheet" type="text/css" href="/css/jquery.loading.css"> -->
 
 <style type="text/css">
 	@media (min-width: 768px) {

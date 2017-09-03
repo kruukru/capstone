@@ -84,13 +84,16 @@ $(document).ready(function() {
 
     //create new task / update existing task
     $('#btnSave').click(function(e) {
-        if($('#formRequirement').parsley().isValid()) {
+        if ($('#formRequirement').parsley().isValid()) {
             e.preventDefault();
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
                 }
-            })
+            });
+            $('#modalRequirement').loading({
+                message: "SAVING...",
+            });
 
             //used to determine the http verb to use
             var state = $('#btnSave').val();
@@ -109,58 +112,53 @@ $(document).ready(function() {
                 }
             }
 
-            $('#modalRequirement').loading({
-                message: "SAVING...",
-                overlay: $('#loadingoverlay'),
+            $.ajax({
+                type: "POST",
+                url: my_url,
+                data: formData,
+                dataType: "json",
+                success: function(data) {
+                    console.log(data);
+
+                    if (data.description === null) {
+                        data.description = '';
+                    }
+
+                    if ($('#btnSave').val() == "New") {
+                        var row = "<tr id=id" + data.requirementid + ">" +
+                            "<td>" + data.name + "</td>" +
+                            "<td>" + data.description + "</td>" +
+                            "<td style='text-align: center;'>" +
+                            "<button class='btn btn-warning btn-xs' id='btnUpdate' value="+data.requirementid+">Update</button> " +
+                            "<button class='btn btn-danger btn-xs' id='btnRemove' value="+data.requirementid+">Remove</button>" +
+                            "</td>" +
+                            "</tr>";
+                        table.row.add($(row)[0]).draw();
+                    } else {
+                        var data = [
+                            data.name,
+                            data.description,
+                            "<button class='btn btn-warning btn-xs' id='btnUpdate' value="+data.requirementid+">Update</button> " +
+                            "<button class='btn btn-danger btn-xs' id='btnRemove' value="+data.requirementid+">Remove</button>",
+                        ];
+                        table.row('#id' + requirementid).data(data).draw(false);
+                    }
+
+                    $('#modalRequirement').modal('hide');
+                    $('#modalRequirement').loading('stop');
+                    toastr.success("SAVE SUCCESSFUL");
+                },
+                error: function(data) {
+                    console.log(data);
+
+                    $('#modalRequirement').loading('stop');
+                    if (data.responseJSON == "SAME NAME") {
+                        toastr.error("REQUIREMENT ALREADY EXIST");
+                    } else if(data.responseJSON == "SAME NAME TRASH") {
+                        toastr.error("REQUIREMENT ALREADY EXIST IN ARCHIVE");
+                    }
+                }
             });
-
-            // $.ajax({
-            //     type: "POST",
-            //     url: my_url,
-            //     data: formData,
-            //     dataType: "json",
-            //     success: function(data) {
-            //         console.log(data);
-
-            //         if (data.description === null) {
-            //             data.description = '';
-            //         }
-
-            //         if ($('#btnSave').val() == "New") {
-            //             var row = "<tr id=id" + data.requirementid + ">" +
-            //                 "<td>" + data.name + "</td>" +
-            //                 "<td>" + data.description + "</td>" +
-            //                 "<td style='text-align: center;'>" +
-            //                 "<button class='btn btn-warning btn-xs' id='btnUpdate' value="+data.requirementid+">Update</button> " +
-            //                 "<button class='btn btn-danger btn-xs' id='btnRemove' value="+data.requirementid+">Remove</button>" +
-            //                 "</td>" +
-            //                 "</tr>";
-            //             table.row.add($(row)[0]).draw();
-            //         } else {
-            //             var data = [
-            //                 data.name,
-            //                 data.description,
-            //                 "<button class='btn btn-warning btn-xs' id='btnUpdate' value="+data.requirementid+">Update</button> " +
-            //                 "<button class='btn btn-danger btn-xs' id='btnRemove' value="+data.requirementid+">Remove</button>",
-            //             ];
-            //             table.row('#id' + requirementid).data(data).draw(false);
-            //         }
-
-            //         $('#modalRequirement').modal('hide');
-            //         $('#modalRequirement').loading('stop');
-            //         toastr.success("SAVE SUCCESSFUL");
-            //     },
-            //     error: function(data) {
-            //         console.log(data);
-
-            //         $('#modalRequirement').loading('stop');
-            //         if (data.responseJSON == "SAME NAME") {
-            //             toastr.error("REQUIREMENT ALREADY EXIST");
-            //         } else if(data.responseJSON == "SAME NAME TRASH") {
-            //             toastr.error("REQUIREMENT ALREADY EXIST IN ARCHIVE");
-            //         }
-            //     }
-            // });
         }
     });
 });
