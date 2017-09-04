@@ -168,7 +168,7 @@ class HomeController extends Controller
                     ]);
                 }
 
-                //contract expiraiton
+                //contract expiration
                 $contracts = Contract::where('expiration', '<=', Carbon::today()->addDays(60))->get();
                 foreach ($contracts as $contract) {
                     $description = $contract->deploymentsite->sitename . " will expire in " .
@@ -220,7 +220,7 @@ class HomeController extends Controller
                     }
                 }
 
-	    		return view('admin.home', compact('notifications'));
+	    		return view('admin.home');
 	    	} else if (Auth::user()->accounttype == 10) {
 	    		return view('client.home');
 	    	} else if (Auth::user()->accounttype == 20) {

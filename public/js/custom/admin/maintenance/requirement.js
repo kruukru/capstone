@@ -58,6 +58,9 @@ $(document).ready(function() {
                 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
             }
         });
+        $('#modalRequirementRemove').loading({
+            message: "REMOVING...",
+        });
 
         $.ajax({
             type: "POST",
@@ -70,11 +73,13 @@ $(document).ready(function() {
                 table.row('#id' + requirementid).remove().draw(false);
 
                 $('#modalRequirementRemove').modal('hide');
+                $('#modalRequirementRemove').loading('stop');
                 toastr.success("REMOVE SUCCESSFUL");
             },
             error: function(data) {
                 console.log(data);
-
+                
+                $('#modalRequirementRemove').loading('stop');
                 if (data.responseJSON == "CANNOT REMOVE") {
                     toastr.error("CANNOT REMOVE WHILE BEING USED");
                 }
