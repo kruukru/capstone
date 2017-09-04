@@ -2947,6 +2947,10 @@ $(document).ready(function() {
         if ($('#password').val() != $('#confirmpassword').val()) {
             toastr.error("PASSWORD MISMATCH");
         } else {
+            $('#modalInfo').loading({
+                message: "SAVING...",
+            });
+
             //computation of work exp
             if($('#tblEmploymentRecord > tbody > tr').length != 0) {
                 $('#tblEmploymentRecord > tbody > tr').each(function() {
@@ -3122,12 +3126,14 @@ $(document).ready(function() {
                             console.log(data);
 
                             $('#modalInfo').modal('hide');
+                            $('#modalInfo').loading('stop');
                             alert("SAVE SUCCESSFUL");
                             window.location.href = "/applicant/appointment";
                         },
                         error: function(data) {
                             console.log(data);
 
+                            $('#modalInfo').loading('stop');
                             if (data.responseJSON == "SAME SSS") {
                                 toastr.error("SSS ALREADY EXISTS");
                             } else if (data.responseJSON == "SAME PHILHEALTH") {
@@ -3207,12 +3213,14 @@ $(document).ready(function() {
                         console.log(data);
 
                         $('#modalInfo').modal('hide');
+                        $('#modalInfo').loading('stop');
                         alert("SAVE SUCCESSFUL");
                         window.location.href = "/applicant/appointment";
                     },
                     error: function(data) {
                         console.log(data);
 
+                        $('#modalInfo').loading('stop');
                         if (data.responseJSON == "SAME SSS") {
                             toastr.error("SSS ALREADY EXISTS");
                         } else if (data.responseJSON == "SAME PHILHEALTH") {

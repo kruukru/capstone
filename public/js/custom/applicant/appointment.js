@@ -63,6 +63,9 @@ $(document).ready(function() {
             }
         })
         e.preventDefault();
+        $('#modalAppointment').loading({
+            message: "SAVING...",
+        });
 
     	$.ajax({
             type: "POST",
@@ -73,11 +76,9 @@ $(document).ready(function() {
                 console.log(data);
 
                 $('#modalAppointment').modal('hide');
+                $('#modalAppointment').loading('stop');
                 alert("APPOINT SUCCESSFUL");
             	window.location.href = "/applicant/appointment";
-            },
-            error: function(data) {
-                console.log(data);
             },
         });
     });
@@ -89,6 +90,9 @@ $(document).ready(function() {
             }
         })
         e.preventDefault();
+        $('#modalAppointmentRemove').loading({
+            message: "SAVING...",
+        });
 
         $.ajax({
             type: "POST",
@@ -99,11 +103,9 @@ $(document).ready(function() {
                 console.log(data);
 
                 $('#modalAppointmentRemove').modal('hide');
+                $('#modalAppointmentRemove').loading('stop');
                 alert("REMOVE SUCCESSFUL");
                 window.location.href = "/applicant/appointment";
-            },
-            error: function(data) {
-                console.log(data);
             },
         });
     })
