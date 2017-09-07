@@ -88,8 +88,11 @@ $(document).ready(function() {
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
             }
-        })
+        });
         e.preventDefault();
+        $('#modalItemRemove').loading({
+            message: "REMOVING..."
+        });
 
         $.ajax({
             type: "POST",
@@ -100,13 +103,15 @@ $(document).ready(function() {
                 console.log(data);
 
                 table.row('#id' + itemid).remove().draw(false);
-                $('#modalItemRemove').modal('hide');
 
+                $('#modalItemRemove').modal('hide');
+                $('#modalItemRemove').loading('stop');
                 toastr.success("REMOVE SUCCESSFUL");
             },
             error: function (data) {
                 console.log(data);
 
+                $('#modalItemRemove').loading('stop');
                 if (data.responseJSON == "CANNOT REMOVE") {
                     toastr.error("CANNOT REMOVE WHILE BEING USED");
                 }
@@ -121,8 +126,11 @@ $(document).ready(function() {
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
                 }
-            })
+            });
             e.preventDefault();
+            $('#modalItem').loading({
+                message: "SAVING..."
+            });
 
             //used to determine the http verb to use
             var state = $('#btnSave').val();
@@ -180,11 +188,13 @@ $(document).ready(function() {
                     }
                     
                     $('#modalItem').modal('hide');
+                    $('#modalItem').loading('stop');
                     toastr.success("SAVE SUCCESSFUL");
                 },
                 error: function (data) {
                     console.log(data);
 
+                    $('#modalItem').loading('stop');
                     if (data.responseJSON == "SAME NAME") {
                         toastr.error("ITEM ALREADY EXIST");
                     } else if(data.responseJSON == "SAME NAME TRASH") {

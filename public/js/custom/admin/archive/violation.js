@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    var id;
+    var violationid;
     var table = $('#tblViolation').DataTable({
         "aoColumns": [
             null,
@@ -14,7 +14,7 @@ $(document).ready(function() {
 
     //display modal for confirmation of restore
     $('#violation-list').on('click', '#btnRestore', function() {
-        id = $(this).val();
+        violationid = $(this).val();
 
         $('#modalViolation').modal('show');
     });
@@ -26,23 +26,29 @@ $(document).ready(function() {
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
             }
-        })
+        });
+        $('#modalViolation').loading({
+            message: "SAVING..."
+        });
 
         $.ajax({
             type: "POST",
             url: "/admin/archive/violation/restore",
-            data: { inputViolationID: id },
+            data: { inputViolationID: violationid },
             dataType: "json",
             success: function(data) {
                 console.log(data);
 
-                table.row('#id' + id).remove().draw(false);
-                $('#modalViolation').modal('hide');
+                table.row('#id' + violationid).remove().draw(false);
 
-                toastr.success("Restore Successful");
+                $('#modalViolation').modal('hide');
+                $('#modalViolation').loading('stop');
+                toastr.success("RESTORE SUCCESSFUL");
             },
             error: function(data) {
                 console.log(data);
+
+                $('#modalViolation').loading('stop');
             },
         });
     });

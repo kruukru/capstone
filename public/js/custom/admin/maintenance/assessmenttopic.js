@@ -57,7 +57,10 @@ $(document).ready(function() {
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
             }
-        })
+        });
+        $('#modalAssessmentTopicRemove').loading({
+            message: "REMOVING..."
+        });
 
         $.ajax({
             type: "POST",
@@ -70,11 +73,13 @@ $(document).ready(function() {
                 table.row('#id' + assessmenttopicid).remove().draw(false);
 
                 $('#modalAssessmentTopicRemove').modal('hide');
+                $('#modalAssessmentTopicRemove').loading('stop');
                 toastr.success("REMOVE SUCCESSFUL");
             },
             error: function(data) {
                 console.log(data);
 
+                $('#modalAssessmentTopicRemove').loading('stop');
                 if (data.responseJSON == "CANNOT REMOVE"); {
                     toastr.error("CANNOT REMOVE WHILE BEING USED");
                 }
@@ -84,13 +89,16 @@ $(document).ready(function() {
 
     //create new task / update existing task
     $('#btnSave').click(function(e) {
-        if($('#formAssessmentTopic').parsley().isValid()) {
+        if ($('#formAssessmentTopic').parsley().isValid()) {
             e.preventDefault();
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
                 }
-            })
+            });
+            $('#modalAssessmentTopic').loading({
+                message: "SAVING..."
+            });
 
             //determine what type of task
             if ($('#btnSave').val() == "New") {
@@ -143,11 +151,13 @@ $(document).ready(function() {
                     }
 
                     $('#modalAssessmentTopic').modal('hide');
+                    $('#modalAssessmentTopic').loading('stop');
                     toastr.success("SAVE SUCCESSFUL");
                 },
                 error: function(data) {
                     console.log(data);
 
+                    $('#modalAssessmentTopic').loading('stop');
                     if (data.responseJSON == "SAME NAME") {
                         toastr.error("ASSESSMENT TOPIC ALREADY EXIST");
                     } else if(data.responseJSON == "SAME NAME TRASH") {

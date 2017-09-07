@@ -153,6 +153,9 @@ $(document).ready(function() {
             }
         })
         e.preventDefault();
+        $('#modalMultipleChoiceRemove').loading({
+            message: "REMOVING..."
+        });
 
         $.ajax({
             type: "POST",
@@ -163,12 +166,14 @@ $(document).ready(function() {
                 console.log(data);
 
                 table.row('#id' + id).remove().draw(false);
-                toastr.success("REMOVE SUCCESSFUL");
                 $('#modalMultipleChoiceRemove').modal('hide');
+                $('#modalMultipleChoiceRemove').loading('stop');
+                toastr.success("REMOVE SUCCESSFUL");
             },
             error: function(data) {
                 console.log(data);
 
+                $('#modalMultipleChoiceRemove').loading('stop');
                 if (data.responseJSON == "CANNOT REMOVE") {
                     toastr.error("CANNOT REMOVE WHILE BEING USED");
                 }
@@ -183,6 +188,11 @@ $(document).ready(function() {
 
         if ($('#formMultipleChoice').parsley().validate()) {
             e.preventDefault();
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                }
+            });
 
             $('#tblChoice > tbody > tr > td:nth-child(2)').each(function() {
                 if ($(this).text() == "Correct") {
@@ -204,11 +214,9 @@ $(document).ready(function() {
             }
 
             if (check) {
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
-                    }
-                })
+                $('#modalMultipleChoice').loading({
+                    message: "SAVING..."
+                });
 
                 //used to determine the http verb to use
                 if ($('#btnSave').val() == "New") {
@@ -297,11 +305,13 @@ $(document).ready(function() {
                         });
 
                         $('#modalMultipleChoice').modal('hide');
+                        $('#modalMultipleChoice').loading('stop');
                         toastr.success("SAVE SUCCESSFUL");
                     },
                     error: function (data) {
                         console.log(data);
 
+                        $('#modalMultipleChoice').loading('stop');
                         if (data.responseJSON == "SAME NAME") {
                             toastr.error("QUESTION ALREADY EXIST");
                         } else if (data.responseJSON == "SAME NAME TRASH") {

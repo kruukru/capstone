@@ -53,12 +53,15 @@ $(document).ready(function() {
 
     //remove task and remove it from the list
     $('#btnRemoveConfirm').click(function(e) { 
+        e.preventDefault();
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
             }
-        })
-        e.preventDefault();
+        });
+        $('#modalViolationRemove').loading({
+            message: "REMOVING..."
+        });
 
         $.ajax({
             type: "POST",
@@ -71,25 +74,29 @@ $(document).ready(function() {
                 table.row('#id' + violationid).remove().draw(false);
 
                 $('#modalViolationRemove').modal('hide');
+                $('#modalViolationRemove').loading('stop');
                 toastr.success("REMOVE SUCCESSFUL");
             },
             error: function (data) {
                 console.log(data);
 
-                toastr.error("CANNOT REMOVE WHILE BEING USED");
+                $('#modalViolationRemove').loading('stop');
             },
         });
     });
 
     //create new task / update existing task
     $("#btnSave").click(function (e) {
-        if($('#formViolation').parsley().isValid()) {
+        if ($('#formViolation').parsley().isValid()) {
+            e.preventDefault();
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
                 }
-            })
-            e.preventDefault();
+            });
+            $('#modalViolation').loading({
+                message: "SAVING..."
+            });
 
             //used to determine the http verb to use
             if ($('#btnSave').val() == "New") {
@@ -146,11 +153,13 @@ $(document).ready(function() {
                     }
 
                     $('#modalViolation').modal('hide');
+                    $('#modalViolation').loading('stop');
                     toastr.success("SAVE SUCCESSFUL");
                 },
                 error: function (data) {
                     console.log(data);
 
+                    $('#modalViolation').loading('stop');
                     if (data.responseJSON == "SAME NAME") {
                         toastr.error("VIOLATION ALREADY EXIST");
                     } else if (data.responseJSON == "SAME NAME TRASH") {

@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    var id;
+    var assessmenttopicid;
     var table = $('#tblAssessmentTopic').DataTable({
         "aoColumns": [
             null,
@@ -13,7 +13,7 @@ $(document).ready(function() {
 
     //display modal for confirmation of restore
     $('#assessmenttopic-list').on('click', '#btnRestore', function() {
-        id = $(this).val();
+        assessmenttopicid = $(this).val();
 
         $('#modalAssessmentTopic').modal('show');
     });
@@ -25,23 +25,29 @@ $(document).ready(function() {
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
             }
-        })
+        });
+        $('#modalAssessmentTopic').loading({
+            message: "SAVING..."
+        });
 
         $.ajax({
             type: "POST",
             url: "/admin/archive/assessmenttopic/restore",
-            data: { inputAssessmentTopicID: id },
+            data: { inputAssessmentTopicID: assessmenttopicid },
             dataType: "json",
             success: function(data) {
                 console.log(data);
 
-                table.row('#id' + id).remove().draw(false);
-                $('#modalAssessmentTopic').modal('hide');
+                table.row('#id' + assessmenttopicid).remove().draw(false);
 
-                toastr.success("Restore Successful");
+                $('#modalAssessmentTopic').modal('hide');
+                $('#modalAssessmentTopic').loading('stop');
+                toastr.success("RESTORE SUCCESSFUL");
             },
             error: function(data) {
                 console.log(data);
+
+                $('#modalAssessmentTopic').loading('stop');
             },
         });
     });

@@ -20,6 +20,7 @@ $(document).ready(function() {
     $('.mydatepicker').change(function() {
         $(this).parsley().validate();
     });
+    $('#inputHolidayDate').inputmask("9999-99-99");
     $('#inputHolidayDate').datepicker({
         format: 'yyyy-mm-dd',
         autoclose: true,
@@ -80,6 +81,9 @@ $(document).ready(function() {
                 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
             }
         });
+        $('#modalHolidayRemove').loading({
+            message: "REMOVING..."
+        });
 
         $.ajax({
             type: "POST",
@@ -90,11 +94,15 @@ $(document).ready(function() {
                 console.log(data);
 
                 tableHoliday.row('#id' + data.holidayid).remove().draw(false);
+
                 $('#modalHolidayRemove').modal('hide');
+                $('#modalHolidayRemove').loading('stop');
                 toastr.success("REMOVE SUCCESSFUL");
             },
             error: function(data) {
                 console.log(data);
+
+                $('#modalHolidayRemove').loading('stop');
             },
         });
     });
@@ -102,12 +110,15 @@ $(document).ready(function() {
     //save holiday
     //create new task / update existing task
     $('#btnSave').click(function(e) {
-        if($('#formHoliday').parsley().isValid()) {
+        if ($('#formHoliday').parsley().isValid()) {
             e.preventDefault();
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
                 }
+            });
+            $('#modalHoliday').loading({
+                message: "SAVING..."
             });
 
             //determine what type of task
@@ -171,12 +182,14 @@ $(document).ready(function() {
                     }
 
                     $('#modalHoliday').modal('hide');
+                    $('#modalHoliday').loading('stop');
                     $('#formHoliday').trigger('reset');
                     toastr.success("SAVE SUCCESSFUL");
                 },
                 error: function(data) {
                     console.log(data);
 
+                    $('#modalHoliday').loading('stop');
                     if (data.responseJSON == "SAME NAME") {
                         toastr.error("HOLIDAY ALREADY EXIST");
                     } else if (data.responseJSON == "SAME DATE") {
@@ -195,6 +208,9 @@ $(document).ready(function() {
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
                 }
+            });
+            $('#modalHoliday').loading({
+                message: "SAVING..."
             });
 
             var formData = {
@@ -217,6 +233,7 @@ $(document).ready(function() {
                 success: function(data) {
                     console.log(data);
 
+                    $('#modalHoliday').loading('stop');
                     toastr.success("SAVE SUCCESSFUL");
                 },
                 error: function(data) {

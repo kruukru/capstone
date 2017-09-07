@@ -97,7 +97,7 @@ $(document).ready(function() {
                 }
             });
             $('#modalRequirement').loading({
-                message: "SAVING...",
+                message: "SAVING..."
             });
 
             //used to determine the http verb to use

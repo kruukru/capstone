@@ -55,8 +55,11 @@ $(document).ready(function() {
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
             }
-        })
+        });
         e.preventDefault();
+        $('#modalItemTypeRemove').loading({
+            message: "REMOVING..."
+        });
 
         $.ajax({
             type: "POST",
@@ -69,11 +72,13 @@ $(document).ready(function() {
                 table.row('#id' + itemtypeid).remove().draw(false);
 
                 $('#modalItemTypeRemove').modal('hide');
+                $('#modalItemTypeRemove').loading('stop');
                 toastr.success("REMOVE SUCCESSFUL");
             },
             error: function (data) {
                 console.log(data);
 
+                $('#modalItemTypeRemove').loading('stop');
                 if (data.responseJSON == "CANNOT REMOVE") {
                     toastr.error("CANNOT REMOVE WHILE BEING USED");
                 }
@@ -88,8 +93,11 @@ $(document).ready(function() {
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
                 }
-            })
+            });
             e.preventDefault();
+            $('#modalItemType').loading({
+                message: "SAVING..."
+            });
 
             //used to determine the http verb to use
             if ($('#btnSave').val() == "New") {
@@ -145,11 +153,13 @@ $(document).ready(function() {
                     }
                     
                     $('#modalItemType').modal('hide');
+                    $('#modalItemType').loading('stop');
                     toastr.success("SAVE SUCCESSFUL");
                 },
                 error: function (data) {
                     console.log(data);
 
+                    $('#modalItemType').loading('stop');
                     if (data.responseJSON == "SAME NAME") {
                         toastr.error("ITEM TYPE ALREADY EXIST");
                     } else if(data.responseJSON == "SAME NAME TRASH") {

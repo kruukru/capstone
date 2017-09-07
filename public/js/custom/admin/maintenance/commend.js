@@ -56,7 +56,10 @@ $(document).ready(function() {
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
             }
-        })
+        });
+        $('#modalCommendRemove').loading({
+            message: "REMOVING..."
+        });
 
         $.ajax({
             type: "POST",
@@ -67,14 +70,15 @@ $(document).ready(function() {
                 console.log(data);
 
                 table.row('#id' + commendid).remove().draw(false);
-                $('#modalCommendRemove').modal('hide');
 
+                $('#modalCommendRemove').modal('hide');
+                $('#modalCommendRemove').loading('stop');
                 toastr.success("REMOVE SUCCESSFUL");
             },
             error: function(data) {
                 console.log(data);
 
-                toastr.error("CANNOT REMOVE WHILE BEING USED");
+                $('#modalCommendRemove').loading('stop');
             },
         });
     });
@@ -87,7 +91,10 @@ $(document).ready(function() {
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
                 }
-            })
+            });
+            $('#modalCommend').loading({
+                message: "SAVING..."
+            });
 
             //determine what type of task
             if ($('#btnSave').val() == "New") {
@@ -140,11 +147,13 @@ $(document).ready(function() {
                     }
 
                     $('#modalCommend').modal('hide');
+                    $('#modalCommend').loading('stop');
                     toastr.success("SAVE SUCCESSFUL");
                 },
                 error: function(data) {
                     console.log(data);
 
+                    $('#modalCommend').loading('stop');
                     if (data.responseJSON == "SAME NAME") {
                         toastr.error("COMMEND ALREADY EXIST");
                     } else if (data.responseJSON == "SAME NAME TRASH") {

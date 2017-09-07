@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    var id;
+    var areatypeid;
     var table = $('#tblAreaType').DataTable({
         "aoColumns": [
             null,
@@ -14,7 +14,7 @@ $(document).ready(function() {
 
     //display modal for confirmation of restore
     $('#areatype-list').on('click', '#btnRestore', function() {
-        id = $(this).val();
+        areatypeid = $(this).val();
 
         $('#modalAreaType').modal('show');
     });
@@ -26,23 +26,29 @@ $(document).ready(function() {
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
             }
-        })
+        });
+        $('#modalAreaType').loading({
+            message: "SAVING..."
+        });
 
         $.ajax({
             type: "POST",
             url: "/admin/archive/areatype/restore",
-            data: { inputAreaTypeID: id },
+            data: { inputAreaTypeID: areatypeid },
             dataType: "json",
             success: function(data) {
                 console.log(data);
 
-                table.row('#id' + id).remove().draw(false);
-                $('#modalAreaType').modal('hide');
+                table.row('#id' + areatypeid).remove().draw(false);
 
-                toastr.success("Restore Successful");
+                $('#modalAreaType').modal('hide');
+                $('#modalAreaType').loading('stop');
+                toastr.success("RESTORE SUCCESSFUL");
             },
             error: function(data) {
                 console.log(data);
+
+                $('#modalAreaType').loading('stop');
             },
         });
     });

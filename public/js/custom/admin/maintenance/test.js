@@ -39,8 +39,11 @@ $(document).ready(function() {
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
             }
-        })
+        });
         var qid = $(this).val();
+        $('#modalTestQuestion').loading({
+            message: "SAVING..."
+        });
 
         $.ajax({
             type: "POST",
@@ -59,6 +62,7 @@ $(document).ready(function() {
 
                 tableQuestionOUT.row.add($(row)[0]).draw();
                 tableQuestionIN.row('#in' + qid).remove().draw(false);
+                $('#modalTestQuestion').loading('stop');
             },
         });
     });
@@ -71,6 +75,9 @@ $(document).ready(function() {
             }
         })
         var qid = $(this).val();
+        $('#modalTestQuestion').loading({
+            message: "SAVING..."
+        });
 
         $.ajax({
             type: "POST",
@@ -89,6 +96,7 @@ $(document).ready(function() {
 
                 tableQuestionIN.row.add($(row)[0]).draw();
                 tableQuestionOUT.row('#out' + qid).remove().draw(false);
+                $('#modalTestQuestion').loading('stop');
             },
         });
     });
@@ -209,7 +217,10 @@ $(document).ready(function() {
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
             }
-        })
+        });
+        $('#modalTestRemove').loading({
+            message: "REMOVING..."
+        });
 
         $.ajax({
             type: "POST",
@@ -220,12 +231,15 @@ $(document).ready(function() {
                 console.log(data);
 
                 table.row('#id' + id).remove().draw(false);
+
                 $('#modalTestRemove').modal('hide');
+                $('#modalTestRemove').loading('stop');
                 toastr.success("REMOVE SUCCESSFUL");
             },
             error: function (data) {
                 console.log(data);
 
+                $('#modalTestRemove').loading('stop');
                 if (data.responseJSON == "CANNOT REMOVE") {
                     toastr.error("CANNOT REMOVE WHILE BEING USED");
                 }
@@ -241,7 +255,10 @@ $(document).ready(function() {
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
                 }
-            })
+            });
+            $('#modalTest').loading({
+                message: "SAVING..."
+            });
 
             if ($('#timeallotedtype').val() == "hour") {
                 $('#inputTimeAlloted').val($('#inputTimeAlloted').val() * 60);
@@ -314,11 +331,13 @@ $(document).ready(function() {
                     }
 
                     $('#modalTest').modal('hide');
+                    $('#modalTest').loading('stop');
                     toastr.success("SAVE SUCCESSFUL");
                 },
                 error: function (data) {
                     console.log(data);
 
+                    $('#modalTest').loading('stop');
                     if (data.responseJSON == "SAME NAME") {
                         toastr.error("TEST ALREADY EXIST");
                     } else if(data.responseJSON == "SAME NAME TRASH") {

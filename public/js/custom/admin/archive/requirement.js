@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    var id;
+    var requirementid;
     var table = $('#tblRequirement').DataTable({
         "aoColumns": [
             null,
@@ -13,7 +13,7 @@ $(document).ready(function() {
 
     //display modal for confirmation of restore
     $('#requirement-list').on('click', '#btnRestore', function() {
-        id = $(this).val();
+        requirementid = $(this).val();
 
         $('#modalRequirement').modal('show');
     });
@@ -25,23 +25,29 @@ $(document).ready(function() {
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
             }
-        })
+        });
+        $('#modalRequirement').loading({
+            message: "SAVING..."
+        });
 
         $.ajax({
             type: "POST",
             url: "/admin/archive/requirement/restore",
-            data: { inputRequirementID: id },
+            data: { inputRequirementID: requirementid },
             dataType: "json",
             success: function(data) {
                 console.log(data);
 
-                table.row('#id' + id).remove().draw(false);
-                $('#modalRequirement').modal('hide');
+                table.row('#id' + requirementid).remove().draw(false);
 
-                toastr.success("Restore Successful");
+                $('#modalRequirement').modal('hide');
+                $('#modalRequirement').loading('stop');
+                toastr.success("RESTORE SUCCESSFUL");
             },
             error: function(data) {
                 console.log(data);
+
+                $('#modalRequirement').loading('stop');
             },
         });
     });

@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    var id;
+    var itemid;
     var table = $('#tblItem').DataTable({
         "aoColumns": [
             null,
@@ -13,7 +13,7 @@ $(document).ready(function() {
 
     //display modal for confirmation of restore
     $('#item-list').on('click', '#btnRestore', function() {
-        id = $(this).val();
+        itemid = $(this).val();
 
         $('#modalItem').modal('show');
     });
@@ -25,23 +25,29 @@ $(document).ready(function() {
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
             }
-        })
+        });
+        $('#modalItem').loading({
+            message: "SAVING..."
+        });
 
         $.ajax({
             type: "POST",
             url: "/admin/archive/item/restore",
-            data: { inputItemID: id },
+            data: { inputItemID: itemid },
             dataType: "json",
             success: function(data) {
                 console.log(data);
 
-                table.row('#id' + id).remove().draw(false);
-                $('#modalItem').modal('hide');
+                table.row('#id' + itemid).remove().draw(false);
 
-                toastr.success("Restore Successful");
+                $('#modalItem').modal('hide');
+                $('#modalItem').loading('stop');
+                toastr.success("RESTORE SUCCESSFUL");
             },
             error: function(data) {
                 console.log(data);
+                
+                $('#modalItem').loading('stop');
             },
         });
     });

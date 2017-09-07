@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    var id;
+    var questionid;
     var table = $('#tblQuestion').DataTable({
         "aoColumns": [
             null,
@@ -16,7 +16,7 @@ $(document).ready(function() {
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
             }
-        })
+        });
 
         $.ajax({
             type: "POST",
@@ -50,7 +50,7 @@ $(document).ready(function() {
 
     //display modal for confirmation of restore
     $('#question-list').on('click', '#btnRestore', function() {
-        id = $(this).val();
+        questionid = $(this).val();
 
         $('#modalQuestion').modal('show');
     });
@@ -62,23 +62,29 @@ $(document).ready(function() {
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
             }
-        })
+        });
+        $('#modalQuestion').loading({
+            message: "SAVING..."
+        });
 
         $.ajax({
             type: "POST",
             url: "/admin/archive/question/restore",
-            data: { inputQuestionID: id },
+            data: { inputQuestionID: questionid },
             dataType: "json",
             success: function(data) {
                 console.log(data);
 
-                table.row('#id' + id).remove().draw(false);
-                $('#modalQuestion').modal('hide');
+                table.row('#id' + questionid).remove().draw(false);
 
-                toastr.success("Restore Successful");
+                $('#modalQuestion').modal('hide');
+                $('#modalQuestion').loading('stop');
+                toastr.success("RESTORE SUCCESSFUL");
             },
             error: function(data) {
                 console.log(data);
+
+                $('#modalQuestion').loading('stop');
             },
         });
     });

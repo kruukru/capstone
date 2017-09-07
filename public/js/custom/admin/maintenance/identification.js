@@ -68,6 +68,9 @@ $(document).ready(function() {
             }
         })
         e.preventDefault();
+        $('#modalIdentificationRemove').loading({
+            message: "REMOVING..."
+        });
 
         $.ajax({
             type: "POST",
@@ -78,13 +81,16 @@ $(document).ready(function() {
                 console.log(data);
 
                 table.row('#id' + id).remove().draw(false);
-                toastr.success("REMOVE SUCCESSFUL");
+
                 $('#modalIdentificationRemove').modal('hide');
+                $('#modalIdentificationRemove').loading('stop');
+                toastr.success("REMOVE SUCCESSFUL");
             },
             error: function(data) {
                 console.log(data);
 
-                if(data.responseJSON == "CANNOT REMOVE") {
+                $('#modalIdentificationRemove').loading('stop');
+                if (data.responseJSON == "CANNOT REMOVE") {
                     toastr.error("CANNOT REMOVE WHILE BEING USED");
                 }
             },
@@ -99,7 +105,10 @@ $(document).ready(function() {
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
                 }
-            })
+            });
+            $('#modalIdentification').loading({
+                message: "SAVING..."
+            });
 
             //used to determine the http verb to use
             if ($('#btnSave').val() == "New") {
@@ -186,11 +195,13 @@ $(document).ready(function() {
                     }
 
                     $('#modalIdentification').modal('hide');
+                    $('#modalIdentification').loading('stop');
                     toastr.success("SAVE SUCCESSFUL");
                 },
                 error: function (data) {
                     console.log(data);
 
+                    $('#modalIdentification').loading('stop');
                     if (data.responseJSON == "SAME NAME") {
                         toastr.error("QUESTION ALREADY EXIST");
                     } else if (data.responseJSON == "SAME NAME TRASH") {

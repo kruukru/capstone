@@ -1,6 +1,5 @@
 $(document).ready(function() {
-    var id;
-    var id;
+    var testid;
     var table = $('#tblTest').DataTable({
         "aoColumns": [
             null,
@@ -16,7 +15,7 @@ $(document).ready(function() {
 
     //display modal for confirmation of restore
     $('#test-list').on('click', '#btnRestore', function() {
-        id = $(this).val();
+        testid = $(this).val();
 
         $('#modalTest').modal('show');
     });
@@ -28,23 +27,29 @@ $(document).ready(function() {
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
             }
-        })
+        });
+        $('#modalTest').loading({
+            message: "SAVING..."
+        });
 
         $.ajax({
             type: "POST",
             url: "/admin/archive/test/restore",
-            data: { inputTestID: id },
+            data: { inputTestID: testid },
             dataType: "json",
             success: function(data) {
                 console.log(data);
 
-                table.row('#id' + id).remove().draw(false);
-                $('#modalTest').modal('hide');
+                table.row('#id' + testid).remove().draw(false);
 
-                toastr.success("Restore Successful");
+                $('#modalTest').modal('hide');
+                $('#modalTest').loading('stop');
+                toastr.success("RESTORE SUCCESSFUL");
             },
             error: function(data) {
                 console.log(data);
+                
+                $('#modalTest').loading('stop');
             },
         });
     });

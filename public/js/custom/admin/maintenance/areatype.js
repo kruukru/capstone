@@ -66,8 +66,11 @@ $(document).ready(function() {
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
             }
-        })
+        });
         e.preventDefault();
+        $('#modalAreaTypeRemove').loading({
+            message: "REMOVING..."
+        });
 
         $.ajax({
             type: "POST",
@@ -80,11 +83,13 @@ $(document).ready(function() {
                 table.row('#id' + areatypeid).remove().draw(false);
 
                 $('#modalAreaTypeRemove').modal('hide');
+                $('#modalAreaTypeRemove').loading('stop');
                 toastr.success("REMOVE SUCCESSFUL")
             },
             error: function (data) {
                 console.log(data);
 
+                $('#modalAreaTypeRemove').loading('stop');
                 if (data.responseJSON == "CANNOT REMOVE") {
                     toastr.error("CANNOT REMOVE WHILE BEING USED");
                 }
@@ -94,13 +99,16 @@ $(document).ready(function() {
 
     //create new task / update existing task
     $("#btnSave").click(function (e) {
-        if($('#formAreaType').parsley().isValid()) {
+        if ($('#formAreaType').parsley().isValid()) {
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
                 }
-            })
+            });
             e.preventDefault();
+            $('#modalAreaType').loading({
+                message: "SAVING..."
+            });
 
             if ($('#inputAreaTypeAmountPerHour').val() == 0) {
                 toastr.error("INVALID AMOUNT PER HOUR");
@@ -162,11 +170,13 @@ $(document).ready(function() {
                     }
 
                     $('#modalAreaType').modal('hide');
+                    $('#modalAreaType').loading('stop');
                     toastr.success("SAVE SUCCESSFUL");
                 },
                 error: function (data) {
                     console.log(data);
 
+                    $('#modalAreaType').loading('stop');
                     if (data.responseJSON == "SAME NAME") {
                         toastr.error("AREA TYPE ALREADY EXIST");
                     } else if(data.responseJSON == "SAME NAME TRASH") {

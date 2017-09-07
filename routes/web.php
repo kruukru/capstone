@@ -71,6 +71,8 @@ Route::group(['middleware' => ['guest']], function() {
 Route::group(['middleware' => ['auth']], function() {
 	//admin admin admin admin admin admin admin admin admin admin admin admin admin admin admin admin admin admin admin admin admin admin 
 	Route::group(['middleware' => 'Amcor\Http\Middleware\AdminMiddleware'], function() {
+		Route::name('admin-notification')->get('/admin/notification', 'NotificationController@getAdminNotification');
+
 		//transaction transaction transaction transaction transaction transaction transaction transaction transaction transaction transaction
 		//submit credential
 		Route::name('admin-transaction-submitcredential')->get('/admin/transaction/submitcredential', 'CredentialController@getAdminSubmitCredential');

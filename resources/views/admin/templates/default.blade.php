@@ -42,7 +42,7 @@
 									@endforeach
 								</ul>
 							</li>
-							<li class="footer"><a href="#">View all</a></li>
+							<li class="footer"><a href="{{ route('admin-notification') }}">View all</a></li>
 						</ul>
 					</li>
 					<!-- User Account Menu -->
