@@ -29,7 +29,7 @@ class CredentialController extends Controller
     }
 
     public function getAdminApplicantRequirement(Request $request) {
-        $applicantrequirement = ApplicantRequirement::with('Requirement')
+        $applicantrequirement = ApplicantRequirement::with('requirement')
             ->where('applicantid', $request->inputApplicantID)
             ->get();
 
@@ -37,10 +37,10 @@ class CredentialController extends Controller
     }
 
     public function postAdminRequirementPass(Request $request) {
-        $applicantrequirement = ApplicantRequirement::with('Requirement')
-            ->where('applicantid', $request->inputApplicantID)
+        $applicantrequirement = ApplicantRequirement::with('requirement')
             ->find($request->inputApplicantRequirementID);
 
+        $applicantrequirement->remarks = $request->inputRemarks;
         $applicantrequirement->issubmitted = 1;
         $applicantrequirement->save();
 
@@ -48,10 +48,10 @@ class CredentialController extends Controller
     }
 
     public function postAdminRequirementRemove(Request $request) {
-        $applicantrequirement = ApplicantRequirement::with('Requirement')
-            ->where('applicantid', $request->inputApplicantID)
+        $applicantrequirement = ApplicantRequirement::with('requirement')
             ->find($request->inputApplicantRequirementID);
 
+        $applicantrequirement->remarks = null;
         $applicantrequirement->issubmitted = 0;
         $applicantrequirement->save();
 

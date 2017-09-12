@@ -56,6 +56,7 @@ $(document).ready(function() {
                 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
             }
         });
+
         clearInterval(timer);
         $("#test-list").empty();
 
@@ -235,8 +236,10 @@ $(document).ready(function() {
     });
 
     $('#btnConfirm').click(function() {
+        $('#btnConfirm').prop("disabled", true);
         finishTest();
     });
+
 
 
 });

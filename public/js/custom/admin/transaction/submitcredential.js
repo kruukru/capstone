@@ -2481,16 +2481,10 @@ $(document).ready(function() {
         ]
     });
     table.order([[1, 'asc']]).draw();
-    //table requirement
-    var tableRequirement = $('#tblRequirement').DataTable({
-        "aoColumns": [
-            null,
-            { "bSearchable": false, "bSortable": false, },
-        ]
-    });
     //table passed requirement
     var tablePass = $('#tblPass').DataTable({
         "aoColumns": [
+            null,
             null,
             { "bSearchable": false, "bSortable": false, },
         ]
@@ -2811,107 +2805,6 @@ $(document).ready(function() {
         tableTrainingCertificate.row('#idTC' + $(this).val()).remove().draw(false);
     });
 
-    //pass a requirement
-    $('#requirement-list').on('click', '#btnPass', function(e) {
-        e.preventDefault();
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
-            }
-        });
-        var qid = $(this).val();
-
-        $.ajax({
-            type: "POST",
-            url: "/admin/transaction/submitcredential/requirement/pass",
-            data: { inputApplicantRequirementID: qid, inputApplicantID: applicantid, },
-            dataType: "json",
-            success: function(data) {
-                console.log(data);
-                
-                var row = "<tr id=in"+data.applicantrequirementid+">" +
-                    "<td>" + data.requirement.name + "</td>" +
-                    "<td style='text-align: center;'>" +
-                    "<button class='btn btn-danger btn-xs' id='btnRemove' value="+data.applicantrequirementid+">Remove</button> " +
-                    "</td>" +
-                    "</tr>";
-
-                tablePass.row.add($(row)[0]).draw();
-                tableRequirement.row('#out' + qid).remove().draw(false);
-            },
-        });
-    });
-
-    //remove a requirement
-    $('#pass-list').on('click', '#btnRemove', function(e) {
-        e.preventDefault();
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
-            }
-        })
-        var qid = $(this).val();
-
-        $.ajax({
-            type: "POST",
-            url: "/admin/transaction/submitcredential/requirement/remove",
-            data: { inputApplicantRequirementID: qid, inputApplicantID: applicantid, },
-            dataType: "json",
-            success: function(data) {
-                console.log(data);
-                
-                var row = "<tr id=out"+data.applicantrequirementid+">" +
-                    "<td>" + data.requirement.name + "</td>" +
-                    "<td style='text-align: center;'>" +
-                    "<button class='btn btn-primary btn-xs' id='btnPass' value="+data.applicantrequirementid+">Submit</button> " +
-                    "</td>" +
-                    "</tr>";
-
-                tableRequirement.row.add($(row)[0]).draw();
-                tablePass.row("#in" + qid).remove().draw(false);
-            },
-        });
-    });
-
-    //save the requirement
-    $('#btnSave').click(function() {
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
-            }
-        });
-
-        $.ajax({
-            type: "POST",
-            url: "/admin/transaction/submitcredential/requirement/assess",
-            data: { inputApplicantID: applicantid, inputStatus: tableRequirement.data().count(), },
-            dataType: "json",
-            success: function(data) {
-                console.log(data);
-
-                if (tableRequirement.data().count() == 0) {
-                    table.row('#id' + data.applicantid).remove().draw(false);
-                } else {
-                    var dt = [
-                        table.cell('#id'+applicantid, 0).data(),
-                        table.cell('#id'+applicantid, 1).data(),
-                        table.cell('#id'+applicantid, 2).data(),
-                        table.cell('#id'+applicantid, 3).data(),
-                        "FOR FOLLOW UP",
-                        table.cell('#id'+applicantid, 5).data(),
-                    ];
-                    table.row('#id' + data.applicantid).data(dt).draw(false);
-                }
-
-                $('#modalCredential').modal('hide');
-                toastr.success("SAVE SUCCESSFUL");
-            },
-            error: function(data) {
-                console.log(data);
-            },
-        });
-    });
-
     //assess the click applicant
     $('#applicant-list').on('click', '#btnAssess', function(e) {
         e.preventDefault();
@@ -2928,6 +2821,9 @@ $(document).ready(function() {
 
                 if (data.middlename == null) {
                     data.middlename = "";
+                }
+                if (data.provincialaddresscity == null) {
+                    data.provincialaddresscity = "";
                 }
 
                 $('#applicantName').text(data.lastname+", "+data.firstname+" "+data.middlename);
@@ -2995,16 +2891,11 @@ $(document).ready(function() {
 
                 $.each(data, function(index, value) {
                     if (value.issubmitted == 0) {
-                        var row = "<tr id=out" + value.applicantrequirementid + ">" +
-                            "<td>" + value.requirement.name + "</td>" +
-                            "<td style='text-align: center;'>" +
-                            "<button class='btn btn-primary btn-xs' id='btnPass' value="+value.applicantrequirementid+">Submit</button> " +
-                            "</td>" +
-                            "</tr>";
-                        tableRequirement.row.add($(row)[0]).draw();
+                        $('#requirement').append('<option value='+value.applicantrequirementid+'>'+value.requirement.name+'</option');
                     } else {
                         var row = "<tr id=in" + value.applicantrequirementid + ">" +
                             "<td>" + value.requirement.name + "</td>" +
+                            "<td>" + value.remarks + "</td>" +
                             "<td style='text-align: center;'>" +
                             "<button class='btn btn-danger btn-xs' id='btnRemove' value="+value.applicantrequirementid+">Remove</button> " +
                             "</td>" +
@@ -3097,6 +2988,127 @@ $(document).ready(function() {
         $('#modalCredential').modal('show');
     });
 
+    $('#btnRequirementSave').click(function(e) {
+        if ($('#formRequirement').parsley().validate()) {
+            e.preventDefault();
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                }
+            });
+            $('#modalCredential').loading({
+                message: "SAVING..."
+            });
+
+            var formData = {
+                inputApplicantRequirementID: $('#requirement').val(),
+                inputRemarks: $('#remarks').val(),
+            };
+
+            $.ajax({
+                type: "POST",
+                url: "/admin/transaction/submitcredential/requirement/pass",
+                data: formData,
+                dataType: "json",
+                success: function(data) {
+                    console.log(data);
+
+                    if (data.remarks == null) {
+                        data.remarks = "";
+                    }
+                    
+                    var row = "<tr id=in"+data.applicantrequirementid+">" +
+                        "<td>" + data.requirement.name + "</td>" +
+                        "<td>" + data.remarks + "</td>" +
+                        "<td style='text-align: center;'>" +
+                        "<button class='btn btn-danger btn-xs' id='btnRemove' value="+data.applicantrequirementid+">Remove</button> " +
+                        "</td>" +
+                        "</tr>";
+                    tablePass.row.add($(row)[0]).draw();
+
+                    $('#formRequirement').parsley().reset();
+                    $('#requirement option[value="'+$('#requirement').val()+'"]').remove();
+                    $('#remarks').val("");
+                    $('#modalCredential').loading('stop');
+                },
+            });
+        }
+    });
+
+    //remove a requirement
+    $('#pass-list').on('click', '#btnRemove', function(e) {
+        e.preventDefault();
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+            }
+        });
+        $('#modalCredential').loading({
+            message: "SAVING..."
+        });
+        var qid = $(this).val();
+
+        $.ajax({
+            type: "POST",
+            url: "/admin/transaction/submitcredential/requirement/remove",
+            data: { inputApplicantRequirementID: qid },
+            dataType: "json",
+            success: function(data) {
+                console.log(data);
+                
+                tablePass.row("#in" + qid).remove().draw(false);
+                $('#requirement').append('<option value='+data.applicantrequirementid+'>'+data.requirement.name+'</option');
+                $('#modalCredential').loading('stop');
+            },
+        });
+    });
+
+    //save the requirement
+    $('#btnSave').click(function(e) {
+        e.preventDefault();
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+            }
+        });
+        $('#modalCredential').loading({
+            message: "SAVING..."
+        });
+
+        var check = 0;
+        if ($('#requirement').children().length > 0) {
+            check = 1;
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "/admin/transaction/submitcredential/requirement/assess",
+            data: { inputApplicantID: applicantid, inputStatus: check, },
+            dataType: "json",
+            success: function(data) {
+                console.log(data);
+
+                if (check == 0) {
+                    table.row('#id' + data.applicantid).remove().draw(false);
+                } else {
+                    var dt = [
+                        table.cell('#id'+applicantid, 0).data(),
+                        table.cell('#id'+applicantid, 1).data(),
+                        table.cell('#id'+applicantid, 2).data(),
+                        table.cell('#id'+applicantid, 3).data(),
+                        "FOR FOLLOW UP",
+                        table.cell('#id'+applicantid, 5).data(),
+                    ];
+                    table.row('#id' + data.applicantid).data(dt).draw(false);
+                }
+
+                $('#modalCredential').modal('hide');
+                $('#modalCredential').loading('stop');
+                toastr.success("SAVE SUCCESSFUL");
+            },
+        });
+    });
+
     //personal information info save
      $('#btnPersonalInformationSave').click(function(e) {
         if ($('#formPersonalInformation').parsley().validate()) {
@@ -3105,6 +3117,9 @@ $(document).ready(function() {
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
                 }
+            });
+            $('#modalCredential').loading({
+                message: "SAVING..."
             });
             var height = 0, weight = 0;
 
@@ -3203,6 +3218,7 @@ $(document).ready(function() {
                             $('#applicant-list').find('#id'+data.applicantid).find('#appliListName').text(data.lastname+", "+data.firstname+" "+data.middlename);
 
                             $('#formPersonalInformation').parsley().reset();
+                            $('#modalCredential').loading('stop');
                             toastr.success("SAVE SUCCESSFUL");
                         },
                     });
@@ -3253,6 +3269,7 @@ $(document).ready(function() {
                         $('#applicant-list').find('#id'+data.applicantid).find('#appliListName').text(data.lastname+", "+data.firstname+" "+data.middlename);
 
                         $('#formPersonalInformation').parsley().reset();
+                        $('#modalCredential').loading('stop');
                         toastr.success("SAVE SUCCESSFUL");
                     },
                 });
@@ -3268,9 +3285,13 @@ $(document).ready(function() {
                 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
             }
         });
+        $('#modalCredential').loading({
+            message: "SAVING..."
+        });
 
         var ext = $('#picture').val().split('.').pop().toLowerCase();
         if ($.inArray(ext, ['gif','png','jpg','jpeg']) == -1) {
+            $('#modalCredential').loading('stop');
             toastr.error("INVALID IMAGE INPUT");
             return;
         }
@@ -3292,6 +3313,7 @@ $(document).ready(function() {
             success: function(data) {
 
                 $('#formImage').trigger('reset');
+                $('#modalCredential').loading('stop');
                 toastr.success("SAVE SUCCESSFUL");
             },
         });
@@ -3304,6 +3326,9 @@ $(document).ready(function() {
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
                 }
+            });
+            $('#modalCredential').loading({
+                message: "SAVING..."
             });
 
             if ($('#password').val() != $('#confirmpassword').val()) {
@@ -3324,9 +3349,13 @@ $(document).ready(function() {
                         console.log(data);
 
                         $('#formAccount').parsley().reset();
+                        $('#modalCredential').loading('stop');
                         toastr.success("SAVE SUCCESSFUL");
                     },
                     error: function(data) {
+                        console.log(data);
+
+                        $('#modalCredential').loading('stop');
                         if (data.responseJSON == "SAME USERNAME") {
                             toastr.error("USERNAME ALREADY EXISTS");
                         }
@@ -3343,6 +3372,9 @@ $(document).ready(function() {
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
                 }
+            });
+            $('#modalCredential').loading({
+                message: "SAVING..."
             });
 
             if (!$('#contactno').inputmask('isComplete')) {
@@ -3375,9 +3407,13 @@ $(document).ready(function() {
                     console.log(data);
 
                     $('#formIDs').parsley().reset();
+                    $('#modalCredential').loading('stop');
                     toastr.success("SAVE SUCCESSFUL");
                 },
                 error: function(data) {
+                    console.log(data);
+
+                    $('#modalCredential').loading('stop');
                     if (data.responseJSON == "SAME SSS") {
                         toastr.error("SSS ALREADY EXISTS");
                     } else if (data.responseJSON == "SAME PHILHEALTH") {
@@ -3401,6 +3437,9 @@ $(document).ready(function() {
                 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
             }
         });
+        $('#modalCredential').loading({
+            message: "SAVING..."
+        }); 
 
         if (!tableEducationBackground.data().count()) {
             toastr.error("MUST ATLEAST 1 EDUCATION BACKGROUND");
@@ -3474,6 +3513,7 @@ $(document).ready(function() {
             success: function(data) {
                 console.log(data);
 
+                $('#modalCredential').loading('stop');
                 toastr.success("SAVE SUCCESSFUL");
             },
         });
@@ -3494,13 +3534,14 @@ $(document).ready(function() {
         $('#formEmploymentRecord').parsley().reset();
         $('#formTrainingCertificate').trigger('reset');
         $('#formTrainingCertificate').parsley().reset();
-        tableRequirement.clear().draw();
+        $('#formRequirement').trigger('reset');
+        $('#formRequirement').parsley().reset();
+        $('#requirement').empty();
         tablePass.clear().draw();
         tableEducationBackground.clear().draw();
         tableEmploymentRecord.clear().draw();
         tableTrainingCertificate.clear().draw();
     }
-
 });
 
 function readURL(input) {

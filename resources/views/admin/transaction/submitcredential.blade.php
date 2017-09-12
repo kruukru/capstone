@@ -754,34 +754,42 @@
 		                    </div>
 		                </div>
 			        </div><hr>
-					<div class="form-group">
-						<div class="row">
-							<div class="col-md-6">
-								 <div class="form-group table-responsive">
-								 	<h3>LIST OF REQUIREMENTS</h3>
-									 <table id="tblRequirement" class="table table-striped table-bordered">
-										<thead>
-											<th>Credentials</th>
-											<th style="text-align: center;">Action</th>
-										</thead>
-										<tbody id="requirement-list"></tbody>
-									</table>
-								 </div>
-							</div>
-							<div class="col-md-6">
-								<div class="form-group table-responsive">
-									<h3>PASSED</h3>
-									<table id="tblPass" class="table table-striped table-bordered">
-										<thead>
-											<th>Credentials</th>
-											<th style="text-align: center;">Action</th>
-										</thead>
-										<tbody id="pass-list"></tbody>
-									</table>
-								</div>
-							</div>
-						</div>
-					</div>
+			        <div class="form-group">
+			        	<div class="col-md-offset-1">
+			        		<h3>CREDENTIALS</h3>
+			        	</div>
+			        </div>
+				    <form id="formRequirement" data-parsley-validate>
+				    	<div class="form-group">
+				        	<div class="row">
+				        		<div class="col-md-8 col-md-offset-1">
+				        			<select class="form-control" id="requirement" required></select>
+				        		</div>
+				        		<div class="col-md-2">
+				        			<button class="btn btn-primary col-md-12" id="btnRequirementSave">SAVE</button>
+				        		</div>
+				        	</div>
+				        </div>
+				        <div class="form-group">
+				        	<div class="row">
+				        		<div class="col-md-10 col-md-offset-1">
+				        			<label>Remarks</label>
+				        			<textarea class="form-control" id="remarks" cols="3"></textarea>
+				        		</div>
+				        	</div>
+				        </div>
+				    </form>
+		        	<div class="form-group table-responsive">
+		        		<h3>PASSED</h3>
+						<table class="table table-striped table-bordered" id="tblPass">
+							<thead>
+								<th>Credential</th>
+								<th>Remarks</th>
+								<th style="text-align: center;">Action</th>
+							</thead>
+							<tbody id="pass-list"></tbody>
+						</table>
+		        	</div>
 				</div>
 				<!-- modal footer -->
 				<div class="modal-footer">

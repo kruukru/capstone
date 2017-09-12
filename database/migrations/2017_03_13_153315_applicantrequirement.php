@@ -17,6 +17,7 @@ class Applicantrequirement extends Migration
             $table->increments('applicantrequirementid');
             $table->integer('applicantid')->unsigned();
             $table->integer('requirementid')->unsigned();
+            $table->text('remarks')->nullable();
             $table->boolean('issubmitted');
 
             $table->timestamps();
