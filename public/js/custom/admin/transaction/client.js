@@ -2162,20 +2162,20 @@ $(document).ready(function() {
     });
 
     //validate the username
-    $('#inputUsername').on('focusout', function() {
+    $('#username').on('focusout', function() {
         if ($(this).val() != "") {
-            $('#inputUsername').parsley().removeError('forcederror', {updateClass: true});
+            $('#username').parsley().removeError('forcederror', {updateClass: true});
             $.ajax({
                 type: "GET",
                 url: "/json/validate-username",
-                data: { inputUsername: $('#inputUsername').val(), },
+                data: { inputUsername: $('#username').val(), },
                 dataType: "json",
                 success: function(data) {
-                    $('#inputUsername').parsley().removeError('forcederror', {updateClass: true});
+                    $('#username').parsley().removeError('forcederror', {updateClass: true});
                 },
                 error: function(data) {
                     if (data.responseJSON == "SAME USERNAME") {
-                        $('#inputUsername').parsley().addError('forcederror', {
+                        $('#username').parsley().addError('forcederror', {
                             message: 'Username already exist.',
                             updateClass: true,
                         });
@@ -2187,15 +2187,15 @@ $(document).ready(function() {
 
     //validate password
     $('.input-password').on('keyup', function() {
-        if ($('#inputConfirmPassword').val() != "") {
-            $('#inputPassword').parsley().removeError('forcederror', {updateClass: true});
-            $('#inputConfirmPassword').parsley().removeError('forcederror', {updateClass: true});
-            if ($('#inputPassword').val() != $('#inputConfirmPassword').val()) {
-                $('#inputPassword').parsley().addError('forcederror', {
+        if ($('#confirmpassword').val() != "") {
+            $('#password').parsley().removeError('forcederror', {updateClass: true});
+            $('#confirmpassword').parsley().removeError('forcederror', {updateClass: true});
+            if ($('#password').val() != $('#confirmpassword').val()) {
+                $('#password').parsley().addError('forcederror', {
                     message: 'Password mismatch.',
                     updateClass: true,
                 });
-                $('#inputConfirmPassword').parsley().addError('forcederror', {
+                $('#confirmpassword').parsley().addError('forcederror', {
                     message: 'Password mismatch.',
                     updateClass: true,
                 });
@@ -2203,15 +2203,15 @@ $(document).ready(function() {
         }
     });
     $('.input-confirmpassword').on('keyup', function() {
-        if ($('#inputPassword').val() != "") {
-            $('#inputPassword').parsley().removeError('forcederror', {updateClass: true});
-            $('#inputConfirmPassword').parsley().removeError('forcederror', {updateClass: true});
-            if ($('#inputPassword').val() != $('#inputConfirmPassword').val()) {
-                $('#inputPassword').parsley().addError('forcederror', {
+        if ($('#password').val() != "") {
+            $('#password').parsley().removeError('forcederror', {updateClass: true});
+            $('#confirmpassword').parsley().removeError('forcederror', {updateClass: true});
+            if ($('#password').val() != $('#confirmpassword').val()) {
+                $('#password').parsley().addError('forcederror', {
                     message: 'Password mismatch.',
                     updateClass: true,
                 });
-                $('#inputConfirmPassword').parsley().addError('forcederror', {
+                $('#confirmpassword').parsley().addError('forcederror', {
                     message: 'Password mismatch.',
                     updateClass: true,
                 });
@@ -2220,7 +2220,7 @@ $(document).ready(function() {
     })
 
     //company contact no.
-    $('#inputCompanyContactNo').on('focus', function() {
+    $('#companycontactno').on('focus', function() {
         $(this).popover({
             trigger: 'manual',
             content: function() {
@@ -2242,21 +2242,21 @@ $(document).ready(function() {
         });
         $(this).popover('show');
     });
-    $('#inputCompanyContactNo').on('focusout', function() {
+    $('#companycontactno').on('focusout', function() {
         $(this).popover('hide');
     });
     $(document).on('click', '#comcontactmn', function(e) {
-        $('#inputCompanyContactNo').val('');
-        $('#inputCompanyContactNo').inputmask("+63 999 9999 999");
+        $('#companycontactno').val('');
+        $('#companycontactno').inputmask("+63 999 9999 999");
     });
     $(document).on('click', '#comcontacttn', function(e) {
-        $('#inputCompanyContactNo').val('');
-        $('#inputCompanyContactNo').inputmask("(99) 999 9999");
+        $('#companycontactno').val('');
+        $('#companycontactno').inputmask("(99) 999 9999");
     });
-    $('#inputCompanyContactNo').inputmask("+63 999 9999 999");
+    $('#companycontactno').inputmask("+63 999 9999 999");
 
     //company contact person no.
-    $('#inputCompanyContactPersonNo').on('focus', function() {
+    $('#contactpersonno').on('focus', function() {
         $(this).popover({
             trigger: 'manual',
             content: function() {
@@ -2278,18 +2278,18 @@ $(document).ready(function() {
         });
         $(this).popover('show');
     });
-    $('#inputCompanyContactPersonNo').on('focusout', function() {
+    $('#contactpersonno').on('focusout', function() {
         $(this).popover('hide');
     });
     $(document).on('click', '#comcontactpersonmn', function(e) {
-        $('#inputCompanyContactPersonNo').val('');
-        $('#inputCompanyContactPersonNo').inputmask("+63 999 9999 999");
+        $('#contactpersonno').val('');
+        $('#contactpersonno').inputmask("+63 999 9999 999");
     });
     $(document).on('click', '#comcontactpersontn', function(e) {
-        $('#inputCompanyContactPersonNo').val('');
-        $('#inputCompanyContactPersonNo').inputmask("(99) 999 9999");
+        $('#contactpersonno').val('');
+        $('#contactpersonno').inputmask("(99) 999 9999");
     });
-    $('#inputCompanyContactPersonNo').inputmask("+63 999 9999 999");
+    $('#contactpersonno').inputmask("+63 999 9999 999");
 
     //get all the area type
     $('#client-list').on('click', '#btnNewContract', function(e) {
@@ -2347,29 +2347,40 @@ $(document).ready(function() {
                     'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
                 }
             });
+            $('#modalClient').loading({
+                message: "SAVING..."
+            });
 
-            if ($('#inputPassword').val() != $('#inputConfirmPassword').val()) {
+            var check = false;
+            if ($('#password').val() != $('#confirmpassword').val()) {
                 toastr.error("PASSWORD MISMATCH");
-                return;
+                check = true;
             }
-            if (!$('#inputCompanyContactNo').inputmask('isComplete')) {
+            if (!$('#companycontactno').inputmask('isComplete')) {
                 toastr.error("INVALID COMPANY CONTACT #");
-                return;
+                check = true;
             }
-            if (!$('#inputCompanyContactPersonNo').inputmask('isComplete')) {
+            if (!$('#contactpersonno').inputmask('isComplete')) {
                 toastr.error("INVALID CONTACT PERSON #");
+                check = true;
+            }
+            if (check) {
+                $('#modalClient').loading('stop');
                 return;
             }
 
             var formData = {
-                inputUsername: $('#inputUsername').val(),
-                inputPassword: $('#inputPassword').val(),
-                inputCompanyName: $('#inputCompanyName').val(),
-                inputCompanyAddress: $('#inputCompanyAddress').val(),
-                inputCompanyContactNo: $('#inputCompanyContactNo').val(),
-                inputCompanyContactPerson: $('#inputCompanyContactPerson').val(),
-                inputCompanyContactPersonNo: $('#inputCompanyContactPersonNo').val(),
-                inputCompanyEmail: $('#inputCompanyEmail').val(),
+                inputLastName: $('#lastname').val(),
+                inputFirstName: $('#firstname').val(),
+                inputMiddleName: $('#middlename').val(),
+                inputPosition: $('#position').val(),
+                inputContactPersonNo: $('#contactpersonno').val(),
+                inputUsername: $('#username').val(),
+                inputPassword: $('#password').val(),
+                inputCompanyName: $('#companyname').val(),
+                inputCompanyAddress: $('#companyaddress').val(),
+                inputCompanyContactNo: $('#companycontactno').val(),
+                inputCompanyEmail: $('#companyemail').val(),
             };
 
             $.ajax({
@@ -2380,14 +2391,18 @@ $(document).ready(function() {
                 success: function(data) {
                     console.log(data);
 
+                    if (data.middlename == null) {
+                        data.middlename = "";
+                    }
+
                     var row = "<tr id=id" + data.clientid + ">" +
-                        "<td>" + data.name + "</td>" +
+                        "<td>" + data.company + "</td>" +
                         "<td>" + data.address + "</td>" +
-                        "<td>" + data.contactno + "</td>" +
-                        "<td>" + data.contactperson + "</td>" +
+                        "<td>" + data.companycontactno + "</td>" +
+                        "<td>" + data.lastname + ", " + data.firstname + " " + data.middlename + "</td>" +
                         "<td>" + data.contactpersonno + "</td>" +
                         "<td>" + data.email + "</td>" +
-                        "<td style='text-align: center;'>Active</td>" +
+                        "<td style='text-align: center;'>NO DEPLOYMENT SITE</td>" +
                         "<td style='text-align: center;'>" +
                         "<button class='btn btn-primary btn-xs' id='btnNewContract' value="+data.clientid+">New Contract</button>" +
                         "</td>" +
@@ -2405,6 +2420,9 @@ $(document).ready(function() {
                     } else if (data.responseJSON == "SAME USERNAME") {
                         toastr.error("USERNAME ALREADY EXIST");
                     }
+                },
+                complete: function(data) {
+                    $('#modalClient').loading('stop');
                 }
             })
         }

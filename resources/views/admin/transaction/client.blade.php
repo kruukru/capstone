@@ -13,7 +13,7 @@
 					<button id="btnNew" class="btn btn-primary btn-md">New Client</button><hr>
 						<table id="tblClient" class="table table-striped table-bordered">
 							<thead>
-								<th>Name</th>
+								<th>Company</th>
 								<th>Address</th>
 								<th>Contact No.</th>
 								<th>Contact Person</th>
@@ -25,18 +25,16 @@
 							<tbody id="client-list">
 								@foreach ($clients as $client)
 								<tr id="id{{$client->clientid}}">
-									<td>{{$client->name}}</td>
+									<td>{{$client->company}}</td>
 									<td>{{$client->address}}</td>
-									<td>{{$client->contactno}}</td>
-									<td>{{$client->contactperson}}</td>
+									<td>{{$client->companycontactno}}</td>
+									<td>{{$client->lastname}}, {{$client->firstname}} {{$client->middlename}}</td>
 									<td>{{$client->contactpersonno}}</td>
 									<td>{{$client->email}}</td>
-									@if($client->status == 0)
-										<td style="text-align: center;">Active</td>
-									@elseif($client->status == 1)
-										<td style="text-align: center;">Expired</td>
-									@elseif($client->status == 2)
-										<td style="text-align: center;">Terminated</td>
+									@if ($client->status == 0)
+										<td style="text-align: center;">NO DEPLOYMENT SITE</td>
+									@elseif ($client->status == 1)
+										<td style="text-align: center;">ACTIVE</td>
 									@endif
 									<td style="text-align: center;">
 										<button class="btn btn-primary btn-xs" id="btnNewContract" value="{{$client->clientid}}">New Contract</button>
@@ -64,50 +62,63 @@
 					</div>
 					<!-- modal body -->
 					<div class="modal-body">
+						<h3>Client Information</h3>
+						<div class="form-group">
+							<label>Last Name *</label>
+							<input type="text" class="form-control" id="lastname" placeholder="Last Name" required>
+						</div>
+						<div class="form-group">
+							<label>First Name *</label>
+							<input type="text" class="form-control" id="firstname" placeholder="First Name" required>
+						</div>
+						<div class="form-group">
+							<label>Middle Name</label>
+							<input type="text" class="form-control" id="middlename" placeholder="Middle Name">
+						</div>
+						<div class="form-group">
+							<label>Position *</label>
+							<input type="text" class="form-control" id="position" placeholder="Position" required>
+						</div>
+						<div class="form-group">
+							<label>Contact # *</label>
+							<input type="text" class="form-control" id="contactpersonno" placeholder="Contact #" required>
+						</div><hr>
 						<h3>Account Information</h3>
 						<div class="form-group">
 							<label>Username *</label>
-							<input type="text" id="inputUsername" class="form-control" placeholder="Username" required>
+							<input type="text" class="form-control" id="username" placeholder="Username" required>
 						</div>
-						<label>Password *</label>
 						<div class="form-group">
-							<input type="password" id="inputPassword" class="form-control input-password" placeholder="Password" required>
+							<label>Password *</label>
+							<input type="password" class="form-control input-password" id="password" placeholder="Password" required>
 						</div>
-						<label>Confirm Password *</label>
 						<div class="form-group">
-							<input type="password" id="inputConfirmPassword" class="form-control input-confirmpassword" placeholder="Confirm Password" required>
+							<label>Confirm Password *</label>
+							<input type="password" class="form-control input-confirmpassword" id="confirmpassword" placeholder="Confirm Password" required>
 						</div><hr>
 						<h3>Company Details</h3>
 						<div class="form-group">
 							<label>Name *</label>
-							<input type="text" id="inputCompanyName" class="form-control" placeholder="Name" required>
+							<input type="text" class="form-control" id="companyname" placeholder="Name" required>
 						</div>
 						<div class="form-group">
 							<label>Address *</label>
-							<input type="text" id="inputCompanyAddress" class="form-control" placeholder="Address" required>
+							<input type="text" class="form-control" id="companyaddress" placeholder="Address" required>
 						</div>
 						<div class="form-group">
 							<label>Contact # *</label>
-							<input type="text" id="inputCompanyContactNo" class="form-control" placeholder="Contact No" required>
-						</div>
-						<div class="form-group">
-							<label>Contact Person *</label>
-							<input type="text" id="inputCompanyContactPerson" class="form-control" placeholder="Contact Person" required>
-						</div>
-						<div class="form-group">
-							<label>Contact Person # *</label>
-							<input type="text" id="inputCompanyContactPersonNo" class="form-control" placeholder="Contact Person #" required>
+							<input type="text" class="form-control" id="companycontactno" placeholder="Contact #" required>
 						</div>
 						<div class="form-group">
 							<label>Email *</label>
-							<input type="email" id="inputCompanyEmail" class="form-control" placeholder="Email" required>
+							<input type="email" class="form-control" id="companyemail" placeholder="Email" required>
 						</div>
 					</div>
 					<!-- modal footer -->
 					<div class="modal-footer">
 						<div class="form-group">
 							<button class="btn btn-primary" id="btnClientSubmit">SAVE</button>
-        					<button type="button" class="btn btn-default" data-dismiss="modal">CANCEL</button>
+        					<button class="btn btn-default" type="button" data-dismiss="modal">CANCEL</button>
 						</div>
 					</div>
 				</form>

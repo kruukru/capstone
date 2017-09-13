@@ -22,16 +22,14 @@ class ClientController extends Controller
     }
 
     public function postAdminClientNew(Request $request) {
-        $client = Client::where('name', $request->inputCompanyName)->get();
+        $client = Client::where('company', $request->inputCompanyName)->get();
         if (!($client->isEmpty())) {
             return Response::json("SAME NAME", 500);
         }
-
         $account = Account::where('username', $request->inputUsername)->get();
         if (!($account->isEmpty())) {
             return Response::json("SAME USERNAME", 500);
         }
-        
 
         $account = Account::create([
             'username' => $request->inputUsername,
@@ -41,12 +39,16 @@ class ClientController extends Controller
 
         $client = new Client;
         $client->account()->associate($account);
-        $client->name = $request->inputCompanyName;
+        $client->lastname = $request->inputLastName;
+        $client->firstname = $request->inputFirstName;
+        $client->middlename = $request->inputMiddleName;
+        $client->position = $request->inputPosition;
+        $client->contactpersonno = $request->inputContactPersonNo;
+        $client->company = $request->inputCompanyName;
         $client->address = $request->inputCompanyAddress;
-        $client->contactno = $request->inputCompanyContactNo;
-        $client->contactperson = $request->inputCompanyContactPerson;
-        $client->contactpersonno = $request->inputCompanyContactPersonNo;
+        $client->companycontactno = $request->inputCompanyContactNo;
         $client->email = $request->inputCompanyEmail;
+        $client->status = 0;
         $client->save();
 
         return Response::json($client);

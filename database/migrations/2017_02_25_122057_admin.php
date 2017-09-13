@@ -18,7 +18,7 @@ class Admin extends Migration
             $table->integer('accountid')->unsigned();
             $table->string('lastname');
             $table->string('firstname');
-            $table->string('middlename');
+            $table->string('middlename')->nullable();
             $table->string('position');
             $table->string('department');
 

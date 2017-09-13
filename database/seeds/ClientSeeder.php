@@ -13,12 +13,16 @@ class ClientSeeder extends Seeder
     {
         DB::table('clienttbl')->insert([
         	'accountid' => 2,
-        	'name' => '5J Store',
+            'lastname' => 'Geronimo',
+            'firstname' => 'Jermaine',
+            'middlename' => 'Manalo',
+            'position' => 'Admin',
+            'contactpersonno' => '(02) 254 9192',
+        	'company' => '5J Store',
         	'address' => '1326 Masinop St. Tondo Manila',
-        	'contactno' => '+63 950 4869 682',
-        	'contactperson' => 'Rodrigo Geronimo',
-        	'contactpersonno' => '(02) 254 9192',
+        	'companycontactno' => '+63 950 4869 682',
         	'email' => '5jstore@gmail.com',
+            'status' => 0,
         ]);
     }
 }

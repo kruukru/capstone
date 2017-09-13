@@ -16,12 +16,16 @@ class Client extends Migration
         Schema::create('clienttbl', function(Blueprint $table) {
             $table->increments('clientid');
             $table->integer('accountid')->unsigned();
-            $table->string('name', 100);
+            $table->string('lastname');
+            $table->string('firstname');
+            $table->string('middlename')->nullable();
+            $table->string('position');
+            $table->string('contactpersonno');
+            $table->string('company');
             $table->string('address');
-            $table->string('contactno', 20);
-            $table->string('contactperson', 150);
-            $table->string('contactpersonno', 20);
-            $table->string('email', 100);
+            $table->string('companycontactno');
+            $table->string('email');
+            $table->tinyInteger('status');
 
             $table->timestamps();
             $table->softDeletes();
