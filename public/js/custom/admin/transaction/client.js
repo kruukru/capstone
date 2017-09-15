@@ -2217,8 +2217,43 @@ $(document).ready(function() {
                 });
             }
         }
-    })
+    });
 
+    //contact person no.
+    $('#contactpersonno').on('focus', function() {
+        $(this).popover({
+            trigger: 'manual',
+            content: function() {
+                var content = '<button type="button" id="comcontactpersonmn" class="btn btn-primary">Mobile No.</button>' +
+                    '<button type="button" id="comcontactpersontn" class="btn btn-primary">Telephone No.</button>';
+                return content;
+            },
+            html: true,
+            placement: function() {
+                var placement = 'top';
+                return placement;
+            },
+            template: '<div class="popover" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3>' +
+                '<div class="popover-content"></div></div>',
+            title: function() {
+                var title = 'Choose a format:';
+                return title;
+            }
+        });
+        $(this).popover('show');
+    });
+    $('#contactpersonno').on('focusout', function() {
+        $(this).popover('hide');
+    });
+    $(document).on('click', '#comcontactpersonmn', function(e) {
+        $('#contactpersonno').val('');
+        $('#contactpersonno').inputmask("+63 999 9999 999");
+    });
+    $(document).on('click', '#comcontactpersontn', function(e) {
+        $('#contactpersonno').val('');
+        $('#contactpersonno').inputmask("(99) 999 9999");
+    });
+    $('#contactpersonno').inputmask("+63 999 9999 999");
     //company contact no.
     $('#companycontactno').on('focus', function() {
         $(this).popover({
@@ -2254,9 +2289,8 @@ $(document).ready(function() {
         $('#companycontactno').inputmask("(99) 999 9999");
     });
     $('#companycontactno').inputmask("+63 999 9999 999");
-
-    //company contact person no.
-    $('#contactpersonno').on('focus', function() {
+    //update contact person no.
+    $('#updatecontactpersonno').on('focus', function() {
         $(this).popover({
             trigger: 'manual',
             content: function() {
@@ -2278,51 +2312,50 @@ $(document).ready(function() {
         });
         $(this).popover('show');
     });
-    $('#contactpersonno').on('focusout', function() {
+    $('#updatecontactpersonno').on('focusout', function() {
         $(this).popover('hide');
     });
     $(document).on('click', '#comcontactpersonmn', function(e) {
-        $('#contactpersonno').val('');
-        $('#contactpersonno').inputmask("+63 999 9999 999");
+        $('#updatecontactpersonno').val('');
+        $('#updatecontactpersonno').inputmask("+63 999 9999 999");
     });
     $(document).on('click', '#comcontactpersontn', function(e) {
-        $('#contactpersonno').val('');
-        $('#contactpersonno').inputmask("(99) 999 9999");
+        $('#updatecontactpersonno').val('');
+        $('#updatecontactpersonno').inputmask("(99) 999 9999");
     });
-    $('#contactpersonno').inputmask("+63 999 9999 999");
-
-    //get all the area type
-    $('#client-list').on('click', '#btnNewContract', function(e) {
-        $('#formContract').trigger('reset');
-        $('#formContract').parsley().reset();
-        $('#inputAreaType').empty();
-        clientid = $(this).val();
-
-        $.ajax({
-            type: "GET",
-            url: "/json/areatype/all",
-            dataType: "json",
-            success: function(data) {
-                console.log(data);
-
-                $.each(data, function(index, value) {
-                    console.log(value);
-
-                    $('#inputAreaType').append("<option value="+value.areatypeid+">"+value.name+"</option>");
-                });
+    //update company contact no.
+    $('#updatecompanycontactno').on('focus', function() {
+        $(this).popover({
+            trigger: 'manual',
+            content: function() {
+                var content = '<button type="button" id="comcontactmn" class="btn btn-primary">Mobile No.</button>' +
+                    '<button type="button" id="comcontacttn" class="btn btn-primary">Telephone No.</button>';
+                return content;
             },
-            error: function(data) {
-                console.log(data);
+            html: true,
+            placement: function() {
+                var placement = 'top';
+                return placement;
             },
+            template: '<div class="popover" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3>' +
+                '<div class="popover-content"></div></div>',
+            title: function() {
+                var title = 'Choose a format:';
+                return title;
+            }
         });
-
-        $('#modalContract').modal('show');
+        $(this).popover('show');
     });
-
-    //reset on hide modal
-    $('#modalClient').on('hide.bs.modal', function() {
-        $('#formClient').trigger('reset');
-        $('#formClient').parsley().reset();
+    $('#updatecompanycontactno').on('focusout', function() {
+        $(this).popover('hide');
+    });
+    $(document).on('click', '#comcontactmn', function(e) {
+        $('#updatecompanycontactno').val('');
+        $('#updatecompanycontactno').inputmask("+63 999 9999 999");
+    });
+    $(document).on('click', '#comcontacttn', function(e) {
+        $('#updatecompanycontactno').val('');
+        $('#updatecompanycontactno').inputmask("(99) 999 9999");
     });
 
     //contract price
@@ -2335,6 +2368,9 @@ $(document).ready(function() {
 
     //new client
     $('#btnNew').click(function(e) {
+        $('#formClient').trigger('reset');
+        $('#formClient').parsley().reset();
+
         $('#modalClient').modal('show');
     });
 
@@ -2424,8 +2460,122 @@ $(document).ready(function() {
                 complete: function(data) {
                     $('#modalClient').loading('stop');
                 }
+            });
+        }
+    });
+
+    //update client
+    $('#client-list').on('click', '#btnUpdate', function(e) {
+        $('#formCompanyDetails').trigger('reset');
+        $('#formCompanyDetails').parsley().reset();
+        $('#formClientInformation').trigger('reset');
+        $('#formClientInformation').parsley().reset();
+        $('#formAccountInformation').trigger('reset');
+        $('#formAccountInformation').parsley().reset();
+        clientid = $(this).val();
+
+        $.ajax({
+            type: "GET",
+            url: "/json/client/one",
+            data: { inputClientID: clientid },
+            dataType: "json",
+            success: function(data) {
+                console.log(data);
+
+                if (data.middlename == null) {
+                    data.middlename = "";
+                }
+
+                $('#updatelastname').val(data.lastname);
+                $('#updatefirstname').val(data.firstname);
+                $('#updatemiddlename').val(data.middlename);
+                $('#updateposition').val(data.position);
+                $('#updatecontactpersonno').val(data.contactpersonno);
+                $('#updatecompanyname').val(data.company);
+                $('#updatecompanyaddress').val(data.address);
+                $('#updatecompanycontactno').val(data.companycontactno);
+                $('#updatecompanyemail').val(data.email);
+
+                $('#modalUpdateClient').modal('show');
+            }
+        });
+    });
+
+    //company details save
+    $('#btnCompanyDetailsSave').click(function(e) {
+        if ($('#formCompanyDetails').parsley().isValid()) {
+            e.preventDefault();
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                }
+            });
+            $('#modalUpdateClient').loading({
+                message: "SAVING...",
+            });
+
+            if (!$('#updatecompanycontactno').inputmask('isComplete')) {
+                toastr.error("INVALID CONTACT #");
+                $('#modalUpdateClient').loading('stop');
+                return;
+            }
+
+            var formData = {
+                inputClientID: clientid,
+                inputCompanyName: $('#updatecompanyname').val(),
+                inputCompanyAddress: $('#updatecompanyaddress').val(),
+                inputCompanyContactNo: $('#updatecompanycontactno').val(),
+                inputCompanyEmail: $('#updatecompanyemail').val()
+            };
+
+            $.ajax({
+                type: "POST",
+                url: "/admin/transaction/client/companydetail",
+                data: formData,
+                dataType: "json",
+                success: function(data) {
+                    console.log(data);
+
+                    $('#formCompanyDetails').parsley().reset();
+                    toastr.success("SAVE SUCCESSFUL");
+                },
+                error: function(data) {
+                    console.log(data);
+
+                    if (data.responseJSON == "SAME NAME") {
+                        toastr.error("CLIENT ALREADY EXIST");
+                    }
+                },
+                complete: function(data) {
+                    $('#modalUpdateClient').loading('stop');
+                }
             })
         }
+    });
+
+    //new contract
+    $('#client-list').on('click', '#btnNewContract', function(e) {
+        $('#formContract').trigger('reset');
+        $('#formContract').parsley().reset();
+        $('#inputAreaType').empty();
+        clientid = $(this).val();
+
+        $.ajax({
+            type: "GET",
+            url: "/json/areatype/all",
+            dataType: "json",
+            success: function(data) {
+                console.log(data);
+
+                $.each(data, function(index, value) {
+                    console.log(value);
+
+                    $('#inputAreaType').append("<option value="+value.areatypeid+">"+value.name+"</option>");
+                });
+            }
+        });
+
+        $('#modalContract').modal('show');
     });
 
     //saving of contract

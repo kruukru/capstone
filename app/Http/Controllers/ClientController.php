@@ -21,7 +21,7 @@ class ClientController extends Controller
     	return view('admin.transaction.client', compact('clients'));
     }
 
-    public function postAdminClientNew(Request $request) {
+    public function postAdminNew(Request $request) {
         $client = Client::where('company', $request->inputCompanyName)->get();
         if (!($client->isEmpty())) {
             return Response::json("SAME NAME", 500);
@@ -54,7 +54,26 @@ class ClientController extends Controller
         return Response::json($client);
     }
 
-    public function postAdminClientContractNew(Request $request) {
+    public function postAdminCompanyDetail(Request $request) {
+        $client = Client::where([
+            ['company', $request->inputCompanyName],
+            ['clientid', '!=', $request->inputClientID],
+        ])->get();
+        if (!($client->isEmpty())) {
+            return Response::json("SAME NAME", 500);
+        }
+
+        $client = Client::find($request->inputClientID);
+        $client->company = $request->inputCompanyName;
+        $client->address = $request->inputCompanyAddress;
+        $client->companycontactno = $request->inputCompanyContactNo;
+        $client->email = $request->inputCompanyEmail;
+        $client->save();
+
+        return Response::json($client);
+    }
+
+    public function postAdminContractNew(Request $request) {
     	$admin = Admin::find($request->inputAdminID);
     	$client = Client::find($request->inputClientID);
     	$areatype = AreaType::find($request->inputAreaTypeID);
@@ -89,4 +108,7 @@ class ClientController extends Controller
 
 		return Response::json($contract);
     }
+
+
+
 }

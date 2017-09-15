@@ -123,8 +123,12 @@ Route::group(['middleware' => ['auth']], function() {
 
 		//client
 		Route::name('admin-transaction-client')->get('/admin/transaction/client', 'ClientController@getAdminClient');
-		Route::post('/admin/transaction/client/new', 'ClientController@postAdminClientNew');
-		Route::post('/admin/transaction/client/contract/new', 'ClientController@postAdminClientContractNew');
+		Route::post('/admin/transaction/client/new', 'ClientController@postAdminNew');
+		Route::post('/admin/transaction/client/companydetail', 'ClientController@postAdminCompanyDetail');
+		Route::post('/admin/transaction/client/clientinformation', 'ClientController@postAdminClientInformation');
+		Route::post('/admin/transaction/client/accountinformation', 'ClientController@postAdminAccountInformation');
+		
+		Route::post('/admin/transaction/client/contract/new', 'ClientController@postAdminContractNew');
 
 		//inventory
 		Route::name('admin-transaction-inventory')->get('/admin/transaction/inventory', 'InventoryController@getAdminInventory');

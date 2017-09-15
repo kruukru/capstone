@@ -23,6 +23,7 @@ use Amcor\EmploymentRecord;
 use Amcor\TrainingCertificate;
 use Amcor\Manager;
 use Amcor\Firearm;
+use Amcor\Client;
 use Response;
 
 class JSONController extends Controller
