@@ -2553,6 +2553,11 @@ $(document).ready(function() {
         }
     });
 
+    //client information save
+    $('#btnClientInformationSave').click(function(e) {
+        
+    });
+
     //new contract
     $('#client-list').on('click', '#btnNewContract', function(e) {
         $('#formContract').trigger('reset');
