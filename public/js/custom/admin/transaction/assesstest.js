@@ -65,13 +65,16 @@ $(document).ready(function() {
     });
 
     //saving of test assessment
-    $('#btnSubmit').click(function(e) {
+    $('#btnSave').click(function(e) {
         e.preventDefault();
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
             }
-        })
+        });
+        $('#modalAssess').loading({
+            message: "SAVING..."
+        });
         adminid = $('meta[name="AuthenticatedID"]').attr('content');
 
         var formData = [];
@@ -106,10 +109,13 @@ $(document).ready(function() {
                 table.row('#id' + applicantid).data(data).draw(false);
 
                 $('#modalAssess').modal('hide');
+                $('#modalAssess').loading('stop');
                 toastr.success("ASSESS SUCCESSFUL");
             },
             error: function(data) {
                 console.log(data);
+
+                $('#modalAssess').loading('stop');
             },
         });
     });
@@ -206,6 +212,7 @@ $(document).ready(function() {
 
         $('#modalAssess').modal('show');
     });
+
 
 
 });

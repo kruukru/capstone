@@ -58,17 +58,16 @@
 
         This contract is made and entered into by and between:<br/><br/>
         <p class="ContractInfo">
-            <span class="ContractData">{{$contract->client->name}}</span>, a corporation duly organized and existing under and by 
+            <span class="ContractData">{{$contract->client->company}}</span>, a corporation duly organized and existing under and by 
             virtue of the laws of the Republic of the Philippines, with office 
             address at the <span class="ContractHighlight">{{$contract->deploymentsite->location}}</span>, represented in this act by its 
-            <span class="ContractData">ADMIN</span>, <span class="ContractData">{{$contract->client->contactperson}}</span> hereinafter known 
-            as the <b>"CLIENT"</b>.<br/><br/>
+            <span class="ContractData">{{$contract->client->position}}</span>, <span class="ContractData">{{$contract->client->lastname}}, {{$contract->client->firstname}} {{$contract->client->middlename}}</span> hereinafter known as the <b>"CLIENT"</b>.<br/><br/>
         </p>
         
         <center>- and -</center><br/>
 
         <p class="ContractInfo">
-            <span class="ContractData">Amcor Security & Investigation Agency, Inc.</span>, a company duly organized and existing under and by virtue of the laws of the Philippines, with principal office address at <span class="ContractData">353 Doña Dolores Bldg., San Rafael St. Brgy. Plainview, Mandaluyong City</span> represented by its <span class="ContractData">ADMIN</span>, <span class="ContractData">{{$contract->admin->firstname}} {{$contract->admin->lastname}}</span>, hereinafter referred to as the “CONTRACTOR”.<br/><br/><br/>
+            <span class="ContractData">Amcor Security & Investigation Agency, Inc.</span>, a company duly organized and existing under and by virtue of the laws of the Philippines, with principal office address at <span class="ContractData">353 Doña Dolores Bldg., San Rafael St. Brgy. Plainview, Mandaluyong City</span> represented by its <span class="ContractData">{{$contract->admin->position}}</span>, <span class="ContractData">{{$contract->admin->firstname}} {{$contract->admin->lastname}}</span>, hereinafter referred to as the “CONTRACTOR”.<br/><br/><br/>
         </p>
 
         <center>W I T N E S S E T H, That:</center><br/><br/>
@@ -79,9 +78,9 @@
             and make available to its clients the services of skilled and disciplined manpower, who are in its employ:<br/><br/>
         </p>
         <p class="NonSection">
-            WHEREAS, {{$contract->client->name}}, as the CLIENT, desires to avail of the services of SECURITY GUARDS 
+            WHEREAS, {{$contract->client->company}}, as the CLIENT, desires to avail of the services of SECURITY GUARDS 
             who are employed by the CONTRACTOR, and whose services it agrees to 
-            provide to {{$contract->client->name}}, under the terms and conditions hereinafter stated:<br/><br/>
+            provide to {{$contract->client->company}}, under the terms and conditions hereinafter stated:<br/><br/>
         </p>
         <p class="NonSection">
             NOW, THEREFORE, the parties agree as follows:<br/><br/><br/>

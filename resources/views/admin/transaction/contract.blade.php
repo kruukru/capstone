@@ -26,11 +26,11 @@
 								<tr id="id{{$contract->contractid}}">
 									<td>{{$contract->contractid}}</td>
 									<td>{{$contract->deploymentsite->sitename}}</td>
-									<td>{{$contract->client->name}}</td>
-									<td>{{$contract->client->contactperson}}</td>
+									<td>{{$contract->client->company}}</td>
+									<td>{{$contract->client->lastname}}, {{$contract->client->firstname}} {{$contract->client->middlename}}</td>
 									<td>{{$contract->startdate->format('M. d, Y')}}</td>
 									<td>{{$contract->expiration->format('M. d, Y')}}</td>
-									@if($contract->status == 0)
+									@if ($contract->status == 0)
 										<td style="text-align: center;">Active</td>
 									@endif
 									<td style="text-align: center;">

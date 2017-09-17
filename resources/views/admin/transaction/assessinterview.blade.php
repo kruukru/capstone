@@ -99,11 +99,7 @@
 				<!-- modal footer -->
 				<div class="modal-footer">
 					<div class="form-group">
-						<!-- <div id="status-list">
-							<button type="button" class="btn btn-default pull-left" id="Regular">REGULAR</button>
-							<button type="button" class="btn btn-default pull-left" id="Reliever">RELIEVER</button>
-						</div> -->
-						<button type="button" class="btn btn-primary" id="btnSubmit">SAVE</button>
+						<button type="button" class="btn btn-primary" id="btnPass">PASS</button>
 						<button type="button" class="btn btn-danger" id="btnFail">FAIL</button>
         				<button type="button" class="btn btn-default" data-dismiss="modal">CANCEL</button>
 					</div>

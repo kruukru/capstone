@@ -73,7 +73,38 @@ class ClientController extends Controller
         return Response::json($client);
     }
 
+    public function postAdminClientInformation(Request $request) {
+        $client = Client::find($request->inputClientID);
+        $client->lastname = $request->inputLastName;
+        $client->firstname = $request->inputFirstName;
+        $client->middlename = $request->inputMiddleName;
+        $client->position = $request->inputPosition;
+        $client->contactpersonno = $request->inputContactPersonNo;
+        $client->save();
+
+        return Response::json($client);
+    }
+
+    public function postAdminAccountInformation(Request $request) {
+        $account = Account::where('username', $request->inputUsername)->get();
+        if (!($account->isEmpty())) {
+            return Response::json("SAME USERNAME", 500);
+        }
+
+        $client = Client::find($request->inputClientID);
+        $client->account->username = $request->inputUsername;
+        $client->account->password = bcrypt($request->inputPassword);
+        $client->account->save();
+
+        return Response::json($client);
+    }
+
     public function postAdminContractNew(Request $request) {
+        $deploymentsite = DeploymentSite::where('sitename', $request->inputBuildingAreaName)->get();
+        if (!($deploymentsite->isEmpty())) {
+            return Response::json("SAME DEPLOYMENT SITE", 500);
+        }
+
     	$admin = Admin::find($request->inputAdminID);
     	$client = Client::find($request->inputClientID);
     	$areatype = AreaType::find($request->inputAreaTypeID);
@@ -95,6 +126,9 @@ class ClientController extends Controller
 		$contract->price = $request->inputPrice;
 		$contract->status = 0;
 		$contract->save();
+
+        $client->status = 1;
+        $client->save();
 
 		$deploymentsite->contract()->associate($contract);
 		$deploymentsite->sitename = $request->inputBuildingAreaName;

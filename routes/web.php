@@ -313,6 +313,7 @@ Route::group(['middleware' => ['auth']], function() {
 	Route::group(['middleware' => 'Amcor\Http\Middleware\ClientMiddleware'], function() {
 		//deployment site
 		Route::name('client-deploymentsite')->get('/client/deploymentsite', 'DeploymentSiteController@getClientDeploymentSite');
+		Route::get('/client/deploymentsite/clientqualification', 'DeploymentSiteController@getClientClientQualification');
 		Route::post('/client/deploymentsite/clientqualification', 'DeploymentSiteController@postClientClientQualification');
 		Route::get('/client/deploymentsite/securityguard/list', 'DeploymentSiteController@getClientSecurityGuardList');
 		Route::post('/client/deploymentsite/securityguard/list', 'DeploymentSiteController@postClientSecurityGuardList');

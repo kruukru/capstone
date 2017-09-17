@@ -18,7 +18,11 @@ class PDFController extends Controller
 {
     //admin
     public function getAdminContractDocument($contractid) {
-        $contract = Contract::with('Client', 'DeploymentSite')->find($contractid);
+        $contract = Contract::with('client', 'deploymentsite')->find($contractid);
+
+        if ($contract == null) {
+            return view('errors.404');
+        }
 
         $pdf = PDF::loadView('admin.pdf.contract', compact('contract'));
         return $pdf->stream();

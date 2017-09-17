@@ -224,13 +224,16 @@ $(document).ready(function() {
 
     $('#btnQualificationSave').click(function(e) {
         e.preventDefault();
-        if (tableQualification.row().count() != 0) {
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
-                }
-            });
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+            }
+        });
+        $('#modalQualification').loading({
+            message: "SAVING..."
+        });
 
+        if (tableQualification.row().count() != 0) {
             var formData = [];
             tableQualification.rows().every(function(rowIdx, tableLoop, rowLoop) {
                 var data = {
@@ -264,21 +267,62 @@ $(document).ready(function() {
                         data.location + ", " + data.city + ", " + data.province,
                         "PENDING REQUEST",
                         "<td style='text-align: center;'>" +
-                            "<button class='btn btn-primary btn-xs' id='btnApprove' value='"+data.deploymentsiteid+"'>Update</button>" +
+                            "<button class='btn btn-primary btn-xs' id='btnUpdateQualification' value='"+data.deploymentsiteid+"'>Update</button>" +
                         "</td>",
                     ];
                     table.row('#id' + deploymentsiteid).data(dt).draw(false);
 
                     $('#modalQualification').modal('hide');
+                    $('#modalQualification').loading('stop');
                     toastr.success("SAVE SUCCESSFUL");
                 },
                 error: function(data) {
                     console.log(data);
+
+                    $('#modalQualification').loading('stop');
                 },
             });
         } else {
+            $('#modalQualification').loading('stop');
             toastr.error("NO QUALIFICATION IN THE LIST");
         }
+    });
+
+    $('#deploymentsite-list').on('click', '#btnUpdateQualification', function(e) {
+        deploymentsiteid = $(this).val();
+
+        $.ajax({
+            type: "GET",
+            url: "/client/deploymentsite/clientqualification",
+            data: { inputDeploymentSiteID: deploymentsiteid },
+            dataType: "json",
+            success: function(data) {
+                console.log(data);
+
+                $.each(data, function(index, value) {
+                    var row = "<tr id=id" + idTable + ">" +
+                        "<td>" + value.requireno + "</td>" +
+                        "<td>" + value.gender + "</td>" +
+                        "<td>" + value.attainment + "</td>" +
+                        "<td>" + value.civilstatus + "</td>" +
+                        "<td>" + value.age + "</td>" +
+                        "<td>" + value.height + "</td>" +
+                        "<td>" + value.weight + "</td>" +
+                        "<td>" + value.workexp + "</td>" +
+                        "<td style='text-align: center;'>" +
+                        "<button class='btn btn-danger btn-xs' id='btnRemove' value=" + idTable + ">Remove</button>" +
+                        "</td>" +
+                        "</tr>";
+                    tableQualification.row.add($(row)[0]).draw();
+                    idTable++;
+                });
+
+                $('#modalQualification').modal('show');
+            },
+            error: function(data) {
+                console.log(data);
+            },
+        });
     });
 
     $('#deploymentsite-list').on('click', '#btnSGList', function(e) {

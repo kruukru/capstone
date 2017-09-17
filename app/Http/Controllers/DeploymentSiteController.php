@@ -27,8 +27,22 @@ class DeploymentSiteController extends Controller
     	return view('client.deploymentsite', compact('deploymentsites'));
     }
 
+    //client qualification
+    public function getClientClientQualification(Request $request) {
+        $clientqualification = ClientQualification::where([
+            ['requestid', null],
+            ['deploymentsiteid', $request->inputDeploymentSiteID]
+        ])->get();
+
+        return Response::json($clientqualification);
+    }
+
     //client security guard
     public function postClientClientQualification(Request $request) {
+        ClientQualification::where([
+            ['requestid', null],
+            ['deploymentsiteid', $request->inputDeploymentSiteID]
+        ])->forceDelete();
     	$deploymentsite = DeploymentSite::find($request->inputDeploymentSiteID);
 
         foreach($request->formData as $data) {

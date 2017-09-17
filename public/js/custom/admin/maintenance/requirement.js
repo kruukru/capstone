@@ -83,7 +83,7 @@ $(document).ready(function() {
                 if (data.responseJSON == "CANNOT REMOVE") {
                     toastr.error("CANNOT REMOVE WHILE BEING USED");
                 }
-            },
+            }
         });
     });
 

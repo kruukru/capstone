@@ -29,7 +29,7 @@
 										@elseif ($deploymentsite->status == 1)
 											<td style="text-align: center;">PENDING REQUEST</td>
 											<td style="text-align: center;">
-												<button class="btn btn-primary btn-xs" id="btnUpdate" value="{{$deploymentsite->deploymentsiteid}}">Update</button>
+												<button class="btn btn-primary btn-xs" id="btnUpdateQualification" value="{{$deploymentsite->deploymentsiteid}}">Update</button>
 											</td>
 										@elseif ($deploymentsite->status == 2)
 											<td style="text-align: center;">SECURITY GUARD LIST RECEIVED</td>

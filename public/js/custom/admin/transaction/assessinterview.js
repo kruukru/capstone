@@ -20,14 +20,6 @@ $(document).ready(function() {
             null,
             { "bSearchable": false, "bSortable": false, },
         ]
-    })
-
-    //status
-    $('#status-list').on('click', '.btn', function() {
-        $(this).parents('#status-list').find('.btn').addClass('btn-default');
-        $(this).parents('#status-list').find('.btn').removeClass('btn-primary');
-        $(this).addClass('btn-primary');
-        $(this).removeClass('btn-default');
     });
 
     //reset modal when hide
@@ -67,57 +59,53 @@ $(document).ready(function() {
     });
 
     //save interview assessment
-    $('#btnSubmit').click(function(e) {
+    $('#btnPass').click(function(e) {
         e.preventDefault();
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
             }
         });
+        $('#modalAssess').loading({
+            message: "SAVING..."
+        });
         adminid = $('meta[name="AuthenticatedID"]').attr('content');
 
-        var check = true;
-        // if (!$('#status-list').find('.btn').hasClass('btn-primary')) {
-        //     check = false;
-        // }
-
-        if (check) {
-            var formData = [];
-            tableAssessment.rows().every(function(rowIdx, tableLoop, rowLoop) {
-                var data = {
-                    inputAssessmentTopic: this.cell(rowIdx, 0).data(),
-                    inputAssessment: this.cell(rowIdx, 1).data(),
-                };
-                formData.push(data);
-            });    
-
-            formData = { 
-                inputApplicantID: applicantid,
-                inputAdminID: adminid,
-                inputStatus: $('#status-list').find('.btn-primary').attr('id'),
-                formData: formData,
+        var formData = [];
+        tableAssessment.rows().every(function(rowIdx, tableLoop, rowLoop) {
+            var data = {
+                inputAssessmentTopic: this.cell(rowIdx, 0).data(),
+                inputAssessment: this.cell(rowIdx, 1).data(),
             };
+            formData.push(data);
+        });    
 
-            $.ajax({
-                type: "POST",
-                url: "/admin/transaction/assessinterview",
-                data: formData,
-                dataType: "json",
-                success: function(data) {
-                    console.log(data);
+        formData = { 
+            inputApplicantID: applicantid,
+            inputAdminID: adminid,
+            formData: formData,
+        };
 
-                    table.row('#id' + data.applicantid).remove().draw(false);
+        $.ajax({
+            type: "POST",
+            url: "/admin/transaction/assessinterview",
+            data: formData,
+            dataType: "json",
+            success: function(data) {
+                console.log(data);
 
-                    $('#modalAssess').modal('hide');
-                    toastr.success("ASSESS SUCCESSFUL");
-                },
-                error: function(data) {
-                    console.log(data);
-                },
-            });
-        } else {
-            toastr.error("PICK AN ACTION");
-        }
+                table.row('#id' + data.applicantid).remove().draw(false);
+
+                $('#modalAssess').modal('hide');
+                $('#modalAssess').loading('stop');
+                toastr.success("ASSESS SUCCESSFUL");
+            },
+            error: function(data) {
+                console.log(data);
+
+                $('#modalAssess').loading('stop');
+            }
+        });
     });
 
     $('#btnFail').click(function(e) {
@@ -133,6 +121,9 @@ $(document).ready(function() {
                 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
             }
         });
+        $('#modalConfirmation').loading({
+            message: "SAVING..."
+        });
 
         $.ajax({
             type: "POST",
@@ -146,10 +137,13 @@ $(document).ready(function() {
 
                 $('#modalConfirmation').modal('hide');
                 $('#modalAssess').modal('hide');
+                $('#modalConfirmation').loading('stop');
                 toastr.success("ASSESS SUCCESSFUL");
             },
             error: function(data) {
                 console.log(data);
+
+                $('#modalConfirmation').loading('stop');
             },
         });
     });

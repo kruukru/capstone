@@ -20,8 +20,4 @@ class ClientQualification extends Model
     public function request() {
         return $this->belongsTo('Amcor\Requestt', 'requestid');
     }
-
-    public function qualificationcheck() {
-        return $this->hasMany('Amcor\QualificationCheck', 'clientqualificationid');
-    }
 }

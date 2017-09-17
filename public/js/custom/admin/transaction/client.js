@@ -2161,7 +2161,7 @@ $(document).ready(function() {
         endDate: '+100y',
     });
 
-    //validate the username
+    //validate username
     $('#username').on('focusout', function() {
         if ($(this).val() != "") {
             $('#username').parsley().removeError('forcederror', {updateClass: true});
@@ -2176,6 +2176,29 @@ $(document).ready(function() {
                 error: function(data) {
                     if (data.responseJSON == "SAME USERNAME") {
                         $('#username').parsley().addError('forcederror', {
+                            message: 'Username already exist.',
+                            updateClass: true,
+                        });
+                    }
+                },
+            });
+        }
+    });
+    //validate update username
+    $('#updateusername').on('focusout', function() {
+        if ($(this).val() != "") {
+            $('#updateusername').parsley().removeError('forcederror', {updateClass: true});
+            $.ajax({
+                type: "GET",
+                url: "/json/validate-username",
+                data: { inputUsername: $('#updateusername').val(), },
+                dataType: "json",
+                success: function(data) {
+                    $('#updateusername').parsley().removeError('forcederror', {updateClass: true});
+                },
+                error: function(data) {
+                    if (data.responseJSON == "SAME USERNAME") {
+                        $('#updateusername').parsley().addError('forcederror', {
                             message: 'Username already exist.',
                             updateClass: true,
                         });
@@ -2212,6 +2235,39 @@ $(document).ready(function() {
                     updateClass: true,
                 });
                 $('#confirmpassword').parsley().addError('forcederror', {
+                    message: 'Password mismatch.',
+                    updateClass: true,
+                });
+            }
+        }
+    });
+    //validate update password
+    $('.input-updatepassword').on('keyup', function() {
+        if ($('#updateconfirmpassword').val() != "") {
+            $('#updatepassword').parsley().removeError('forcederror', {updateClass: true});
+            $('#updateconfirmpassword').parsley().removeError('forcederror', {updateClass: true});
+            if ($('#updatepassword').val() != $('#updateconfirmpassword').val()) {
+                $('#updatepassword').parsley().addError('forcederror', {
+                    message: 'Password mismatch.',
+                    updateClass: true,
+                });
+                $('#updateconfirmpassword').parsley().addError('forcederror', {
+                    message: 'Password mismatch.',
+                    updateClass: true,
+                });
+            }
+        }
+    });
+    $('.input-updateconfirmpassword').on('keyup', function() {
+        if ($('#updatepassword').val() != "") {
+            $('#updatepassword').parsley().removeError('forcederror', {updateClass: true});
+            $('#updateconfirmpassword').parsley().removeError('forcederror', {updateClass: true});
+            if ($('#updatepassword').val() != $('#updateconfirmpassword').val()) {
+                $('#updatepassword').parsley().addError('forcederror', {
+                    message: 'Password mismatch.',
+                    updateClass: true,
+                });
+                $('#updateconfirmpassword').parsley().addError('forcederror', {
                     message: 'Password mismatch.',
                     updateClass: true,
                 });
@@ -2440,25 +2496,25 @@ $(document).ready(function() {
                         "<td>" + data.email + "</td>" +
                         "<td style='text-align: center;'>NO DEPLOYMENT SITE</td>" +
                         "<td style='text-align: center;'>" +
-                        "<button class='btn btn-primary btn-xs' id='btnNewContract' value="+data.clientid+">New Contract</button>" +
+                        "<button class='btn btn-primary btn-xs' id='btnNewContract' value="+data.clientid+">New Contract</button> " +
+                        "<button class='btn btn-primary btn-xs' id='btnUpdate' value="+data.clientid+">Update</button>" +
                         "</td>" +
                         "</tr>";
                     table.row.add($(row)[0]).draw();
 
                     $('#modalClient').modal('hide');
+                    $('#modalClient').loading('stop');
                     toastr.success("SAVE SUCCESSFUL");
                 },
                 error: function(data) {
                     console.log(data);
 
+                    $('#modalClient').loading('stop');
                     if (data.responseJSON == "SAME NAME") {
                         toastr.error("CLIENT ALREADY EXIST");
                     } else if (data.responseJSON == "SAME USERNAME") {
                         toastr.error("USERNAME ALREADY EXIST");
                     }
-                },
-                complete: function(data) {
-                    $('#modalClient').loading('stop');
                 }
             });
         }
@@ -2484,6 +2540,16 @@ $(document).ready(function() {
 
                 if (data.middlename == null) {
                     data.middlename = "";
+                }
+                if (data.contactpersonno.charAt(0) == "+") {
+                    $('#updatecontactpersonno').inputmask("+63 999 9999 999");
+                } else {
+                    $('#updatecontactpersonno').inputmask("(99) 999 9999");
+                }
+                if (data.companycontactno.charAt(0) == "+") {
+                    $('#updatecompanycontactno').inputmask("+63 999 9999 999");
+                } else {
+                    $('#updatecompanycontactno').inputmask("(99) 999 9999");
                 }
 
                 $('#updatelastname').val(data.lastname);
@@ -2536,18 +2602,29 @@ $(document).ready(function() {
                 success: function(data) {
                     console.log(data);
 
+                    var dt = [
+                        $('#updatecompanyname').val(),
+                        $('#updatecompanyaddress').val(),
+                        $('#updatecompanycontactno').val(),
+                        table.row('#id' + clientid).data()[3],
+                        table.row('#id' + clientid).data()[4],
+                        $('#updatecompanyemail').val(),
+                        table.row('#id' + clientid).data()[6],
+                        table.row('#id' + clientid).data()[7],
+                    ];
+                    table.row('#id' + clientid).data(dt).draw(false);
+
                     $('#formCompanyDetails').parsley().reset();
+                    $('#modalUpdateClient').loading('stop');
                     toastr.success("SAVE SUCCESSFUL");
                 },
                 error: function(data) {
                     console.log(data);
 
+                    $('#modalUpdateClient').loading('stop');
                     if (data.responseJSON == "SAME NAME") {
                         toastr.error("CLIENT ALREADY EXIST");
                     }
-                },
-                complete: function(data) {
-                    $('#modalUpdateClient').loading('stop');
                 }
             })
         }
@@ -2555,7 +2632,112 @@ $(document).ready(function() {
 
     //client information save
     $('#btnClientInformationSave').click(function(e) {
-        
+        if ($('#formClientInformation').parsley().isValid()) {
+            e.preventDefault();
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                }
+            });
+            $('#modalUpdateClient').loading({
+                message: "SAVING...",
+            });
+
+            if (!$('#updatecontactpersonno').inputmask('isComplete')) {
+                toastr.error("INVALID CONTACT #");
+                $('#modalUpdateClient').loading('stop');
+                return;
+            }
+
+            var formData = {
+                inputClientID: clientid,
+                inputLastName: $('#updatelastname').val(),
+                inputFirstName: $('#updatefirstname').val(),
+                inputMiddleName: $('#updatemiddlename').val(),
+                inputPosition: $('#updateposition').val(),
+                inputContactPersonNo: $('#updatecontactpersonno').val()
+            };
+
+            $.ajax({
+                type: "POST",
+                url: "/admin/transaction/client/clientinformation",
+                data: formData,
+                dataType: "json",
+                success: function(data) {
+                    console.log(data);
+
+                    var dt = [
+                        table.row('#id' + clientid).data()[0],
+                        table.row('#id' + clientid).data()[1],
+                        table.row('#id' + clientid).data()[2],
+                        $('#updatelastname').val() + ", " + $('#updatefirstname').val() + " " + $('#updatemiddlename').val(),
+                        $('#updatecontactpersonno').val(),
+                        table.row('#id' + clientid).data()[5],
+                        table.row('#id' + clientid).data()[6],
+                        table.row('#id' + clientid).data()[7],
+                    ];
+                    table.row('#id' + clientid).data(dt).draw(false);
+
+                    $('#formClientInformation').parsley().reset();
+                    $('#modalUpdateClient').loading('stop');
+                    toastr.success("SAVE SUCCESSFUL");
+                },
+                error: function(data) {
+                    console.log(data);
+
+                    $('#modalUpdateClient').loading('stop');
+                }
+            })
+        }
+    });
+
+    //account information save
+    $('#btnAccountInformationSave').click(function(e) {
+        if ($('#formAccountInformation').parsley().isValid()) {
+            e.preventDefault();
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                }
+            });
+            $('#modalUpdateClient').loading({
+                message: "SAVING...",
+            });
+
+            if ($('#updatepassword').val() != $('#updateconfirmpassword').val()) {
+                toastr.error("PASSWORD MISMATCH");
+                $('#modalUpdateClient').loading('stop');
+                return;
+            }
+
+            var formData = {
+                inputClientID: clientid,
+                inputUsername: $('#updateusername').val(),
+                inputPassword: $('#updatepassword').val()
+            };
+
+            $.ajax({
+                type: "POST",
+                url: "/admin/transaction/client/accountinformation",
+                data: formData,
+                dataType: "json",
+                success: function(data) {
+                    console.log(data);
+
+                    $('#formAccountInformation').parsley().reset();
+                    $('#modalUpdateClient').loading('stop');
+                    toastr.success("SAVE SUCCESSFUL");
+                },
+                error: function(data) {
+                    console.log(data);
+
+                    $('#modalUpdateClient').loading('stop');
+                    if (data.responseJSON == "SAME USERNAME") {
+                        toastr.error("USERNAME ALREADY EXIST");
+                    }
+                }
+            })
+        }
     });
 
     //new contract
@@ -2592,15 +2774,18 @@ $(document).ready(function() {
                     'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
                 }
             });
+            $('#modalContract').loading({
+                message: "SAVING..."
+            });
             adminid = $('meta[name="AuthenticatedID"]').attr('content');
 
             if ($('#inputPrice').val() == 0) {
                 toastr.error("INVALID CONTRACT PRICE");
+                $('#modalContract').loading('stop');
                 return;
             }
 
             var online = navigator.onLine;
-
             if (online) {
                 var geocoder = new google.maps.Geocoder();
                 var formData = {};
@@ -2649,12 +2834,30 @@ $(document).ready(function() {
                         success: function(data) {
                             console.log(data);
 
+                            var dt = [
+                                table.row('#id' + clientid).data()[0],
+                                table.row('#id' + clientid).data()[1],
+                                table.row('#id' + clientid).data()[2],
+                                table.row('#id' + clientid).data()[3],
+                                table.row('#id' + clientid).data()[4],
+                                table.row('#id' + clientid).data()[3],
+                                "ACTIVE",
+                                table.row('#id' + clientid).data()[7],
+                            ];
+                            table.row('#id' + clientid).data(dt).draw(false);
+
                             $('#modalContract').modal('hide');
+                            $('#modalContract').loading('stop');
                             toastr.success("SAVE SUCCESSFUL");
                         },
                         error: function(data) {
                             console.log(data);
-                        },
+
+                            $('#modalContract').loading('stop');
+                            if (data.responseJSON == "SAME DEPLOYMENT SITE") {
+                                toastr.error("DEPLOYMENT SITE ALREADY EXIST");
+                            }
+                        }
                     });
                 });
             } else {
@@ -2686,11 +2889,17 @@ $(document).ready(function() {
                         console.log(data);
 
                         $('#modalContract').modal('hide');
+                        $('#modalContract').loading('stop');
                         toastr.success("SAVE SUCCESSFUL");
                     },
                     error: function(data) {
                         console.log(data);
-                    },
+
+                        $('#modalContract').loading('stop');
+                        if (data.responseJSON == "SAME DEPLOYMENT SITE") {
+                            toastr.error("DEPLOYMENT SITE ALREADY EXIST");
+                        }
+                    }
                 });
             }
         }

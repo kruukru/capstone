@@ -243,11 +243,11 @@
 										</div>
 										<div class="form-group">
 											<label>New Password *</label>
-											<input type="password" class="form-control input-password" id="updatepassword" placeholder="Password" required>
+											<input type="password" class="form-control input-updatepassword" id="updatepassword" placeholder="Password" required>
 										</div>
 										<div class="form-group">
 											<label>Confirm Password *</label>
-											<input type="password" class="form-control input-confirmpassword" id="updateconfirmpassword" placeholder="Confirm Password" required>
+											<input type="password" class="form-control input-updateconfirmpassword" id="updateconfirmpassword" placeholder="Confirm Password" required>
 										</div>
 										<div class="form-group">
 											<button class="btn btn-primary pull-right" id="btnAccountInformationSave">SAVE</button>
