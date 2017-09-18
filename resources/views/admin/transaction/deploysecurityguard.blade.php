@@ -30,7 +30,7 @@
 										@elseif ($deploymentsite->status == 2)
 											<td style="text-align: center;">PENDING APPROVAL</td>
 											<td style="text-align: center;">
-												<button class="btn btn-primary btn-xs" id="btnView" value="{{$deploymentsite->deploymentsiteid}}">Update</button>
+												<button class="btn btn-primary btn-xs" id="btnUpdateDeploy" value="{{$deploymentsite->deploymentsiteid}}">Update</button>
 											</td>
 										@endif
 									</tr>
@@ -95,8 +95,11 @@
 								<th>Gender</th>
 								<th>Civil Status</th>
 								<th>Attainment</th>
+								<th style="text-align: center;">Work Experience(month)</th>
+								<th style="text-align: center;">Age</th>
+								<th style="text-align: center;">Height</th>
+								<th style="text-align: center;">Weight</th>
 								<th style="text-align: center;">Approx Distance(km)</th>
-								<th style="text-align: center;">Percent</th>
 								<th style="text-align: center;">Vacant(day)</th>
 								<th style="text-align: center;">Action</th>
 							</thead>
@@ -113,8 +116,12 @@
 								<th>Gender</th>
 								<th>Civil Status</th>
 								<th>Attainment</th>
+								<th style="text-align: center;">Work Experience(month)</th>
+								<th style="text-align: center;">Age</th>
+								<th style="text-align: center;">Height</th>
+								<th style="text-align: center;">Weight</th>
 								<th style="text-align: center;">Approx Distance(km)</th>
-								<th style="text-align: center;">Percent</th>
+								<th style="text-align: center;">Vacant(day)</th>
 								<th style="text-align: center;">Action</th>
 							</thead>
 							<tbody id="deployed-list"></tbody>
@@ -124,7 +131,7 @@
 				<!-- modal footer -->
 				<div class="modal-footer">
 					<div class="form-group">
-    					<button type="button" class="btn btn-primary" id="btnConfirm">CONFIRM</button>
+    					<button type="button" class="btn btn-primary" id="btnDeploySave">SAVE</button>
     					<button type="button" class="btn btn-default" data-dismiss="modal">CANCEL</button>
 					</div>
 				</div>

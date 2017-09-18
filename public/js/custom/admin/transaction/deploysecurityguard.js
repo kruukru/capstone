@@ -19,6 +19,9 @@ $(document).ready(function() {
             null,
             null,
             null,
+            null,
+            null,
+            null,
             { "bSearchable": false, "bSortable": false, },
         ]
     });
@@ -31,10 +34,15 @@ $(document).ready(function() {
             null,
             null,
             null,
+            null,
+            null,
+            null,
+            null,
             { "bSearchable": false, "bSortable": false, },
         ]
     });
 
+    //reset the modal deploy when hide
     $('#modalDeploy').on('hide.bs.modal', function() {
         tablePool.clear().draw();
         tableDeploy.clear().draw();
@@ -55,20 +63,28 @@ $(document).ready(function() {
                 tablePool.cell('#id'+$(this).val(), 3).data() + "</td>" +
             "<td id='attainment' class='" + $(this).parents('tr').find('#attainment').attr('class') + "'>" + 
                 tablePool.cell('#id'+$(this).val(), 4).data() + "</td>" +
-            "<td style='text-align: center;'>" + 
+            "<td id='workexp' class='" + $(this).parents('tr').find('#workexp').attr('class') + "' style='text-align: center;'>" +
                 tablePool.cell('#id'+$(this).val(), 5).data() + "</td>" +
             "<td style='text-align: center;'>" + 
                 tablePool.cell('#id'+$(this).val(), 6).data() + "</td>" +
+            "<td style='text-align: center;'>" + 
+                tablePool.cell('#id'+$(this).val(), 7).data() + "</td>" +
+            "<td style='text-align: center;'>" + 
+                tablePool.cell('#id'+$(this).val(), 8).data() + "</td>" +
+            "<td style='text-align: center;'>" + 
+                tablePool.cell('#id'+$(this).val(), 9).data() + "</td>" +
+            "<td style='text-align: center;'>" + 
+                tablePool.cell('#id'+$(this).val(), 10).data() + "</td>" +
             "<td style='text-align: center;'>" +
                 "<button class='btn btn-warning btn-xs' id='btnRemove' value=" + $(this).val() + ">Remove</button> " +
             "</td>" +
             "</tr>";
 
         tablePool.row('#id'+$(this).val()).remove().draw(false);
-        tableDeploy.row.add($(row)[0]).order([5, 'asc']).draw();
+        tableDeploy.row.add($(row)[0]).order([10, 'desc']).draw();
     });
 
-    //removing of securit guard from the deploy
+    //removing of security guard from the deploy
     $('#deployed-list').on('click', '#btnRemove', function(e) {
         e.preventDefault();
 
@@ -112,9 +128,7 @@ $(document).ready(function() {
                     success: function(data) {
                         console.log(data);
 
-                        $.each(data, function(index, value) {
-                            console.log(index + " / " + value);
-
+                        $.each(data.pool, function(index, value) {
                             var check = true;
                             tableDeploy.rows().every(function(rowIdx, tableLoop, rowLoop) {
                                 if (this.cell(rowIdx, 0).data() == value.applicantid) {
@@ -127,57 +141,140 @@ $(document).ready(function() {
                                     "<td>" + value.applicantid + "</td>" +
                                     "<td>" + value.name + "</td>";
                                 //gender
-                                var str = value.gender.split(",")
+                                var str = value.gender.split(",");
                                 if (str.length == 2) {
                                     row += "<td id='gender' class='posi'>" + str[0] + "</td>";
                                 } else {
                                     row += "<td id='gender' class='nega'>" + str[0] + "</td>";
                                 }
                                 //civilstatus
-                                var str = value.civilstatus.split(",")
+                                var str = value.civilstatus.split(",");
                                 if (str.length == 2) {
                                     row += "<td id='civilstatus' class='posi'>" + str[0] + "</td>";
                                 } else {
                                     row += "<td id='civilstatus' class='nega'>" + str[0] + "</td>";
                                 }
                                 //attainment
-                                var str = value.attainment.split(",")
+                                var str = value.attainment.split(",");
                                 if (str.length == 2) {
                                     row += "<td id='attainment' class='posi'>" + str[0] + "</td>";
                                 } else {
                                     row += "<td id='attainment' class='nega'>" + str[0] + "</td>";
                                 }
+                                //work experience
+                                var str = value.workexp.toString().split(",");
+                                if (str.length == 2) {
+                                    row += "<td id='workexp' class='posi' style='text-align: center'>" + str[0] + "</td>";
+                                } else {
+                                    row += "<td id='workexp' class='nega' style='text-align: center'>" + str[0] + "</td>";
+                                }
+                                //age, height, weight
+                                row += "<td style='text-align: center'>" + value.age.toFixed(2) + "%</td>" +
+                                    "<td style='text-align: center'>" + value.height.toFixed(2) + "%</td>" +
+                                    "<td style='text-align: center'>" + value.weight.toFixed(2) + "%</td>";
                                 //distance
                                 if (value.distance == null) {
                                     row += "<td style='text-align: center'>NOT AVAILABLE</td>";
                                 } else {
                                     row += "<td style='text-align: center'>" + value.distance.toFixed(2) + "</td>";
                                 }
-                                row += "<td style='text-align: center;'>" + value.points.toFixed(2) + "%</td>" +
-                                    "<td style='text-align: center;'>" + value.vacant + "</td>" +
+                                //vacant
+                                row += "<td style='text-align: center;'>" + value.vacant + "</td>" +
                                     "<td style='text-align: center;'>" +
-                                        "<button class='btn btn-primary btn-xs' id='btnAdd' value="+value.applicantid+">Add</button> " +
+                                    "<button class='btn btn-primary btn-xs' id='btnAdd' value="+value.applicantid+">Add</button> " +
                                     "</td>" +
                                     "</tr>";
+
                                 tablePool.row.add($(row)[0]);
                             }
                         });
 
-                        tablePool.order([7, 'desc']).draw();
+                        tablePool.order([10, 'desc']).draw();
                     },
                 });
             },
         });
     });
 
-    //click button deploy sg
-	$('#deploy-list').on('click', '#btnDeploy', function() {
+    //deploy sg
+	$('#deploy-list').on('click', '#btnDeploy', function(e) {
+        e.preventDefault();
         deploymentsiteid = $(this).val();
+        $('#btnDeploySave').val(0);
 
+        getSecurityGuard();
+
+		$('#modalDeploy').modal('show');
+	});
+
+    //update of sent sg
+    $('#deploy-list').on('click', '#btnUpdateDeploy', function(e) {
+        e.preventDefault();
+        deploymentsiteid = $(this).val();
+        $('#btnDeploySave').val(1);
+
+        getSecurityGuard();
+
+        $('#modalDeploy').modal('show');
+    });
+
+    $('#btnDeploySave').click(function (e) {
+        e.preventDefault();
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+            }
+        });
+        $('#modalDeploy').loading({
+            message: "SAVING..."
+        });
+
+        if (requireno <= tableDeploy.rows().count()) {
+            var formData = [];
+            tableDeploy.rows().every(function(rowIdx, tableLoop, rowLoop) {
+                var data = {
+                    inputApplicantID: this.cell(rowIdx, 0).data(),
+                }
+                formData.push(data);
+            });
+            formData = {
+                inputDeploymentSiteID: deploymentsiteid,
+                inputType: $('#btnDeploySave').val(),
+                formData: formData,
+            };
+
+            $.ajax({
+                type: "POST",
+                url: "/admin/transaction/deploysecurityguard",
+                data: formData,
+                dataType: "json",
+                success: function(data) {
+                    console.log(data);
+
+                    var dt = [
+                        data.sitename,
+                        data.location + ", " + data.city + ", " + data.province,
+                        "PENDING APPROVAL",
+                        "<button class='btn btn-primary btn-xs' id='btnUpdateDeploy' value="+data.deploymentsiteid+">Update</button>",
+                    ];
+                    table.row('#id' + deploymentsiteid).data(dt).draw(false);
+
+                    $('#modalDeploy').modal('hide');
+                    $('#modalDeploy').loading('stop');
+                    toastr.success("SAVE SUCCESSFULLY");
+                }
+            });
+        } else {
+            $('#modalDeploy').loading('stop');
+            toastr.error("YOU NEED " + (requireno - tableDeploy.rows().count()) + " MORE SECURITY GUARD");
+        }
+    });
+
+    function getSecurityGuard() {
         $.ajax({
             type: "GET",
             url: "/admin/transaction/deploysecurityguard/clientqualification",
-            data: { inputDeploymentSiteID: deploymentsiteid, },
+            data: { inputDeploymentSiteID: deploymentsiteid },
             dataType: "json",
             success: function(data) {
                 console.log(data);
@@ -214,101 +311,119 @@ $(document).ready(function() {
                     success: function(data) {
                         console.log(data);
 
-                        $.each(data, function(index, value) {
-                            console.log(index + " / " + value);
-
+                        $.each(data.pool, function(index, value) {
                             var row = "<tr id=id" + value.applicantid + ">" +
                                 "<td>" + value.applicantid + "</td>" +
                                 "<td>" + value.name + "</td>";
                             //gender
-                            var str = value.gender.split(",")
+                            var str = value.gender.split(",");
                             if (str.length == 2) {
                                 row += "<td id='gender' class='posi'>" + str[0] + "</td>";
                             } else {
                                 row += "<td id='gender' class='nega'>" + str[0] + "</td>";
                             }
                             //civilstatus
-                            var str = value.civilstatus.split(",")
+                            var str = value.civilstatus.split(",");
                             if (str.length == 2) {
                                 row += "<td id='civilstatus' class='posi'>" + str[0] + "</td>";
                             } else {
                                 row += "<td id='civilstatus' class='nega'>" + str[0] + "</td>";
                             }
                             //attainment
-                            var str = value.attainment.split(",")
+                            var str = value.attainment.split(",");
                             if (str.length == 2) {
                                 row += "<td id='attainment' class='posi'>" + str[0] + "</td>";
                             } else {
                                 row += "<td id='attainment' class='nega'>" + str[0] + "</td>";
                             }
+                            //work experience
+                            var str = value.workexp.toString().split(",");
+                            if (str.length == 2) {
+                                row += "<td id='workexp' class='posi' style='text-align: center'>" + str[0] + "</td>";
+                            } else {
+                                row += "<td id='workexp' class='nega' style='text-align: center'>" + str[0] + "</td>";
+                            }
+                            //age, height, weight
+                            row += "<td style='text-align: center'>" + value.age.toFixed(2) + "%</td>" +
+                                "<td style='text-align: center'>" + value.height.toFixed(2) + "%</td>" +
+                                "<td style='text-align: center'>" + value.weight.toFixed(2) + "%</td>";
                             //distance
                             if (value.distance == null) {
                                 row += "<td style='text-align: center'>NOT AVAILABLE</td>";
                             } else {
                                 row += "<td style='text-align: center'>" + value.distance.toFixed(2) + "</td>";
                             }
-                            row += "<td style='text-align: center;'>" + value.points.toFixed(2) + "%</td>" +
-                                "<td style='text-align: center;'>" + value.vacant + "</td>" +
+                            //vacant
+                            row += "<td style='text-align: center;'>" + value.vacant + "</td>" +
                                 "<td style='text-align: center;'>" +
-                                    "<button class='btn btn-primary btn-xs' id='btnAdd' value="+value.applicantid+">Add</button> " +
+                                "<button class='btn btn-primary btn-xs' id='btnAdd' value="+value.applicantid+">Add</button> " +
                                 "</td>" +
                                 "</tr>";
 
                             tablePool.row.add($(row)[0]);
                         });
 
-                        tablePool.order([7, 'desc']).draw();
+                        $.each(data.poolsent, function(index, value) {
+                            var row = "<tr id=id" + value.applicantid + ">" +
+                                "<td>" + value.applicantid + "</td>" +
+                                "<td>" + value.name + "</td>";
+                            //gender
+                            var str = value.gender.split(",");
+                            if (str.length == 2) {
+                                row += "<td id='gender' class='posi'>" + str[0] + "</td>";
+                            } else {
+                                row += "<td id='gender' class='nega'>" + str[0] + "</td>";
+                            }
+                            //civilstatus
+                            var str = value.civilstatus.split(",");
+                            if (str.length == 2) {
+                                row += "<td id='civilstatus' class='posi'>" + str[0] + "</td>";
+                            } else {
+                                row += "<td id='civilstatus' class='nega'>" + str[0] + "</td>";
+                            }
+                            //attainment
+                            var str = value.attainment.split(",");
+                            if (str.length == 2) {
+                                row += "<td id='attainment' class='posi'>" + str[0] + "</td>";
+                            } else {
+                                row += "<td id='attainment' class='nega'>" + str[0] + "</td>";
+                            }
+                            //work experience
+                            var str = value.workexp.toString().split(",");
+                            if (str.length == 2) {
+                                row += "<td id='workexp' class='posi' style='text-align: center'>" + str[0] + "</td>";
+                            } else {
+                                row += "<td id='workexp' class='nega' style='text-align: center'>" + str[0] + "</td>";
+                            }
+                            //age, height, weight
+                            row += "<td style='text-align: center'>" + value.age.toFixed(2) + "%</td>" +
+                                "<td style='text-align: center'>" + value.height.toFixed(2) + "%</td>" +
+                                "<td style='text-align: center'>" + value.weight.toFixed(2) + "%</td>";
+                            //distance
+                            if (value.distance == null) {
+                                row += "<td style='text-align: center'>NOT AVAILABLE</td>";
+                            } else {
+                                row += "<td style='text-align: center'>" + value.distance.toFixed(2) + "</td>";
+                            }
+                            //vacant
+                            row += "<td style='text-align: center;'>" + value.vacant + "</td>" +
+                                "<td style='text-align: center;'>" +
+                                "<button class='btn btn-warning btn-xs' id='btnRemove' value="+value.applicantid+">Remove</button> " +
+                                "</td>" +
+                                "</tr>";
+
+                            tableDeploy.row.add($(row)[0]);
+                        });
+
+                        tablePool.order([10, 'desc']).draw();
+                        tableDeploy.order([10, 'desc']).draw();
                     },
                 });
             },
         });
+    }
 
-		$('#modalDeploy').modal('show');
-	});
 
-    $('#btnConfirm').click(function (e) {
-        e.preventDefault();
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
-            }
-        });
 
-        if(requireno <= tableDeploy.rows().count()) {
-            var formData = [];
-            tableDeploy.rows().every(function(rowIdx, tableLoop, rowLoop) {
-                var data = {
-                    inputApplicantID: this.cell(rowIdx, 0).data(),
-                }
-                formData.push(data);
-            });
-            formData = {
-                inputDeploymentSiteID: deploymentsiteid,
-                formData: formData,
-            };
-
-            $.ajax({
-                type: "POST",
-                url: "/admin/transaction/deploysecurityguard",
-                data: formData,
-                dataType: "json",
-                success: function(data) {
-                    console.log(data);
-
-                    var dt = [
-                        data.sitename,
-                        data.location + ", " + data.city + ", " + data.province,
-                        "PENDING APPROVAL",
-                        "<button class='btn btn-primary btn-xs' id='btnView' value="+data.deploymentsiteid+">Update</button>",
-                    ];
-                    table.row('#id' + deploymentsiteid).data(dt).draw(false);
-
-                    $('#modalDeploy').modal('hide');
-                    toastr.success("SAVE SUCCESSFULLY");
-                },
-            });
-        } else {
-            toastr.error("YOU NEED " + (requireno - tableDeploy.rows().count()) + " MORE SECURITY GUARD");
-        }
-    });
 });
+

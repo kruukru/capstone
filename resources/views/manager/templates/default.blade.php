@@ -11,7 +11,7 @@
   @yield('css')
   
 </head>
-<body class="skin-purple fixed hold-transition sidebar-mini sidebar-collapse">
+<body class="skin-blue fixed hold-transition sidebar-mini sidebar-collapse">
   <!-- HEADER -->
   <header class="main-header">
     <!-- Logo -->
