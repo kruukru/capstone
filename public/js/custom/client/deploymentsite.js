@@ -47,19 +47,8 @@ $(document).ready(function() {
 
     //declare all checkbox an icheck
     $('input').iCheck({
+        radioClass: 'iradio_flat-blue',
         checkboxClass: 'icheckbox_flat-blue',
-    });
-
-    //reset modal when hide
-    $('#modalQualification').on('hide.bs.modal', function() {
-        $('input').iCheck('uncheck');
-        $('#formQualification').trigger('reset');
-        $('#formQualification').parsley().reset();
-        tableQualification.clear().draw();
-    })
-
-    $('#modalSecurityGuard').on('hide.bs.modal', function() {
-        tableSecurityGuard.clear().draw();
     });
     
     //declare slider
@@ -217,7 +206,13 @@ $(document).ready(function() {
 
     //input a qualification button
     $('#deploymentsite-list').on('click', '#btnQualification', function(e) {
+        $('input').iCheck('uncheck');
+        $('#formQualification').trigger('reset');
+        $('#formQualification').parsley().reset();
+        tableQualification.clear().draw();
+
         deploymentsiteid = $(this).val();
+        $('#btnQualificationSave').val(0);
 
         $('#modalQualification').modal('show');
     });
@@ -326,6 +321,8 @@ $(document).ready(function() {
     });
 
     $('#deploymentsite-list').on('click', '#btnSGList', function(e) {
+        tableSecurityGuard.clear().draw();
+
         deploymentsiteid = $(this).val();
 
         $.ajax({
@@ -349,13 +346,21 @@ $(document).ready(function() {
                         row += "<td style='text-align: center;'>" + value.distance.toFixed(2) + "</td>";
                     }
                     row += "<td style='text-align: center;'>" +
-                            "<button class='btn btn-default btn-xs' id='Accept' value="+value.applicantid+">Accept</button> " +
-                            "<button class='btn btn-default btn-xs' id='Decline' value="+value.applicantid+">Decline</button>" +
+                            "<button class='btn btn-primary btn-xs' id='btnProfile' value="+value.applicantid+">View Profile</button>&emsp;&emsp;&emsp;" +
+                            "<label><input type='radio' name='status"+value.applicantid+"' id='status' value='Accept'> Accept</label>&emsp;" +
+                            "<label><input type='radio' name='status"+value.applicantid+"' id='status' value='Decline'> Decline</label>" +
+                            // "<button class='btn btn-default btn-xs' id='Accept' value="+value.applicantid+">Accept</button> " +
+                            // "<button class='btn btn-default btn-xs' id='Decline' value="+value.applicantid+">Decline</button>" +
                         "</td>" +
                         "</tr>";
                     tableSecurityGuard.row.add($(row)[0]);
                 });
                 tableSecurityGuard.order([2, 'asc']).draw();
+
+                $('input').iCheck({
+                    radioClass: 'iradio_flat-blue',
+                    checkboxClass: 'icheckbox_flat-blue',
+                });
             },
             error: function(data) {
                 console.log(data);
@@ -365,11 +370,36 @@ $(document).ready(function() {
         $('#modalSecurityGuard').modal('show');
     });
 
-    $('#securityguard-list').on('click', '.btn', function() {
-        $(this).parents('tr').find('.btn').addClass('btn-default');
-        $(this).parents('tr').find('.btn').removeClass('btn-primary');
-        $(this).addClass('btn-primary');
-        $(this).removeClass('btn-default');
+    $('#btnRequest').click(function(e) {
+        e.preventDefault();
+
+        var check = true; var acceptedsg = 0;
+        $('#tblSecurityGuard > tbody > tr').each(function() {
+            if ($(this).find('#status:checked').val() == "Accept") {
+                acceptedsg++;
+            }
+            if ($(this).find(':checked').length == 0) {
+                check = false;
+            }
+        });
+
+        if (check) {
+            if (acceptedsg == requireno) {
+                toastr.error("CANNOT REQUEST WHEN YOUR SECURITY GUARD IS COMPLETE");
+            } else if (acceptedsg >= requireno) {
+                toastr.error("ACCEPTED SECURITY GUARD EXCEED");
+            } else {
+                $('#formQualification').trigger('reset');
+                $('#formQualification').parsley().reset();
+                tableQualification.clear().draw();
+
+                $('#btnQualificationSave').val(1);
+
+                $('#modalQualification').modal('show');
+            }
+        } else {
+            toastr.error("PICK AN ACTION IN EVERY SECURITY GUARD");
+        }
     });
 
     $('#btnSGSave').click(function(e) {
@@ -396,7 +426,7 @@ $(document).ready(function() {
                 }
                 var data = {
                     inputApplicantID: $(this).find('.btn-primary').val(),
-                    inputStatus: $(this).find('.btn-primary').attr('id'),
+                    inputStatus: $(this).find('#status:checked').val(),
                 };
                 formData.push(data);
             });
