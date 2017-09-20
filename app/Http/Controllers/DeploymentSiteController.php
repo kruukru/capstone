@@ -67,21 +67,29 @@ class DeploymentSiteController extends Controller
 
     public function getClientSecurityGuardList(Request $request) {
         $deploymentsite = DeploymentSite::find($request->inputDeploymentSiteID);
-        $deploy = Deploy::where([
-            ['deploymentsiteid', $request->inputDeploymentSiteID],
-            ['requestid', null],
-        ])->first();
         $clientqualifications = ClientQualification::where([
             ['deploymentsiteid', $request->inputDeploymentSiteID],
             ['requestid', null],
         ])->get();
+        $requirenocheck = QualificationCheck::where([
+            ['deploymentsiteid', $deploymentsite->deploymentsiteid],
+            ['status', 1]
+        ])->whereHas('deploy', function($query) {
+            $query->where('requestid', null);
+        })->get();
+        $qualificationchecks = QualificationCheck::where([
+            ['deploymentsiteid', $deploymentsite->deploymentsiteid],
+            ['status', 0]
+        ])->whereHas('deploy', function($query) {
+            $query->where('requestid', null);
+        })->get();
 
         $requireno = 0;
         foreach ($clientqualifications as $clientqualification) {
             $requireno += $clientqualification->requireno;
         }
+        $requireno -= $requirenocheck->count();
 
-        $qualificationchecks = QualificationCheck::where('deployid', $deploy->deployid)->get();
         $pool = collect();
         foreach ($qualificationchecks as $qualificationcheck) {
             $securityguard = Applicant::find($qualificationcheck->applicantid);
@@ -135,12 +143,21 @@ class DeploymentSiteController extends Controller
                 ['deployid', $deploy->deployid],
             ])->first();
 
-            $qualificationcheck->status = $data['inputStatus'];
-            $qualificationcheck->save();
+            if ($data['inputStatus'] == 1) {
+                $qualificationcheck->status = $data['inputStatus'];
+                $qualificationcheck->save();
+            } else {
+                $qualificationcheck->forceDelete();
+            }
         }
 
-        $deploymentsite->status = 3;
-        $deploymentsite->save();
+        if ($request->inputStatus == 0) {
+            $deploymentsite->status = 3;
+            $deploymentsite->save();
+        } else {
+            $deploymentsite->status = 1;
+            $deploymentsite->save();
+        }
 
         return Response::json($deploymentsite);
     }

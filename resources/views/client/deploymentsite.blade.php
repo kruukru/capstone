@@ -38,9 +38,7 @@
 											</td>
 										@elseif ($deploymentsite->status == 3)
 											<td style="text-align: center;">PENDING ITEMS</td>
-											<td style="text-align: center;">
-												<button class="btn btn-primary btn-xs" id="btnUpdate" value="{{$deploymentsite->deploymentsiteid}}">Update</button>
-											</td>
+											<td style="text-align: center;"></td>
 										@elseif ($deploymentsite->status == 4)
 											<td style="text-align: center;">ITEMS RECEIVE</td>
 											<td style="text-align: center;">
@@ -272,6 +270,27 @@
 						<button type="button" class="btn btn-primary" id="btnReceive">RECEIVE</button>
         				<button type="button" class="btn btn-default" data-dismiss="modal">CANCEL</button>
 					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="modalConfirmation">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<!-- modal header -->
+				<div class="modal-header">
+					<button class="close" data-dismiss="modal">&times;</button>
+					<h3>CONFIRMATION</h3>
+				</div>
+				<!-- modal body -->
+				<div class="modal-body">
+					Are you sure you wanna accept this/these Security Guard(s)?
+				</div>
+				<!-- modal footer -->
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" id="btnConfirm">CONFIRM</button>
+        			<button type="button" class="btn btn-default" data-dismiss="modal">CANCEL</button>
 				</div>
 			</div>
 		</div>

@@ -1,6 +1,5 @@
 $(document).ready(function() {
-    var id;
-    var idTable = 0;
+    var id, idTable = 0;
     var table = $('#tblMultipleChoice').DataTable({
         "aoColumns": [
             null,
@@ -76,8 +75,8 @@ $(document).ready(function() {
                     }
 
                     var row = "<tr id=choice" + idTable + ">" +
-                        "<td id='tdChoice'>" + value.answer + "</td>" +
-                        "<td style='text-align: center;' id='tdCorrect'>" + value.iscorrect + "</td>" +
+                        "<td>" + value.answer + "</td>" +
+                        "<td style='text-align: center;'>" + value.iscorrect + "</td>" +
                         "<td style='text-align: center;'>" +
                         "<button class='btn btn-danger btn-xs' id='btnChoiceRemove' value="+ idTable +">Remove</button></td>" +
                         "</td>" +
@@ -92,35 +91,34 @@ $(document).ready(function() {
 
     //add choice to the table
     $('#btnChoiceAdd').click(function(e) {
-        var check = true;
-
-        if($('#formChoice').parsley().isValid()) {
+        if ($('#formChoice').parsley().isValid()) {
             e.preventDefault();
 
-            $('#tblChoice > tbody > tr').each(function() {
-                if ($(this).find('#tdChoice').text() == $('#inputChoice').val()) {
+            var check = true;
+            tableChoice.rows().every(function(rowIdx, tableLoop, rowLoop) {
+                if (this.cell(rowIdx, 0).data() == $('#inputChoice').val()) {
                     check = false;
-                } 
+                }
             });
 
             if (check) {
                 var isCorrect = '';
 
-                if($('#cbCorrect').is(":checked")) {
+                if ($('#cbCorrect').is(":checked")) {
                     isCorrect = 'Correct';
                 } else {
                     isCorrect = 'Wrong';
                 }
 
                 var row = "<tr id=choice" + idTable + ">" +
-                    "<td id='tdChoice'>" + $('#inputChoice').val() + "</td>" +
-                    "<td style='text-align: center;' id='tdCorrect'>" + isCorrect + "</td>" +
+                    "<td>" + $('#inputChoice').val() + "</td>" +
+                    "<td style='text-align: center;'>" + isCorrect + "</td>" +
                     "<td style='text-align: center;'>" +
                         "<button class='btn btn-danger btn-xs' id='btnChoiceRemove' value="+ idTable +">Remove</button></td>" +
                     "</td>" +
                     "</tr>";
 
-                tableChoice.row.add($(row)[0]).draw();
+                tableChoice.row.add($(row)[0]).draw(false);
                 $('#formChoice').trigger("reset");
                 $('#formChoice').parsley().reset();
                 $('#cbCorrect').prop('checked', false).iCheck('update');
@@ -146,13 +144,13 @@ $(document).ready(function() {
     });
 
     //remove task and remove it from the list
-    $('#btnRemoveConfirm').click(function(e) { 
+    $('#btnRemoveConfirm').click(function(e) {
+        e.preventDefault();
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
             }
-        })
-        e.preventDefault();
+        });
         $('#modalMultipleChoiceRemove').loading({
             message: "REMOVING..."
         });
@@ -183,9 +181,6 @@ $(document).ready(function() {
 
     //create new task / update existing task
     $('#btnSave').click(function (e) {
-        var check = true;
-        var correct = 0, wrong = 0;
-
         if ($('#formMultipleChoice').parsley().validate()) {
             e.preventDefault();
             $.ajaxSetup({
@@ -194,15 +189,16 @@ $(document).ready(function() {
                 }
             });
 
-            $('#tblChoice > tbody > tr > td:nth-child(2)').each(function() {
-                if ($(this).text() == "Correct") {
+            var check = true, correct = 0, wrong = 0;
+            tableChoice.rows().every(function(rowIdx, tableLoop, rowLoop) {
+                if (this.cell(rowIdx, 1).data() == "Correct") {
                     correct++;
                 } else {
                     wrong++;
                 }
             });
 
-            if ($('#tblChoice > tbody > tr').length == 0) { // if check has rows proceed delete only
+            if (tableChoice.rows().count() == 0) {
                 toastr.error("INVALID CHOICE");
                 check = false;
             } else if (correct == 0) {
@@ -274,16 +270,16 @@ $(document).ready(function() {
                         }
 
                         var formData = [];
-                        $('#tblChoice > tbody > tr').each(function() {
-                            if($(this).find('#tdCorrect').text() == "Correct") {
-                                $(this).find('#tdCorrect').text("1");
+                        tableChoice.rows().every(function(rowIdx, tableLoop, rowLoop) {
+                            if (this.cell(rowIdx, 1).data() == "Correct") {
+                                this.cell(rowIdx, 1).data("1");
                             } else {
-                                $(this).find('#tdCorrect').text("0");
+                                this.cell(rowIdx, 1).data("0");
                             }
 
                             var data = {
-                                inputChoice: $(this).find('#tdChoice').text(),
-                                inputAnswer: $(this).find('#tdCorrect').text(),
+                                inputChoice: this.cell(rowIdx, 0).data(),
+                                inputAnswer: this.cell(rowIdx, 1).data(),
                             };
 
                             formData.push(data);

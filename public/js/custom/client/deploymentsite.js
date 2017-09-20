@@ -204,7 +204,7 @@ $(document).ready(function() {
         tableQualification.row('#id' + $(this).val()).remove().draw(false);
     });
 
-    //input a qualification button
+    //input a qualification
     $('#deploymentsite-list').on('click', '#btnQualification', function(e) {
         $('input').iCheck('uncheck');
         $('#formQualification').trigger('reset');
@@ -212,9 +212,51 @@ $(document).ready(function() {
         tableQualification.clear().draw();
 
         deploymentsiteid = $(this).val();
-        $('#btnQualificationSave').val(0);
 
         $('#modalQualification').modal('show');
+    });
+
+    //update of qualificication
+    $('#deploymentsite-list').on('click', '#btnUpdateQualification', function(e) {
+        $('input').iCheck('uncheck');
+        $('#formQualification').trigger('reset');
+        $('#formQualification').parsley().reset();
+        tableQualification.clear().draw();
+        
+        deploymentsiteid = $(this).val();
+
+        $.ajax({
+            type: "GET",
+            url: "/client/deploymentsite/clientqualification",
+            data: { inputDeploymentSiteID: deploymentsiteid },
+            dataType: "json",
+            success: function(data) {
+                console.log(data);
+
+                $.each(data, function(index, value) {
+                    var row = "<tr id=id" + idTable + ">" +
+                        "<td>" + value.requireno + "</td>" +
+                        "<td>" + value.gender + "</td>" +
+                        "<td>" + value.attainment + "</td>" +
+                        "<td>" + value.civilstatus + "</td>" +
+                        "<td>" + value.age + "</td>" +
+                        "<td>" + value.height + "</td>" +
+                        "<td>" + value.weight + "</td>" +
+                        "<td>" + value.workexp + "</td>" +
+                        "<td style='text-align: center;'>" +
+                        "<button class='btn btn-danger btn-xs' id='btnRemove' value=" + idTable + ">Remove</button>" +
+                        "</td>" +
+                        "</tr>";
+                    tableQualification.row.add($(row)[0]).draw();
+                    idTable++;
+                });
+
+                $('#modalQualification').modal('show');
+            },
+            error: function(data) {
+                console.log(data);
+            },
+        });
     });
 
     $('#btnQualificationSave').click(function(e) {
@@ -228,7 +270,7 @@ $(document).ready(function() {
             message: "SAVING..."
         });
 
-        if (tableQualification.row().count() != 0) {
+        if (tableQualification.rows().count() != 0) {
             var formData = [];
             tableQualification.rows().every(function(rowIdx, tableLoop, rowLoop) {
                 var data = {
@@ -241,6 +283,7 @@ $(document).ready(function() {
                     inputWeight: this.cell(rowIdx, 6).data(),
                     inputWorkExp: this.cell(rowIdx, 7).data(),
                 };
+
                 formData.push(data);
             });
 
@@ -283,43 +326,6 @@ $(document).ready(function() {
         }
     });
 
-    $('#deploymentsite-list').on('click', '#btnUpdateQualification', function(e) {
-        deploymentsiteid = $(this).val();
-
-        $.ajax({
-            type: "GET",
-            url: "/client/deploymentsite/clientqualification",
-            data: { inputDeploymentSiteID: deploymentsiteid },
-            dataType: "json",
-            success: function(data) {
-                console.log(data);
-
-                $.each(data, function(index, value) {
-                    var row = "<tr id=id" + idTable + ">" +
-                        "<td>" + value.requireno + "</td>" +
-                        "<td>" + value.gender + "</td>" +
-                        "<td>" + value.attainment + "</td>" +
-                        "<td>" + value.civilstatus + "</td>" +
-                        "<td>" + value.age + "</td>" +
-                        "<td>" + value.height + "</td>" +
-                        "<td>" + value.weight + "</td>" +
-                        "<td>" + value.workexp + "</td>" +
-                        "<td style='text-align: center;'>" +
-                        "<button class='btn btn-danger btn-xs' id='btnRemove' value=" + idTable + ">Remove</button>" +
-                        "</td>" +
-                        "</tr>";
-                    tableQualification.row.add($(row)[0]).draw();
-                    idTable++;
-                });
-
-                $('#modalQualification').modal('show');
-            },
-            error: function(data) {
-                console.log(data);
-            },
-        });
-    });
-
     $('#deploymentsite-list').on('click', '#btnSGList', function(e) {
         tableSecurityGuard.clear().draw();
 
@@ -328,7 +334,7 @@ $(document).ready(function() {
         $.ajax({
             type: "GET",
             url: "/client/deploymentsite/securityguard/list",
-            data: { inputDeploymentSiteID: $(this).val(), },
+            data: { inputDeploymentSiteID: deploymentsiteid },
             dataType: "json",
             success: function(data) {
                 console.log(data);
@@ -349,8 +355,6 @@ $(document).ready(function() {
                             "<button class='btn btn-primary btn-xs' id='btnProfile' value="+value.applicantid+">View Profile</button>&emsp;&emsp;&emsp;" +
                             "<label><input type='radio' name='status"+value.applicantid+"' id='status' value='Accept'> Accept</label>&emsp;" +
                             "<label><input type='radio' name='status"+value.applicantid+"' id='status' value='Decline'> Decline</label>" +
-                            // "<button class='btn btn-default btn-xs' id='Accept' value="+value.applicantid+">Accept</button> " +
-                            // "<button class='btn btn-default btn-xs' id='Decline' value="+value.applicantid+">Decline</button>" +
                         "</td>" +
                         "</tr>";
                     tableSecurityGuard.row.add($(row)[0]);
@@ -373,12 +377,12 @@ $(document).ready(function() {
     $('#btnRequest').click(function(e) {
         e.preventDefault();
 
-        var check = true; var acceptedsg = 0;
-        $('#tblSecurityGuard > tbody > tr').each(function() {
-            if ($(this).find('#status:checked').val() == "Accept") {
+        var check = true, acceptedsg = 0;
+        tableSecurityGuard.rows().every(function(rowIdx, tableLoop, rowLoop) {
+            if (this.cell(rowIdx, 3).nodes().to$().find('#status:checked').val() == "Accept") {
                 acceptedsg++;
             }
-            if ($(this).find(':checked').length == 0) {
+            if (this.cell(rowIdx, 3).nodes().to$().find(':checked').length == 0) {
                 check = false;
             }
         });
@@ -386,16 +390,12 @@ $(document).ready(function() {
         if (check) {
             if (acceptedsg == requireno) {
                 toastr.error("CANNOT REQUEST WHEN YOUR SECURITY GUARD IS COMPLETE");
-            } else if (acceptedsg >= requireno) {
+            } else if (acceptedsg > requireno) {
                 toastr.error("ACCEPTED SECURITY GUARD EXCEED");
             } else {
-                $('#formQualification').trigger('reset');
-                $('#formQualification').parsley().reset();
-                tableQualification.clear().draw();
+                $('#btnConfirm').val(1);
 
-                $('#btnQualificationSave').val(1);
-
-                $('#modalQualification').modal('show');
+                $('#modalConfirmation').modal('show');
             }
         } else {
             toastr.error("PICK AN ACTION IN EVERY SECURITY GUARD");
@@ -404,67 +404,93 @@ $(document).ready(function() {
 
     $('#btnSGSave').click(function(e) {
         e.preventDefault();
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
-            }
-        });
 
-        var check = true;
-        $('#tblSecurityGuard > tbody > tr').each(function() {
-            if (!$(this).find('.btn').hasClass('btn-primary')) {
+        var check = true, acceptedsg = 0;
+        tableSecurityGuard.rows().every(function(rowIdx, tableLoop, rowLoop) {
+            if (this.cell(rowIdx, 3).nodes().to$().find('#status:checked').val() == "Accept") {
+                acceptedsg++;
+            }
+            if (this.cell(rowIdx, 3).nodes().to$().find(':checked').length == 0) {
                 check = false;
             }
         });
 
         if (check) {
-            var formData = []; 
-            var acceptsgno = 0;
-            $('#tblSecurityGuard > tbody > tr').each(function() {
-                if ($(this).find('.btn-primary').attr('id') == "Accept") {
-                    acceptsgno++;
-                }
-                var data = {
-                    inputApplicantID: $(this).find('.btn-primary').val(),
-                    inputStatus: $(this).find('#status:checked').val(),
-                };
-                formData.push(data);
-            });
-
-            if (acceptsgno >= requireno) {
-                formData = { 
-                    inputDeploymentSiteID: deploymentsiteid,
-                    formData: formData,
-                };
-
-                $.ajax({
-                    type: "POST",
-                    url: "/client/deploymentsite/securityguard/list",
-                    data: formData,
-                    dataType: "json",
-                    success: function(data) {
-                        console.log(data);
-
-                        var dt = [
-                            data.sitename,
-                            data.location + ", " + data.city + ", " + data.province,
-                            "PENDING ITEMS",
-                            "<td style='text-align: center;'>" +
-                                "<button class='btn btn-primary btn-xs' id='btnUpdate' value='"+data.deploymentsiteid+"'>Update</button>" +
-                            "</td>",
-                        ];
-                        table.row('#id' + deploymentsiteid).data(dt).draw(false);
-
-                        $('#modalSecurityGuard').modal('hide');
-                        toastr.success("SAVE SUCCESSFUL");
-                    },
-                });
+            if (acceptedsg < requireno) {
+                toastr.error("YOU NEED TO ACCEPT " + (requireno - acceptedsg) + " MORE SECURITY GUARD");
+            } else if (acceptedsg > requireno) {
+                toastr.error("ACCEPTED SECURITY GUARD EXCEED");
             } else {
-                toastr.error("YOU NEED TO ACCEPT " + (requireno - acceptsgno) + " MORE SECURITY GUARD");
+                $('#btnConfirm').val(0);
+
+                $('#modalConfirmation').modal('show');
             }
         } else {
             toastr.error("PICK AN ACTION IN EVERY SECURITY GUARD");
         }
+    });
+
+    $('#btnConfirm').click(function(e) {
+        e.preventDefault();
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+            }
+        });
+        $('#modalConfirmation').loading({
+            message: "SAVING..."
+        });
+
+        var formData = [];
+        tableSecurityGuard.rows().every(function(rowIdx, tableLoop, rowLoop) {
+            var data = {
+                inputApplicantID: this.cell(rowIdx, 3).nodes().to$().find('#btnProfile').val(),
+                inputStatus: this.cell(rowIdx, 3).nodes().to$().find('#status:checked').val()
+            };
+
+            formData.push(data);
+        });
+
+        formData = { 
+            inputDeploymentSiteID: deploymentsiteid,
+            inputStatus: $('#btnConfirm').val(),
+            formData: formData
+        };
+
+        $.ajax({
+            type: "POST",
+            url: "/client/deploymentsite/securityguard/list",
+            data: formData,
+            dataType: "json",
+            success: function(data) {
+                console.log(data);
+
+                if ($('#btnConfirm').val() == 0) {
+                    var dt = [
+                        data.sitename,
+                        data.location + ", " + data.city + ", " + data.province,
+                        "PENDING ITEMS",
+                        "<td style='text-align: center;'></td>"
+                    ];
+                    table.row('#id' + deploymentsiteid).data(dt).draw(false);
+                } else {
+                    var dt = [
+                        data.sitename,
+                        data.location + ", " + data.city + ", " + data.province,
+                        "PENDING REQUEST",
+                        "<td style='text-align: center;'>" +
+                            "<button class='btn btn-primary btn-xs' id='btnUpdateQualification' value='"+data.deploymentsiteid+"'>Update</button>" +
+                        "</td>"
+                    ];
+                    table.row('#id' + deploymentsiteid).data(dt).draw(false);
+                }
+
+                $('#modalConfirmation').modal('hide');
+                $('#modalSecurityGuard').modal('hide');
+                $('#modalConfirmation').loading('stop');
+                toastr.success("SAVE SUCCESSFUL");
+            }
+        });
     });
 
     $('#deploymentsite-list').on('click', '#btnItem', function(e) {

@@ -198,9 +198,10 @@ class DeployController extends Controller
             ]);
         }
 
-        $qualificationchecks = QualificationCheck::whereHas('deploy', function($query) {
-            $query->where('requestid', null);
-        })->get();
+        $qualificationchecks = QualificationCheck::where('status', 0)
+            ->whereHas('deploy', function($query) {
+                $query->where('requestid', null);
+            })->get();
 
         $poolsent = collect();
         foreach ($qualificationchecks as $qualificationcheck) {
@@ -369,12 +370,19 @@ class DeployController extends Controller
         $deploymentsite = DeploymentSite::find($request->inputDeploymentSiteID);
         
         if ($request->inputType == 0) {
-            $deploy = new Deploy();
-            $deploy->deploymentsite()->associate($deploymentsite);
-            $deploy->dateissued = Carbon::today();
-            $deploy->expiration = '2020-10-10';
-            $deploy->status = 0;
-            $deploy->save();
+            $deploy = Deploy::where([
+                ['deploymentsiteid', $request->inputDeploymentSiteID],
+                ['requestid', null]
+            ])->first();
+
+            if ($deploy == null) {
+                $deploy = new Deploy();
+                $deploy->deploymentsite()->associate($deploymentsite);
+                $deploy->dateissued = Carbon::today();
+                $deploy->expiration = '2020-10-10';
+                $deploy->status = 0;
+                $deploy->save();
+            }
         } else {
             $deploy = Deploy::where([
                 ['deploymentsiteid', $request->inputDeploymentSiteID],
@@ -383,7 +391,8 @@ class DeployController extends Controller
 
             $qualificationchecks = QualificationCheck::where([
                 ['deploymentsiteid', $request->inputDeploymentSiteID],
-                ['deployid', $deploy->deployid]
+                ['deployid', $deploy->deployid],
+                ['status', 0]
             ])->get();
 
             foreach ($qualificationchecks as $qualificationcheck) {
@@ -394,7 +403,8 @@ class DeployController extends Controller
 
             QualificationCheck::where([
                 ['deploymentsiteid', $request->inputDeploymentSiteID],
-                ['deployid', $deploy->deployid]
+                ['deployid', $deploy->deployid],
+                ['status', 0]
             ])->forceDelete();
         }
 
