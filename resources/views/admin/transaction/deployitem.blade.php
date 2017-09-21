@@ -29,8 +29,8 @@
 											</td>
 										@elseif ($deploymentsite->status == 4)
 											<td style="text-align: center;">PENDING RECEIVE</td>
-											<td style="text-align: center;"> 
-												<button class="btn btn-primary btn-xs" id="btnUpdate" value="{{$deploymentsite->deploymentsiteid}}">Update</button>
+											<td style="text-align: center;">
+												<button class="btn btn-primary btn-xs" id="btnUpdateDeploy" value="{{$deploymentsite->deploymentsiteid}}">Update</button>
 											</td>
 										@endif
 									</tr>
@@ -91,7 +91,7 @@
 					<!-- modal footer -->
 					<div class="modal-footer">
 						<div class="form-group">
-							<button id="btnSave" class="btn btn-primary">SAVE</button>
+							<button class="btn btn-primary" id="btnSave">SAVE</button>
 	        				<button class="btn btn-default" data-dismiss="modal">CANCEL</button>
 						</div>
 					</div>
@@ -118,23 +118,27 @@
 							</div>
 						</div>
 					</div>
-					<table id="tblFirearm" class="table table-striped table-bordered">
-						<thead>
-							<th>License</th>
-							<th>Expiration</th>
-							<th style="text-align: center;">Action</th>
-						</thead>
-						<tbody id="firearm-list"></tbody>
-					</table><hr>
-					<h3>Deploy Firearm</h3>
-					<table id="tblDeployFirearm" class="table table-striped table-bordered">
-						<thead>
-							<th>License</th>
-							<th>Expiration</th>
-							<th style="text-align: center;">Action</th>
-						</thead>
-						<tbody id="deployfirearm-list"></tbody>
-					</table>
+					<div class="form-group table-responsive">
+						<table id="tblFirearm" class="table table-striped table-bordered">
+							<thead>
+								<th>License</th>
+								<th>Expiration</th>
+								<th style="text-align: center;">Action</th>
+							</thead>
+							<tbody id="firearm-list"></tbody>
+						</table>
+					</div><hr>
+					<div class="form-group table-responsive">
+						<h3>Deploy Firearm</h3>
+						<table id="tblDeployFirearm" class="table table-striped table-bordered">
+							<thead>
+								<th>License</th>
+								<th>Expiration</th>
+								<th style="text-align: center;">Action</th>
+							</thead>
+							<tbody id="deployfirearm-list"></tbody>
+						</table>
+					</div>
 				</div>
 				<div class="modal-footer">
 					<button class="btn btn-primary" id="btnFirearmSave">SAVE</button>

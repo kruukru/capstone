@@ -39,6 +39,22 @@ class DeploymentSiteController extends Controller
 
     //client security guard
     public function postClientClientQualification(Request $request) {
+        $qualificationcheck = QualificationCheck::where([
+            ['deploymentsiteid', $request->inputDeploymentSiteID],
+            ['status', 1]
+        ])->whereHas('deploy', function($query) {
+            $query->where('requestid', null);
+        })->get();
+
+        $requireno = 0;
+        foreach ($request->formData as $data) {
+            $requireno += $data['inputRequireNo'];
+        }
+
+        if ($requireno < $qualificationcheck->count()) {
+            return Response::json("INSUFFICIENT REQUIRE NO", 500);
+        }
+
         ClientQualification::where([
             ['requestid', null],
             ['deploymentsiteid', $request->inputDeploymentSiteID]

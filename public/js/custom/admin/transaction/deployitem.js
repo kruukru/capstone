@@ -58,6 +58,7 @@ $(document).ready(function() {
     	tableDeployFirearm.clear().draw();
     });
 
+    //deploy item
 	$('#deploy-list').on('click', '#btnDeploy', function() {
 		deploymentsiteid = $(this).val();
 
@@ -83,7 +84,7 @@ $(document).ready(function() {
                 $.each(data.item, function(index, value) {
                 	var row = "<tr id=id" + value.itemid + ">" +
 	                    "<td id='name'>" + value.name + "</td>" +
-	                    "<td id='itemtype'>" + value.item_type.name + "</td>" +
+	                    "<td id='itemtype'>" + value.itemtype.name + "</td>" +
 	                    "<td id='qtyavailable' style='text-align: right;'>" + value.qtyavailable + "</td>" +
 	                    "<td style='text-align: center;'>" +
 	                    "<form id=form"+value.itemid+" data-parsley-validate>" +
@@ -94,6 +95,72 @@ $(document).ready(function() {
 	                    "</td>" +
 	                    "</tr>";
 	                tableInventory.row.add($(row)[0]).draw();
+                });
+
+				$('#modalDeploy').modal('show');
+            },
+        });
+	});
+
+	//update deploy item
+	$('#deploy-list').on('click', '#btnUpdateDeploy', function() {
+		deploymentsiteid = $(this).val();
+
+    	$.ajax({
+            type: "GET",
+            url: "/admin/transaction/deployitem/inventory/securityguard",
+            data: { inputDeploymentSiteID: deploymentsiteid },
+            dataType: "json",
+            success: function(data) {
+                console.log(data);
+
+                $.each(data.applicant, function(index, value) {
+                	if (data.middlename === null) {
+                        data.middlename = '';
+                    }
+
+                	var row = "<tr id=id" + value.applicantid + ">" +
+	                    "<td>" + value.lastname + ", " + value.firstname + ", " + value.middlename + "</td>" +
+	                    "</tr>";
+	                tableSecurityGuard.row.add($(row)[0]).draw();
+                });
+
+                $.each(data.item, function(index, value) {
+                	var row = "<tr id=id" + value.itemid + ">" +
+	                    "<td id='name'>" + value.name + "</td>" +
+	                    "<td id='itemtype'>" + value.itemtype.name + "</td>" +
+	                    "<td id='qtyavailable' style='text-align: right;'>" + value.qtyavailable + "</td>" +
+	                    "<td style='text-align: center;'>" +
+	                    "<form id=form"+value.itemid+" data-parsley-validate>" +
+	                    	"<input type='text' id=inputQty"+value.itemid+" placeholder='Qty' " +
+	                    		"class='form-control' style='text-align: right; width: 75px;' pattern='^[1-9][0-9]*$' required>" +
+	                    	"<button class='btn btn-primary btn-sm' id='btnAdd' value="+value.itemid+">Add</button>" +
+	                    "</form>" +
+	                    "</td>" +
+	                    "</tr>";
+	                tableInventory.row.add($(row)[0]).draw();
+                });
+
+                $.each(data.itemsent, function(index, value) {
+                	var row = "<tr id=id" + value.item.itemid + ">" +
+	                    "<td id='name'>" + value.item.name + "</td>" +
+	                    "<td id='itemtype'>" + value.item.itemtype.name + "</td>" +
+	                    "<td id='qtyavailable' style='text-align: right;'>" + value.qty + "</td>" +
+	                    "<td style='text-align: center;'>" +
+	                    	"<button class='btn btn-warning btn-xs' id='btnRemove' value="+value.item.itemid+">Remove</button>" +
+	                    "</td>" +
+	                    "</tr>";
+	                tableDeployItem.row.add($(row)[0]).draw();
+                });
+
+                $.each(data.firearmsent, function(index, value) {
+                	var data = {
+						inputItemID: value.itemid,
+						inputFirearmID: value.firearmid,
+						inputLicense: value.license,
+						inputExpiration: value.expiration,
+					};
+					firearmsave.push(data);
                 });
 
 				$('#modalDeploy').modal('show');
@@ -194,7 +261,7 @@ $(document).ready(function() {
 		}
 	});
 
-	//remove item to the deploy list
+	//remove item from the deploy list
 	$('#deployitem-list').on('click', '#btnRemove', function(e) {
 		e.preventDefault();
 		itemid = $(this).val();
@@ -267,16 +334,15 @@ $(document).ready(function() {
 
 		var firearmtemp = [];
 		if (countFirearm == qtyinput) {
-            $('#tblDeployFirearm > tbody > tr').each(function() {
-            	var data = {
+			tableDeployFirearm.rows().every(function(rowIdx, tableLoop, rowLoop) {
+				var data = {
 					inputItemID: itemid,
-					inputFirearmID: $(this).find('#btnRemove').val(),
-					inputLicense: $(this).find('#license').text(),
-					inputExpiration: $(this).find('#expiration').text(),
+					inputFirearmID: this.cell(rowIdx, 2).nodes().to$().find('#btnRemove').val(),
+					inputLicense: this.cell(rowIdx, 0).data(),
+					inputExpiration: this.cell(rowIdx, 1).data()
 				};
 				firearmtemp.push(data);
-            });
-
+			});
             $('#tblInventory').find('#id'+itemid).find('#qtyavailable').text(qtyavailable - qtyinput);
 
 			var check = true;
@@ -334,13 +400,16 @@ $(document).ready(function() {
                 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
             }
         });
+        $('#modalDeploy').loading({
+        	message: "SAVING..."
+        });
 
 		if (tableDeployItem.rows().count() != 0) {
 			var formData = [];
-			$('#tblDeployItem > tbody > tr').each(function() {
+			tableDeployItem.rows().every(function(rowIdx, tableLoop, rowLoop) {
 				var data = {
-					inputItemID: $(this).find('#btnRemove').val(),
-					inputQty: $(this).find('#qtyavailable').text(),
+					inputItemID: this.cell(rowIdx, 3).nodes().to$().find('#btnRemove').val(),
+					inputQty: this.cell(rowIdx, 2).data()
 				};
 				formData.push(data);
 			});
@@ -364,16 +433,18 @@ $(document).ready(function() {
                         data.location + " " + data.city + " " + data.province,
                         "PENDING RECEIVE",
                         "<td style='text-align: center;'>" +
-                            "<button class='btn btn-primary btn-xs' id='btnUpdate' value='"+data.deploymentsiteid+"'>Update</button>" +
+                            "<button class='btn btn-primary btn-xs' id='btnUpdateDeploy' value='"+data.deploymentsiteid+"'>Update</button>" +
                         "</td>",
                     ];
                     table.row('#id' + deploymentsiteid).data(dt).draw(false);
 
 					$('#modalDeploy').modal('hide');
+					$('#modalDeploy').loading('stop');
 	                toastr.success("SAVE SUCCESSFUL");
 	            },
 	        });
 		} else {
+			$('#modalDeploy').loading('stop');
 			toastr.error("NO DEPLOY ITEM");
 		}
 	});

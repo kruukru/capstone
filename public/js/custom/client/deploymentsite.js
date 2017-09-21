@@ -318,6 +318,9 @@ $(document).ready(function() {
                     console.log(data);
 
                     $('#modalQualification').loading('stop');
+                    if (data.responseJSON == "INSUFFICIENT REQUIRE NO") {
+                        toastr.error("INVALID REQUIRE NO");
+                    }
                 },
             });
         } else {
@@ -547,6 +550,9 @@ $(document).ready(function() {
                 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
             }
         });
+        $('#modalItem').loading({
+            message: "SAVING..."
+        });
 
         $.ajax({
             type: "POST",
@@ -567,6 +573,7 @@ $(document).ready(function() {
                 table.row('#id' + deploymentsiteid).data(dt).draw(false);
 
                 $('#modalItem').modal('hide');
+                $('#modalItem').loading('stop');
                 toastr.success("SAVE SUCCESSFUL");
             },
         });
