@@ -58,7 +58,7 @@
 							<label>Amount Per Hour *</label>
 							<div class="input-group">
 								<span class="input-group-addon"><i>&#8369;</i></span>
-								<input type="text" id="inputAreaTypeAmountPerHour" class="form-control" style="text-align: right;" required>
+								<input type="text" id="inputAreaTypeAmountPerHour" class="form-control" style="text-align: right;" maxlength="22" required>
 							</div>
 						</div>
 						<div class="form-group">

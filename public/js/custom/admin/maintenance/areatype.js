@@ -106,14 +106,15 @@ $(document).ready(function() {
                 }
             });
             e.preventDefault();
-            $('#modalAreaType').loading({
-                message: "SAVING..."
-            });
 
             if ($('#inputAreaTypeAmountPerHour').val() == 0) {
                 toastr.error("INVALID AMOUNT PER HOUR");
                 return;
             }
+
+            $('#modalAreaType').loading({
+                message: "SAVING..."
+            });
 
             //used to determine the http verb to use
             if ($('#btnSave').val() == "New") {

@@ -2825,6 +2825,11 @@ $(document).ready(function() {
                 if (data.provincialaddresscity == null) {
                     data.provincialaddresscity = "";
                 }
+                if (data.appcontactno.charAt(0) == "+") {
+                    $('#appcontactno').inputmask("+63 999 9999 999");
+                } else {
+                    $('#appcontactno').inputmask("(99) 999 9999");
+                }
 
                 $('#applicantName').text(data.lastname+", "+data.firstname+" "+data.middlename);
                 $('#pictureview').attr('src', '/applicant/' + data.picture);
@@ -3118,6 +3123,12 @@ $(document).ready(function() {
                     'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
                 }
             });
+            
+            if (!$('#appcontactno').inputmask('isComplete')) {
+                toastr.error("INVALID CONTACT #");
+                return;
+            }
+
             $('#modalCredential').loading({
                 message: "SAVING..."
             });

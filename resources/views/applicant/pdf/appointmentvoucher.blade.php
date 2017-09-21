@@ -115,7 +115,7 @@
             <table>
                 <tr>
                     <td id="mainLeftCell">
-                        <img src="images/amcor1.png" id="imgLogo">
+                        <img src="images/amcor.png" id="imgLogo">
                     </td>
                     <td id="mainRightCell">
                         <h2 id="compName">AMCOR SECURITY AND INVESTIGATION AGENCY, INC.</h2>
@@ -180,7 +180,7 @@ provided to the Agency are true and correct to the best of my knowledge..</p>
             <table>
                 <tr>
                     <td id="mainLeftCell">
-                        <img src="images/amcor1.png" id="imgLogo">
+                        <img src="images/amcor.png" id="imgLogo">
                     </td>
                     <td id="mainRightCell">
                         <h2 id="compName">AMCOR SECURITY AND INVESTIGATION AGENCY, INC.</h2>
