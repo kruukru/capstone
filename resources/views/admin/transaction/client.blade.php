@@ -300,7 +300,7 @@
 							<div class="col-md-12">
 								<div class="column">
 									<div class="col-md-9 no-padding">
-										<input type="text" id="inputLength" class="form-control" placeholder="Length" style="text-align: right;" pattern="^[1-9][0-9]*$" required>
+										<input type="text" id="inputLength" class="form-control" placeholder="Length" style="text-align: right;" pattern="^[1-9][0-9]*$" maxlength="5" required>
 									</div>
 									<div class="col-md-3 no-padding">
 										<select class="form-control" id="lengthtype">
@@ -317,7 +317,7 @@
 						<label>Price *</label>
 						<div class="input-group">
 							<span class="input-group-addon"><i>&#8369;</i></span>
-							<input type="text" id="inputPrice" class="form-control" placeholder="Contract Price" style="text-align: right;" required>
+							<input type="text" id="inputPrice" class="form-control" placeholder="Contract Price" style="text-align: right;" maxlength="22" required>
 						</div>
 					</div>
 					<div class="form-group">

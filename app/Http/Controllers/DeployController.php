@@ -533,10 +533,21 @@ class DeployController extends Controller
     }
 
     public function getAdminFirearm(Request $request) {
+        $deploy = Deploy::where([
+            ['deploymentsiteid', $request->inputDeploymentSiteID],
+            ['requestid', null]
+        ])->first();
+
         $firearm = Firearm::doesntHave('issuedfirearm')
             ->where('itemid', $request->inputItemID)->get();
+        $firearmsave = Firearm::where('itemid', $request->inputItemID)
+            ->whereHas('issuedfirearm.issueditem', function($query) use ($deploy) {
+                $query->where('deployid', $deploy->deployid);
+            })->get();
 
-        return Response::json($firearm);
+        $merge = $firearm->merge($firearmsave);
+
+        return Response::json($merge);
     }
 
 

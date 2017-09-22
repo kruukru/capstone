@@ -335,6 +335,86 @@ class RequestController extends Controller
     }
 
     //client security guard
+    public function getClientClientQualification(Request $request) {
+        $clientqualification = ClientQualification::where('requestid', $request->inputRequestID)->get();
+
+        return Response::json($clientqualification);
+    }
+
+    public function postClientClientQualification(Request $request) {
+        $deploymentsite = DeploymentSite::find($request->inputDeploymentSiteID);
+
+        if ($request->inputRequestID == null) {
+            $requestt = new Requestt;
+            $requestt->deploymentsite()->associate($deploymentsite);
+            $requestt->account()->associate(Auth::user());
+            $requestt->type = "PERSONNEL";
+            $requestt->datecreated = Carbon::today();
+            $requestt->status = 0;
+            $requestt->save();
+        } else {
+            $requestt = Requestt::with('deploymentsite')->find($request->inputRequestID);
+
+            ClientQualification::where([
+                ['requestid', $requestt->requestid],
+                ['deploymentsiteid', $deploymentsite->deploymentsiteid]
+            ])->forceDelete();
+        }
+
+        foreach($request->formData as $data) {
+            $clientqualification = new ClientQualification;
+            $clientqualification->deploymentsite()->associate($deploymentsite);
+            $clientqualification->request()->associate($requestt);
+            $clientqualification->requireno = $data['inputRequireNo'];
+            $clientqualification->gender = rtrim($data['inputGender'], ",");
+            $clientqualification->attainment = rtrim($data['inputAttainment'], ",");
+            $clientqualification->civilstatus = rtrim($data['inputCivilStatus'], ",");
+            $clientqualification->age = $data['inputAge'];
+            $clientqualification->height = $data['inputHeight'];
+            $clientqualification->weight = $data['inputWeight'];
+            $clientqualification->workexp = $data['inputWorkExp'];
+            $clientqualification->save();
+        }
+
+        return Response::json($requestt);
+    }
+
+    public function postClientSecurityGuardList(Request $request) {
+        $requestt = Requestt::find($request->inputRequestID);
+        $deploy = Deploy::where([
+            ['deploymentsiteid', $requestt->deploymentsiteid],
+            ['requestid', $requestt->requestid],
+        ])->first();
+
+        foreach ($request->formData as $data) {
+            $applicant = Applicant::find($data['inputApplicantID']);
+
+            if ($data['inputStatus'] == 'Accept') {
+                $data['inputStatus'] = 1;
+                $applicant->lastdeployed = null;
+                $applicant->status = 10;
+                $applicant->save();
+            } else if ($data['inputStatus'] == 'Decline') {
+                $data['inputStatus'] = 2;
+                $applicant->status = 8;
+                $applicant->save();
+            }
+
+            $qualificationcheck = QualificationCheck::where([
+                ['applicantid', $data['inputApplicantID']],
+                ['deployid', $deploy->deployid],
+            ])->first();
+
+            $qualificationcheck->status = $data['inputStatus'];
+            $qualificationcheck->save();
+        }
+
+        $requestt->status = 2;
+        $requestt->save();
+
+        return Response::json($requestt);
+    }
+
     public function getClientSecurityGuardList(Request $request) {
         $requestt = Requestt::find($request->inputRequestID);
         $deploymentsite = DeploymentSite::find($requestt->deploymentsiteid);
@@ -379,71 +459,6 @@ class RequestController extends Controller
         );
 
         return Response::json($dataArray);
-    }
-
-    public function postClientSecurityGuardList(Request $request) {
-        $requestt = Requestt::find($request->inputRequestID);
-        $deploy = Deploy::where([
-            ['deploymentsiteid', $requestt->deploymentsiteid],
-            ['requestid', $requestt->requestid],
-        ])->first();
-
-        foreach ($request->formData as $data) {
-            $applicant = Applicant::find($data['inputApplicantID']);
-
-            if ($data['inputStatus'] == 'Accept') {
-                $data['inputStatus'] = 1;
-                $applicant->lastdeployed = null;
-                $applicant->status = 10;
-                $applicant->save();
-            } else if ($data['inputStatus'] == 'Decline') {
-                $data['inputStatus'] = 2;
-                $applicant->status = 8;
-                $applicant->save();
-            }
-
-            $qualificationcheck = QualificationCheck::where([
-                ['applicantid', $data['inputApplicantID']],
-                ['deployid', $deploy->deployid],
-            ])->first();
-
-            $qualificationcheck->status = $data['inputStatus'];
-            $qualificationcheck->save();
-        }
-
-        $requestt->status = 2;
-        $requestt->save();
-
-        return Response::json($requestt);
-    }
-
-    public function postClientClientQualification(Request $request) {
-        $deploymentsite = DeploymentSite::find($request->inputDeploymentSiteID);
-
-        $requestt = new Requestt;
-        $requestt->deploymentsite()->associate($deploymentsite);
-        $requestt->account()->associate(Auth::user());
-        $requestt->type = "PERSONNEL";
-        $requestt->datecreated = Carbon::today();
-        $requestt->status = 0;
-        $requestt->save();
-
-        foreach($request->formData as $data) {
-            $clientqualification = new ClientQualification;
-            $clientqualification->deploymentsite()->associate($deploymentsite);
-            $clientqualification->request()->associate($requestt);
-            $clientqualification->requireno = $data['inputRequireNo'];
-            $clientqualification->gender = rtrim($data['inputGender'], ",");
-            $clientqualification->attainment = rtrim($data['inputAttainment'], ",");
-            $clientqualification->civilstatus = rtrim($data['inputCivilStatus'], ",");
-            $clientqualification->age = $data['inputAge'];
-            $clientqualification->height = $data['inputHeight'];
-            $clientqualification->weight = $data['inputWeight'];
-            $clientqualification->workexp = $data['inputWorkExp'];
-            $clientqualification->save();
-        }
-
-        return Response::json($requestt);
     }
 
     //client item

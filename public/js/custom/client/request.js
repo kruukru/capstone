@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    var itemid, idTable = 0;
+    var itemid, requestid, idTable = 0;
     var table = $('#tblRequest').DataTable({
         "aoColumns": [
             null,
@@ -63,29 +63,10 @@ $(document).ready(function() {
             { "bSearchable": false, "bSortable": false, },
         ]
     });
-    $('#modalSecurityGuard').on('hide.bs.modal', function() {
-        tableSecurityGuard.clear().draw();
-    });
-
-    //accept decline security guard button
-    $('#securityguard-list').on('click', '.btn', function() {
-        $(this).parents('tr').find('.btn').addClass('btn-default');
-        $(this).parents('tr').find('.btn').removeClass('btn-primary');
-        $(this).addClass('btn-primary');
-        $(this).removeClass('btn-default');
-    });
 
     //declare all checkbox an icheck
     $('input').iCheck({
         checkboxClass: 'icheckbox_flat-blue',
-    });
-
-    //initialize the select2
-    $('#deploymentsitelistitem').select2({
-        theme: "bootstrap",
-    });
-    $('#deploymentsitelistsg').select2({
-        theme: "bootstrap",
     });
 
     //declare slider
@@ -156,6 +137,9 @@ $(document).ready(function() {
                 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
             }
         });
+        $('#modalCancelConfirmation').loading({
+            message: "REMOVING..."
+        });
 
         $.ajax({
             type: "POST",
@@ -168,10 +152,360 @@ $(document).ready(function() {
                 table.row('#id' + requestid).remove().draw(false);
                 
                 $('#modalCancelConfirmation').modal('hide');
+                $('#modalCancelConfirmation').loading('stop');
                 toastr.success("CANCEL SUCCESSFUL");
             },
         });
     });
+
+
+
+    //request security guard
+    $('#btnNewRequestSG').click(function(e) {
+        e.preventDefault();
+        $('input').iCheck('uncheck');
+        $('#deploymentsitelistsg').empty();
+        $('#deploymentsitelistsg').prop('disabled', false);
+        $('#formQualification').trigger('reset');
+        $('#formQualification').parsley().reset();
+        tableQualification.clear().draw();
+
+        requestid = null;
+
+        $.ajax({
+            type: "GET",
+            url: "/client/request/deploymentsite",
+            dataType: "json",
+            success: function(data) {
+                console.log(data);
+
+                $.each(data, function(index, value) {
+                    $('#deploymentsitelistsg').append('<option value='+value.deploymentsiteid+'>'+value.sitename+'</option>');
+                });
+            },
+        });
+
+        $('#modalQualification').modal('show');
+    });
+
+    //update the qualification
+    $('#request-list').on('click', '#btnUpdateQualification', function(e) {
+        e.preventDefault();
+        $('input').iCheck('uncheck');
+        $('#deploymentsitelistsg').empty();
+        $('#deploymentsitelistsg').prop('disabled', true);
+        $('#formQualification').trigger('reset');
+        $('#formQualification').parsley().reset();
+        tableQualification.clear().draw();
+
+        requestid = $(this).val();
+
+        $.ajax({
+            type: "GET",
+            url: "/json/request/one",
+            data: { inputRequestID: requestid },
+            dataType: "json",
+            success: function(data) {
+                console.log(data);
+
+                $('#deploymentsitelistsg').append('<option value='+data.deploymentsiteid+'>'+data.deploymentsite.sitename+'</option>');
+            }
+        });
+
+        $.ajax({
+            type: "GET",
+            url: "/client/request/clientqualification",
+            data: { inputRequestID: requestid },
+            dataType: "json",
+            success: function(data) {
+                console.log(data);
+
+                $.each(data, function(index, value) {
+                    var row = "<tr id=id" + idTable + ">" +
+                        "<td>" + value.requireno + "</td>" +
+                        "<td>" + value.gender + "</td>" +
+                        "<td>" + value.attainment + "</td>" +
+                        "<td>" + value.civilstatus + "</td>" +
+                        "<td>" + value.age + "</td>" +
+                        "<td>" + value.height + "</td>" +
+                        "<td>" + value.weight + "</td>" +
+                        "<td>" + value.workexp + "</td>" +
+                        "<td style='text-align: center;'>" +
+                        "<button class='btn btn-danger btn-xs' id='btnRemove' value=" + idTable + ">Remove</button>" +
+                        "</td>" +
+                        "</tr>";
+                    tableQualification.row.add($(row)[0]).draw();
+                    idTable++;
+                });
+            }
+        });
+
+        $('#modalQualification').modal('show');
+    });
+
+    //add qualification to the table
+    $('#btnQualificationAdd').click(function(e) {
+        if ($('#formQualification').parsley().isValid()) {
+            e.preventDefault();
+
+            var gender = "", attainment = "", civilstatus = "", duration = 0;
+            var age = $('#agerange').val().split(",");
+            var height = $('#heightrange').val().split(",");
+            var weight = $('#weightrange').val().split(",");
+            var check = true;
+
+            $('[type="checkbox"]#gender:checked').each(function() {
+                gender += $(this).val() + ",";
+            });
+            $('[type="checkbox"]#attainment:checked').each(function() {
+                attainment += $(this).val() + ",";
+            });
+            $('[type="checkbox"]#civilstatus:checked').each(function() {
+                civilstatus += $(this).val() + ",";
+            });
+
+            if (gender == "") {
+                toastr.error("GENDER: PICK ATLEAST 1");
+                check = false;
+            }
+            if (attainment == "") {
+                toastr.error("ATTAINMENT: PICK ATLEAST 1");
+                check = false;
+            }
+            if (civilstatus == "") {
+                toastr.error("CIVIL STATUS: PICK ATLEAST 1");
+                check = false;
+            }
+            if ((age[1] - age[0]) <= 5) {
+                toastr.error("AGE: ATLEAST MINIMUM OF 5 RANGE");
+                check = false;
+            }
+            if ((height[1] - height[0]) <= 5) {
+                toastr.error("HEIGHT: ATLEAST MINIMUM OF 5 RANGE");
+                check = false;
+            }
+            if ((weight[1] - weight[0]) <= 5) {
+                toastr.error("WEIGHT: ATLEAST MINIMUM OF 5 RANGE");
+                check = false;
+            }
+
+            if (!(Number(age[0]) <= Number($('#preferage').val()) && Number(age[1]) >= Number($('#preferage').val()))) {
+                toastr.error("AGE: PREFER AGE MUST BE INSIDE OF AGE RANGE");
+                check = false;
+            }
+            if (!(Number(height[0]) <= Number($('#preferheight').val()) && Number(height[1]) >= Number($('#preferheight').val()))) {
+                toastr.error("HEIGHT: PREFER HEIGHT MUST BE INSIDE OF HEIGHT RANGE");
+                check = false;
+            }
+            if (!(Number(weight[0]) <= Number($('#preferweight').val()) && Number(weight[1]) >= Number($('#preferweight').val()))) {
+                toastr.error("WEIGHT: PREFER HEIGHT MUST BE INSIDE OF HEIGHT RANGE");
+                check = false;
+            }
+
+            if (check) {
+                var row = "<tr id=id" + idTable + ">" +
+                    "<td>" + $('#requireno').val() + "</td>" +
+                    "<td>" + gender + "</td>" +
+                    "<td>" + attainment + "</td>" +
+                    "<td>" + civilstatus + "</td>" +
+                    "<td>" + age[0] + "," + $('#preferage').val() + "," + age[1] + "</td>" +
+                    "<td>" + height[0] + "," + $('#preferheight').val() + "," + height[1] + "</td>" +
+                    "<td>" + weight[0] + "," + $('#preferweight').val() + "," + weight[1] + "</td>";
+                if ($('#workingexperiencetype').val() == "day") {
+                    duration = $('#workexp').val() / 30;
+                    row += "<td>" + duration.toFixed(2) + "</td>";
+                } else if ($('#workingexperiencetype').val() == "month") {
+                    duration = $('#workexp').val();
+                    row += "<td>" + duration + "</td>";
+                } else if ($('#workingexperiencetype').val() == "year") {
+                    duration = $('#workexp').val() * 365;
+                    row += "<td>" + duration + "</td>";
+                }
+                row += "<td style='text-align: center;'>" +
+                    "<button class='btn btn-danger btn-xs' id='btnRemove' value=" + idTable + ">Remove</button>" +
+                    "</td>" +
+                    "</tr>";
+                tableQualification.row.add($(row)[0]).draw();
+                idTable++;
+
+                $('input').iCheck('uncheck');
+                $('#formQualification').trigger('reset');
+                $('#formQualification').parsley().reset();
+            }
+        }
+    });
+    //remove qualiftion from the table
+    $('#qualification-list').on('click', '#btnRemove', function(e) {
+        e.preventDefault();
+
+        tableQualification.row('#id' + $(this).val()).remove().draw(false);
+    });
+
+    //save the qualification list
+    $('#btnSaveQualification').click(function(e) {
+        e.preventDefault();
+
+        if (tableQualification.rows().count() != 0) {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                }
+            });
+            $('#modalQualification').loading({
+                message: "SAVING..."
+            });
+
+            var formData = [];
+            tableQualification.rows().every(function(rowIdx, tableLoop, rowLoop) {
+                var data = {
+                    inputRequireNo: this.cell(rowIdx, 0).data(),
+                    inputGender: this.cell(rowIdx, 1).data(),
+                    inputAttainment: this.cell(rowIdx, 2).data(),
+                    inputCivilStatus: this.cell(rowIdx, 3).data(),
+                    inputAge: this.cell(rowIdx, 4).data(),
+                    inputHeight: this.cell(rowIdx, 5).data(),
+                    inputWeight: this.cell(rowIdx, 6).data(),
+                    inputWorkExp: this.cell(rowIdx, 7).data(),
+                };
+                formData.push(data);
+            });
+
+            var formData = {
+                inputRequestID: requestid,
+                inputDeploymentSiteID: $('#deploymentsitelistsg').val(), 
+                formData: formData,
+            };
+
+            $.ajax({
+                type: "POST",
+                url: "/client/request/clientqualification",
+                data: formData,
+                dataType: "json",
+                success: function(data) {
+                    console.log(data);
+
+                    if (requestid == null) {
+                        var row = "<tr id=id" + data.requestid + ">" +
+                            "<td>" + data.requestid + "</td>" +
+                            "<td>" + data.type + "</td>" +
+                            "<td>" + data.deploymentsite.sitename + "</td>" +
+                            "<td>" + data.deploymentsite.location + "</td>" +
+                            "<td>Me</td>" +
+                            "<td>Right Now</td>" +
+                            "<td style='text-align: center;'>PENDING</td>" +
+                            "<td style='text-align: center;'>" +
+                                "<button class='btn btn-primary btn-xs' id='btnUpdateQualification' value="+data.requestid+">Update</button> " +
+                                "<button class='btn btn-danger btn-xs' id='btnCancel' value="+data.requestid+">Cancel</button>" +
+                            "</td>" +
+                            "</tr>";
+                        table.row.add($(row)[0]).draw();
+                    }
+
+                    $('#modalQualification').modal('hide');
+                    $('#modalQualification').loading('stop');
+                    toastr.success("SAVE SUCCESSFUL");
+                },
+            });
+        } else {
+            toastr.error("NO QUALIFICATION IN THE LIST");
+        }
+    });
+
+    $('#request-list').on('click', '#btnAcceptSecurityGuard', function(e) {
+        requestid = $(this).val();
+
+        $.ajax({
+            type: "GET",
+            url: "/client/request/securityguard/list",
+            data: { inputRequestID: requestid },
+            dataType: "json",
+            success: function(data) {
+                console.log(data);
+
+                requireno = data.requireno;
+                $.each(data.pool, function(index, value) {
+                    console.log(index + " / " + value);
+
+                    var row = "<tr id=id" + value.applicantid + ">" +
+                        "<td>" + value.name + "</td>" +
+                        "<td style='text-align: center;'>" + value.workexp + "</td>";
+                    if (value.distance == null) {
+                        row += "<td style='text-align: center;'>NOT AVAILABLE</td>";
+                    } else {
+                        row += "<td style='text-align: center;'>" + value.distance.toFixed(2) + "</td>";
+                    }
+                    row += "<td style='text-align: center;'>" +
+                            "<button class='btn btn-default btn-xs' id='Accept' value="+value.applicantid+">Accept</button> " +
+                            "<button class='btn btn-default btn-xs' id='Decline' value="+value.applicantid+">Decline</button>" +
+                        "</td>" +
+                        "</tr>";
+                    tableSecurityGuard.row.add($(row)[0]);
+                });
+                tableSecurityGuard.order([2, 'asc']).draw();
+            },
+        });
+
+        $('#modalSecurityGuard').modal('show');
+    });
+
+    $('#btnSecurityGuardSave').click(function(e) {
+        e.preventDefault();
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+            }
+        });
+
+        var check = true;
+        $('#tblSecurityGuard > tbody > tr').each(function() {
+            if (!$(this).find('.btn').hasClass('btn-primary')) {
+                check = false;
+            }
+        });
+
+        if (check) {
+            var formData = []; 
+            var acceptsgno = 0;
+            $('#tblSecurityGuard > tbody > tr').each(function() {
+                if ($(this).find('.btn-primary').attr('id') == "Accept") {
+                    acceptsgno++;
+                }
+                var data = {
+                    inputApplicantID: $(this).find('.btn-primary').val(),
+                    inputStatus: $(this).find('.btn-primary').attr('id'),
+                };
+                formData.push(data);
+            });
+
+            if (acceptsgno >= requireno) {
+                formData = { 
+                    inputRequestID: requestid,
+                    formData: formData,
+                };
+
+                $.ajax({
+                    type: "POST",
+                    url: "/client/request/securityguard/list",
+                    data: formData,
+                    dataType: "json",
+                    success: function(data) {
+                        console.log(data);
+
+                        table.row('#id' + requestid).remove().draw(false);
+
+                        $('#modalSecurityGuard').modal('hide');
+                        toastr.success("SAVE SUCCESSFUL");
+                    },
+                });
+            } else {
+                toastr.error("YOU NEED TO ACCEPT " + (requireno - acceptsgno) + " MORE SECURITY GUARD");
+            }
+        } else {
+            toastr.error("PICK AN ACTION IN EVERY SECURITY GUARD");
+        }
+    });
+
+
 
     //request item
     $('#btnNewRequestItem').click(function(e) {
@@ -375,284 +709,6 @@ $(document).ready(function() {
                 toastr.success("SAVE SUCCESSFUL");
             },
         });
-    });
-
-    //request security guard
-    $('#btnNewRequestSG').click(function(e) {
-        e.preventDefault();
-        $('#deploymentsitelistsg').empty();
-        $('#formQualification').trigger('reset');
-        $('#formQualification').parsley().reset();
-        tableQualification.clear().draw();
-
-        $.ajax({
-            type: "GET",
-            url: "/client/request/deploymentsite",
-            dataType: "json",
-            success: function(data) {
-                console.log(data);
-
-                $.each(data, function(index, value) {
-                    $('#deploymentsitelistsg').append('<option value='+value.deploymentsiteid+'>'+value.sitename+'</option>');
-                });
-            },
-        });
-
-        $('#modalQualification').modal('show');
-    });
-
-    //add qualification to the table
-    $('#btnQualificationAdd').click(function(e) {
-        if ($('#formQualification').parsley().isValid()) {
-            e.preventDefault();
-
-            var gender = "", attainment = "", civilstatus = "", duration = 0;
-            var age = $('#agerange').val().split(",");
-            var height = $('#heightrange').val().split(",");
-            var weight = $('#weightrange').val().split(",");
-            var check = true;
-
-            $('[type="checkbox"]#gender:checked').each(function() {
-                gender += $(this).val() + ",";
-            });
-            $('[type="checkbox"]#attainment:checked').each(function() {
-                attainment += $(this).val() + ",";
-            });
-            $('[type="checkbox"]#civilstatus:checked').each(function() {
-                civilstatus += $(this).val() + ",";
-            });
-
-            if (gender == "") {
-                toastr.error("GENDER: PICK ATLEAST 1");
-                check = false;
-            }
-            if (attainment == "") {
-                toastr.error("ATTAINMENT: PICK ATLEAST 1");
-                check = false;
-            }
-            if (civilstatus == "") {
-                toastr.error("CIVIL STATUS: PICK ATLEAST 1");
-                check = false;
-            }
-            if ((age[1] - age[0]) <= 5) {
-                toastr.error("AGE: ATLEAST MINIMUM OF 5 RANGE");
-                check = false;
-            }
-            if ((height[1] - height[0]) <= 5) {
-                toastr.error("HEIGHT: ATLEAST MINIMUM OF 5 RANGE");
-                check = false;
-            }
-            if ((weight[1] - weight[0]) <= 5) {
-                toastr.error("WEIGHT: ATLEAST MINIMUM OF 5 RANGE");
-                check = false;
-            }
-
-            if (!(Number(age[0]) <= Number($('#preferage').val()) && Number(age[1]) >= Number($('#preferage').val()))) {
-                toastr.error("AGE: PREFER AGE MUST BE INSIDE OF AGE RANGE");
-                check = false;
-            }
-            if (!(Number(height[0]) <= Number($('#preferheight').val()) && Number(height[1]) >= Number($('#preferheight').val()))) {
-                toastr.error("HEIGHT: PREFER HEIGHT MUST BE INSIDE OF HEIGHT RANGE");
-                check = false;
-            }
-            if (!(Number(weight[0]) <= Number($('#preferweight').val()) && Number(weight[1]) >= Number($('#preferweight').val()))) {
-                toastr.error("WEIGHT: PREFER HEIGHT MUST BE INSIDE OF HEIGHT RANGE");
-                check = false;
-            }
-
-            if (check) {
-                var row = "<tr id=id" + idTable + ">" +
-                    "<td>" + $('#requireno').val() + "</td>" +
-                    "<td>" + gender + "</td>" +
-                    "<td>" + attainment + "</td>" +
-                    "<td>" + civilstatus + "</td>" +
-                    "<td>" + age[0] + "," + $('#preferage').val() + "," + age[1] + "</td>" +
-                    "<td>" + height[0] + "," + $('#preferheight').val() + "," + height[1] + "</td>" +
-                    "<td>" + weight[0] + "," + $('#preferweight').val() + "," + weight[1] + "</td>";
-                if ($('#workingexperiencetype').val() == "day") {
-                    duration = $('#workexp').val() / 30;
-                    row += "<td>" + duration.toFixed(2) + "</td>";
-                } else if ($('#workingexperiencetype').val() == "month") {
-                    duration = $('#workexp').val();
-                    row += "<td>" + duration + "</td>";
-                } else if ($('#workingexperiencetype').val() == "year") {
-                    duration = $('#workexp').val() * 365;
-                    row += "<td>" + duration + "</td>";
-                }
-                row += "<td style='text-align: center;'>" +
-                    "<button class='btn btn-danger btn-xs' id='btnRemove' value=" + idTable + ">Remove</button>" +
-                    "</td>" +
-                    "</tr>";
-                tableQualification.row.add($(row)[0]).draw();
-                idTable++;
-
-                $('input').iCheck('uncheck');
-                $('#formQualification').trigger('reset');
-                $('#formQualification').parsley().reset();
-            }
-        }
-    });
-
-    //remove qualiftion from the table
-    $('#qualification-list').on('click', '#btnRemove', function(e) {
-        e.preventDefault();
-
-        tableQualification.row('#id' + $(this).val()).remove().draw(false);
-    });
-
-    //save the qualification list
-    $('#btnQualificationSave').click(function(e) {
-        e.preventDefault();
-        if (tableQualification.row().count() != 0) {
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
-                }
-            });
-
-            var formData = [];
-            tableQualification.rows().every(function(rowIdx, tableLoop, rowLoop) {
-                var data = {
-                    inputRequireNo: this.cell(rowIdx, 0).data(),
-                    inputGender: this.cell(rowIdx, 1).data(),
-                    inputAttainment: this.cell(rowIdx, 2).data(),
-                    inputCivilStatus: this.cell(rowIdx, 3).data(),
-                    inputAge: this.cell(rowIdx, 4).data(),
-                    inputHeight: this.cell(rowIdx, 5).data(),
-                    inputWeight: this.cell(rowIdx, 6).data(),
-                    inputWorkExp: this.cell(rowIdx, 7).data(),
-                };
-                formData.push(data);
-            });
-
-            var formData = {
-                inputDeploymentSiteID: $('#deploymentsitelistsg').val(), 
-                formData: formData,
-            };
-
-            $.ajax({
-                type: "POST",
-                url: "/client/request/clientqualification",
-                data: formData,
-                dataType: "json",
-                success: function(data) {
-                    console.log(data);
-
-                    var row = "<tr id=id" + data.requestid + ">" +
-                        "<td>" + data.requestid + "</td>" +
-                        "<td>" + data.type + "</td>" +
-                        "<td>" + data.deploymentsite.sitename + "</td>" +
-                        "<td>" + data.deploymentsite.location + "</td>" +
-                        "<td>Me</td>" +
-                        "<td>Right Now</td>" +
-                        "<td style='text-align: center;'>PENDING</td>" +
-                        "<td style='text-align: center;'>" +
-                            "<button class='btn btn-danger btn-xs' id='btnCancel' value="+data.requestid+">Cancel</button> " +
-                        "</td>" +
-                        "</tr>";
-                    table.row.add($(row)[0]).draw();
-
-                    $('#modalQualification').modal('hide');
-                    toastr.success("SAVE SUCCESSFUL");
-                },
-            });
-        } else {
-            toastr.error("NO QUALIFICATION IN THE LIST");
-        }
-    });
-
-    $('#request-list').on('click', '#btnAcceptSecurityGuard', function(e) {
-        requestid = $(this).val();
-
-        $.ajax({
-            type: "GET",
-            url: "/client/request/securityguard/list",
-            data: { inputRequestID: requestid },
-            dataType: "json",
-            success: function(data) {
-                console.log(data);
-
-                requireno = data.requireno;
-                $.each(data.pool, function(index, value) {
-                    console.log(index + " / " + value);
-
-                    var row = "<tr id=id" + value.applicantid + ">" +
-                        "<td>" + value.name + "</td>" +
-                        "<td style='text-align: center;'>" + value.workexp + "</td>";
-                    if (value.distance == null) {
-                        row += "<td style='text-align: center;'>NOT AVAILABLE</td>";
-                    } else {
-                        row += "<td style='text-align: center;'>" + value.distance.toFixed(2) + "</td>";
-                    }
-                    row += "<td style='text-align: center;'>" +
-                            "<button class='btn btn-default btn-xs' id='Accept' value="+value.applicantid+">Accept</button> " +
-                            "<button class='btn btn-default btn-xs' id='Decline' value="+value.applicantid+">Decline</button>" +
-                        "</td>" +
-                        "</tr>";
-                    tableSecurityGuard.row.add($(row)[0]);
-                });
-                tableSecurityGuard.order([2, 'asc']).draw();
-            },
-        });
-
-        $('#modalSecurityGuard').modal('show');
-    });
-
-    $('#btnSecurityGuardSave').click(function(e) {
-        e.preventDefault();
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
-            }
-        });
-
-        var check = true;
-        $('#tblSecurityGuard > tbody > tr').each(function() {
-            if (!$(this).find('.btn').hasClass('btn-primary')) {
-                check = false;
-            }
-        });
-
-        if (check) {
-            var formData = []; 
-            var acceptsgno = 0;
-            $('#tblSecurityGuard > tbody > tr').each(function() {
-                if ($(this).find('.btn-primary').attr('id') == "Accept") {
-                    acceptsgno++;
-                }
-                var data = {
-                    inputApplicantID: $(this).find('.btn-primary').val(),
-                    inputStatus: $(this).find('.btn-primary').attr('id'),
-                };
-                formData.push(data);
-            });
-
-            if (acceptsgno >= requireno) {
-                formData = { 
-                    inputRequestID: requestid,
-                    formData: formData,
-                };
-
-                $.ajax({
-                    type: "POST",
-                    url: "/client/request/securityguard/list",
-                    data: formData,
-                    dataType: "json",
-                    success: function(data) {
-                        console.log(data);
-
-                        table.row('#id' + requestid).remove().draw(false);
-
-                        $('#modalSecurityGuard').modal('hide');
-                        toastr.success("SAVE SUCCESSFUL");
-                    },
-                });
-            } else {
-                toastr.error("YOU NEED TO ACCEPT " + (requireno - acceptsgno) + " MORE SECURITY GUARD");
-            }
-        } else {
-            toastr.error("PICK AN ACTION IN EVERY SECURITY GUARD");
-        }
     });
 
 

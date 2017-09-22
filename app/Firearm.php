@@ -18,6 +18,6 @@ class Firearm extends Model
     }
 
     public function issuedfirearm() {
-        return $this->hasMany('Amcor\IssuedFirearm', 'firearmid');
+        return $this->hasOne('Amcor\IssuedFirearm', 'firearmid');
     }
 }

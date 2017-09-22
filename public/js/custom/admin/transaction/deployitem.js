@@ -186,7 +186,7 @@ $(document).ready(function() {
 					$.ajax({
 			            type: "GET",
 			            url: "/admin/transaction/deployitem/firearm",
-			            data: { inputItemID: itemid },
+			            data: { inputItemID: itemid, inputDeploymentSiteID: deploymentsiteid },
 			            dataType: "json",
 			            success: function(data) {
 			                console.log(data);

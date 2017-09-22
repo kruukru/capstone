@@ -39,6 +39,8 @@ class DeploymentSiteController extends Controller
 
     //client security guard
     public function postClientClientQualification(Request $request) {
+        $deploymentsite = DeploymentSite::find($request->inputDeploymentSiteID);
+
         $qualificationcheck = QualificationCheck::where([
             ['deploymentsiteid', $request->inputDeploymentSiteID],
             ['status', 1]
@@ -57,9 +59,8 @@ class DeploymentSiteController extends Controller
 
         ClientQualification::where([
             ['requestid', null],
-            ['deploymentsiteid', $request->inputDeploymentSiteID]
+            ['deploymentsiteid', $deploymentsite->deploymentsiteid]
         ])->forceDelete();
-    	$deploymentsite = DeploymentSite::find($request->inputDeploymentSiteID);
 
         foreach($request->formData as $data) {
             $clientqualification = new ClientQualification;

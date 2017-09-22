@@ -37,6 +37,7 @@ Route::get('/json/commend/one', 'JSONController@getCommendOne');
 Route::get('/json/holiday/one', 'JSONController@getHolidayOne');
 Route::get('/json/clientqualification/one', 'JSONController@getClientQualificationOne');
 Route::get('/json/manager/one', 'JSONController@getManagerOne');
+Route::get('/json/request/one', 'JSONController@getRequestOne');
 
 Route::get('/json/itemtype/all', 'JSONController@getItemTypeAll');
 Route::get('/json/questionchoice/all', 'JSONController@getQuestionChoiceAll');
@@ -339,6 +340,7 @@ Route::group(['middleware' => ['auth']], function() {
 		Route::get('/client/request/deploymentsite', 'RequestController@getClientDeploymentSite');
 		Route::post('/client/request/remove', 'RequestController@postClientRemove');
 
+		Route::get('/client/request/clientqualification', 'RequestController@getClientClientQualification');
 		Route::post('/client/request/clientqualification', 'RequestController@postClientClientQualification');
 		Route::get('/client/request/securityguard/list', 'RequestController@getClientSecurityGuardList');
 		Route::post('/client/request/securityguard/list', 'RequestController@postClientSecurityGuardList');

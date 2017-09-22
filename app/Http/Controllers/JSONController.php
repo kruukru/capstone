@@ -24,6 +24,7 @@ use Amcor\TrainingCertificate;
 use Amcor\Manager;
 use Amcor\Firearm;
 use Amcor\Client;
+use Amcor\Requestt;
 use Response;
 
 class JSONController extends Controller
@@ -160,6 +161,12 @@ class JSONController extends Controller
         $manager = Manager::find($request->inputManagerID);
 
         return Response::json($manager);
+    }
+
+    public function getRequestOne(Request $request) {
+        $requestt = Requestt::with('deploymentsite')->find($request->inputRequestID);
+
+        return Response::json($requestt);
     }
 
 
