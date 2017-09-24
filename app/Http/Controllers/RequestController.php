@@ -505,7 +505,7 @@ class RequestController extends Controller
         return Response::json($requestt);
     }
 
-    //client
+    //client client client client client client client client client client client client client client 
     public function getClientRequest() {
         $requests = Requestt::withTrashed()->whereHas('deploymentsite.contract', function($query) {
             $query->where('clientid', Auth::user()->client->clientid);
@@ -540,21 +540,6 @@ class RequestController extends Controller
 
     public function postClientClientQualification(Request $request) {
         $deploymentsite = DeploymentSite::find($request->inputDeploymentSiteID);
-        $qualificationcheck = QualificationCheck::where([
-            ['deploymentsiteid', $request->inputDeploymentSiteID],
-            ['status', 1]
-        ])->whereHas('deploy', function($query) {
-            $query->where('requestid', null);
-        })->get();
-
-        $requireno = 0;
-        foreach ($request->formData as $data) {
-            $requireno += $data['inputRequireNo'];
-        }
-
-        if ($requireno < $qualificationcheck->count()) {
-            return Response::json("INSUFFICIENT REQUIRE NO", 500);
-        }
 
         if ($request->inputRequestID == null) {
             $requestt = new Requestt;
@@ -566,6 +551,22 @@ class RequestController extends Controller
             $requestt->save();
         } else {
             $requestt = Requestt::with('deploymentsite')->find($request->inputRequestID);
+
+            if ($requestt->deploy) {
+                $qualificationcheck = QualificationCheck::where([
+                    ['deployid', $requestt->deploy->deployid],
+                    ['status', 1]
+                ])->get();
+
+                $requireno = 0;
+                foreach ($request->formData as $data) {
+                    $requireno += $data['inputRequireNo'];
+                }
+
+                if ($requireno < $qualificationcheck->count()) {
+                    return Response::json("INSUFFICIENT REQUIRE NO", 500);
+                }
+            }
 
             ClientQualification::where([
                 ['requestid', $requestt->requestid],

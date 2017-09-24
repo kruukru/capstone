@@ -9,7 +9,7 @@ $(document).ready(function() {
             null,
             null,
             null,
-            { "bSearchable": false, "bSortable": false, },
+            { "bSearchable": false },
         ]
     });
     table.order([[5, 'asc']]).draw();
@@ -123,6 +123,77 @@ $(document).ready(function() {
         $('#attainment[value="College"]').prop('checked', true).iCheck('update');
     });
 
+    //request security guard
+    $('#btnNewRequestSecurityGuard').click(function(e) {
+        e.preventDefault();
+        $('input').iCheck('uncheck');
+        $('#deploymentsitelistsg').empty();
+        $('#deploymentsitelistsg').prop('disabled', false);
+        $('#formQualification').trigger('reset');
+        $('#formQualification').parsley().reset();
+        tableQualification.clear().draw();
+
+        requestid = null;
+
+        $.ajax({
+            type: "GET",
+            url: "/client/request/deploymentsite",
+            dataType: "json",
+            success: function(data) {
+                console.log(data);
+
+                $.each(data, function(index, value) {
+                    $('#deploymentsitelistsg').append('<option value='+value.deploymentsiteid+'>'+value.sitename+'</option>');
+                });
+            },
+        });
+
+        $('#modalQualification').modal('show');
+    });
+
+    //request item
+    $('#btnNewRequestItem').click(function(e) {
+        e.preventDefault();
+        $('#deploymentsitelistitem').empty();
+        tableInventory.clear().draw();
+        tableRequestItem.clear().draw();
+
+        $.ajax({
+            type: "GET",
+            url: "/client/request/deploymentsite",
+            dataType: "json",
+            success: function(data) {
+                console.log(data);
+
+                $.each(data, function(index, value) {
+                    $('#deploymentsitelistitem').append('<option value='+value.deploymentsiteid+'>'+value.sitename+'</option>');
+                });
+            },
+        });
+
+        $.ajax({
+            type: "GET",
+            url: "/client/request/inventory",
+            dataType: "json",
+            success: function(data) {
+                console.log(data);
+
+                $.each(data, function(index, value) {
+                    var row = "<tr id=id" + value.itemid + ">" +
+                        "<td id='name'>" + value.name + "</td>" +
+                        "<td id='itemtypename'>" + value.item_type.name + "</td>" +
+                        "<td style='text-align: center;'>" +
+                        "<button class='btn btn-primary btn-xs' id='btnAdd' value="+value.itemid+">Add</button> " +
+                        "</td>" +
+                        "</tr>";
+                    tableInventory.row.add($(row)[0]).draw();
+                });
+            },
+        });
+
+        $('#modalRequestItem').modal('show');
+    });
+
     //cancel of request
     $('#request-list').on('click', '#btnCancel', function(e) {
         e.preventDefault();
@@ -158,37 +229,8 @@ $(document).ready(function() {
         });
     });
 
-
-
-    //request security guard
-    $('#btnNewRequestSG').click(function(e) {
-        e.preventDefault();
-        $('input').iCheck('uncheck');
-        $('#deploymentsitelistsg').empty();
-        $('#deploymentsitelistsg').prop('disabled', false);
-        $('#formQualification').trigger('reset');
-        $('#formQualification').parsley().reset();
-        tableQualification.clear().draw();
-
-        requestid = null;
-
-        $.ajax({
-            type: "GET",
-            url: "/client/request/deploymentsite",
-            dataType: "json",
-            success: function(data) {
-                console.log(data);
-
-                $.each(data, function(index, value) {
-                    $('#deploymentsitelistsg').append('<option value='+value.deploymentsiteid+'>'+value.sitename+'</option>');
-                });
-            },
-        });
-
-        $('#modalQualification').modal('show');
-    });
-
-    //update the qualification
+    //security guard security guard security guard security guard security guard security guard security guard 
+    //update qualification
     $('#request-list').on('click', '#btnUpdateQualification', function(e) {
         e.preventDefault();
         $('input').iCheck('uncheck');
@@ -244,7 +286,7 @@ $(document).ready(function() {
     });
 
     //add qualification to the table
-    $('#btnQualificationAdd').click(function(e) {
+    $('#btnAddQualification').click(function(e) {
         if ($('#formQualification').parsley().isValid()) {
             e.preventDefault();
 
@@ -345,7 +387,7 @@ $(document).ready(function() {
             }
         }
     });
-    //remove qualiftion from the table
+    //remove qualification from the table
     $('#qualification-list').on('click', '#btnRemove', function(e) {
         e.preventDefault();
 
@@ -601,49 +643,7 @@ $(document).ready(function() {
 
 
 
-    //request item
-    $('#btnNewRequestItem').click(function(e) {
-        $('#deploymentsitelistitem').empty();
-        tableInventory.clear().draw();
-        tableRequestItem.clear().draw();
-        e.preventDefault();
-
-        $.ajax({
-            type: "GET",
-            url: "/client/request/deploymentsite",
-            dataType: "json",
-            success: function(data) {
-                console.log(data);
-
-                $.each(data, function(index, value) {
-                    $('#deploymentsitelistitem').append('<option value='+value.deploymentsiteid+'>'+value.sitename+'</option>');
-                });
-            },
-        });
-
-        $.ajax({
-            type: "GET",
-            url: "/client/request/inventory",
-            dataType: "json",
-            success: function(data) {
-                console.log(data);
-
-                $.each(data, function(index, value) {
-                    var row = "<tr id=id" + value.itemid + ">" +
-                        "<td id='name'>" + value.name + "</td>" +
-                        "<td id='itemtypename'>" + value.item_type.name + "</td>" +
-                        "<td style='text-align: center;'>" +
-                        "<button class='btn btn-primary btn-xs' id='btnAdd' value="+value.itemid+">Add</button> " +
-                        "</td>" +
-                        "</tr>";
-                    tableInventory.row.add($(row)[0]).draw();
-                });
-            },
-        });
-
-        $('#modalRequestItem').modal('show');
-    });
-
+    //item item item item item item item item item item item item item item item item item item item item item item item 
     $('#inventory-list').on('click', '#btnAdd', function(e) {
         e.preventDefault();
         itemid = $(this).val();

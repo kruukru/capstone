@@ -10,7 +10,7 @@ $(document).ready(function() {
             null,
             null,
             null,
-            { "bSearchable": false, "bSortable": false, },
+            { "bSearchable": false },
         ]
     });
     table.order([[5, 'asc']]).draw();
@@ -103,7 +103,7 @@ $(document).ready(function() {
         $('#clientqualification-number').empty();
     });
 
-    //show the confirmation of button decline
+    //confirm decline request
     $('#request-list').on('click', '#btnDecline', function(e) {
         e.preventDefault();
         requestid = $(this).val();
@@ -138,7 +138,7 @@ $(document).ready(function() {
         });
     });
 
-    //show button deploy modal
+    //deploy modal
     $('#request-list').on('click', '#btnDeploy', function(e) {
         e.preventDefault();
         requestid = $(this).val();
@@ -193,7 +193,8 @@ $(document).ready(function() {
         }
     });
 
-    //update of security guard
+    //deploy security guard
+    //update security guard
     $('#request-list').on('click', '#btnUpdateSecurityGuard', function(e) {
         e.preventDefault();
         requestid = $(this).val();
@@ -204,7 +205,6 @@ $(document).ready(function() {
         $('#modalSecurityGuard').modal('show');
     });
 
-    //deploy security guard
     //change of client qualification
     $('#clientqualification-number').on('change', function() {
         clientqualificationid = $(this).val();
@@ -212,7 +212,7 @@ $(document).ready(function() {
         $.ajax({
             type: "GET",
             url: "/json/clientqualification/one",
-            data: { inputClientQualificationID: clientqualificationid, },
+            data: { inputClientQualificationID: clientqualificationid },
             dataType: "json",
             success: function(data) {
                 console.log(data);
@@ -344,7 +344,7 @@ $(document).ready(function() {
         tableDeploy.row.add($(row)[0]).order([10, 'desc']).draw();
     });
 
-    //removing of securit guard from the deploy
+    //removing of security guard from the deploy
     $('#deployed-list').on('click', '#btnRemove', function(e) {
         e.preventDefault();
 

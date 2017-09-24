@@ -18,7 +18,7 @@ class Requestt extends Model
     }
 
     public function deploy() {
-    	return $this->hasMany('Amcor\Deploy', 'requestid');
+    	return $this->hasOne('Amcor\Deploy', 'requestid');
     }
 
     public function requestitem() {

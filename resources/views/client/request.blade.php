@@ -10,7 +10,7 @@
 			<div class="container col-sm-12">
 				<div class="box box-primary">
 					<div class="box-body table-responsive">
-						<button class="btn btn-primary btn-md" id="btnNewRequestSG">New Request Security Guard</button>
+						<button class="btn btn-primary btn-md" id="btnNewRequestSecurityGuard">New Request Security Guard</button>
 						<button class="btn btn-primary btn-md" id="btnNewRequestItem">New Request Item</button><hr>
 						<table id="tblRequest" class="table table-striped table-bordered">
 							<thead>
@@ -81,28 +81,7 @@
 		</div>
 	</section>
 
-	<!-- modal for cancel -->
-	<div class="modal fade" id="modalCancelConfirmation">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<!-- modal header -->
-				<div class="modal-header">
-					<button class="close" data-dismiss="modal">&times;</button>
-					<h3>CONFIRMATION</h3>
-				</div>
-				<!-- modal body -->
-				<div class="modal-body">
-					Are you sure you want to cancel this request?
-				</div>
-				<!-- modal footer -->
-				<div class="modal-footer">
-					<button type="button" class="btn btn-danger" id="btnRemoveConfirm">CONFIRM</button>
-        			<button type="button" class="btn btn-default" data-dismiss="modal">CANCEL</button>
-				</div>
-			</div>
-		</div>
-	</div>
-
+	<!-- modal for qualification -->
 	<div class="modal fade" id="modalQualification">
 		<div class="modal-dialog modal-90">
 			<div class="modal-content">
@@ -211,7 +190,7 @@
 									</div>
 								</div>
 								<div class="form-group">
-									<button class="btn btn-primary pull-right" id="btnQualificationAdd">ADD</button>
+									<button class="btn btn-primary pull-right" id="btnAddQualification">ADD</button>
 			            		</div>
 							</div>
 	            		</div>
@@ -243,6 +222,7 @@
 		</div>
 	</div>
 
+	<!-- modal for security guard -->
 	<div class="modal fade" id="modalSecurityGuard">
 		<div class="modal-dialog modal-70">
 			<div class="modal-content">
@@ -277,6 +257,7 @@
 		</div>
 	</div>
 
+	<!-- modal for request item -->
 	<div class="modal fade" id="modalRequestItem">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -328,6 +309,7 @@
 		</div>
 	</div>
 
+	<!-- modal for item -->
 	<div class="modal fade" id="modalItem">
 		<div class="modal-dialog modal-70">
 			<div class="modal-content">
@@ -373,6 +355,29 @@
 		</div>
 	</div>
 
+	<!-- modal for cancel request -->
+	<div class="modal fade" id="modalCancelConfirmation">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<!-- modal header -->
+				<div class="modal-header">
+					<button class="close" data-dismiss="modal">&times;</button>
+					<h3>CONFIRMATION</h3>
+				</div>
+				<!-- modal body -->
+				<div class="modal-body">
+					Are you sure you want to cancel this request?
+				</div>
+				<!-- modal footer -->
+				<div class="modal-footer">
+					<button type="button" class="btn btn-danger" id="btnRemoveConfirm">CONFIRM</button>
+        			<button type="button" class="btn btn-default" data-dismiss="modal">CANCEL</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- modal for finalize the security guard -->
 	<div class="modal fade" id="modalConfirmation">
 		<div class="modal-dialog">
 			<div class="modal-content">
