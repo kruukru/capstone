@@ -9,3 +9,6 @@ $.ajaxSetup({
 		'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
 	}
 });
+
+//javascript format date
+$.format.date(data.datecreated, "yyyy-MM-dd")

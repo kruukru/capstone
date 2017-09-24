@@ -288,6 +288,17 @@ $(document).ready(function() {
                 toastr.error("WEIGHT: ATLEAST MINIMUM OF 5 RANGE");
                 check = false;
             }
+            if ($('#preferage').val() == "") {
+                $('#preferage').val(age[0]);
+            }
+            if ($('#preferheight').val() == "") {
+                var out = (Number(height[0]) + Number(height[1])) / 2;
+                $('#preferheight').val(Math.round(out));
+            }
+            if ($('#preferweight').val() == "") {
+                var out = (Number(weight[0]) + Number(weight[1])) / 2;
+                $('#preferweight').val(Math.round(out));
+            }
 
             if (!(Number(age[0]) <= Number($('#preferage').val()) && Number(age[1]) >= Number($('#preferage').val()))) {
                 toastr.error("AGE: PREFER AGE MUST BE INSIDE OF AGE RANGE");

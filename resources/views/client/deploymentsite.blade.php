@@ -111,13 +111,13 @@
 									<div class="row">
 										<div class="col-md-6">
 											<label>Number of security guard to hire *</label>
-											<input type="text" id="requireno" class="form-control" placeholder="# of Security Guard" style="text-align: right;" pattern="^[1-9][0-9]*$" required>
+											<input type="text" id="requireno" class="form-control" placeholder="# of Security Guard" style="text-align: right;" pattern="^[1-9][0-9]*$" maxlength="5" required>
 										</div>
 										<div id="workingexperience-info" class="col-md-6" style="display: none;">
 											<label>Working Experience *</label>
 											<div class="column">
 												<div class="col-md-8 no-padding">
-													<input type="text" id="workexp" class="form-control" placeholder="Working Experience" style="text-align: right;" pattern="^[1-9][0-9]*$">
+													<input type="text" id="workexp" class="form-control" placeholder="Working Experience" style="text-align: right;" pattern="^[1-9][0-9]*$" maxlength="5">
 												</div>
 												<div class="col-md-4 no-padding">
 					            					<select class="form-control" id="workingexperiencetype">
@@ -184,16 +184,16 @@
 									<label>Preferred:</label>
 									<div class="row">
 										<div class="col-md-4">
-											<label>Age *</label>
-											<input type="text" class="form-control" id="preferage" placeholder="Age" pattern="^[1-9][0-9]*$" required>
+											<label>Age</label>
+											<input type="text" class="form-control" id="preferage" placeholder="Age" pattern="^[1-9][0-9]*$" maxlength="4">
 										</div>
 										<div class="col-md-4">
-											<label>Height *</label>
-											<input type="text" class="form-control" id="preferheight" placeholder="Height" pattern="^[1-9][0-9]*$" required>
+											<label>Height</label>
+											<input type="text" class="form-control" id="preferheight" placeholder="Height" pattern="^[1-9][0-9]*$" maxlength="4">
 										</div>
 										<div class="col-md-4">
-											<label>Weight *</label>
-											<input type="text" class="form-control" id="preferweight" placeholder="Weight" pattern="^[1-9][0-9]*$" required>
+											<label>Weight</label>
+											<input type="text" class="form-control" id="preferweight" placeholder="Weight" pattern="^[1-9][0-9]*$" maxlength="4">
 										</div>
 									</div>
 								</div>

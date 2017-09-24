@@ -91,11 +91,11 @@
 						<table id="tblPool" class="table table-bordered table-striped">
 							<thead>
 								<th>No.</th>
-								<th>Name</th>
+								<th style="min-width: 200px;">Name</th>
 								<th>Gender</th>
 								<th>Civil Status</th>
 								<th>Attainment</th>
-								<th style="text-align: center;">Work Experience(month)</th>
+								<th style="text-align: center;">Work Exp(month)</th>
 								<th style="text-align: center;">Age</th>
 								<th style="text-align: center;">Height</th>
 								<th style="text-align: center;">Weight</th>
@@ -112,11 +112,11 @@
 						<table id="tblDeploy" class="table table-striped table-bordered">
 							<thead>
 								<th>No.</th>
-								<th>Name</th>
+								<th style="min-width: 200px;">Name</th>
 								<th>Gender</th>
 								<th>Civil Status</th>
 								<th>Attainment</th>
-								<th style="text-align: center;">Work Experience(month)</th>
+								<th style="text-align: center;">Work Exp(month)</th>
 								<th style="text-align: center;">Age</th>
 								<th style="text-align: center;">Height</th>
 								<th style="text-align: center;">Weight</th>

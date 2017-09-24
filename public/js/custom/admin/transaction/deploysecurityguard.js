@@ -174,7 +174,7 @@ $(document).ready(function() {
                                     "<td style='text-align: center'>" + value.weight.toFixed(2) + "%</td>";
                                 //distance
                                 if (value.distance == null) {
-                                    row += "<td style='text-align: center'>NOT AVAILABLE</td>";
+                                    row += "<td style='text-align: center'>N/A</td>";
                                 } else {
                                     row += "<td style='text-align: center'>" + value.distance.toFixed(2) + "</td>";
                                 }
@@ -349,7 +349,7 @@ $(document).ready(function() {
                                 "<td style='text-align: center'>" + value.weight.toFixed(2) + "%</td>";
                             //distance
                             if (value.distance == null) {
-                                row += "<td style='text-align: center'>NOT AVAILABLE</td>";
+                                row += "<td style='text-align: center'>N/A</td>";
                             } else {
                                 row += "<td style='text-align: center'>" + value.distance.toFixed(2) + "</td>";
                             }
@@ -401,7 +401,7 @@ $(document).ready(function() {
                                 "<td style='text-align: center'>" + value.weight.toFixed(2) + "%</td>";
                             //distance
                             if (value.distance == null) {
-                                row += "<td style='text-align: center'>NOT AVAILABLE</td>";
+                                row += "<td style='text-align: center'>N/A</td>";
                             } else {
                                 row += "<td style='text-align: center'>" + value.distance.toFixed(2) + "</td>";
                             }

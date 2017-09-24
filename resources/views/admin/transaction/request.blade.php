@@ -29,7 +29,7 @@
 									<td>{{$request->deploymentsite->sitename}}</td>
 									<td>{{$request->deploymentsite->location}}</td>
 									@if ($request->account->client)
-										<td>{{$request->account->client->contactperson}}</td>
+										<td>{{$request->account->client->lastname}}, {{$request->account->client->firstname}} {{$request->account->client->middlename}}</td>
 									@else
 										<td>{{$request->account->manager->lastname}}, {{$request->account->manager->firstname}} {{$request->account->manager->middlename}}</td>
 									@endif
@@ -45,10 +45,10 @@
 											<td style="text-align: center;">PENDING RECEIVE</td>
 										@elseif ($request->type == "PERSONNEL")
 											<td style="text-align: center;">PENDING APPROVAL</td>
+											<td style="text-align: center;">
+												<button class="btn btn-primary btn-xs" id="btnUpdateSecurityGuard" value="{{$request->requestid}}">Update</button>
+											</td>
 										@endif
-										<td style="text-align: center;">
-											<button class="btn btn-primary btn-xs" id="btnUpdate" value="{{$request->requestid}}">Update</button>
-										</td>
 									@endif
 								</tr>
 								@endforeach
@@ -216,12 +216,15 @@
 						<table id="tblPool" class="table table-bordered table-striped">
 							<thead>
 								<th>No.</th>
-								<th>Name</th>
+								<th style="min-width: 200px;">Name</th>
 								<th>Gender</th>
 								<th>Civil Status</th>
 								<th>Attainment</th>
+								<th style="text-align: center;">Work Exp(month)</th>
+								<th style="text-align: center;">Age</th>
+								<th style="text-align: center;">Height</th>
+								<th style="text-align: center;">Weight</th>
 								<th style="text-align: center;">Approx Distance(km)</th>
-								<th style="text-align: center;">Percent</th>
 								<th style="text-align: center;">Vacant(day)</th>
 								<th style="text-align: center;">Action</th>
 							</thead>
@@ -233,12 +236,16 @@
 						<table id="tblDeploy" class="table table-striped table-bordered">
 							<thead>
 								<th>No.</th>
-								<th>Name</th>
+								<th style="min-width: 200px;">Name</th>
 								<th>Gender</th>
 								<th>Civil Status</th>
 								<th>Attainment</th>
+								<th style="text-align: center;">Work Exp(month)</th>
+								<th style="text-align: center;">Age</th>
+								<th style="text-align: center;">Height</th>
+								<th style="text-align: center;">Weight</th>
 								<th style="text-align: center;">Approx Distance(km)</th>
-								<th style="text-align: center;">Percent</th>
+								<th style="text-align: center;">Vacant(day)</th>
 								<th style="text-align: center;">Action</th>
 							</thead>
 							<tbody id="deployed-list"></tbody>
@@ -248,7 +255,7 @@
 				<!-- modal footer -->
 				<div class="modal-footer">
 					<div class="form-group">
-    					<button type="button" class="btn btn-primary" id="btnSecurityGuardSave">SAVE</button>
+    					<button type="button" class="btn btn-primary" id="btnSaveSecurityGuard">SAVE</button>
     					<button type="button" class="btn btn-default" data-dismiss="modal">CANCEL</button>
 					</div>
 				</div>
