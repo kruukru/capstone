@@ -355,13 +355,13 @@ $(document).ready(function() {
     //save the qualification list
     $('#btnSaveQualification').click(function(e) {
         e.preventDefault();
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+            }
+        });
 
         if (tableQualification.rows().count() != 0) {
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
-                }
-            });
             $('#modalQualification').loading({
                 message: "SAVING..."
             });
@@ -416,6 +416,14 @@ $(document).ready(function() {
                     $('#modalQualification').loading('stop');
                     toastr.success("SAVE SUCCESSFUL");
                 },
+                error: function(data) {
+                    console.log(data);
+
+                    $('#modalQualification').loading('stop');
+                    if (data.responseJSON == "INSUFFICIENT REQUIRE NO") {
+                        toastr.error("INVALID REQUIRE NO");
+                    }
+                }
             });
         } else {
             toastr.error("NO QUALIFICATION IN THE LIST");
@@ -423,6 +431,7 @@ $(document).ready(function() {
     });
 
     $('#request-list').on('click', '#btnAcceptSecurityGuard', function(e) {
+        tableSecurityGuard.clear().draw();
         requestid = $(this).val();
 
         $.ajax({
@@ -441,79 +450,153 @@ $(document).ready(function() {
                         "<td>" + value.name + "</td>" +
                         "<td style='text-align: center;'>" + value.workexp + "</td>";
                     if (value.distance == null) {
-                        row += "<td style='text-align: center;'>NOT AVAILABLE</td>";
+                        row += "<td style='text-align: center;'>N/A</td>";
                     } else {
                         row += "<td style='text-align: center;'>" + value.distance.toFixed(2) + "</td>";
                     }
                     row += "<td style='text-align: center;'>" +
-                            "<button class='btn btn-default btn-xs' id='Accept' value="+value.applicantid+">Accept</button> " +
-                            "<button class='btn btn-default btn-xs' id='Decline' value="+value.applicantid+">Decline</button>" +
+                            "<button class='btn btn-primary btn-xs' id='btnProfile' value="+value.applicantid+">View Profile</button>&emsp;&emsp;&emsp;" +
+                            "<label><input type='radio' name='status"+value.applicantid+"' id='status' value='Accept'> Accept</label>&emsp;" +
+                            "<label><input type='radio' name='status"+value.applicantid+"' id='status' value='Decline'> Decline</label>" +
                         "</td>" +
                         "</tr>";
                     tableSecurityGuard.row.add($(row)[0]);
                 });
                 tableSecurityGuard.order([2, 'asc']).draw();
-            },
+
+                $('input').iCheck({
+                    radioClass: 'iradio_flat-blue',
+                    checkboxClass: 'icheckbox_flat-blue',
+                });
+            }
         });
 
         $('#modalSecurityGuard').modal('show');
     });
 
-    $('#btnSecurityGuardSave').click(function(e) {
+    $('#btnRequest').click(function(e) {
+        e.preventDefault();
+
+        var check = true, acceptedsg = 0;
+        tableSecurityGuard.rows().every(function(rowIdx, tableLoop, rowLoop) {
+            if (this.cell(rowIdx, 3).nodes().to$().find('#status:checked').val() == "Accept") {
+                acceptedsg++;
+            }
+            if (this.cell(rowIdx, 3).nodes().to$().find(':checked').length == 0) {
+                check = false;
+            }
+        });
+
+        if (check) {
+            if (acceptedsg == requireno) {
+                toastr.error("CANNOT REQUEST WHEN YOUR SECURITY GUARD IS COMPLETE");
+            } else if (acceptedsg > requireno) {
+                toastr.error("ACCEPTED SECURITY GUARD EXCEED");
+            } else {
+                $('#btnConfirm').val(1);
+
+                $('#modalConfirmation').modal('show');
+            }
+        } else {
+            toastr.error("PICK AN ACTION IN EVERY SECURITY GUARD");
+        }
+    });
+
+    $('#btnSaveSecurityGuard').click(function(e) {
+        e.preventDefault();
+
+        var check = true, acceptedsg = 0;
+        tableSecurityGuard.rows().every(function(rowIdx, tableLoop, rowLoop) {
+            if (this.cell(rowIdx, 3).nodes().to$().find('#status:checked').val() == "Accept") {
+                acceptedsg++;
+            }
+            if (this.cell(rowIdx, 3).nodes().to$().find(':checked').length == 0) {
+                check = false;
+            }
+        });
+
+        if (check) {
+            if (acceptedsg < requireno) {
+                toastr.error("YOU NEED TO ACCEPT " + (requireno - acceptedsg) + " MORE SECURITY GUARD");
+            } else if (acceptedsg > requireno) {
+                toastr.error("ACCEPTED SECURITY GUARD EXCEED");
+            } else {
+                $('#btnConfirm').val(0);
+
+                $('#modalConfirmation').modal('show');
+            }
+        } else {
+            toastr.error("PICK AN ACTION IN EVERY SECURITY GUARD");
+        }
+    });
+
+    $('#btnConfirm').click(function(e) {
         e.preventDefault();
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
             }
         });
-
-        var check = true;
-        $('#tblSecurityGuard > tbody > tr').each(function() {
-            if (!$(this).find('.btn').hasClass('btn-primary')) {
-                check = false;
-            }
+        $('#modalConfirmation').loading({
+            message: "SAVING..."
         });
 
-        if (check) {
-            var formData = []; 
-            var acceptsgno = 0;
-            $('#tblSecurityGuard > tbody > tr').each(function() {
-                if ($(this).find('.btn-primary').attr('id') == "Accept") {
-                    acceptsgno++;
+        var formData = [];
+        tableSecurityGuard.rows().every(function(rowIdx, tableLoop, rowLoop) {
+            var data = {
+                inputApplicantID: this.cell(rowIdx, 3).nodes().to$().find('#btnProfile').val(),
+                inputStatus: this.cell(rowIdx, 3).nodes().to$().find('#status:checked').val()
+            };
+
+            formData.push(data);
+        });
+
+        formData = { 
+            inputRequestID: requestid,
+            inputStatus: $('#btnConfirm').val(),
+            formData: formData
+        };
+
+        $.ajax({
+            type: "POST",
+            url: "/client/request/securityguard/list",
+            data: formData,
+            dataType: "json",
+            success: function(data) {
+                console.log(data);
+
+                if ($('#btnConfirm').val() == 0) {
+                    var dt = [
+                        table.cell('#id'+requestid, 0).data(),
+                        table.cell('#id'+requestid, 1).data(),
+                        table.cell('#id'+requestid, 2).data(),
+                        table.cell('#id'+requestid, 3).data(),
+                        table.cell('#id'+requestid, 4).data(),
+                        table.cell('#id'+requestid, 5).data(),
+                        "COMPLETE",
+                        ""
+                    ];
+                    table.row('#id'+requestid).data(dt).draw(false);
+                } else {
+                    var dt = [
+                        table.cell('#id'+requestid, 0).data(),
+                        table.cell('#id'+requestid, 1).data(),
+                        table.cell('#id'+requestid, 2).data(),
+                        table.cell('#id'+requestid, 3).data(),
+                        table.cell('#id'+requestid, 4).data(),
+                        table.cell('#id'+requestid, 5).data(),
+                        "PENDING",
+                        "<button class='btn btn-primary btn-xs' id='btnUpdateQualification' value='"+data.requestid+"'>Update</button>"
+                    ];
+                    table.row('#id'+requestid).data(dt).draw(false);
                 }
-                var data = {
-                    inputApplicantID: $(this).find('.btn-primary').val(),
-                    inputStatus: $(this).find('.btn-primary').attr('id'),
-                };
-                formData.push(data);
-            });
 
-            if (acceptsgno >= requireno) {
-                formData = { 
-                    inputRequestID: requestid,
-                    formData: formData,
-                };
-
-                $.ajax({
-                    type: "POST",
-                    url: "/client/request/securityguard/list",
-                    data: formData,
-                    dataType: "json",
-                    success: function(data) {
-                        console.log(data);
-
-                        table.row('#id' + requestid).remove().draw(false);
-
-                        $('#modalSecurityGuard').modal('hide');
-                        toastr.success("SAVE SUCCESSFUL");
-                    },
-                });
-            } else {
-                toastr.error("YOU NEED TO ACCEPT " + (requireno - acceptsgno) + " MORE SECURITY GUARD");
+                $('#modalConfirmation').modal('hide');
+                $('#modalSecurityGuard').modal('hide');
+                $('#modalConfirmation').loading('stop');
+                toastr.success("SAVE SUCCESSFUL");
             }
-        } else {
-            toastr.error("PICK AN ACTION IN EVERY SECURITY GUARD");
-        }
+        });
     });
 
 

@@ -50,21 +50,26 @@
 											<td style="text-align: center;">PENDING</td>
 											<td style="text-align: center;">
 												<button class="btn btn-primary btn-xs" id="btnUpdateQualification" value="{{$request->requestid}}">Update</button>
-												<button class="btn btn-danger btn-xs" id="btnCancel" value="{{$request->requestid}}">Cancel</button>
+												@if (!$request->deploy)
+													<button class="btn btn-danger btn-xs" id="btnCancel" value="{{$request->requestid}}">Cancel</button>
+												@endif
 											</td>
 										@endif
 									@elseif ($request->status == 1)
 										@if ($request->type == "ITEM")
 											<td style="text-align: center;">ITEM LIST RECEIVED</td>
 											<td style="text-align: center;">
-												<button class="btn btn-primary btn-xs" id="btnAcceptItem" value="{{$request->requestid}}">Check</button>
+												<button class="btn btn-primary btn-xs" id="btnAcceptItem" value="{{$request->requestid}}">Assess</button>
 											</td>
 										@elseif ($request->type == "PERSONNEL")
 											<td style="text-align: center;">SECURITY GUARD LIST RECEIVED</td>
 											<td style="text-align: center;">
-												<button class="btn btn-primary btn-xs" id="btnAcceptSecurityGuard" value="{{$request->requestid}}">Check</button>
+												<button class="btn btn-primary btn-xs" id="btnAcceptSecurityGuard" value="{{$request->requestid}}">Assess</button>
 											</td>
 										@endif
+									@elseif ($request->status == 2)
+										<td style="text-align: center;">COMPLETE</td>
+										<td></td>
 									@endif
 								</tr>
 								@endforeach
@@ -238,6 +243,40 @@
 		</div>
 	</div>
 
+	<div class="modal fade" id="modalSecurityGuard">
+		<div class="modal-dialog modal-70">
+			<div class="modal-content">
+				<!-- modal header -->
+				<div class="modal-header">
+					<button class="close" data-dismiss="modal">&times;</button>
+					<h3>Security Guard List</h3>
+				</div>
+				<!-- modal body -->
+				<div class="modal-body">
+					<div class="form-group table-responsive">
+						<table id="tblSecurityGuard" class="table table-striped table-bordered">
+							<thead>
+								<th style="min-width: 200px;">Name</th>
+								<th style="text-align: center;">Work Experience(months)</th>
+								<th style="text-align: center;">Distance(km)</th>
+								<th style="text-align: center;">Action</th>
+							</thead>
+							<tbody id="securityguard-list"></tbody>
+						</table>
+					</div>
+				</div>
+				<!-- modal footer -->
+				<div class="modal-footer">
+					<div class="form-group">
+						<button type="button" class="btn btn-primary" id="btnRequest">REQUEST</button>
+						<button type="button" class="btn btn-primary" id="btnSaveSecurityGuard">SAVE</button>
+        				<button type="button" class="btn btn-default" data-dismiss="modal">CANCEL</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
 	<div class="modal fade" id="modalRequestItem">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -334,34 +373,22 @@
 		</div>
 	</div>
 
-	<div class="modal fade" id="modalSecurityGuard">
-		<div class="modal-dialog modal-70">
+	<div class="modal fade" id="modalConfirmation">
+		<div class="modal-dialog">
 			<div class="modal-content">
 				<!-- modal header -->
 				<div class="modal-header">
 					<button class="close" data-dismiss="modal">&times;</button>
-					<h3>Security Guard List</h3>
+					<h3>CONFIRMATION</h3>
 				</div>
 				<!-- modal body -->
 				<div class="modal-body">
-					<div class="form-group table-responsive">
-						<table id="tblSecurityGuard" class="table table-striped table-bordered">
-							<thead>
-								<th>Name</th>
-								<th style="text-align: center;">Work Experience(months)</th>
-								<th style="text-align: center;">Distance(km)</th>
-								<th style="text-align: center;">Action</th>
-							</thead>
-							<tbody id="securityguard-list"></tbody>
-						</table>
-					</div>
+					Are you sure you want to proceed?
 				</div>
 				<!-- modal footer -->
 				<div class="modal-footer">
-					<div class="form-group">
-						<button type="button" class="btn btn-primary" id="btnSecurityGuardSave">SAVE</button>
-        				<button type="button" class="btn btn-default" data-dismiss="modal">CANCEL</button>
-					</div>
+					<button type="button" class="btn btn-primary" id="btnConfirm">CONFIRM</button>
+        			<button type="button" class="btn btn-default" data-dismiss="modal">CANCEL</button>
 				</div>
 			</div>
 		</div>

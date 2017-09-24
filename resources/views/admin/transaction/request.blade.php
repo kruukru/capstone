@@ -38,7 +38,9 @@
 										<td style="text-align: center;">DEPLOY</td>
 										<td style="text-align: center;">
 											<button class="btn btn-primary btn-xs" id="btnDeploy" value="{{$request->requestid}}">Deploy</button>
-											<button class="btn btn-danger btn-xs" id="btnDecline" value="{{$request->requestid}}">Decline</button>
+											@if (!$request->deploy)
+												<button class="btn btn-danger btn-xs" id="btnDecline" value="{{$request->requestid}}">Decline</button>
+											@endif
 										</td>
 									@elseif ($request->status == 1)
 										@if ($request->type == "ITEM")
@@ -59,6 +61,100 @@
 			</div>
 		</div>
 	</section>
+
+	<!-- modal for deploy security guard -->
+	<div class="modal fade" id="modalSecurityGuard">
+		<div class="modal-dialog modal-90">
+			<div class="modal-content">
+				<!-- modal header -->
+				<div class="modal-header">
+					<button class="close" data-dismiss="modal">&times;</button>
+					<h3>Deploy Security Guard</h3>
+				</div>
+				<!-- modal body -->
+				<div class="modal-body">
+					<div class="form-group">
+						<div class="row">
+							<div class="col-md-6">
+								<h3>Client Qualification</h3>
+							</div>
+							<div class="col-md-2 col-md-offset-4">
+								<label>Client Qualification #</label>
+								<select class="form-control" id="clientqualification-number"></select>
+							</div>
+						</div>
+					</div>
+					<div class="form-group table-responsive">
+						<table id="tblQualification" class="table table-striped table-bordered">
+							<thead>
+								<th>Type</th>
+								<th>Qualification</th>
+							</thead>
+							<tbody id="clientqualification-list"></tbody>
+						</table>
+					</div><hr>
+					<div class="form-group table-responsive">
+						<table id="legend">
+							<tr>
+								<td style="padding-right: 20px;"><b>LEGEND:</b></td>
+								<td class="leg grn"></td>
+								<td id="legName">FULLY QUALIFIED</td>
+								<td class="leg red"></td>
+								<td id="legName">LESS QUALIFIED</td>
+							</tr>
+						</table>
+					</div>
+					<div class="form-group table-responsive">
+						<h3>Pool</h3>
+						<table id="tblPool" class="table table-bordered table-striped">
+							<thead>
+								<th>No.</th>
+								<th style="min-width: 200px;">Name</th>
+								<th>Gender</th>
+								<th>Civil Status</th>
+								<th>Attainment</th>
+								<th style="text-align: center;">Work Exp(month)</th>
+								<th style="text-align: center;">Age</th>
+								<th style="text-align: center;">Height</th>
+								<th style="text-align: center;">Weight</th>
+								<th style="text-align: center;">Approx Distance(km)</th>
+								<th style="text-align: center;">Vacant(day)</th>
+								<th style="text-align: center;">Action</th>
+							</thead>
+							<tbody id="pool-list"></tbody>
+						</table>
+					</div><hr>
+					<div class="form-group table-responsive">
+						<h3>Deploy Security Guard</h3>
+						<table id="tblDeploy" class="table table-striped table-bordered">
+							<thead>
+								<th>No.</th>
+								<th style="min-width: 200px;">Name</th>
+								<th>Gender</th>
+								<th>Civil Status</th>
+								<th>Attainment</th>
+								<th style="text-align: center;">Work Exp(month)</th>
+								<th style="text-align: center;">Age</th>
+								<th style="text-align: center;">Height</th>
+								<th style="text-align: center;">Weight</th>
+								<th style="text-align: center;">Approx Distance(km)</th>
+								<th style="text-align: center;">Vacant(day)</th>
+								<th style="text-align: center;">Action</th>
+							</thead>
+							<tbody id="deployed-list"></tbody>
+						</table>
+					</div>
+				</div>
+				<!-- modal footer -->
+				<div class="modal-footer">
+					<div class="form-group">
+    					<button type="button" class="btn btn-primary" id="btnSaveSecurityGuard">SAVE</button>
+    					<button type="button" class="btn btn-default" data-dismiss="modal">CANCEL</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
 	<!-- modal for deploy item -->
 	<div class="modal fade" id="modalItem">
@@ -164,100 +260,6 @@
 				<div class="modal-footer">
 					<button class="btn btn-primary" id="btnFirearmSave">SAVE</button>
 	        		<button class="btn btn-default" data-dismiss="modal">CANCEL</button>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<!-- modal for deploy security guard -->
-	<div class="modal fade" id="modalSecurityGuard">
-		<div class="modal-dialog modal-90">
-			<div class="modal-content">
-				<!-- modal header -->
-				<div class="modal-header">
-					<button class="close" data-dismiss="modal">&times;</button>
-					<h3>Deploy Security Guard</h3>
-				</div>
-				<!-- modal body -->
-				<div class="modal-body">
-					<div class="form-group">
-						<div class="row">
-							<div class="col-md-6">
-								<h3>Client Qualification</h3>
-							</div>
-							<div class="col-md-2 col-md-offset-4">
-								<label>Client Qualification #</label>
-								<select class="form-control" id="clientqualification-number"></select>
-							</div>
-						</div>
-					</div>
-					<div class="form-group table-responsive">
-						<table id="tblQualification" class="table table-striped table-bordered">
-							<thead>
-								<th>Type</th>
-								<th>Qualification</th>
-							</thead>
-							<tbody id="clientqualification-list"></tbody>
-						</table>
-					</div><hr>
-					<div class="form-group table-responsive">
-						<table id="legend">
-							<tr>
-								<td style="padding-right: 20px;"><b>LEGEND:</b></td>
-								<td class="leg grn"></td>
-								<td id="legName">FULLY QUALIFIED</td>
-								<td class="leg red"></td>
-								<td id="legName">LESS QUALIFIED</td>
-							</tr>
-						</table>
-					</div>
-					<div class="form-group table-responsive">
-						<h3>Pool</h3>
-						<table id="tblPool" class="table table-bordered table-striped">
-							<thead>
-								<th>No.</th>
-								<th style="min-width: 200px;">Name</th>
-								<th>Gender</th>
-								<th>Civil Status</th>
-								<th>Attainment</th>
-								<th style="text-align: center;">Work Exp(month)</th>
-								<th style="text-align: center;">Age</th>
-								<th style="text-align: center;">Height</th>
-								<th style="text-align: center;">Weight</th>
-								<th style="text-align: center;">Approx Distance(km)</th>
-								<th style="text-align: center;">Vacant(day)</th>
-								<th style="text-align: center;">Action</th>
-							</thead>
-							<tbody id="pool-list"></tbody>
-						</table>
-					</div><hr>
-					<div class="form-group table-responsive">
-						<h3>Deploy Security Guard</h3>
-						<table id="tblDeploy" class="table table-striped table-bordered">
-							<thead>
-								<th>No.</th>
-								<th style="min-width: 200px;">Name</th>
-								<th>Gender</th>
-								<th>Civil Status</th>
-								<th>Attainment</th>
-								<th style="text-align: center;">Work Exp(month)</th>
-								<th style="text-align: center;">Age</th>
-								<th style="text-align: center;">Height</th>
-								<th style="text-align: center;">Weight</th>
-								<th style="text-align: center;">Approx Distance(km)</th>
-								<th style="text-align: center;">Vacant(day)</th>
-								<th style="text-align: center;">Action</th>
-							</thead>
-							<tbody id="deployed-list"></tbody>
-						</table>
-					</div>
-				</div>
-				<!-- modal footer -->
-				<div class="modal-footer">
-					<div class="form-group">
-    					<button type="button" class="btn btn-primary" id="btnSaveSecurityGuard">SAVE</button>
-    					<button type="button" class="btn btn-default" data-dismiss="modal">CANCEL</button>
-					</div>
 				</div>
 			</div>
 		</div>

@@ -507,10 +507,7 @@ class RequestController extends Controller
 
     //client
     public function getClientRequest() {
-        $requests = Requestt::withTrashed()->where([
-            ['status', '>=', 0],
-            ['status', '<=', 1],
-        ])->whereHas('deploymentsite.contract', function($query) {
+        $requests = Requestt::withTrashed()->whereHas('deploymentsite.contract', function($query) {
             $query->where('clientid', Auth::user()->client->clientid);
         })->get();
 
@@ -543,6 +540,21 @@ class RequestController extends Controller
 
     public function postClientClientQualification(Request $request) {
         $deploymentsite = DeploymentSite::find($request->inputDeploymentSiteID);
+        $qualificationcheck = QualificationCheck::where([
+            ['deploymentsiteid', $request->inputDeploymentSiteID],
+            ['status', 1]
+        ])->whereHas('deploy', function($query) {
+            $query->where('requestid', null);
+        })->get();
+
+        $requireno = 0;
+        foreach ($request->formData as $data) {
+            $requireno += $data['inputRequireNo'];
+        }
+
+        if ($requireno < $qualificationcheck->count()) {
+            return Response::json("INSUFFICIENT REQUIRE NO", 500);
+        }
 
         if ($request->inputRequestID == null) {
             $requestt = new Requestt;
@@ -605,12 +617,21 @@ class RequestController extends Controller
                 ['deployid', $deploy->deployid],
             ])->first();
 
-            $qualificationcheck->status = $data['inputStatus'];
-            $qualificationcheck->save();
+            if ($data['inputStatus'] == 1) {
+                $qualificationcheck->status = $data['inputStatus'];
+                $qualificationcheck->save();
+            } else {
+                $qualificationcheck->forceDelete();
+            }
         }
 
-        $requestt->status = 2;
-        $requestt->save();
+        if ($request->inputStatus == 0){
+            $requestt->status = 2;
+            $requestt->save();
+        } else {
+            $requestt->status = 0;
+            $requestt->save();
+        }
 
         return Response::json($requestt);
     }
@@ -618,7 +639,6 @@ class RequestController extends Controller
     public function getClientSecurityGuardList(Request $request) {
         $requestt = Requestt::find($request->inputRequestID);
         $deploymentsite = DeploymentSite::find($requestt->deploymentsiteid);
-
         $deploy = Deploy::where([
             ['deploymentsiteid', $requestt->deploymentsiteid],
             ['requestid', $requestt->requestid],
@@ -627,13 +647,21 @@ class RequestController extends Controller
             ['deploymentsiteid', $requestt->deploymentsiteid],
             ['requestid', $requestt->requestid],
         ])->get();
+        $requirenocheck = QualificationCheck::where([
+            ['deployid', $deploy->deployid],
+            ['status', 1]
+        ])->get();
+        $qualificationchecks = QualificationCheck::where([
+            ['deployid', $deploy->deployid],
+            ['status', 0]
+        ])->get();
 
         $requireno = 0;
         foreach ($clientqualifications as $clientqualification) {
             $requireno += $clientqualification->requireno;
         }
+        $requireno -= $requirenocheck->count();
 
-        $qualificationchecks = QualificationCheck::where('deployid', $deploy->deployid)->get();
         $pool = collect();
         foreach ($qualificationchecks as $qualificationcheck) {
             $securityguard = Applicant::find($qualificationcheck->applicantid);

@@ -277,11 +277,12 @@ $(document).ready(function() {
                 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
             }
         });
-        $('#modalQualification').loading({
-            message: "SAVING..."
-        });
 
         if (tableQualification.rows().count() != 0) {
+            $('#modalQualification').loading({
+                message: "SAVING..."
+            });
+
             var formData = [];
             tableQualification.rows().every(function(rowIdx, tableLoop, rowLoop) {
                 var data = {
@@ -335,7 +336,6 @@ $(document).ready(function() {
                 },
             });
         } else {
-            $('#modalQualification').loading('stop');
             toastr.error("NO QUALIFICATION IN THE LIST");
         }
     });
@@ -361,7 +361,7 @@ $(document).ready(function() {
                         "<td>" + value.name + "</td>" +
                         "<td style='text-align: center;'>" + value.workexp + "</td>";
                     if (value.distance == null) {
-                        row += "<td style='text-align: center;'>NOT AVAILABLE</td>";
+                        row += "<td style='text-align: center;'>N/A</td>";
                     } else {
                         row += "<td style='text-align: center;'>" + value.distance.toFixed(2) + "</td>";
                     }
@@ -379,10 +379,7 @@ $(document).ready(function() {
                     radioClass: 'iradio_flat-blue',
                     checkboxClass: 'icheckbox_flat-blue',
                 });
-            },
-            error: function(data) {
-                console.log(data);
-            },
+            }
         });
 
         $('#modalSecurityGuard').modal('show');
@@ -416,7 +413,7 @@ $(document).ready(function() {
         }
     });
 
-    $('#btnSGSave').click(function(e) {
+    $('#btnSaveSecurityGuard').click(function(e) {
         e.preventDefault();
 
         var check = true, acceptedsg = 0;

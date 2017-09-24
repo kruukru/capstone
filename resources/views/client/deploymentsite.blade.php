@@ -42,7 +42,7 @@
 										@elseif ($deploymentsite->status == 4)
 											<td style="text-align: center;">ITEMS RECEIVE</td>
 											<td style="text-align: center;">
-												<button class="btn btn-primary btn-xs" id="btnItem" value="{{$deploymentsite->deploymentsiteid}}">Check</button>
+												<button class="btn btn-primary btn-xs" id="btnItem" value="{{$deploymentsite->deploymentsiteid}}">Assess</button>
 											</td>
 										@elseif ($deploymentsite->status == 5)
 											<td style="text-align: center;">ACTIVE</td>
@@ -73,7 +73,7 @@
 					<div class="form-group table-responsive">
 						<table id="tblSecurityGuard" class="table table-striped table-bordered">
 							<thead>
-								<th>Name</th>
+								<th style="min-width: 200px;">Name</th>
 								<th style="text-align: center;">Work Experience(months)</th>
 								<th style="text-align: center;">Distance(km)</th>
 								<th style="text-align: center;">Action</th>
@@ -86,7 +86,7 @@
 				<div class="modal-footer">
 					<div class="form-group">
 						<button type="button" class="btn btn-primary" id="btnRequest">REQUEST</button>
-						<button type="button" class="btn btn-primary" id="btnSGSave">SAVE</button>
+						<button type="button" class="btn btn-primary" id="btnSaveSecurityGuard">SAVE</button>
         				<button type="button" class="btn btn-default" data-dismiss="modal">CANCEL</button>
 					</div>
 				</div>

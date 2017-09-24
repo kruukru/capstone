@@ -40,7 +40,6 @@ class DeploymentSiteController extends Controller
     //client security guard
     public function postClientClientQualification(Request $request) {
         $deploymentsite = DeploymentSite::find($request->inputDeploymentSiteID);
-
         $qualificationcheck = QualificationCheck::where([
             ['deploymentsiteid', $request->inputDeploymentSiteID],
             ['status', 1]

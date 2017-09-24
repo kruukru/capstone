@@ -225,11 +225,12 @@ $(document).ready(function() {
                 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
             }
         });
-        $('#modalDeploy').loading({
-            message: "SAVING..."
-        });
 
         if (requireno <= tableDeploy.rows().count()) {
+            $('#modalDeploy').loading({
+                message: "SAVING..."
+            });
+
             var formData = [];
             tableDeploy.rows().every(function(rowIdx, tableLoop, rowLoop) {
                 var data = {
@@ -265,7 +266,6 @@ $(document).ready(function() {
                 }
             });
         } else {
-            $('#modalDeploy').loading('stop');
             toastr.error("YOU NEED " + (requireno - tableDeploy.rows().count()) + " MORE SECURITY GUARD");
         }
     });
