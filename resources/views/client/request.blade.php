@@ -300,7 +300,7 @@
 					<!-- modal footer -->
 					<div class="modal-footer">
 						<div class="form-group">
-							<button class="btn btn-primary" id="btnRequestItemSave">SAVE</button>
+							<button class="btn btn-primary" id="btnSaveRequestItem">SAVE</button>
 	        				<button class="btn btn-default" data-dismiss="modal">CANCEL</button>
 						</div>
 					</div>

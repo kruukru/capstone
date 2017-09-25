@@ -126,14 +126,10 @@ $(document).ready(function() {
     //request security guard
     $('#btnNewRequestSecurityGuard').click(function(e) {
         e.preventDefault();
-        $('input').iCheck('uncheck');
-        $('#deploymentsitelistsg').empty();
         $('#deploymentsitelistsg').prop('disabled', false);
-        $('#formQualification').trigger('reset');
-        $('#formQualification').parsley().reset();
-        tableQualification.clear().draw();
-
         requestid = null;
+
+        clearClientQualification();
 
         $.ajax({
             type: "GET",
@@ -154,9 +150,10 @@ $(document).ready(function() {
     //request item
     $('#btnNewRequestItem').click(function(e) {
         e.preventDefault();
-        $('#deploymentsitelistitem').empty();
-        tableInventory.clear().draw();
-        tableRequestItem.clear().draw();
+        $('#deploymentsitelistitem').prop('disabled', false);
+        requestid = null;
+
+        getItem();
 
         $.ajax({
             type: "GET",
@@ -167,26 +164,6 @@ $(document).ready(function() {
 
                 $.each(data, function(index, value) {
                     $('#deploymentsitelistitem').append('<option value='+value.deploymentsiteid+'>'+value.sitename+'</option>');
-                });
-            },
-        });
-
-        $.ajax({
-            type: "GET",
-            url: "/client/request/inventory",
-            dataType: "json",
-            success: function(data) {
-                console.log(data);
-
-                $.each(data, function(index, value) {
-                    var row = "<tr id=id" + value.itemid + ">" +
-                        "<td id='name'>" + value.name + "</td>" +
-                        "<td id='itemtypename'>" + value.item_type.name + "</td>" +
-                        "<td style='text-align: center;'>" +
-                        "<button class='btn btn-primary btn-xs' id='btnAdd' value="+value.itemid+">Add</button> " +
-                        "</td>" +
-                        "</tr>";
-                    tableInventory.row.add($(row)[0]).draw();
                 });
             },
         });
@@ -233,14 +210,10 @@ $(document).ready(function() {
     //update qualification
     $('#request-list').on('click', '#btnUpdateQualification', function(e) {
         e.preventDefault();
-        $('input').iCheck('uncheck');
-        $('#deploymentsitelistsg').empty();
         $('#deploymentsitelistsg').prop('disabled', true);
-        $('#formQualification').trigger('reset');
-        $('#formQualification').parsley().reset();
-        tableQualification.clear().draw();
-
         requestid = $(this).val();
+
+        clearClientQualification();
 
         $.ajax({
             type: "GET",
@@ -589,7 +562,6 @@ $(document).ready(function() {
                 inputApplicantID: this.cell(rowIdx, 3).nodes().to$().find('#btnProfile').val(),
                 inputStatus: this.cell(rowIdx, 3).nodes().to$().find('#status:checked').val()
             };
-
             formData.push(data);
         });
 
@@ -652,7 +624,7 @@ $(document).ready(function() {
             "<td id='name'>" + $('#inventory-list').find('#id'+itemid).find('#name').text() + "</td>" +
             "<td id='itemtypename'>" + $('#inventory-list').find('#id'+itemid).find('#itemtypename').text() + "</td>" +
             "<td style='text-align: center;'>" +
-                "<input type='text' id='approxqty' class='form-control' style='text-align: right; width: 75px;' pattern='^[1-9][0-9]*$' placeholder='Qty'>" +
+                "<input type='text' id='approxqty' class='form-control' style='text-align: right; width: 75px;' pattern='^[1-9][0-9]*$' maxlength='5' placeholder='Qty'>" +
             "</td>" +
             "<td style='text-align: center;'>" +
                 "<button class='btn btn-danger btn-xs' id='btnRemove' value=" + itemid + ">Remove</button> " +
@@ -677,7 +649,29 @@ $(document).ready(function() {
         tableRequestItem.row('#id' + itemid).remove().draw(false);
     });
 
-    $('#btnRequestItemSave').click(function(e) {
+    $('#request-list').on('click', '#btnUpdateItem', function(e) {
+        e.preventDefault();
+        $('#deploymentsitelistitem').prop('disabled', true);
+        requestid = $(this).val();
+
+        getItem();
+
+        $.ajax({
+            type: "GET",
+            url: "/json/request/one",
+            data: { inputRequestID: requestid },
+            dataType: "json",
+            success: function(data) {
+                console.log(data);
+
+                $('#deploymentsitelistitem').append('<option value='+data.deploymentsiteid+'>'+data.deploymentsite.sitename+'</option>');
+            }
+        });
+
+        $('#modalRequestItem').modal('show');
+    });
+
+    $('#btnSaveRequestItem').click(function(e) {
         if ($('#formRequestItem').parsley().validate()) {
             e.preventDefault();
             $.ajaxSetup({
@@ -686,23 +680,28 @@ $(document).ready(function() {
                 }
             });
 
-            if (tableRequestItem.row().count() == 0) {
+            if (tableRequestItem.rows().count() == 0) {
                 toastr.error("NO REQUEST ITEM");
                 return;
             }
 
+            $('#modalRequestItem').loading({
+                message: "SAVING..."
+            });
+
             var formData = [];
-            $('#tblRequestItem > tbody > tr').each(function() {
+            tableRequestItem.rows().every(function(rowIdx, tableLoop, rowLoop) {
                 var data = {
-                    inputItemID: $(this).find('#btnRemove').val(),
-                    inputQty: $(this).find('#approxqty').val(),
+                    inputItemID: this.cell(rowIdx, 3).nodes().to$().find('#btnRemove').val(),
+                    inputQty: this.cell(rowIdx, 2).nodes().to$().find('#approxqty').val()
                 };
                 formData.push(data);
             });
 
             formData = {
+                inputRequestID: requestid,
                 inputDeploymentSiteID: $('#deploymentsitelistitem').val(),
-                formData: formData,
+                formData: formData
             };
 
             $.ajax({
@@ -713,23 +712,27 @@ $(document).ready(function() {
                 success: function(data) {
                     console.log(data);
 
-                    var row = "<tr id=id" + data.requestid + ">" +
-                        "<td>" + data.requestid + "</td>" +
-                        "<td>" + data.type + "</td>" +
-                        "<td>" + data.deploymentsite.sitename + "</td>" +
-                        "<td>" + data.deploymentsite.location + "</td>" +
-                        "<td>Me</td>" +
-                        "<td>Right Now</td>" +
-                        "<td style='text-align: center;'>PENDING</td>" +
-                        "<td style='text-align: center;'>" +
-                            "<button class='btn btn-danger btn-xs' id='btnCancel' value="+data.requestid+">Cancel</button> " +
-                        "</td>" +
-                        "</tr>";
-                    table.row.add($(row)[0]).draw();
+                    if (requestid == null) {
+                        var row = "<tr id=id" + data.requestid + ">" +
+                            "<td>" + data.requestid + "</td>" +
+                            "<td>" + data.type + "</td>" +
+                            "<td>" + data.deploymentsite.sitename + "</td>" +
+                            "<td>" + data.deploymentsite.location + "</td>" +
+                            "<td>Me</td>" +
+                            "<td>Right Now</td>" +
+                            "<td style='text-align: center;'>PENDING</td>" +
+                            "<td style='text-align: center;'>" +
+                                "<button class='btn btn-primary btn-xs' id='btnUpdateItem' value="+data.requestid+">Update</button> " +
+                                "<button class='btn btn-danger btn-xs' id='btnCancel' value="+data.requestid+">Cancel</button>" +
+                            "</td>" +
+                            "</tr>";
+                        table.row.add($(row)[0]).draw();
+                    }
 
                     $('#modalRequestItem').modal('hide');
+                    $('#modalRequestItem').loading('stop');
                     toastr.success("SAVE SUCCESSFUL");
-                },
+                }
             });
         }
     });
@@ -804,6 +807,67 @@ $(document).ready(function() {
             },
         });
     });
+
+    function getItem() {
+        $('#deploymentsitelistitem').empty();
+        tableInventory.clear().draw();
+        tableRequestItem.clear().draw();
+
+        $.ajax({
+            type: "GET",
+            url: "/client/request/inventory",
+            data: { inputRequestID: requestid },
+            dataType: "json",
+            success: function(data) {
+                console.log(data);
+
+                $.each(data.item, function(index, value) {
+                    var check = true;
+                    $.each(data.itemsent, function(index1, value1) {
+                        if (value.itemid == value1.item.itemid) {
+                            value = value1;
+                            check = false;
+                        }
+                    });
+
+                    if (check) {
+                        var row = "<tr id=id" + value.itemid + ">" +
+                            "<td id='name'>" + value.name + "</td>" +
+                            "<td id='itemtypename'>" + value.itemtype.name + "</td>" +
+                            "<td style='text-align: center;'>" +
+                            "<button class='btn btn-primary btn-xs' id='btnAdd' value="+value.itemid+">Add</button> " +
+                            "</td>" +
+                            "</tr>";
+                        tableInventory.row.add($(row)[0]).draw();
+                    } else {
+                        if (value.qty == null) {
+                            value.qty = "";
+                        }
+
+                        var row = "<tr id=id" + value.item.itemid + ">" +
+                            "<td id='name'>" + value.item.name + "</td>" +
+                            "<td id='itemtypename'>" + value.item.itemtype.name + "</td>" +
+                            "<td style='text-align: center;'>" +
+                                "<input type='text' id='approxqty' class='form-control' style='text-align: right; width: 75px;' pattern='^[1-9][0-9]*$' placeholder='Qty' maxlength='5' value="+value.qty+">" +
+                            "</td>" +
+                            "<td style='text-align: center;'>" +
+                                "<button class='btn btn-danger btn-xs' id='btnRemove' value=" + value.item.itemid + ">Remove</button> " +
+                            "</td>" +
+                            "</tr>";
+                        tableRequestItem.row.add($(row)[0]).draw();
+                    }     
+                });
+            },
+        });
+    }
+
+    function clearClientQualification() {
+        $('input').iCheck('uncheck');
+        $('#deploymentsitelistsg').empty();
+        $('#formQualification').trigger('reset');
+        $('#formQualification').parsley().reset();
+        tableQualification.clear().draw();
+    }
 
 
 

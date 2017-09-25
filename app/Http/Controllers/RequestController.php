@@ -23,7 +23,7 @@ use DB;
 
 class RequestController extends Controller
 {
-    //admin
+    //admin admin admin admin admin admin admin admin admin admin admin admin admin admin admin admin admin admin 
     public function getAdminRequest() {
         $requests = Requestt::where('status', '<=', 1)->get();
 
@@ -684,29 +684,41 @@ class RequestController extends Controller
 
         $dataArray = array(
             'requireno' => $requireno,
-            'pool' => $pool,
+            'pool' => $pool
         );
 
         return Response::json($dataArray);
     }
 
     //client item
-    public function getClientInventory() {
-    	$item = Item::with('ItemType')->where('qtyavailable', '!=', 0)->get();
+    public function getClientInventory(Request $request) {
+    	$item = Item::with('itemtype')->where('qtyavailable', '!=', 0)->get();
+        $itemsent = RequestItem::with('item.itemtype')->where('requestid', $request->inputRequestID)->get();
 
-    	return Response::json($item);
+        $dataArray = array(
+            'item' => $item,
+            'itemsent' => $itemsent
+        );
+
+    	return Response::json($dataArray);
     }
 
     public function postClientInventory(Request $request) {
         $deploymentsite = DeploymentSite::find($request->inputDeploymentSiteID);
 
-        $requestt = new Requestt;
-        $requestt->deploymentsite()->associate($deploymentsite);
-        $requestt->account()->associate(Auth::user());
-        $requestt->type = "ITEM";
-        $requestt->datecreated = Carbon::today();
-        $requestt->status = 0;
-        $requestt->save();
+        if ($request->inputRequestID == null) {
+            $requestt = new Requestt;
+            $requestt->deploymentsite()->associate($deploymentsite);
+            $requestt->account()->associate(Auth::user());
+            $requestt->type = "ITEM";
+            $requestt->datecreated = Carbon::today();
+            $requestt->status = 0;
+            $requestt->save();
+        } else {
+            $requestt = Requestt::find($request->inputRequestID);
+
+            RequestItem::where('requestid', $requestt->requestid)->forceDelete();
+        }
 
         foreach ($request->formData as $data) {
             $item = Item::find($data['inputItemID']);

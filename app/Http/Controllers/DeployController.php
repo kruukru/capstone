@@ -198,10 +198,12 @@ class DeployController extends Controller
             ]);
         }
 
-        $qualificationchecks = QualificationCheck::where('status', 0)
-            ->whereHas('deploy', function($query) {
-                $query->where('requestid', null);
-            })->get();
+        $qualificationchecks = QualificationCheck::where([
+            ['deploymentsiteid', $deploymentsite->deploymentsiteid],
+            ['status', 0]
+        ])->whereHas('deploy', function($query) {
+            $query->where('requestid', null);
+        })->get();
 
         $poolsent = collect();
         foreach ($qualificationchecks as $qualificationcheck) {
