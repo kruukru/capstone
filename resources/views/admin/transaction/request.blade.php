@@ -45,6 +45,9 @@
 									@elseif ($request->status == 1)
 										@if ($request->type == "ITEM")
 											<td style="text-align: center;">PENDING RECEIVE</td>
+											<td style="text-align: center;">
+												<button class="btn btn-primary btn-xs" id="btnUpdateItem" value="{{$request->requestid}}">Update</button>
+											</td>
 										@elseif ($request->type == "PERSONNEL")
 											<td style="text-align: center;">PENDING APPROVAL</td>
 											<td style="text-align: center;">
@@ -207,7 +210,7 @@
 					<!-- modal footer -->
 					<div class="modal-footer">
 						<div class="form-group">
-							<button class="btn btn-primary" id="btnItemSave">SAVE</button>
+							<button class="btn btn-primary" id="btnSaveItem">SAVE</button>
 	        				<button class="btn btn-default" data-dismiss="modal">CANCEL</button>
 						</div>
 					</div>
@@ -258,7 +261,7 @@
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button class="btn btn-primary" id="btnFirearmSave">SAVE</button>
+					<button class="btn btn-primary" id="btnSaveFirearm">SAVE</button>
 	        		<button class="btn btn-default" data-dismiss="modal">CANCEL</button>
 				</div>
 			</div>

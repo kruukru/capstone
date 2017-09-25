@@ -141,7 +141,7 @@
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button class="btn btn-primary" id="btnFirearmSave">SAVE</button>
+					<button class="btn btn-primary" id="btnSaveFirearm">SAVE</button>
 	        		<button class="btn btn-default" data-dismiss="modal">CANCEL</button>
 				</div>
 			</div>

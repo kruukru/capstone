@@ -145,44 +145,7 @@ $(document).ready(function() {
         var requesttype = $(this).closest('tr').find('#requesttype').text();
 
         if (requesttype == "ITEM") {
-            $.ajax({
-                type: "GET",
-                url: "/admin/transaction/request/item/inventory",
-                data: { inputRequestID: requestid },
-                dataType: "json",
-                success: function(data) {
-                    console.log(data);
-
-                    $.each(data.requestitem, function(index, value) {
-                        if (value.qty == null) {
-                            value.qty = "";
-                        }
-
-                        var row = "<tr id=id" + value.requestid + ">" +
-                            "<td>" + value.item.name + "</td>" +
-                            "<td>" + value.item.itemtype.name + "</td>" +
-                            "<td>" + value.qty + "</td>" +
-                            "</tr>";
-                        tableRequestItem.row.add($(row)[0]).draw();
-                    });
-
-                    $.each(data.item, function(index, value) {
-                        var row = "<tr id=id" + value.itemid + ">" +
-                            "<td id='name'>" + value.name + "</td>" +
-                            "<td id='itemtype'>" + value.itemtype.name + "</td>" +
-                            "<td id='qtyavailable' style='text-align: right;'>" + value.qtyavailable + "</td>" +
-                            "<td style='text-align: center;'>" +
-                            "<form id=form"+value.itemid+" data-parsley-validate>" +
-                                "<input type='text' id=inputQty"+value.itemid+" placeholder='Qty' " +
-                                    "class='form-control' style='text-align: right; width: 75px;' pattern='^[1-9][0-9]*$' required>" +
-                                "<button class='btn btn-primary btn-sm' id='btnAdd' value="+value.itemid+">Add</button>" +
-                            "</form>" +
-                            "</td>" +
-                            "</tr>";
-                        tableInventory.row.add($(row)[0]).draw();
-                    });
-                },
-            });
+            getItem();
 
             $('#modalItem').modal('show');
         } else if (requesttype == "PERSONNEL") {
@@ -427,7 +390,7 @@ $(document).ready(function() {
                     $.ajax({
                         type: "GET",
                         url: "/admin/transaction/request/firearm",
-                        data: { inputItemID: itemid, },
+                        data: { inputItemID: itemid, inputRequestID: requestid },
                         dataType: "json",
                         success: function(data) {
                             console.log(data);
@@ -502,7 +465,7 @@ $(document).ready(function() {
         }
     });
 
-    //remove item to the deploy list
+    //remove item from the deploy list
     $('#deployitem-list').on('click', '#btnRemove', function(e) {
         e.preventDefault();
         itemid = $(this).val();
@@ -569,22 +532,30 @@ $(document).ready(function() {
         $('#firearm-need').text(countFirearm + "/" +qtyinput + " Firearm(s)");
     });
 
+    $('#request-list').on('click', '#btnUpdateItem', function(e) {
+        e.preventDefault();
+        requestid = $(this).val();
+
+        getItem();
+
+        $('#modalItem').modal('show');
+    });
+
     //saving of firearm item
-    $('#btnFirearmSave').click(function(e) {
+    $('#btnSaveFirearm').click(function(e) {
         e.preventDefault();
 
         var firearmtemp = [];
         if (countFirearm == qtyinput) {
-            $('#tblDeployFirearm > tbody > tr').each(function() {
+            tableDeployFirearm.rows().every(function(rowIdx, tableLoop, rowLoop) {
                 var data = {
                     inputItemID: itemid,
-                    inputFirearmID: $(this).find('#btnRemove').val(),
-                    inputLicense: $(this).find('#license').text(),
-                    inputExpiration: $(this).find('#expiration').text(),
+                    inputFirearmID: this.cell(rowIdx, 2).nodes().to$().find('#btnRemove').val(),
+                    inputLicense: this.cell(rowIdx, 0).data(),
+                    inputExpiration: this.cell(rowIdx, 1).data()
                 };
                 firearmtemp.push(data);
             });
-
             $('#tblInventory').find('#id'+itemid).find('#qtyavailable').text(qtyavailable - qtyinput);
 
             var check = true;
@@ -635,7 +606,7 @@ $(document).ready(function() {
     });
 
     //saving of deploy item
-    $('#btnItemSave').click(function(e) {
+    $('#btnSaveItem').click(function(e) {
         e.preventDefault();
         $.ajaxSetup({
             headers: {
@@ -644,11 +615,15 @@ $(document).ready(function() {
         });
 
         if (tableDeployItem.rows().count() != 0) {
+            $('#modalItem').loading({
+                message: "SAVING..."
+            });
+
             var formData = [];
-            $('#tblDeployItem > tbody > tr').each(function() {
+            tableDeployItem.rows().every(function(rowIdx, tableLoop, rowLoop) {
                 var data = {
-                    inputItemID: $(this).find('#btnRemove').val(),
-                    inputQty: $(this).find('#qtyavailable').text(),
+                    inputItemID: this.cell(rowIdx, 3).nodes().to$().find('#btnRemove').val(),
+                    inputQty: this.cell(rowIdx, 2).data()
                 };
                 formData.push(data);
             });
@@ -656,7 +631,7 @@ $(document).ready(function() {
             formData = {
                 inputRequestID: requestid,
                 inputItemList: formData,
-                inputFirearmList: firearmsave,
+                inputFirearmList: firearmsave
             };
 
             $.ajax({
@@ -667,28 +642,20 @@ $(document).ready(function() {
                 success: function(data) {
                     console.log(data);
 
-                    var name;
-                    if (data.account.client == null) {
-                        name = data.account.manager.firstname + " " + data.account.manager.lastname;
-                    } else {
-                        name = data.account.client.contactperson;
-                    }
-
                     var dt = [
-                        data.requestid,
-                        data.type,
-                        data.deploymentsite.sitename,
-                        data.deploymentsite.location,
-                        name,
-                        $.format.date(data.datecreated, "yyyy-MM-dd"),
+                        table.cell('#id'+requestid, 0).data(),
+                        table.cell('#id'+requestid, 1).data(),
+                        table.cell('#id'+requestid, 2).data(),
+                        table.cell('#id'+requestid, 3).data(),
+                        table.cell('#id'+requestid, 4).data(),
+                        table.cell('#id'+requestid, 5).data(),
                         "PENDING RECEIVE",
-                        "<td style='text-align: center;'>" +
-                            "<button class='btn btn-primary btn-xs' id='btnUpdate' value='"+data.requestid+"'>Update</button>" +
-                        "</td>",
+                        "<button class='btn btn-primary btn-xs' id='btnUpdateItem' value="+data.requestid+">Update</button>"
                     ];
                     table.row('#id' + requestid).data(dt).draw(false);
 
                     $('#modalItem').modal('hide');
+                    $('#modalItem').loading('stop');
                     toastr.success("SAVE SUCCESSFUL");
                 },
             });
@@ -847,6 +814,69 @@ $(document).ready(function() {
                     },
                 });
             },
+        });
+    }
+
+    function getItem() {
+        $.ajax({
+            type: "GET",
+            url: "/admin/transaction/request/item/inventory",
+            data: { inputRequestID: requestid },
+            dataType: "json",
+            success: function(data) {
+                console.log(data);
+
+                $.each(data.requestitem, function(index, value) {
+                    if (value.qty == null) {
+                        value.qty = "";
+                    }
+
+                    var row = "<tr id=id" + value.requestid + ">" +
+                        "<td>" + value.item.name + "</td>" +
+                        "<td>" + value.item.itemtype.name + "</td>" +
+                        "<td>" + value.qty + "</td>" +
+                        "</tr>";
+                    tableRequestItem.row.add($(row)[0]).draw();
+                });
+
+                $.each(data.item, function(index, value) {
+                    var row = "<tr id=id" + value.itemid + ">" +
+                        "<td id='name'>" + value.name + "</td>" +
+                        "<td id='itemtype'>" + value.itemtype.name + "</td>" +
+                        "<td id='qtyavailable' style='text-align: right;'>" + value.qtyavailable + "</td>" +
+                        "<td style='text-align: center;'>" +
+                        "<form id=form"+value.itemid+" data-parsley-validate>" +
+                            "<input type='text' id=inputQty"+value.itemid+" placeholder='Qty' " +
+                                "class='form-control' style='text-align: right; width: 75px;' pattern='^[1-9][0-9]*$' required>" +
+                            "<button class='btn btn-primary btn-sm' id='btnAdd' value="+value.itemid+">Add</button>" +
+                        "</form>" +
+                        "</td>" +
+                        "</tr>";
+                    tableInventory.row.add($(row)[0]).draw();
+                });
+
+                $.each(data.itemsent, function(index, value) {
+                    var row = "<tr id=id" + value.item.itemid + ">" +
+                        "<td id='name'>" + value.item.name + "</td>" +
+                        "<td id='itemtype'>" + value.item.itemtype.name + "</td>" +
+                        "<td id='qtyavailable' style='text-align: right;'>" + value.qty + "</td>" +
+                        "<td style='text-align: center;'>" +
+                            "<button class='btn btn-warning btn-xs' id='btnRemove' value="+value.item.itemid+">Remove</button>" +
+                        "</td>" +
+                        "</tr>";
+                    tableDeployItem.row.add($(row)[0]).draw();
+                });
+
+                $.each(data.firearmsent, function(index, value) {
+                    var data = {
+                        inputItemID: value.itemid,
+                        inputFirearmID: value.firearmid,
+                        inputLicense: value.license,
+                        inputExpiration: value.expiration,
+                    };
+                    firearmsave.push(data);
+                });
+            }
         });
     }
 

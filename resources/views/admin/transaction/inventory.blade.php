@@ -57,7 +57,7 @@
 					</div>
 					<!-- modal footer -->
 					<div class="modal-footer">
-						<button class="btn btn-primary" id="btnItemSave">SAVE</button>
+						<button class="btn btn-primary" id="btnSaveItem">SAVE</button>
 	        			<button class="btn btn-default" data-dismiss="modal">CANCEL</button>
 					</div>
 				</form>
@@ -92,7 +92,7 @@
 									<input type="text" id="inputFirearmExpiration" class="form-control mydatepicker" placeholder="yyyy-mm-dd" required>
 								</div>
 								<div class="col-md-2 col-md-offset-3">
-									<button class="btn btn-primary" id="btnFirearmAdd">ADD</button>
+									<button class="btn btn-primary" id="btnAddFirearm">ADD</button>
 								</div>
 							</div>
 						</div><hr>
@@ -109,7 +109,7 @@
 					</div>
 					<!-- modal footer -->
 					<div class="modal-footer">
-						<button class="btn btn-primary" id="btnFirearmSave">SAVE</button>
+						<button class="btn btn-primary" id="btnSaveFirearm">SAVE</button>
 	        			<button class="btn btn-default" data-dismiss="modal">CANCEL</button>
 					</div>
 				</form>

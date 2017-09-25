@@ -17,7 +17,7 @@ class InventoryController extends Controller
     }
 
     public function postAdminItemAdd(Request $request) {
-    	$item = Item::with('ItemType')->find($request->inputItemID);
+    	$item = Item::with('itemtype')->find($request->inputItemID);
     	$item->qty += $request->inputQuantity;
     	$item->qtyavailable += $request->inputQuantity;
     	$item->save();
@@ -26,7 +26,7 @@ class InventoryController extends Controller
     }
 
     public function postAdminFirearmAdd(Request $request) {
-        $item = Item::with('ItemType')->find($request->inputItemID);
+        $item = Item::with('itemtype')->find($request->inputItemID);
 
         $count = 0;
         foreach ($request->formData as $data) {

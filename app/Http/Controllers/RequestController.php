@@ -442,37 +442,91 @@ class RequestController extends Controller
 
     //admin item
     public function getAdminItemInventory(Request $request) {
+        $requestt = Requestt::find($request->inputRequestID);
+
         $requestitem = RequestItem::with('item.itemtype')
             ->where('requestid', $request->inputRequestID)->get();
         $item = Item::with('itemtype')->get();
 
+        $itemsent = null; $firearmsent = null;
+        if ($requestt->deploy) {
+            $itemsent = IssuedItem::with('item.itemtype')->where([
+                ['deploymentsiteid', $requestt->deploymentsiteid],
+                ['deployid', $requestt->deploy->deployid]
+            ])->get();
+
+            $firearmsent = Firearm::whereHas('issuedfirearm.issueditem', function($query) use ($requestt) {
+                $query->where([
+                    ['deploymentsiteid', $requestt->deploymentsiteid],
+                    ['deployid', $requestt->deploy->deployid]
+                ]);
+            })->get();
+        }   
+
         $arrayData = array(
             'requestitem' => $requestitem,
             'item' => $item,
+            'itemsent' => $itemsent,
+            'firearmsent' => $firearmsent
         );   
 
         return Response::json($arrayData);
     }
 
     public function getAdminFirearm(Request $request) {
+        $requestt = Requestt::find($request->inputRequestID);
+
         $firearm = Firearm::doesntHave('issuedfirearm')
             ->where('itemid', $request->inputItemID)->get();
+        if ($requestt->deploy) {
+            $firearmsave = Firearm::where('itemid', $request->inputItemID)
+                ->whereHas('issuedfirearm.issueditem', function($query) use ($requestt) {
+                    $query->where('deployid', $requestt->deploy->deployid);
+                })->get();
+
+            $merge = $firearm->merge($firearmsave);
+            return Response::json($merge);
+        }
 
         return Response::json($firearm);
     }
 
     public function postAdminItem(Request $request) {
-        $requestt = Requestt::with('deploymentsite')->with('account.client')
-            ->with('account.manager')->find($request->inputRequestID);
+        $requestt = Requestt::find($request->inputRequestID);
         $deploymentsite = DeploymentSite::find($requestt->deploymentsiteid);
 
-        $deploy = new Deploy();
-        $deploy->deploymentsite()->associate($deploymentsite);
-        $deploy->request()->associate($requestt);
-        $deploy->dateissued = Carbon::today();
-        $deploy->expiration = '2020-10-10';
-        $deploy->status = 0;
-        $deploy->save();
+        if ($requestt->deploy) {
+            $deploy = Deploy::find($requestt->deploy->deployid);
+
+            $issueditems = IssuedItem::where([
+                ['deploymentsiteid', $deploymentsite->deploymentsiteid],
+                ['deployid', $deploy->deployid]
+            ])->get();
+            foreach ($issueditems as $issueditem) {
+                $item = Item::find($issueditem->itemid);
+                $item->qtyavailable += $issueditem->qty;
+                $item->save();
+            }
+
+            IssuedFirearm::whereHas('issueditem', function($query) use ($deploymentsite, $deploy) {
+                $query->where([
+                    ['deploymentsiteid', $deploymentsite->deploymentsiteid],
+                    ['deployid', $deploy->deployid]
+                ]);
+            })->forceDelete();
+            IssuedItem::where([
+                ['deploymentsiteid', $deploymentsite->deploymentsiteid],
+                ['deployid', $deploy->deployid]
+            ])->forceDelete();
+        } else {
+            $deploy = new Deploy();
+            $deploy->deploymentsite()->associate($deploymentsite);
+            $deploy->request()->associate($requestt);
+            $deploy->dateissued = Carbon::today();
+            $deploy->expiration = '2020-10-10';
+            $deploy->status = 0;
+            $deploy->save();
+        }
 
         foreach ($request->inputItemList as $data) {
             $item = Item::find($data['inputItemID']);

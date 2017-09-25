@@ -329,7 +329,7 @@ $(document).ready(function() {
 	});
 
 	//saving of firearm item
-	$('#btnFirearmSave').click(function(e) {
+	$('#btnSaveFirearm').click(function(e) {
 		e.preventDefault();
 
 		var firearmtemp = [];
@@ -400,11 +400,12 @@ $(document).ready(function() {
                 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
             }
         });
-        $('#modalDeploy').loading({
-        	message: "SAVING..."
-        });
 
 		if (tableDeployItem.rows().count() != 0) {
+			$('#modalDeploy').loading({
+	        	message: "SAVING..."
+	        });
+
 			var formData = [];
 			tableDeployItem.rows().every(function(rowIdx, tableLoop, rowLoop) {
 				var data = {
@@ -444,7 +445,6 @@ $(document).ready(function() {
 	            },
 	        });
 		} else {
-			$('#modalDeploy').loading('stop');
 			toastr.error("NO DEPLOY ITEM");
 		}
 	});

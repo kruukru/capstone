@@ -31,30 +31,27 @@ $(document).ready(function(){
         endDate: '+100y',
     });
 
-    //reset the modal when hide
-    $('#modalItem').on('hide.bs.modal', function() {
-        $('#formItem').trigger('reset');
-        $('#formItem').parsley().reset();
-    });
-
     //display modal for add
     $('#item-list').on('click', '#btnAdd', function() { 
         itemid = $(this).val();
 
         var itemtype = $(this).closest('tr').find('#itemtype').text();
         if (itemtype.toUpperCase() === "FIREARM" || itemtype.toUpperCase() == "FIREARMS") {
-            $('#modalFirearm').modal('hide');
             $('#formFirearm').trigger('reset');
             $('#formFirearm').parsley().reset();
             tableFirearm.clear().draw();
+
             $('#modalFirearm').modal('show');
         } else {
+            $('#formItem').trigger('reset');
+            $('#formItem').parsley().reset();
+
             $('#modalItem').modal('show');
         }
     });
 
     //adding of firearm to the table
-    $('#btnFirearmAdd').click(function(e) {
+    $('#btnAddFirearm').click(function(e) {
         if ($('#formFirearm').parsley().isValid()) {
             e.preventDefault();
 
@@ -74,6 +71,9 @@ $(document).ready(function(){
                 return;
             }
 
+            $('#modalFirearm').loading({
+                message: "SAVING..."
+            });
             var formData = {
                 inputLicense: $('#inputFirearmLicense').val(),
                 inputExpiration: $('#inputFirearmExpiration').val(),
@@ -98,6 +98,7 @@ $(document).ready(function(){
 
                     $('#formFirearm').trigger('reset');
                     $('#formFirearm').parsley().reset();
+                    $('#modalFirearm').loading('stop');
                 },
                 error: function(data) {
                     console.log(data);
@@ -118,13 +119,16 @@ $(document).ready(function(){
     });
 
     //save of item
-    $('#btnItemSave').click(function(e) {
+    $('#btnSaveItem').click(function(e) {
         if ($('#formItem').parsley().isValid()) {
             e.preventDefault();
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
                 }
+            });
+            $('#modalItem').loading({
+                message: "SAVING..."
             });
 
             $.ajax({
@@ -137,7 +141,7 @@ $(document).ready(function(){
 
                     var dt = [
                         data.name,
-                        data.item_type.name,
+                        data.itemtype.name,
                         data.qty,
                         data.qtyavailable,
                         "<button class='btn btn-success btn-xs' id='btnAdd' value="+data.itemid+">Add</button>",
@@ -145,24 +149,26 @@ $(document).ready(function(){
                     table.row('#id' + itemid).data(dt).draw(false);
 
                     $('#modalItem').modal('hide');
+                    $('#modalItem').loading('stop');
                     toastr.success("SAVE SUCCESSFUL");
-                },
-                error: function(data) {
-                    console.log(data);
-                },
+                }
             });
         }
     });
 
     //save of firearm
-    $('#btnFirearmSave').click(function(e) {
+    $('#btnSaveFirearm').click(function(e) {
         e.preventDefault();
+
         if (tableFirearm.data().count() != 0) {
             e.preventDefault();
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
                 }
+            });
+            $('#modalFirearm').loading({
+                message: "SAVING..."
             });
 
             var formData = [];
@@ -189,7 +195,7 @@ $(document).ready(function(){
 
                     var dt = [
                         data.name,
-                        data.item_type.name,
+                        data.itemtype.name,
                         data.qty,
                         data.qtyavailable,
                         "<button class='btn btn-success btn-xs' id='btnAdd' value="+data.itemid+">Add</button>",
@@ -197,14 +203,9 @@ $(document).ready(function(){
                     table.row('#id' + itemid).data(dt).draw(false);
 
                     $('#modalFirearm').modal('hide');
-                    $('#formFirearm').trigger('reset');
-                    $('#formFirearm').parsley().reset();
-                    tableFirearm.clear().draw();
+                    $('#modalFirearm').loading('stop');
                     toastr.success("SAVE SUCCESSFUL");
-                },
-                error: function(data) {
-                    console.log(data);
-                },
+                }
             });
         } else {
             toastr.error("NO FIREARM INPUT");
