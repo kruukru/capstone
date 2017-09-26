@@ -17,7 +17,6 @@ class Contract extends Migration
             $table->increments('contractid');
             $table->integer('clientid')->unsigned();
             $table->integer('adminid')->unsigned();
-            $table->integer('areatypeid')->unsigned();
             $table->integer('parentcontractid')->unsigned()->nullable();
             $table->date('startdate');
             $table->date('expiration');
@@ -30,7 +29,6 @@ class Contract extends Migration
 
             $table->foreign('clientid')->references('clientid')->on('clienttbl');
             $table->foreign('adminid')->references('adminid')->on('admintbl');
-            $table->foreign('areatypeid')->references('areatypeid')->on('areatypetbl');
         });
     }
 

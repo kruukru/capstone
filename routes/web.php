@@ -20,7 +20,6 @@ Route::name('signout')->get('/signout', 'AccountController@getSignOut');
 //json controller
 Route::get('/json/industrytype/one', 'JSONController@getIndustryTypeOne');
 Route::get('/json/requirement/one', 'JSONController@getRequirementOne');
-Route::get('/json/areatype/one', 'JSONController@getAreaTypeOne');
 Route::get('/json/itemtype/one', 'JSONController@getItemTypeOne');
 Route::get('/json/item/one', 'JSONController@getItemOne');
 Route::get('/json/violation/one', 'JSONController@getViolationOne');
@@ -42,7 +41,6 @@ Route::get('/json/request/one', 'JSONController@getRequestOne');
 Route::get('/json/itemtype/all', 'JSONController@getItemTypeAll');
 Route::get('/json/questionchoice/all', 'JSONController@getQuestionChoiceAll');
 Route::get('/json/industrytype/all', 'JSONController@getIndustryTypeAll');
-Route::get('/json/areatype/all', 'JSONController@getAreaTypeAll');
 Route::get('/json/assessmenttopic/all', 'JSONController@getAssessmentTopicAll');
 
 Route::get('/json/applicant/educationbackground', 'JSONController@getApplicantEducationBackground');
@@ -167,12 +165,6 @@ Route::group(['middleware' => ['auth']], function() {
 		Route::post('/admin/maintenance/assessmenttopic/update', 'MaintenanceController@postAdminAssessmentTopicUpdate');
 		Route::post('/admin/maintenance/assessmenttopic/remove', 'MaintenanceController@postAdminAssessmentTopicRemove');
 
-		//area type
-		Route::name('admin-maintenance-areatype')->get('/admin/maintenance/areatype', 'MaintenanceController@getAdminAreaType');
-		Route::post('/admin/maintenance/areatype/new', 'MaintenanceController@postAdminAreaTypeNew');
-		Route::post('/admin/maintenance/areatype/update', 'MaintenanceController@postAdminAreaTypeUpdate');
-		Route::post('/admin/maintenance/areatype/remove', 'MaintenanceController@postAdminAreaTypeRemove');
-
 		//item type
 		Route::name('admin-maintenance-itemtype')->get('/admin/maintenance/itemtype', 'MaintenanceController@getAdminItemType');
 		Route::post('/admin/maintenance/itemtype/new', 'MaintenanceController@postAdminItemTypeNew');
@@ -292,10 +284,6 @@ Route::group(['middleware' => ['auth']], function() {
 		//item
 		Route::name('admin-archive-item')->get('/admin/archive/item', 'ArchiveController@getAdminArchiveItem');
 		Route::post('/admin/archive/item/restore', 'ArchiveController@postAdminArchiveItemRestore');
-
-		//area type
-		Route::name('admin-archive-areatype')->get('/admin/archive/areatype', 'ArchiveController@getAdminArchiveAreaType');
-		Route::post('/admin/archive/areatype/restore', 'ArchiveController@postAdminArchiveAreaTypeRestore');
 
 		//question
 		Route::name('admin-archive-question')->get('/admin/archive/question', 'ArchiveController@getAdminArchiveQuestion');

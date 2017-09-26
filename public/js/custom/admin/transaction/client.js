@@ -2744,23 +2744,7 @@ $(document).ready(function() {
     $('#client-list').on('click', '#btnNewContract', function(e) {
         $('#formContract').trigger('reset');
         $('#formContract').parsley().reset();
-        $('#inputAreaType').empty();
         clientid = $(this).val();
-
-        $.ajax({
-            type: "GET",
-            url: "/json/areatype/all",
-            dataType: "json",
-            success: function(data) {
-                console.log(data);
-
-                $.each(data, function(index, value) {
-                    console.log(value);
-
-                    $('#inputAreaType').append("<option value="+value.areatypeid+">"+value.name+"</option>");
-                });
-            }
-        });
 
         $('#modalContract').modal('show');
     });
@@ -2794,7 +2778,6 @@ $(document).ready(function() {
                         formData = {
                             inputAdminID: adminid,
                             inputClientID: clientid,
-                            inputAreaTypeID: $('#inputAreaType').val(),
                             inputStartdate: $('#startdate').val(),
                             inputLength: $('#inputLength').val(),
                             inputLengthType: $('#lengthtype').val(),
@@ -2811,7 +2794,6 @@ $(document).ready(function() {
                         formData = {
                             inputAdminID: adminid,
                             inputClientID: clientid,
-                            inputAreaTypeID: $('#inputAreaType').val(),
                             inputStartdate: $('#startdate').val(),
                             inputLength: $('#inputLength').val(),
                             inputLengthType: $('#lengthtype').val(),
@@ -2866,7 +2848,6 @@ $(document).ready(function() {
                 formData = {
                     inputAdminID: adminid,
                     inputClientID: clientid,
-                    inputAreaTypeID: $('#inputAreaType').val(),
                     inputStartdate: $('#startdate').val(),
                     inputLength: $('#inputLength').val(),
                     inputLengthType: $('#lengthtype').val(),

@@ -11,7 +11,6 @@ use Amcor\Question;
 use Amcor\Choice;
 use Amcor\Test;
 use Amcor\TestQuestion;
-use Amcor\AreaType;
 use Amcor\AppointmentSlot;
 use Amcor\AssessmentTopic;
 use Amcor\Commend;
@@ -161,71 +160,6 @@ class MaintenanceController extends Controller
         }
 
         return Response::json($assessmenttopic);
-    }
-
-    //area type area type area type area type area type area type area type area type area type 
-    public function getAdminAreaType() {
-        $areatypes = AreaType::get();
-
-        return view('admin.maintenance.areatype', compact('areatypes'));
-    }
-
-    public function postAdminAreaTypeNew(Request $request) {
-        $areatype = AreaType::withTrashed()
-            ->where('name', $request->inputAreaType)
-            ->first();
-
-        if ($areatype === null) {
-            $areatype = new AreaType;
-            $areatype->name = $request->inputAreaType;
-            $areatype->amountperhour = $request->inputAreaTypeAmountPerHour;
-            $areatype->description = $request->inputAreaTypeDescription;
-            $areatype->save();
-        } else {
-            if ($areatype->deleted_at === null) {
-                return Response::json("SAME NAME", 500);
-            } else {
-                return Response::json("SAME NAME TRASH", 500);
-            }
-        }
-
-        return Response::json($areatype);
-    }
-
-    public function postAdminAreaTypeUpdate(Request $request) {
-        $areatype = AreaType::withTrashed()
-            ->where([
-                ['name', $request->inputAreaType],
-                ['areatypeid', '!=', $request->inputAreaTypeID],
-            ])->first();
-
-        if ($areatype === null) {
-            $areatype = AreaType::find($request->inputAreaTypeID);
-            $areatype->name = $request->inputAreaType;
-            $areatype->amountperhour = $request->inputAreaTypeAmountPerHour;
-            $areatype->description = $request->inputAreaTypeDescription;
-            $areatype->save();
-        } else {
-            if ($areatype->deleted_at === null) {
-                return Response::json("SAME NAME", 500);
-            } else {
-                return Response::json("SAME NAME TRASH", 500);
-            }
-        }
-
-        return Response::json($areatype);
-    }
-
-    public function postAdminAreaTypeRemove(Request $request) {
-        $areatype = AreaType::find($request->inputAreaTypeID);
-
-        if (count($areatype->contract)) {
-            return Response::json("CANNOT REMOVE", 500);
-        } else {
-            $areatype->delete();
-        }
-
-        return Response::json($areatype);
     }
 
     //item type item type item type item type item type item type item type item type item type item type 

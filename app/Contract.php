@@ -28,8 +28,4 @@ class Contract extends Model
     public function admin() {
     	return $this->belongsTo('Amcor\Admin', 'adminid');
     }
-
-    public function areatype() {
-    	return $this->belongsTo('Amcor\AreaType', 'areatypeid');
-    }
 }

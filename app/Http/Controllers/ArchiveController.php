@@ -7,7 +7,6 @@ use Amcor\Requirement;
 use Amcor\Violation;
 use Amcor\ItemType;
 use Amcor\Item;
-use Amcor\AreaType;
 use Amcor\Test;
 use Amcor\Question;
 use Amcor\Choice;
@@ -107,19 +106,6 @@ class ArchiveController extends Controller
     	$item = Item::onlyTrashed()->find($request->inputItemID)->restore();
 
     	return Response::json($item);
-    }
-
-    //area type area type area type area type area type area type area type area type area type area type area type 
-    public function getAdminArchiveAreaType() {
-    	$areatypes = AreaType::onlyTrashed()->get();
-
-    	return view('admin.archive.areatype', compact('areatypes'));
-    }
-
-    public function postAdminArchiveAreaTypeRestore(Request $request) {
-    	$areatype = AreaType::onlyTrashed()->find($request->inputAreaTypeID)->restore();
-
-    	return Response::json($areatype);
     }
 
     //test type test type test type test type test type test type test type test type test type test type test type 

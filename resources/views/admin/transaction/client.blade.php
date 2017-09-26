@@ -289,8 +289,11 @@
 								<input type="text" class="form-control mydatepicker" id="startdate" placeholder="yyyy-mm-dd" required>
 							</div>
 							<div class="col-md-6">
-								<label>Area Type *</label>
-								<select class="form-control" id="inputAreaType" required></select>
+								<label>Price *</label>
+								<div class="input-group">
+									<span class="input-group-addon"><i>&#8369;</i></span>
+									<input type="text" id="inputPrice" class="form-control" placeholder="Contract Price" style="text-align: right;" maxlength="22" required>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -311,13 +314,6 @@
 									</div>
 								</div>
 							</div>
-						</div>
-					</div>
-					<div class="form-group">
-						<label>Price *</label>
-						<div class="input-group">
-							<span class="input-group-addon"><i>&#8369;</i></span>
-							<input type="text" id="inputPrice" class="form-control" placeholder="Contract Price" style="text-align: right;" maxlength="22" required>
 						</div>
 					</div>
 					<div class="form-group">

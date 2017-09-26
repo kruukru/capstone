@@ -10,7 +10,7 @@
   @include('templates.mycss')
   @yield('css')
 </head>
-<body class="skin-purple">
+<body class="skin-blue">
   <header class="main-header">
     <!-- Logo -->
     <a href="{{ route('home') }}" class="logo">

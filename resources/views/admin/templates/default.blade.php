@@ -109,7 +109,7 @@
 					</ul>
 				</li>
 				<!-- maintenance -->
-				<li class="treeview {{Request::path() == 'admin/maintenance/requirement' ? 'active' : ''}} {{Request::path() == 'admin/maintenance/multiplechoice' ? 'active' : ''}} {{Request::path() == 'admin/maintenance/trueorfalse' ? 'active' : ''}} {{Request::path() == 'admin/maintenance/identification' ? 'active' : ''}} {{Request::path() == 'admin/maintenance/essay' ? 'active' : ''}} {{Request::path() == 'admin/maintenance/test' ? 'active' : ''}} {{Request::path() == 'admin/maintenance/assessmenttopic' ? 'active' : ''}} {{Request::path() == 'admin/maintenance/areatype' ? 'active' : ''}} {{Request::path() == 'admin/maintenance/itemtype' ? 'active' : ''}} {{Request::path() == 'admin/maintenance/item' ? 'active' : ''}} {{Request::path() == 'admin/maintenance/commend' ? 'active' : ''}} {{Request::path() == 'admin/maintenance/violation' ? 'active' : ''}}">
+				<li class="treeview {{Request::path() == 'admin/maintenance/requirement' ? 'active' : ''}} {{Request::path() == 'admin/maintenance/multiplechoice' ? 'active' : ''}} {{Request::path() == 'admin/maintenance/trueorfalse' ? 'active' : ''}} {{Request::path() == 'admin/maintenance/identification' ? 'active' : ''}} {{Request::path() == 'admin/maintenance/essay' ? 'active' : ''}} {{Request::path() == 'admin/maintenance/test' ? 'active' : ''}} {{Request::path() == 'admin/maintenance/assessmenttopic' ? 'active' : ''}} {{Request::path() == 'admin/maintenance/itemtype' ? 'active' : ''}} {{Request::path() == 'admin/maintenance/item' ? 'active' : ''}} {{Request::path() == 'admin/maintenance/commend' ? 'active' : ''}} {{Request::path() == 'admin/maintenance/violation' ? 'active' : ''}}">
 					<a href="#"><i class="fa fa-cogs"></i><span>MAINTENANCE</span><i class="fa fa-angle-left pull-right"></i></a>
 					<ul class="treeview-menu">
 						<li class="{{Request::path() == 'admin/maintenance/requirement' ? 'active' : ''}}"><a href="{{ route('admin-maintenance-requirement') }}"><i class="fa fa-circle-o"></i>Applicant Requirement</a></li>
@@ -131,7 +131,6 @@
 							</ul>
 						</li>
 						<li class="{{Request::path() == 'admin/maintenance/assessmenttopic' ? 'active' : ''}}"><a href="{{ route('admin-maintenance-assessmenttopic') }}"><i class="fa fa-circle-o"></i>Assessment Topic</a></li>
-						<li class="{{Request::path() == 'admin/maintenance/areatype' ? 'active' : ''}}"><a href="{{ route('admin-maintenance-areatype') }}"><i class="fa fa-circle-o"></i>Area Type</a></li>
 						<li class="{{Request::path() == 'admin/maintenance/itemtype' ? 'active' : ''}}"><a href="{{ route('admin-maintenance-itemtype') }}"><i class="fa fa-circle-o"></i>Item Type</a></li>
 						<li class="{{Request::path() == 'admin/maintenance/item' ? 'active' : ''}}"><a href="{{ route('admin-maintenance-item') }}"><i class="fa fa-circle-o"></i>Item</a></li>
 						<li class="{{Request::path() == 'admin/maintenance/commend' ? 'active' : ''}}"><a href="{{ route('admin-maintenance-commend') }}"><i class="fa fa-circle-o"></i>Commend</a></li>
@@ -146,14 +145,13 @@
 					</ul>
 				</li>
 				<!-- archive -->
-				<li class="treeview {{Request::path() == 'admin/archive/commend' ? 'active' : ''}} {{Request::path() == 'admin/archive/requirement' ? 'active' : ''}} {{Request::path() == 'admin/archive/violation' ? 'active' : ''}} {{Request::path() == 'admin/archive/itemtype' ? 'active' : ''}} {{Request::path() == 'admin/archive/item' ? 'active' : ''}} {{Request::path() == 'admin/archive/assessmenttopic' ? 'active' : ''}} {{Request::path() == 'admin/archive/areatype' ? 'active' : ''}} {{Request::path() == 'admin/archive/testtype' ? 'active' : ''}} {{Request::path() == 'admin/archive/question' ? 'active' : ''}} {{Request::path() == 'admin/archive/test' ? 'active' : ''}}">
+				<li class="treeview {{Request::path() == 'admin/archive/commend' ? 'active' : ''}} {{Request::path() == 'admin/archive/requirement' ? 'active' : ''}} {{Request::path() == 'admin/archive/violation' ? 'active' : ''}} {{Request::path() == 'admin/archive/itemtype' ? 'active' : ''}} {{Request::path() == 'admin/archive/item' ? 'active' : ''}} {{Request::path() == 'admin/archive/assessmenttopic' ? 'active' : ''}} {{Request::path() == 'admin/archive/testtype' ? 'active' : ''}} {{Request::path() == 'admin/archive/question' ? 'active' : ''}} {{Request::path() == 'admin/archive/test' ? 'active' : ''}}">
 					<a href="#"><i class="fa fa-archive"></i><span>ARCHIVE</span><i class="fa fa-angle-left pull-right"></i></a>
 					<ul class="treeview-menu">
 						<li class="{{Request::path() == 'admin/archive/requirement' ? 'active' : ''}}"><a href="{{ route('admin-archive-requirement') }}"><i class="fa fa-circle-o"></i>Applicant Requirement</a></li>
 						<li class="{{Request::path() == 'admin/archive/test' ? 'active' : ''}}"><a href="{{ route('admin-archive-test') }}"><i class="fa fa-circle-o"></i>Test Form</a></li>
 						<li class="{{Request::path() == 'admin/archive/question' ? 'active' : ''}}"><a href="{{ route('admin-archive-question') }}"><i class="fa fa-circle-o"></i>Question</a></li>
 						<li class="{{Request::path() == 'admin/archive/assessmenttopic' ? 'active' : ''}}"><a href="{{ route('admin-archive-assessmenttopic') }}"><i class="fa fa-circle-o"></i>Assessment Topic</a></li>
-						<li class="{{Request::path() == 'admin/archive/areatype' ? 'active' : ''}}"><a href="{{ route('admin-archive-areatype') }}"><i class="fa fa-circle-o"></i>Area Type</a></li>
 						<li class="{{Request::path() == 'admin/archive/itemtype' ? 'active' : ''}}"><a href="{{ route('admin-archive-itemtype') }}"><i class="fa fa-circle-o"></i>Item Type</a></li>
 						<li class="{{Request::path() == 'admin/archive/item' ? 'active' : ''}}"><a href="{{ route('admin-archive-item') }}"><i class="fa fa-circle-o"></i>Item</a></li>
 						<li class="{{Request::path() == 'admin/archive/commend' ? 'active' : ''}}"><a href="{{ route('admin-archive-commend') }}"><i class="fa fa-circle-o"></i>Commend</a></li>

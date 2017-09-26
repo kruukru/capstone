@@ -4,7 +4,6 @@ namespace Amcor\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Amcor\Requirement;
-use Amcor\AreaType;
 use Amcor\ItemType;
 use Amcor\Item;
 use Amcor\Violation;
@@ -41,12 +40,6 @@ class JSONController extends Controller
         return Response::json($choice);
 	}
 
-    public function getAreaTypeAll() {
-        $areatype = AreaType::get();
-
-        return Response::json($areatype);
-    }
-
     public function getAssessmentTopicAll() {
         $assessmenttopic = AssessmentTopic::get();
 
@@ -71,12 +64,6 @@ class JSONController extends Controller
     	$requirement = Requirement::find($request->inputRequirementID);
 
         return Response::json($requirement);
-    }
-
-    public function getAreaTypeOne(Request $request) {
-    	$areatype = AreaType::find($request->inputAreaTypeID);
-
-        return Response::json($areatype);
     }
 
     public function getItemTypeOne(Request $request) {

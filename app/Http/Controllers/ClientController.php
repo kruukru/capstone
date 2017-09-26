@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use Amcor\Client;
 use Amcor\Admin;
 use Amcor\Contract;
-use Amcor\AreaType;
 use Amcor\DeploymentSite;
 use Amcor\ClientQualification;
 use Amcor\Account;
@@ -107,13 +106,11 @@ class ClientController extends Controller
 
     	$admin = Admin::find($request->inputAdminID);
     	$client = Client::find($request->inputClientID);
-    	$areatype = AreaType::find($request->inputAreaTypeID);
     	$contract = new Contract;
     	$deploymentsite = new DeploymentSite;
 
         $contract->admin()->associate($admin);
     	$contract->client()->associate($client);
-		$contract->areatype()->associate($areatype);
         $contract->startdate = $request->inputStartdate;
         if ($request->inputLengthType == "day") {
             $contract->expiration = Carbon::createFromFormat('Y-m-d', $request->inputStartdate)->addDays($request->inputLength)->toDateString();
