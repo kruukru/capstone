@@ -68,10 +68,140 @@ Route::group(['middleware' => ['guest']], function() {
 });
 
 Route::group(['middleware' => ['auth']], function() {
+	//admins admins admins admins admins admins admins admins admins admins admins admins admins admins admins admins admins admins admins
+	Route::group(['middleware' => 'Amcor\Http\Middleware\AdminsMiddleware'], function() {
+		Route::name('admin-notification')->get('/admin/notification', 'NotificationController@getAdminNotification');
+	});
+
 	//admin admin admin admin admin admin admin admin admin admin admin admin admin admin admin admin admin admin admin admin admin admin 
 	Route::group(['middleware' => 'Amcor\Http\Middleware\AdminMiddleware'], function() {
-		Route::name('admin-notification')->get('/admin/notification', 'NotificationController@getAdminNotification');
+		//transaction transaction transaction transaction transaction transaction transaction transaction transaction transaction transaction
+		//inventory
+		Route::name('admin-transaction-inventory')->get('/admin/transaction/inventory', 'InventoryController@getAdminInventory');
+		Route::post('/admin/transaction/inventory/item/add', 'InventoryController@postAdminItemAdd');
+		Route::post('/admin/transaction/inventory/firearm/add', 'InventoryController@postAdminFirearmAdd');
 
+		//deploy item
+		Route::name('admin-transaction-deployitem')->get('/admin/transaction/deployitem', 'DeployController@getAdminDeployItem');
+		Route::post('/admin/transaction/deployitem', 'DeployController@postAdminDeployItem');
+		Route::get('/admin/transaction/deployitem/firearm', 'DeployController@getAdminFirearm');
+		Route::get('/admin/transaction/deployitem/inventory/securityguard', 'DeployController@getAdminInventorySecurityGuard');
+
+		//maintenance maintenance maintenance maintenance maintenance maintenance maintenance maintenance maintenance maintenance maintenance
+		//item type
+		Route::name('admin-maintenance-itemtype')->get('/admin/maintenance/itemtype', 'MaintenanceController@getAdminItemType');
+		Route::post('/admin/maintenance/itemtype/new', 'MaintenanceController@postAdminItemTypeNew');
+		Route::post('/admin/maintenance/itemtype/update', 'MaintenanceController@postAdminItemTypeUpdate');
+		Route::post('/admin/maintenance/itemtype/remove', 'MaintenanceController@postAdminItemTypeRemove');
+
+		//item
+		Route::name('admin-maintenance-item')->get('/admin/maintenance/item', 'MaintenanceController@getAdminItem');
+		Route::post('/admin/maintenance/item/new', 'MaintenanceController@postAdminItemNew');
+		Route::post('/admin/maintenance/item/update', 'MaintenanceController@postAdminItemUpdate');
+		Route::post('/admin/maintenance/item/remove', 'MaintenanceController@postAdminItemRemove');
+
+		//utility utility utility utility utility utility utility utility utility utility utility utility utility utility utility utility 
+
+		//archive archive archive archive archive archive archive archive archive archive archive archive archive archive archive archive
+		//item type
+		Route::name('admin-archive-itemtype')->get('/admin/archive/itemtype', 'ArchiveController@getAdminArchiveItemType');
+		Route::post('/admin/archive/itemtype/restore', 'ArchiveController@postAdminArchiveItemTypeRestore');
+
+		//item
+		Route::name('admin-archive-item')->get('/admin/archive/item', 'ArchiveController@getAdminArchiveItem');
+		Route::post('/admin/archive/item/restore', 'ArchiveController@postAdminArchiveItemRestore');
+
+		//query query query query query query query query query query query query query query query query query query
+
+		//report report report report report report report report report report report report report report report report report report
+		Route::name('admin-report-firearmlicense')->get('/admin/report/firearmlicense', 'ReportController@getAdminFirearmLicense');
+		Route::name('admin-report-securitylicense')->get('/admin/report/securitylicense', 'ReportController@getAdminSecurityLicense');
+		Route::name('admin-report-equipment')->get('/admin/report/equipment', 'ReportController@getAdminEquipment');
+		Route::name('admin-report-mdr')->get('/admin/report/mdr', 'ReportController@getAdminMDR');
+	});
+
+	//executive executive executive executive executive executive executive executive executive executive executive executive executive executive 
+	Route::group(['middleware' => 'Amcor\Http\Middleware\ExecutiveMiddleware'], function() {
+		//transaction transaction transaction transaction transaction transaction transaction transaction transaction transaction transaction
+		//client
+		Route::name('admin-transaction-client')->get('/admin/transaction/client', 'ClientController@getAdminClient');
+		Route::post('/admin/transaction/client/new', 'ClientController@postAdminNew');
+		Route::post('/admin/transaction/client/companydetail', 'ClientController@postAdminCompanyDetail');
+		Route::post('/admin/transaction/client/clientinformation', 'ClientController@postAdminClientInformation');
+		Route::post('/admin/transaction/client/accountinformation', 'ClientController@postAdminAccountInformation');
+		
+		Route::post('/admin/transaction/client/contract/new', 'ClientController@postAdminContractNew');
+
+		//contract
+		Route::name('admin-transaction-contract')->get('/admin/transaction/contract', 'ContractController@getAdminContract');
+
+		Route::name('admin-contract-document')->get('/admin/contract/document/{contractid}', 'PDFController@getAdminContractDocument');
+
+		//maintenance maintenance maintenance maintenance maintenance maintenance maintenance maintenance maintenance maintenance maintenance
+
+		//utility utility utility utility utility utility utility utility utility utility utility utility utility utility utility utility 
+		//company
+		Route::name('admin-utility-company')->get('/admin/utility/company', 'UtilityController@getAdminCompany');
+		Route::post('/admin/utility/company', 'UtilityController@postAdminCompany');
+		Route::post('/admin/utility/company/logo', 'UtilityController@postAdminCompanyLogo');
+
+		//archive archive archive archive archive archive archive archive archive archive archive archive archive archive archive archive
+
+		//query query query query query query query query query query query query query query query query query query
+		Route::name('admin-query-clientcontract')->get('/admin/query/clientcontract', 'QueryController@getAdminClientContract');
+
+		//report report report report report report report report report report report report report report report report report report
+	});
+
+	//operation operation operation operation operation operation operation operation operation operation operation operation operation operation 
+	Route::group(['middleware' => 'Amcor\Http\Middleware\OperationMiddleware'], function() {
+		//transaction transaction transaction transaction transaction transaction transaction transaction transaction transaction transaction
+		//request
+		Route::name('admin-transaction-request')->get('/admin/transaction/request', 'RequestController@getAdminRequest');
+		Route::post('/admin/transaction/request/decline', 'RequestController@postAdminDecline');
+
+		Route::get('/admin/transaction/request/clientqualification', 'RequestController@getAdminClientQualification');
+		Route::get('/admin/transaction/request/securityguard/percent', 'RequestController@getAdminSecurityGuardPercent');
+		Route::post('/admin/transaction/request/clientqualification', 'RequestController@postAdminClientQualification');
+
+		Route::get('/admin/transaction/request/item/inventory', 'RequestController@getAdminItemInventory');
+		Route::get('/admin/transaction/request/firearm', 'RequestController@getAdminFirearm');
+		Route::post('/admin/transaction/request/item', 'RequestController@postAdminItem');
+
+		//maintenance maintenance maintenance maintenance maintenance maintenance maintenance maintenance maintenance maintenance maintenance
+		//commend
+		Route::name('admin-maintenance-commend')->get('/admin/maintenance/commend', 'MaintenanceController@getAdminCommend');
+		Route::post('/admin/maintenance/commend/new', 'MaintenanceController@postAdminCommendNew');
+		Route::post('/admin/maintenance/commend/update', 'MaintenanceController@postAdminCommendUpdate');
+		Route::post('/admin/maintenance/commend/remove', 'MaintenanceController@postAdminCommendRemove');
+
+		//violation
+		Route::name('admin-maintenance-violation')->get('/admin/maintenance/violation', 'MaintenanceController@getAdminViolation');
+		Route::post('/admin/maintenance/violation/new', 'MaintenanceController@postAdminViolationNew');
+		Route::post('/admin/maintenance/violation/update', 'MaintenanceController@postAdminViolationUpdate');
+		Route::post('/admin/maintenance/violation/remove', 'MaintenanceController@postAdminViolationRemove');
+
+		//utility utility utility utility utility utility utility utility utility utility utility utility utility utility utility utility 
+
+		//archive archive archive archive archive archive archive archive archive archive archive archive archive archive archive archive
+		//commend
+		Route::name('admin-archive-commend')->get('/admin/archive/commend', 'ArchiveController@getAdminArchiveCommend');
+		Route::post('/admin/archive/commend/restore', 'ArchiveController@postAdminArchiveCommendRestore');
+
+		//violation
+		Route::name('admin-archive-violation')->get('/admin/archive/violation', 'ArchiveController@getAdminArchiveViolation');
+		Route::post('/admin/archive/violation/restore', 'ArchiveController@postAdminArchiveViolationRestore');
+
+		//query query query query query query query query query query query query query query query query query query
+		Route::name('admin-query-securityguardcommend')->get('/admin/query/securityguardcommend', 'QueryController@getAdminSecurityGuardCommend');
+		Route::name('admin-query-securityguardviolation')->get('/admin/query/securityguardviolation', 'QueryController@getAdminSecurityGuardViolation');
+		Route::name('admin-query-deploymentsitearea')->get('/admin/query/deploymentsitearea', 'QueryController@getAdminDeploymentSiteArea');
+
+		//report report report report report report report report report report report report report report report report report report
+	});
+
+	//hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr 
+	Route::group(['middleware' => 'Amcor\Http\Middleware\HRMiddleware'], function() {
 		//transaction transaction transaction transaction transaction transaction transaction transaction transaction transaction transaction
 		//submit credential
 		Route::name('admin-transaction-submitcredential')->get('/admin/transaction/submitcredential', 'CredentialController@getAdminSubmitCredential');
@@ -115,48 +245,11 @@ Route::group(['middleware' => ['auth']], function() {
 		//security guard
 		Route::name('admin-transaction-securityguard')->get('/admin/transaction/securityguard', 'SecurityGuardController@getAdminSecurityGuard');
 
-		//contract
-		Route::name('admin-transaction-contract')->get('/admin/transaction/contract', 'ContractController@getAdminContract');
-
-		Route::name('admin-contract-document')->get('/admin/contract/document/{contractid}', 'PDFController@getAdminContractDocument');
-
-		//client
-		Route::name('admin-transaction-client')->get('/admin/transaction/client', 'ClientController@getAdminClient');
-		Route::post('/admin/transaction/client/new', 'ClientController@postAdminNew');
-		Route::post('/admin/transaction/client/companydetail', 'ClientController@postAdminCompanyDetail');
-		Route::post('/admin/transaction/client/clientinformation', 'ClientController@postAdminClientInformation');
-		Route::post('/admin/transaction/client/accountinformation', 'ClientController@postAdminAccountInformation');
-		
-		Route::post('/admin/transaction/client/contract/new', 'ClientController@postAdminContractNew');
-
-		//inventory
-		Route::name('admin-transaction-inventory')->get('/admin/transaction/inventory', 'InventoryController@getAdminInventory');
-		Route::post('/admin/transaction/inventory/item/add', 'InventoryController@postAdminItemAdd');
-		Route::post('/admin/transaction/inventory/firearm/add', 'InventoryController@postAdminFirearmAdd');
-
 		//deploy security guard
 		Route::name('admin-transaction-deploysecurityguard')->get('/admin/transaction/deploysecurityguard', 'DeployController@getAdminDeploySecurityGuard');
 		Route::post('/admin/transaction/deploysecurityguard', 'DeployController@postAdminDeploySecurityGuard');
 		Route::get('/admin/transaction/deploysecurityguard/clientqualification', 'DeployController@getAdminClientQualification');
 		Route::get('/admin/transaction/deploysecurityguard/securityguard/percent', 'DeployController@getAdminSecurityGuardPercent');
-
-		//deploy item
-		Route::name('admin-transaction-deployitem')->get('/admin/transaction/deployitem', 'DeployController@getAdminDeployItem');
-		Route::post('/admin/transaction/deployitem', 'DeployController@postAdminDeployItem');
-		Route::get('/admin/transaction/deployitem/firearm', 'DeployController@getAdminFirearm');
-		Route::get('/admin/transaction/deployitem/inventory/securityguard', 'DeployController@getAdminInventorySecurityGuard');
-
-		//request
-		Route::name('admin-transaction-request')->get('/admin/transaction/request', 'RequestController@getAdminRequest');
-		Route::post('/admin/transaction/request/decline', 'RequestController@postAdminDecline');
-
-		Route::get('/admin/transaction/request/clientqualification', 'RequestController@getAdminClientQualification');
-		Route::get('/admin/transaction/request/securityguard/percent', 'RequestController@getAdminSecurityGuardPercent');
-		Route::post('/admin/transaction/request/clientqualification', 'RequestController@postAdminClientQualification');
-
-		Route::get('/admin/transaction/request/item/inventory', 'RequestController@getAdminItemInventory');
-		Route::get('/admin/transaction/request/firearm', 'RequestController@getAdminFirearm');
-		Route::post('/admin/transaction/request/item', 'RequestController@postAdminItem');
 
 		//maintenance maintenance maintenance maintenance maintenance maintenance maintenance maintenance maintenance maintenance maintenance
 		//assessment topic
@@ -165,35 +258,11 @@ Route::group(['middleware' => ['auth']], function() {
 		Route::post('/admin/maintenance/assessmenttopic/update', 'MaintenanceController@postAdminAssessmentTopicUpdate');
 		Route::post('/admin/maintenance/assessmenttopic/remove', 'MaintenanceController@postAdminAssessmentTopicRemove');
 
-		//item type
-		Route::name('admin-maintenance-itemtype')->get('/admin/maintenance/itemtype', 'MaintenanceController@getAdminItemType');
-		Route::post('/admin/maintenance/itemtype/new', 'MaintenanceController@postAdminItemTypeNew');
-		Route::post('/admin/maintenance/itemtype/update', 'MaintenanceController@postAdminItemTypeUpdate');
-		Route::post('/admin/maintenance/itemtype/remove', 'MaintenanceController@postAdminItemTypeRemove');
-
-		//item
-		Route::name('admin-maintenance-item')->get('/admin/maintenance/item', 'MaintenanceController@getAdminItem');
-		Route::post('/admin/maintenance/item/new', 'MaintenanceController@postAdminItemNew');
-		Route::post('/admin/maintenance/item/update', 'MaintenanceController@postAdminItemUpdate');
-		Route::post('/admin/maintenance/item/remove', 'MaintenanceController@postAdminItemRemove');
-
 		//requirement
 		Route::name('admin-maintenance-requirement')->get('/admin/maintenance/requirement', 'MaintenanceController@getAdminRequirement');
 		Route::post('/admin/maintenance/requirement/new', 'MaintenanceController@postAdminRequirementNew');
 		Route::post('/admin/maintenance/requirement/update', 'MaintenanceController@postAdminRequirementUpdate');
 		Route::post('/admin/maintenance/requirement/remove', 'MaintenanceController@postAdminRequirementRemove');
-
-		//commend
-		Route::name('admin-maintenance-commend')->get('/admin/maintenance/commend', 'MaintenanceController@getAdminCommend');
-		Route::post('/admin/maintenance/commend/new', 'MaintenanceController@postAdminCommendNew');
-		Route::post('/admin/maintenance/commend/update', 'MaintenanceController@postAdminCommendUpdate');
-		Route::post('/admin/maintenance/commend/remove', 'MaintenanceController@postAdminCommendRemove');
-
-		//violation
-		Route::name('admin-maintenance-violation')->get('/admin/maintenance/violation', 'MaintenanceController@getAdminViolation');
-		Route::post('/admin/maintenance/violation/new', 'MaintenanceController@postAdminViolationNew');
-		Route::post('/admin/maintenance/violation/update', 'MaintenanceController@postAdminViolationUpdate');
-		Route::post('/admin/maintenance/violation/remove', 'MaintenanceController@postAdminViolationRemove');
 
 		//multiple choice
 		Route::name('admin-maintenance-multiplechoice')->get('/admin/maintenance/multiplechoice', 'MaintenanceController@getAdminMultipleChoice');
@@ -236,14 +305,6 @@ Route::group(['middleware' => ['auth']], function() {
 		Route::post('/admin/maintenance/testquestion/new', 'MaintenanceController@postAdminTestQuestionNew');
 		Route::post('/admin/maintenance/testquestion/remove', 'MaintenanceController@postAdminTestQuestionRemove');
 
-		//query query query query query query query query query query query query query query query query query query
-		Route::name('admin-query-securityguardscore')->get('/admin/query/securityguardscore', 'QueryController@getAdminSecurityGuardScore');
-		Route::name('admin-query-securityguardvacant')->get('/admin/query/securityguardvacant', 'QueryController@getAdminSecurityGuardVacant');
-		Route::name('admin-query-securityguardcommend')->get('/admin/query/securityguardcommend', 'QueryController@getAdminSecurityGuardCommend');
-		Route::name('admin-query-securityguardviolation')->get('/admin/query/securityguardviolation', 'QueryController@getAdminSecurityGuardViolation');
-		Route::name('admin-query-clientcontract')->get('/admin/query/clientcontract', 'QueryController@getAdminClientContract');
-		Route::name('admin-query-deploymentsitearea')->get('/admin/query/deploymentsitearea', 'QueryController@getAdminDeploymentSiteArea');
-
 		//utility utility utility utility utility utility utility utility utility utility utility utility utility utility utility utility 
 		//appointment
 		Route::name('admin-utility-appointment')->get('/admin/utility/appointment', 'UtilityController@getAdminAppointment');
@@ -257,45 +318,25 @@ Route::group(['middleware' => ['auth']], function() {
 		Route::name('admin-archive-assessmenttopic')->get('/admin/archive/assessmenttopic', 'ArchiveController@getAdminArchiveAssessmentTopic');
 		Route::post('/admin/archive/assessmenttopic/restore', 'ArchiveController@postAdminArchiveAssessmentTopicRestore');
 
-		//industry type
-		Route::name('admin-archive-industrytype')->get('/admin/archive/industrytype', 'ArchiveController@getAdminArchiveIndustryType');
-		Route::post('/admin/archive/industrytype/restore', 'ArchiveController@postAdminArchiveIndustryTypeRestore');
-
 		//requirement
 		Route::name('admin-archive-requirement')->get('/admin/archive/requirement', 'ArchiveController@getAdminArchiveRequirement');
 		Route::post('/admin/archive/requirement/restore', 'ArchiveController@postAdminArchiveRequirementRestore');
 
-		//commend
-		Route::name('admin-archive-commend')->get('/admin/archive/commend', 'ArchiveController@getAdminArchiveCommend');
-		Route::post('/admin/archive/commend/restore', 'ArchiveController@postAdminArchiveCommendRestore');
-
-		//violation
-		Route::name('admin-archive-violation')->get('/admin/archive/violation', 'ArchiveController@getAdminArchiveViolation');
-		Route::post('/admin/archive/violation/restore', 'ArchiveController@postAdminArchiveViolationRestore');
-
 		//test
 		Route::name('admin-archive-test')->get('/admin/archive/test', 'ArchiveController@getAdminArchiveTest');
 		Route::post('/admin/archive/test/restore', 'ArchiveController@postAdminArchiveTestRestore');
-
-		//item type
-		Route::name('admin-archive-itemtype')->get('/admin/archive/itemtype', 'ArchiveController@getAdminArchiveItemType');
-		Route::post('/admin/archive/itemtype/restore', 'ArchiveController@postAdminArchiveItemTypeRestore');
-
-		//item
-		Route::name('admin-archive-item')->get('/admin/archive/item', 'ArchiveController@getAdminArchiveItem');
-		Route::post('/admin/archive/item/restore', 'ArchiveController@postAdminArchiveItemRestore');
 
 		//question
 		Route::name('admin-archive-question')->get('/admin/archive/question', 'ArchiveController@getAdminArchiveQuestion');
 		Route::post('/admin/archive/question/change', 'ArchiveController@postAdminArchiveQuestionChange');
 		Route::post('/admin/archive/question/restore', 'ArchiveController@postAdminArchiveQuestionRestore');
 
+		//query query query query query query query query query query query query query query query query query query
+		Route::name('admin-query-securityguardscore')->get('/admin/query/securityguardscore', 'QueryController@getAdminSecurityGuardScore');
+		Route::name('admin-query-securityguardvacant')->get('/admin/query/securityguardvacant', 'QueryController@getAdminSecurityGuardVacant');
+
 		//report report report report report report report report report report report report report report report report report report
-		Route::name('admin-report-firearmlicense')->get('/admin/report/firearmlicense', 'ReportController@getAdminFirearmLicense');
-		Route::name('admin-report-securitylicense')->get('/admin/report/securitylicense', 'ReportController@getAdminSecurityLicense');
-		Route::name('admin-report-equipment')->get('/admin/report/equipment', 'ReportController@getAdminEquipment');
 		Route::name('admin-report-ddo')->get('/admin/report/ddo', 'ReportController@getAdminDDO');
-		Route::name('admin-report-mdr')->get('/admin/report/mdr', 'ReportController@getAdminMDR');
 	});
 
 	//client client client client client client client client client client client client client client client client client client 

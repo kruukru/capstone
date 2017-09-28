@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>AMCOR</title>
+	<title>{{$company->shortname}}</title>
 	<meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
@@ -14,8 +14,8 @@
   <header class="main-header">
     <!-- Logo -->
     <a href="{{ route('home') }}" class="logo">
-      <img src="images/amcor.png" style="height: 40px; width: 40px;">
-      <span class="logo-sm"><b>AMCOR</b></span>
+      <img src="images/{{$company->logo}}" style="height: 40px; width: 40px;">
+      <span class="logo-sm"><b>{{$company->shortname}}</b></span>
     </a>
 
     <!-- Header Navbar -->

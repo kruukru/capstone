@@ -1,9 +1,9 @@
 @extends('admin.templates.default')
 
 @section('content')
-<!-- <section class="content-header">
-	<h1>Dashboard</h1>
-</section> -->
+<section class="content-header">
+	<h1>Dashboard HR</h1>
+</section>
 @endsection
 
 @section('meta')

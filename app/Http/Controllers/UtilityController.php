@@ -7,14 +7,17 @@ use Amcor\Holiday;
 use Amcor\AppointmentSlot;
 use Amcor\AppointmentDate;
 use Amcor\Appointment;
+use Amcor\Company;
 use Carbon\Carbon;
 use DateTime;
 use DateInterval;
 use DatePeriod;
 use Response;
+use Image;
 
 class UtilityController extends Controller
 {
+    //appointment appointment appointment appointment appointment appointment appointment appointment appointment appointment 
     public function getAdminAppointment() {
     	$holidays = Holiday::get();
         $appointmentslot = AppointmentSlot::first();
@@ -212,5 +215,38 @@ class UtilityController extends Controller
         $holiday->delete();
 
         return Response::json($holiday);
+    }
+
+    //company company company company company company company company company company company company company company company company 
+    public function getAdminCompany() {
+        return view('admin.utility.company');
+    }
+
+    public function postAdminCompany(Request $request) {
+        $company = Company::first();
+
+        $company->name = $request->inputName;
+        $company->shortname = $request->inputShortName;
+        $company->address = $request->inputAddress;
+        $company->contactno = $request->inputContactNo;
+        $company->save();
+
+        return Response::json($company);
+    }
+
+    public function postAdminCompanyLogo(Request $request) {
+        $company = Company::first();
+
+        if ($request->hasFile('image')) {
+            \File::delete('images/' . $company->logo);
+
+            $picture = $request->file('image');
+
+            $filename = time() . $picture->getClientOriginalName();
+            Image::make($picture)->save('images/' . $filename);
+
+            $company->logo = $filename;
+            $company->save();
+        }
     }
 }

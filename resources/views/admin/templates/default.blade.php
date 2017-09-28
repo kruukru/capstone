@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>AMCOR</title>
+	<title>{{$company->shortname}}</title>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
@@ -10,13 +10,13 @@
 	@include('templates.mycss')
 	@yield('css')
 </head>
-<body class="skin-blue fixed hold-transition sidebar-mini sidebar-collapse">
+<body class="skin-blue fixed hold-transition sidebar-mini">
 	<!-- HEADER -->
 	<header class="main-header">
 		<!-- Logo -->
 		<a href="{{ route('home') }}" class="logo">
-			<span class="logo-mini"><img src="/images/amcor.png" style="height: 30px; width: 30px;"></span>
-			<span class="logo-lg"><img src="/images/amcor.png" style="height: 40px; width: 40px;"><b> AMCOR</b></span>
+			<span class="logo-mini"><img src="/images/{{$company->logo}}" style="height: 30px; width: 30px;"></span>
+			<span class="logo-lg"><img src="/images/{{$company->logo}}" style="height: 40px; width: 40px;"><b> {{$company->shortname}}</b></span>
 		</a>
 		<!-- Header Navbar -->
 		<nav class="navbar navbar-static-top" role="navigation">
@@ -113,103 +113,122 @@
 						@endif
 					</ul>
 				</li>
-				<!-- maintenance -->
-				<li class="treeview {{Request::path() == 'admin/maintenance/requirement' ? 'active' : ''}} {{Request::path() == 'admin/maintenance/multiplechoice' ? 'active' : ''}} {{Request::path() == 'admin/maintenance/trueorfalse' ? 'active' : ''}} {{Request::path() == 'admin/maintenance/identification' ? 'active' : ''}} {{Request::path() == 'admin/maintenance/essay' ? 'active' : ''}} {{Request::path() == 'admin/maintenance/test' ? 'active' : ''}} {{Request::path() == 'admin/maintenance/assessmenttopic' ? 'active' : ''}} {{Request::path() == 'admin/maintenance/itemtype' ? 'active' : ''}} {{Request::path() == 'admin/maintenance/item' ? 'active' : ''}} {{Request::path() == 'admin/maintenance/commend' ? 'active' : ''}} {{Request::path() == 'admin/maintenance/violation' ? 'active' : ''}}">
-					<a href="#"><i class="fa fa-cogs"></i><span>MAINTENANCE</span><i class="fa fa-angle-left pull-right"></i></a>
-					<ul class="treeview-menu">
-						@if (Auth::user()->accounttype == 0)
-							<li class="{{Request::path() == 'admin/maintenance/itemtype' ? 'active' : ''}}"><a href="{{ route('admin-maintenance-itemtype') }}"><i class="fa fa-circle-o"></i>Item Type</a></li>
-							<li class="{{Request::path() == 'admin/maintenance/item' ? 'active' : ''}}"><a href="{{ route('admin-maintenance-item') }}"><i class="fa fa-circle-o"></i>Item</a></li>
-						@elseif (Auth::user()->accounttype == 1)
+				@if (Auth::user()->accounttype != 1)
+					<!-- maintenance -->
+					<li class="treeview {{Request::path() == 'admin/maintenance/requirement' ? 'active' : ''}} {{Request::path() == 'admin/maintenance/multiplechoice' ? 'active' : ''}} {{Request::path() == 'admin/maintenance/trueorfalse' ? 'active' : ''}} {{Request::path() == 'admin/maintenance/identification' ? 'active' : ''}} {{Request::path() == 'admin/maintenance/essay' ? 'active' : ''}} {{Request::path() == 'admin/maintenance/test' ? 'active' : ''}} {{Request::path() == 'admin/maintenance/assessmenttopic' ? 'active' : ''}} {{Request::path() == 'admin/maintenance/itemtype' ? 'active' : ''}} {{Request::path() == 'admin/maintenance/item' ? 'active' : ''}} {{Request::path() == 'admin/maintenance/commend' ? 'active' : ''}} {{Request::path() == 'admin/maintenance/violation' ? 'active' : ''}}">
+						<a href="#"><i class="fa fa-cogs"></i><span>MAINTENANCE</span><i class="fa fa-angle-left pull-right"></i></a>
+						<ul class="treeview-menu">
+							@if (Auth::user()->accounttype == 0)
+								<li class="{{Request::path() == 'admin/maintenance/itemtype' ? 'active' : ''}}"><a href="{{ route('admin-maintenance-itemtype') }}"><i class="fa fa-circle-o"></i>Item Type</a></li>
+								<li class="{{Request::path() == 'admin/maintenance/item' ? 'active' : ''}}"><a href="{{ route('admin-maintenance-item') }}"><i class="fa fa-circle-o"></i>Item</a></li>
+							@elseif (Auth::user()->accounttype == 1)
 
-						@elseif (Auth::user()->accounttype == 2)
-							<li class="{{Request::path() == 'admin/maintenance/commend' ? 'active' : ''}}"><a href="{{ route('admin-maintenance-commend') }}"><i class="fa fa-circle-o"></i>Commend</a></li>
-							<li class="{{Request::path() == 'admin/maintenance/violation' ? 'active' : ''}}"><a href="{{ route('admin-maintenance-violation') }}"><i class="fa fa-circle-o"></i>Violation</a></li>
-						@elseif (Auth::user()->accounttype == 3)
-							<li class="{{Request::path() == 'admin/maintenance/requirement' ? 'active' : ''}}"><a href="{{ route('admin-maintenance-requirement') }}"><i class="fa fa-circle-o"></i>Applicant Requirement</a></li>
-							<!-- treeview for test -->
-							<li class="treeview {{Request::path() == 'admin/maintenance/multiplechoice' ? 'active' : ''}} {{Request::path() == 'admin/maintenance/trueorfalse' ? 'active' : ''}} {{Request::path() == 'admin/maintenance/identification' ? 'active' : ''}} {{Request::path() == 'admin/maintenance/essay' ? 'active' : ''}} {{Request::path() == 'admin/maintenance/test' ? 'active' : ''}}">
-								<a href="#"><span>Test</span><i class="fa fa-angle-left"></i></a>
-								<ul class="treeview-menu">
-									<!-- treeview for question -->
-									<li class="treeview {{Request::path() == 'admin/maintenance/multiplechoice' ? 'active' : ''}} {{Request::path() == 'admin/maintenance/trueorfalse' ? 'active' : ''}} {{Request::path() == 'admin/maintenance/identification' ? 'active' : ''}} {{Request::path() == 'admin/maintenance/essay' ? 'active' : ''}}">
-										<a href="#"><span></i>Question</span><i class="fa fa-angle-left pull-right"></i></a>
-										<ul class="treeview-menu">
-											<li class="{{Request::path() == 'admin/maintenance/multiplechoice' ? 'active' : ''}}"><a href="{{ route('admin-maintenance-multiplechoice') }}"><i class="fa fa-circle-o"></i>Multiple Choice</a></li>
-											<li class="{{Request::path() == 'admin/maintenance/trueorfalse' ? 'active' : ''}}"><a href="{{ route('admin-maintenance-trueorfalse') }}"><i class="fa fa-circle-o"></i>True or False</a></li>
-											<li class="{{Request::path() == 'admin/maintenance/identification' ? 'active' : ''}}"><a href="{{ route('admin-maintenance-identification') }}"><i class="fa fa-circle-o"></i>Identification</a></li>
-											<li class="{{Request::path() == 'admin/maintenance/essay' ? 'active' : ''}}"><a href="{{ route('admin-maintenance-essay') }}"><i class="fa fa-circle-o"></i>Essay</a></li>
-										</ul>
-									</li>
-									<li class="{{Request::path() == 'admin/maintenance/test' ? 'active' : ''}}"><a href="{{ route('admin-maintenance-test') }}"><i class="fa fa-circle-o"></i>Test Form</a></li>
-								</ul>
-							</li>
-							<li class="{{Request::path() == 'admin/maintenance/assessmenttopic' ? 'active' : ''}}"><a href="{{ route('admin-maintenance-assessmenttopic') }}"><i class="fa fa-circle-o"></i>Assessment Topic</a></li>
-						@endif
-					</ul>
-				</li>
-				<!-- utilities -->
-				<li class="treeview {{Request::path() == 'admin/utility/appointment' ? 'active' : ''}}">
-					<a href="#"><i class="fa fa-th-list"></i><span>UTILITY</span><i class="fa fa-angle-left pull-right"></i></a>
-					<ul class="treeview-menu">
-						<li class="{{Request::path() == 'admin/utility/appointment' ? 'active' : ''}}"><a href="{{ route('admin-utility-appointment') }}"><i class="fa fa-circle-o"></i>Appointment</a></li>
-					</ul>
-				</li>
-				<!-- archive -->
-				<li class="treeview {{Request::path() == 'admin/archive/commend' ? 'active' : ''}} {{Request::path() == 'admin/archive/requirement' ? 'active' : ''}} {{Request::path() == 'admin/archive/violation' ? 'active' : ''}} {{Request::path() == 'admin/archive/itemtype' ? 'active' : ''}} {{Request::path() == 'admin/archive/item' ? 'active' : ''}} {{Request::path() == 'admin/archive/assessmenttopic' ? 'active' : ''}} {{Request::path() == 'admin/archive/question' ? 'active' : ''}} {{Request::path() == 'admin/archive/test' ? 'active' : ''}}">
-					<a href="#"><i class="fa fa-archive"></i><span>ARCHIVE</span><i class="fa fa-angle-left pull-right"></i></a>
-					<ul class="treeview-menu">
-						@if (Auth::user()->accounttype == 0)
-							<li class="{{Request::path() == 'admin/archive/itemtype' ? 'active' : ''}}"><a href="{{ route('admin-archive-itemtype') }}"><i class="fa fa-circle-o"></i>Item Type</a></li>
-							<li class="{{Request::path() == 'admin/archive/item' ? 'active' : ''}}"><a href="{{ route('admin-archive-item') }}"><i class="fa fa-circle-o"></i>Item</a></li>
-						@elseif (Auth::user()->accounttype == 1)
+							@elseif (Auth::user()->accounttype == 2)
+								<li class="{{Request::path() == 'admin/maintenance/commend' ? 'active' : ''}}"><a href="{{ route('admin-maintenance-commend') }}"><i class="fa fa-circle-o"></i>Commend</a></li>
+								<li class="{{Request::path() == 'admin/maintenance/violation' ? 'active' : ''}}"><a href="{{ route('admin-maintenance-violation') }}"><i class="fa fa-circle-o"></i>Violation</a></li>
+							@elseif (Auth::user()->accounttype == 3)
+								<li class="{{Request::path() == 'admin/maintenance/requirement' ? 'active' : ''}}"><a href="{{ route('admin-maintenance-requirement') }}"><i class="fa fa-circle-o"></i>Applicant Requirement</a></li>
+								<!-- treeview for test -->
+								<li class="treeview {{Request::path() == 'admin/maintenance/multiplechoice' ? 'active' : ''}} {{Request::path() == 'admin/maintenance/trueorfalse' ? 'active' : ''}} {{Request::path() == 'admin/maintenance/identification' ? 'active' : ''}} {{Request::path() == 'admin/maintenance/essay' ? 'active' : ''}} {{Request::path() == 'admin/maintenance/test' ? 'active' : ''}}">
+									<a href="#"><span>Test</span><i class="fa fa-angle-left"></i></a>
+									<ul class="treeview-menu">
+										<!-- treeview for question -->
+										<li class="treeview {{Request::path() == 'admin/maintenance/multiplechoice' ? 'active' : ''}} {{Request::path() == 'admin/maintenance/trueorfalse' ? 'active' : ''}} {{Request::path() == 'admin/maintenance/identification' ? 'active' : ''}} {{Request::path() == 'admin/maintenance/essay' ? 'active' : ''}}">
+											<a href="#"><span></i>Question</span><i class="fa fa-angle-left pull-right"></i></a>
+											<ul class="treeview-menu">
+												<li class="{{Request::path() == 'admin/maintenance/multiplechoice' ? 'active' : ''}}"><a href="{{ route('admin-maintenance-multiplechoice') }}"><i class="fa fa-circle-o"></i>Multiple Choice</a></li>
+												<li class="{{Request::path() == 'admin/maintenance/trueorfalse' ? 'active' : ''}}"><a href="{{ route('admin-maintenance-trueorfalse') }}"><i class="fa fa-circle-o"></i>True or False</a></li>
+												<li class="{{Request::path() == 'admin/maintenance/identification' ? 'active' : ''}}"><a href="{{ route('admin-maintenance-identification') }}"><i class="fa fa-circle-o"></i>Identification</a></li>
+												<li class="{{Request::path() == 'admin/maintenance/essay' ? 'active' : ''}}"><a href="{{ route('admin-maintenance-essay') }}"><i class="fa fa-circle-o"></i>Essay</a></li>
+											</ul>
+										</li>
+										<li class="{{Request::path() == 'admin/maintenance/test' ? 'active' : ''}}"><a href="{{ route('admin-maintenance-test') }}"><i class="fa fa-circle-o"></i>Test Form</a></li>
+									</ul>
+								</li>
+								<li class="{{Request::path() == 'admin/maintenance/assessmenttopic' ? 'active' : ''}}"><a href="{{ route('admin-maintenance-assessmenttopic') }}"><i class="fa fa-circle-o"></i>Assessment Topic</a></li>
+							@endif
+						</ul>
+					</li>
+				@endif
+				@if (Auth::user()->accounttype == 1 || Auth::user()->accounttype == 3)
+					<!-- utilities -->
+					<li class="treeview {{Request::path() == 'admin/utility/company' ? 'active' : ''}} {{Request::path() == 'admin/utility/appointment' ? 'active' : ''}}">
+						<a href="#"><i class="fa fa-th-list"></i><span>UTILITY</span><i class="fa fa-angle-left pull-right"></i></a>
+						<ul class="treeview-menu">
+							@if (Auth::user()->accounttype == 0)
 
-						@elseif (Auth::user()->accounttype == 2)
-							<li class="{{Request::path() == 'admin/archive/commend' ? 'active' : ''}}"><a href="{{ route('admin-archive-commend') }}"><i class="fa fa-circle-o"></i>Commend</a></li>
-						<li class="{{Request::path() == 'admin/archive/violation' ? 'active' : ''}}"><a href="{{ route('admin-archive-violation') }}"><i class="fa fa-circle-o"></i>Violation</a></li>
-						@elseif (Auth::user()->accounttype == 3)
-							<li class="{{Request::path() == 'admin/archive/requirement' ? 'active' : ''}}"><a href="{{ route('admin-archive-requirement') }}"><i class="fa fa-circle-o"></i>Applicant Requirement</a></li>
-							<li class="{{Request::path() == 'admin/archive/test' ? 'active' : ''}}"><a href="{{ route('admin-archive-test') }}"><i class="fa fa-circle-o"></i>Test Form</a></li>
-							<li class="{{Request::path() == 'admin/archive/question' ? 'active' : ''}}"><a href="{{ route('admin-archive-question') }}"><i class="fa fa-circle-o"></i>Question</a></li>
-							<li class="{{Request::path() == 'admin/archive/assessmenttopic' ? 'active' : ''}}"><a href="{{ route('admin-archive-assessmenttopic') }}"><i class="fa fa-circle-o"></i>Assessment Topic</a></li>
-						@endif
-					</ul>
-				</li>
-				<!-- queries -->
-				<li class="treeview {{Request::path() == 'admin/query/securityguardscore' ? 'active' : ''}} {{Request::path() == 'admin/query/securityguardvacant' ? 'active' : ''}} {{Request::path() == 'admin/query/securityguardcommend' ? 'active' : ''}} {{Request::path() == 'admin/query/securityguardviolation' ? 'active' : ''}} {{Request::path() == 'admin/query/clientcontract' ? 'active' : ''}} {{Request::path() == 'admin/query/deploymentsitearea' ? 'active' : ''}}">
-					<a href="#"><i class="fa fa-book"></i><span>QUERY</span><i class="fa fa-angle-left pull-right"></i></a>
-					<ul class="treeview-menu">
-						@if (Auth::user()->accounttype == 0)
+							@elseif (Auth::user()->accounttype == 1)
+								<li class="{{Request::path() == 'admin/utility/company' ? 'active' : ''}}"><a href="{{ route('admin-utility-company') }}"><i class="fa fa-circle-o"></i>Company</a></li>
+							@elseif (Auth::user()->accounttype == 2)
 
-						@elseif (Auth::user()->accounttype == 1)
-							<li class="{{Request::path() == 'admin/query/clientcontract' ? 'active' : ''}}"><a href="{{ route('admin-query-clientcontract') }}"><i class="fa fa-circle-o"></i>Client Contract</a></li>
-						@elseif (Auth::user()->accounttype == 2)
-							<li class="{{Request::path() == 'admin/query/securityguardcommend' ? 'active' : ''}}"><a href="{{ route('admin-query-securityguardcommend') }}"><i class="fa fa-circle-o"></i>SG Commend</a></li>
-							<li class="{{Request::path() == 'admin/query/securityguardviolation' ? 'active' : ''}}"><a href="{{ route('admin-query-securityguardviolation') }}"><i class="fa fa-circle-o"></i>SG Violation</a></li>
-							<li class="{{Request::path() == 'admin/query/deploymentsitearea' ? 'active' : ''}}"><a href="{{ route('admin-query-deploymentsitearea') }}"><i class="fa fa-circle-o"></i>Deployment Site Area</a></li>
-						@elseif (Auth::user()->accounttype == 3)
-							<li class="{{Request::path() == 'admin/query/securityguardscore' ? 'active' : ''}}"><a href="{{ route('admin-query-securityguardscore') }}"><i class="fa fa-circle-o"></i>SG Score</a></li>
-							<li class="{{Request::path() == 'admin/query/securityguardvacant' ? 'active' : ''}}"><a href="{{ route('admin-query-securityguardvacant') }}"><i class="fa fa-circle-o"></i>SG Vacant</a></li>
-						@endif
-					</ul>
-				</li>
-				<!-- reports -->
-				<li class="treeview {{Request::path() == 'admin/report/firearmlicense' ? 'active' : ''}} {{Request::path() == 'admin/report/securitylicense' ? 'active' : ''}} {{Request::path() == 'admin/report/equipment' ? 'active' : ''}} {{Request::path() == 'admin/report/ddo' ? 'active' : ''}} {{Request::path() == 'admin/report/mdr' ? 'active' : ''}}">
-					<a href="#"><i class="fa fa-file-text"></i><span>REPORT</span><i class="fa fa-angle-left pull-right"></i></a>
-					<ul class="treeview-menu">
-						@if (Auth::user()->accounttype == 0)
-							<li class="{{Request::path() == 'admin/report/firearmlicense' ? 'active' : ''}}"><a href="{{ route('admin-report-firearmlicense') }}"><i class="fa fa-circle-o"></i>Firearm License</a></li>
-							<li class="{{Request::path() == 'admin/report/securitylicense' ? 'active' : ''}}"><a href="{{ route('admin-report-securitylicense') }}"><i class="fa fa-circle-o"></i>Security License</a></li>
-							<li class="{{Request::path() == 'admin/report/equipment' ? 'active' : ''}}"><a href="{{ route('admin-report-equipment') }}"><i class="fa fa-circle-o"></i>Equipment</a></li>
-						@elseif (Auth::user()->accounttype == 1)
+							@elseif (Auth::user()->accounttype == 3)
+								<li class="{{Request::path() == 'admin/utility/appointment' ? 'active' : ''}}"><a href="{{ route('admin-utility-appointment') }}"><i class="fa fa-circle-o"></i>Appointment</a></li>
+							@endif
+						</ul>
+					</li>
+				@endif
+				@if (Auth::user()->accounttype != 1)
+					<!-- archive -->
+					<li class="treeview {{Request::path() == 'admin/archive/commend' ? 'active' : ''}} {{Request::path() == 'admin/archive/requirement' ? 'active' : ''}} {{Request::path() == 'admin/archive/violation' ? 'active' : ''}} {{Request::path() == 'admin/archive/itemtype' ? 'active' : ''}} {{Request::path() == 'admin/archive/item' ? 'active' : ''}} {{Request::path() == 'admin/archive/assessmenttopic' ? 'active' : ''}} {{Request::path() == 'admin/archive/question' ? 'active' : ''}} {{Request::path() == 'admin/archive/test' ? 'active' : ''}}">
+						<a href="#"><i class="fa fa-archive"></i><span>ARCHIVE</span><i class="fa fa-angle-left pull-right"></i></a>
+						<ul class="treeview-menu">
+							@if (Auth::user()->accounttype == 0)
+								<li class="{{Request::path() == 'admin/archive/itemtype' ? 'active' : ''}}"><a href="{{ route('admin-archive-itemtype') }}"><i class="fa fa-circle-o"></i>Item Type</a></li>
+								<li class="{{Request::path() == 'admin/archive/item' ? 'active' : ''}}"><a href="{{ route('admin-archive-item') }}"><i class="fa fa-circle-o"></i>Item</a></li>
+							@elseif (Auth::user()->accounttype == 1)
 
-						@elseif (Auth::user()->accounttype == 2)
-							<li class="{{Request::path() == 'admin/report/mdr' ? 'active' : ''}}"><a href="{{ route('admin-report-mdr') }}"><i class="fa fa-circle-o"></i>MDR</a></li>
-						@elseif (Auth::user()->accounttype == 3)
-							<li class="{{Request::path() == 'admin/report/ddo' ? 'active' : ''}}"><a href="{{ route('admin-report-ddo') }}"><i class="fa fa-circle-o"></i>DDO</a></li>
-						@endif
-					</ul>
-				</li>
+							@elseif (Auth::user()->accounttype == 2)
+								<li class="{{Request::path() == 'admin/archive/commend' ? 'active' : ''}}"><a href="{{ route('admin-archive-commend') }}"><i class="fa fa-circle-o"></i>Commend</a></li>
+							<li class="{{Request::path() == 'admin/archive/violation' ? 'active' : ''}}"><a href="{{ route('admin-archive-violation') }}"><i class="fa fa-circle-o"></i>Violation</a></li>
+							@elseif (Auth::user()->accounttype == 3)
+								<li class="{{Request::path() == 'admin/archive/requirement' ? 'active' : ''}}"><a href="{{ route('admin-archive-requirement') }}"><i class="fa fa-circle-o"></i>Applicant Requirement</a></li>
+								<li class="{{Request::path() == 'admin/archive/test' ? 'active' : ''}}"><a href="{{ route('admin-archive-test') }}"><i class="fa fa-circle-o"></i>Test Form</a></li>
+								<li class="{{Request::path() == 'admin/archive/question' ? 'active' : ''}}"><a href="{{ route('admin-archive-question') }}"><i class="fa fa-circle-o"></i>Question</a></li>
+								<li class="{{Request::path() == 'admin/archive/assessmenttopic' ? 'active' : ''}}"><a href="{{ route('admin-archive-assessmenttopic') }}"><i class="fa fa-circle-o"></i>Assessment Topic</a></li>
+							@endif
+						</ul>
+					</li>
+				@endif
+				@if (Auth::user()->accounttype != 0)
+					<!-- queries -->
+					<li class="treeview {{Request::path() == 'admin/query/securityguardscore' ? 'active' : ''}} {{Request::path() == 'admin/query/securityguardvacant' ? 'active' : ''}} {{Request::path() == 'admin/query/securityguardcommend' ? 'active' : ''}} {{Request::path() == 'admin/query/securityguardviolation' ? 'active' : ''}} {{Request::path() == 'admin/query/clientcontract' ? 'active' : ''}} {{Request::path() == 'admin/query/deploymentsitearea' ? 'active' : ''}}">
+						<a href="#"><i class="fa fa-book"></i><span>QUERY</span><i class="fa fa-angle-left pull-right"></i></a>
+						<ul class="treeview-menu">
+							@if (Auth::user()->accounttype == 0)
+
+							@elseif (Auth::user()->accounttype == 1)
+								<li class="{{Request::path() == 'admin/query/clientcontract' ? 'active' : ''}}"><a href="{{ route('admin-query-clientcontract') }}"><i class="fa fa-circle-o"></i>Client Contract</a></li>
+							@elseif (Auth::user()->accounttype == 2)
+								<li class="{{Request::path() == 'admin/query/securityguardcommend' ? 'active' : ''}}"><a href="{{ route('admin-query-securityguardcommend') }}"><i class="fa fa-circle-o"></i>SG Commend</a></li>
+								<li class="{{Request::path() == 'admin/query/securityguardviolation' ? 'active' : ''}}"><a href="{{ route('admin-query-securityguardviolation') }}"><i class="fa fa-circle-o"></i>SG Violation</a></li>
+								<li class="{{Request::path() == 'admin/query/deploymentsitearea' ? 'active' : ''}}"><a href="{{ route('admin-query-deploymentsitearea') }}"><i class="fa fa-circle-o"></i>Deployment Site Area</a></li>
+							@elseif (Auth::user()->accounttype == 3)
+								<li class="{{Request::path() == 'admin/query/securityguardscore' ? 'active' : ''}}"><a href="{{ route('admin-query-securityguardscore') }}"><i class="fa fa-circle-o"></i>SG Score</a></li>
+								<li class="{{Request::path() == 'admin/query/securityguardvacant' ? 'active' : ''}}"><a href="{{ route('admin-query-securityguardvacant') }}"><i class="fa fa-circle-o"></i>SG Vacant</a></li>
+							@endif
+						</ul>
+					</li>
+				@endif
+				@if (Auth::user()->accounttype == 0 || Auth::user()->accounttype == 3)
+					<!-- reports -->
+					<li class="treeview {{Request::path() == 'admin/report/firearmlicense' ? 'active' : ''}} {{Request::path() == 'admin/report/securitylicense' ? 'active' : ''}} {{Request::path() == 'admin/report/equipment' ? 'active' : ''}} {{Request::path() == 'admin/report/ddo' ? 'active' : ''}} {{Request::path() == 'admin/report/mdr' ? 'active' : ''}}">
+						<a href="#"><i class="fa fa-file-text"></i><span>REPORT</span><i class="fa fa-angle-left pull-right"></i></a>
+						<ul class="treeview-menu">
+							@if (Auth::user()->accounttype == 0)
+								<li class="{{Request::path() == 'admin/report/firearmlicense' ? 'active' : ''}}"><a href="{{ route('admin-report-firearmlicense') }}"><i class="fa fa-circle-o"></i>Firearm License</a></li>
+								<li class="{{Request::path() == 'admin/report/securitylicense' ? 'active' : ''}}"><a href="{{ route('admin-report-securitylicense') }}"><i class="fa fa-circle-o"></i>Security License</a></li>
+								<li class="{{Request::path() == 'admin/report/equipment' ? 'active' : ''}}"><a href="{{ route('admin-report-equipment') }}"><i class="fa fa-circle-o"></i>Equipment</a></li>
+								<li class="{{Request::path() == 'admin/report/mdr' ? 'active' : ''}}"><a href="{{ route('admin-report-mdr') }}"><i class="fa fa-circle-o"></i>MDR</a></li>
+							@elseif (Auth::user()->accounttype == 1)
+
+							@elseif (Auth::user()->accounttype == 2)
+								
+							@elseif (Auth::user()->accounttype == 3)
+								<li class="{{Request::path() == 'admin/report/ddo' ? 'active' : ''}}"><a href="{{ route('admin-report-ddo') }}"><i class="fa fa-circle-o"></i>DDO</a></li>
+							@endif
+						</ul>
+					</li>
+				@endif
 			</ul>
 		</section>
 	</aside>

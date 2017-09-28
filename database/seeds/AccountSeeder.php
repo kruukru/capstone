@@ -28,6 +28,9 @@ class AccountSeeder extends Seeder
             ['username' => 'applicant8', 'password' => bcrypt('applicant8'), 'accounttype' => 20],
             ['username' => 'applicant9', 'password' => bcrypt('applicant9'), 'accounttype' => 20],
             ['username' => 'applicant10', 'password' => bcrypt('applicant10'), 'accounttype' => 20],
+            ['username' => 'executive', 'password' => bcrypt('executive'), 'accounttype' => 1],
+            ['username' => 'operation', 'password' => bcrypt('operation'), 'accounttype' => 2],
+            ['username' => 'hr', 'password' => bcrypt('hr'), 'accounttype' => 3]
         ];
         DB::table('accounttbl')->insert($account);
     }

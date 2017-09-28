@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>AMCOR</title>
+  <title>{{$company->shortname}}</title>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
@@ -10,13 +10,13 @@
   @include('templates.mycss')
   @yield('css')
 </head>
-<body class="skin-blue fixed hold-transition sidebar-mini sidebar-collapse">
+<body class="skin-blue fixed hold-transition sidebar-mini">
   <!-- HEADER -->
   <header class="main-header">
     <!-- Logo -->
     <a href="{{ route('home') }}" class="logo">
-      <span class="logo-mini"><img src="/images/amcor.png" style="height: 30px; width: 30px;"></span>
-      <span class="logo-lg"><img src="/images/amcor.png" style="height: 40px; width: 40px;"><b> AMCOR</b></span>
+      <span class="logo-mini"><img src="/images/{{$company->logo}}" style="height: 30px; width: 30px;"></span>
+      <span class="logo-lg"><img src="/images/{{$company->logo}}" style="height: 40px; width: 40px;"><b> {{$company->shortname}}</b></span>
     </a>
 
     <!-- Header Navbar -->

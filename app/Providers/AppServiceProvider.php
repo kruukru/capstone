@@ -6,6 +6,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
 use Amcor\Applicant;
 use Amcor\Contract;
+use Amcor\Company;
 use Carbon\Carbon;
 
 class AppServiceProvider extends ServiceProvider
@@ -17,6 +18,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        //notification
         try {
             $notification = collect();
 
@@ -110,7 +112,15 @@ class AppServiceProvider extends ServiceProvider
             $notifications = "Notifications";
         }
 
+        //company
+        try {
+            $company = Company::first();
+        } catch (\Exception $e) {
+            $company = "Company";
+        }
+
         View::share('notifications', $notifications);
+        View::share('company', $company);
     }
 
     /**

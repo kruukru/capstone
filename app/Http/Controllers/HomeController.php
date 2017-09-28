@@ -148,8 +148,14 @@ class HomeController extends Controller
 
     	if (Auth::check()) {
     		if (Auth::user()->accounttype == 0) {
-	    		return view('admin.home');
-	    	} else if (Auth::user()->accounttype == 10) {
+	    		return view('admin.adminhome');
+	    	} else if (Auth::user()->accounttype == 1) {
+                return view('admin.executivehome');
+            } else if (Auth::user()->accounttype == 2) {
+                return view('admin.operationhome');
+            } else if (Auth::user()->accounttype == 3) {
+                return view('admin.hrhome');
+            } else if (Auth::user()->accounttype == 10) {
 	    		return view('client.home');
 	    	} else if (Auth::user()->accounttype == 20) {
                 return view('applicant.home');

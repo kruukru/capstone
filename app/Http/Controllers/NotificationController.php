@@ -24,7 +24,7 @@ class NotificationController extends Controller
             }
 
             $notifs->push([
-                'topic' => "POOLING",
+                'topic' => "HR - POOLING",
                 'description' => $description,
                 'priority' => $priority,
             ]);
@@ -43,13 +43,13 @@ class NotificationController extends Controller
 
             if (Carbon::today()->diffInDays($contract->expiration, false) <= 0) {
                 $notifs->push([
-                    'topic' => "CONTRACT",
+                    'topic' => "EXECUTIVE - CONTRACT",
                     'description' => $contract->deploymentsite->sitename . " has expired",
                     'priority' => $priority,
                 ]);
             } else {
                 $notifs->push([
-                    'topic' => "CONTRACT",
+                    'topic' => "EXECUTIVE - CONTRACT",
                     'description' => $description,
                     'priority' => $priority,
                 ]);
@@ -69,13 +69,13 @@ class NotificationController extends Controller
 
             if (Carbon::today()->diffInDays($applicant->licenseexpiration, false) <= 0) {
                 $notifs->push([
-                    'topic' => "SECURITY GUARD LICENSE",
+                    'topic' => "ADMIN - SECURITY GUARD LICENSE",
                     'description' => $applicant->firstname . " " . $applicant->lastname . " license has expired",
                     'priority' => $priority,
                 ]);
             } else {
                 $notifs->push([
-                    'topic' => "SECURITY GUARD LICENSE",
+                    'topic' => "ADMIN - SECURITY GUARD LICENSE",
                     'description' => $description,
                     'priority' => $priority,
                 ]);
