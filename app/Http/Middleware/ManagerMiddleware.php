@@ -15,10 +15,10 @@ class ManagerMiddleware
      */
     public function handle($request, Closure $next)
     {
-        if ($request->user()->accounttype != 11) {
-            return redirect('/');
+        if ($request->user()->accounttype == 11) {
+            return $next($request);
         }
 
-        return $next($request);
+        return redirect('/');
     }
 }

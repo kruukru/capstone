@@ -13,9 +13,9 @@ class ClientSeeder extends Seeder
     {
         DB::table('clienttbl')->insert([
         	'accountid' => 2,
-            'lastname' => 'Geronimo',
-            'firstname' => 'Jermaine',
-            'middlename' => 'Manalo',
+            'lastname' => 'client',
+            'firstname' => 'client',
+            'middlename' => 'client',
             'position' => 'Admin',
             'contactpersonno' => '(02) 254 9192',
         	'company' => '5J Store',

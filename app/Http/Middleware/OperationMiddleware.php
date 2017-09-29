@@ -15,10 +15,10 @@ class OperationMiddleware
      */
     public function handle($request, Closure $next)
     {
-        if ($request->user()->accounttype != 2) {
-            return redirect('/');
+        if ($request->user()->accounttype == 0 || $request->user()->accounttype == 2) {
+            return $next($request);
         }
 
-        return $next($request);
+        return redirect('/');
     }
 }

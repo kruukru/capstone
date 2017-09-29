@@ -15,10 +15,10 @@ class AdminMiddleware
      */
     public function handle($request, Closure $next)
     {
-        if ($request->user()->accounttype != 0) {
-            return redirect('/');
+        if ($request->user()->accounttype == 0 || $request->user()->accounttype == 1) {
+            return $next($request);
         }
 
-        return $next($request);
+        return redirect('/');
     }
 }

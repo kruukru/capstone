@@ -110,10 +110,10 @@
         <table id="header">
             <tr>
                 <td id="hdrLogo"> 
-                    <img src="images/amcor1.png" id="imgLogo">
+                    <img src="images/{{$company->logo}}" id="imgLogo">
                 <td id="hdrLeft">
-                    <span id="hdrAgencyName">AMCOR SECURITY & INVESTIGATION AGENCY, INC.</span><br>
-                    <p id="hdrDetails">353 Doña Dolores Building, San Rafael St., Brgy. Plainview, Mandaluyong City<br/>*AGENCY TELEPHONE/ CONTACT NUMBER*</p>
+                    <span id="hdrAgencyName">{{$company->name}}</span><br>
+                    <p id="hdrDetails">{{$company->address}}<br/>{{$company->contactno}}</p>
                 </td>
                 <td>
                     <table id="hdrRight">

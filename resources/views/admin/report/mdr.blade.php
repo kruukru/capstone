@@ -65,8 +65,8 @@
             <tr>
                 <td align="center">
                     <div id="header">
-                        <span id="agencyName">AMCOR SECURITY & INVESTIGATION AGENCY, INC.</span><br>
-                        <span id="agencyInfo">353 Doña Dolores Building, San Rafael St., Brgy. Plainview, Mandaluyong City<br>*Agency Telephone & Fax Number*<br>*Agency License*</span><br>
+                        <span id="agencyName">{{$company->name}}</span><br>
+                        <span id="agencyInfo">{{$company->address}}<br>{{$company->contactno}}<br>*Agency License*</span><br>
                         <span id="agencyLTO">*LTO EXPIRES ON *AGENCY LICENSE EXPIRATION (dd MMMM yyyy)*</span><br>
                     </div>
                 </td>

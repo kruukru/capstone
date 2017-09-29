@@ -76,9 +76,9 @@
 	</head>
 	<body>
 		<div class="header">
-			<img src="images/amcor1.png" id="logo">
-			<p id="txtHeader">AMCOR SECURITY & INVESTIGATION AGENCY, INC.</p>
-			<p>353 Doña Dolores Building, San Rafael St., Brgy. Plainview, Mandaluyong City</p>
+			<img src="images/{{$company->logo}}" id="logo">
+			<p id="txtHeader">{{$company->name}}</p>
+			<p>{{$company->address}}</p>
 			<h2 id="title">FIREARM LICENSE EXPIRATION REPORT</h2>
 		</div>
 		<div class="to_from">
@@ -127,12 +127,11 @@
 		<div class="footer">
 			<table>
                 <tr>
-                    <td id="rowLabelfooter">{{Auth::user()->admin->lastname}}, {{Auth::user()->admin->firstname}} {{Auth::user()->admin->middlename}}</td>
+                    <td id="rowLabelfooter">{{Auth::user()->admin->firstname}} {{Auth::user()->admin->middlename}} {{Auth::user()->admin->lastname}}</td>
                 </tr>
 				<tr>
 					<td id="rowDatafooter">{{Auth::user()->admin->position}}</td>
                 </tr>
-				
             </table>
 		</div>
 	</body>

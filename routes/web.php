@@ -73,6 +73,39 @@ Route::group(['middleware' => ['auth']], function() {
 		Route::name('admin-notification')->get('/admin/notification', 'NotificationController@getAdminNotification');
 	});
 
+	//executive executive executive executive executive executive executive executive executive executive executive executive executive executive 
+	Route::group(['middleware' => 'Amcor\Http\Middleware\ExecutiveMiddleware'], function() {
+		//transaction transaction transaction transaction transaction transaction transaction transaction transaction transaction transaction
+		//client
+		Route::name('admin-transaction-client')->get('/admin/transaction/client', 'ClientController@getAdminClient');
+		Route::post('/admin/transaction/client/new', 'ClientController@postAdminNew');
+		Route::post('/admin/transaction/client/companydetail', 'ClientController@postAdminCompanyDetail');
+		Route::post('/admin/transaction/client/clientinformation', 'ClientController@postAdminClientInformation');
+		Route::post('/admin/transaction/client/accountinformation', 'ClientController@postAdminAccountInformation');
+		
+		Route::post('/admin/transaction/client/contract/new', 'ClientController@postAdminContractNew');
+
+		//contract
+		Route::name('admin-transaction-contract')->get('/admin/transaction/contract', 'ContractController@getAdminContract');
+
+		Route::name('admin-contract-document')->get('/admin/contract/document/{contractid}', 'PDFController@getAdminContractDocument');
+
+		//maintenance maintenance maintenance maintenance maintenance maintenance maintenance maintenance maintenance maintenance maintenance
+
+		//utility utility utility utility utility utility utility utility utility utility utility utility utility utility utility utility 
+		//company
+		Route::name('admin-utility-company')->get('/admin/utility/company', 'UtilityController@getAdminCompany');
+		Route::post('/admin/utility/company', 'UtilityController@postAdminCompany');
+		Route::post('/admin/utility/company/logo', 'UtilityController@postAdminCompanyLogo');
+
+		//archive archive archive archive archive archive archive archive archive archive archive archive archive archive archive archive
+
+		//query query query query query query query query query query query query query query query query query query
+		Route::name('admin-query-clientcontract')->get('/admin/query/clientcontract', 'QueryController@getAdminClientContract');
+
+		//report report report report report report report report report report report report report report report report report report
+	});
+
 	//admin admin admin admin admin admin admin admin admin admin admin admin admin admin admin admin admin admin admin admin admin admin 
 	Route::group(['middleware' => 'Amcor\Http\Middleware\AdminMiddleware'], function() {
 		//transaction transaction transaction transaction transaction transaction transaction transaction transaction transaction transaction
@@ -118,39 +151,6 @@ Route::group(['middleware' => ['auth']], function() {
 		Route::name('admin-report-securitylicense')->get('/admin/report/securitylicense', 'ReportController@getAdminSecurityLicense');
 		Route::name('admin-report-equipment')->get('/admin/report/equipment', 'ReportController@getAdminEquipment');
 		Route::name('admin-report-mdr')->get('/admin/report/mdr', 'ReportController@getAdminMDR');
-	});
-
-	//executive executive executive executive executive executive executive executive executive executive executive executive executive executive 
-	Route::group(['middleware' => 'Amcor\Http\Middleware\ExecutiveMiddleware'], function() {
-		//transaction transaction transaction transaction transaction transaction transaction transaction transaction transaction transaction
-		//client
-		Route::name('admin-transaction-client')->get('/admin/transaction/client', 'ClientController@getAdminClient');
-		Route::post('/admin/transaction/client/new', 'ClientController@postAdminNew');
-		Route::post('/admin/transaction/client/companydetail', 'ClientController@postAdminCompanyDetail');
-		Route::post('/admin/transaction/client/clientinformation', 'ClientController@postAdminClientInformation');
-		Route::post('/admin/transaction/client/accountinformation', 'ClientController@postAdminAccountInformation');
-		
-		Route::post('/admin/transaction/client/contract/new', 'ClientController@postAdminContractNew');
-
-		//contract
-		Route::name('admin-transaction-contract')->get('/admin/transaction/contract', 'ContractController@getAdminContract');
-
-		Route::name('admin-contract-document')->get('/admin/contract/document/{contractid}', 'PDFController@getAdminContractDocument');
-
-		//maintenance maintenance maintenance maintenance maintenance maintenance maintenance maintenance maintenance maintenance maintenance
-
-		//utility utility utility utility utility utility utility utility utility utility utility utility utility utility utility utility 
-		//company
-		Route::name('admin-utility-company')->get('/admin/utility/company', 'UtilityController@getAdminCompany');
-		Route::post('/admin/utility/company', 'UtilityController@postAdminCompany');
-		Route::post('/admin/utility/company/logo', 'UtilityController@postAdminCompanyLogo');
-
-		//archive archive archive archive archive archive archive archive archive archive archive archive archive archive archive archive
-
-		//query query query query query query query query query query query query query query query query query query
-		Route::name('admin-query-clientcontract')->get('/admin/query/clientcontract', 'QueryController@getAdminClientContract');
-
-		//report report report report report report report report report report report report report report report report report report
 	});
 
 	//operation operation operation operation operation operation operation operation operation operation operation operation operation operation 

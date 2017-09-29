@@ -12,7 +12,7 @@ class AccountSeeder extends Seeder
     public function run()
     {
         $account = [
-            ['username' => 'admin', 'password' => bcrypt('admin'), 'accounttype' => 0],
+            ['username' => 'executive', 'password' => bcrypt('executive'), 'accounttype' => 0],
             ['username' => 'client', 'password' => bcrypt('client'), 'accounttype' => 10],
             ['username' => 'kiksie', 'password' => bcrypt('kiksie'), 'accounttype' => 20],
             ['username' => 'eggie', 'password' => bcrypt('eggie'), 'accounttype' => 20],
@@ -28,7 +28,7 @@ class AccountSeeder extends Seeder
             ['username' => 'applicant8', 'password' => bcrypt('applicant8'), 'accounttype' => 20],
             ['username' => 'applicant9', 'password' => bcrypt('applicant9'), 'accounttype' => 20],
             ['username' => 'applicant10', 'password' => bcrypt('applicant10'), 'accounttype' => 20],
-            ['username' => 'executive', 'password' => bcrypt('executive'), 'accounttype' => 1],
+            ['username' => 'admin', 'password' => bcrypt('admin'), 'accounttype' => 1],
             ['username' => 'operation', 'password' => bcrypt('operation'), 'accounttype' => 2],
             ['username' => 'hr', 'password' => bcrypt('hr'), 'accounttype' => 3]
         ];
