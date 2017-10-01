@@ -14,7 +14,7 @@ class Admin extends Model
     protected $dates = ['deleted_at'];
 
     public function account() {
-    	return $this->belongsTo('Amcor\Account', 'accountid', 'accountid');
+    	return $this->belongsTo('Amcor\Account', 'accountid');
     }
 
     public function assessment() {

@@ -97,6 +97,8 @@ Route::group(['middleware' => ['auth']], function() {
 		Route::name('admin-utility-company')->get('/admin/utility/company', 'UtilityController@getAdminCompany');
 		Route::post('/admin/utility/company', 'UtilityController@postAdminCompany');
 		Route::post('/admin/utility/company/logo', 'UtilityController@postAdminCompanyLogo');
+		//account
+		Route::name('admin-utility-account')->get('/admin/utility/account', 'UtilityController@getAdminAccount');
 
 		//archive archive archive archive archive archive archive archive archive archive archive archive archive archive archive archive
 

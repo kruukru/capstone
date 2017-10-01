@@ -1,5 +1,4 @@
 $(document).ready(function() {
-    var itemid;
     var table = $('#tblReport').DataTable({
         "aoColumns": [
             null,

@@ -20,7 +20,6 @@ class Admin extends Migration
             $table->string('firstname');
             $table->string('middlename')->nullable();
             $table->string('position');
-            $table->string('department');
 
             $table->timestamps();
             $table->softDeletes();
