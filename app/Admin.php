@@ -17,8 +17,12 @@ class Admin extends Model
     	return $this->belongsTo('Amcor\Account', 'accountid');
     }
 
-    public function assessment() {
-        return $this->hasOne('Amcor\Assessment', 'adminid');
+    public function testassessment() {
+        return $this->hasMany('Amcor\TestAssessment', 'adminid');
+    }
+
+    public function interviewassessment() {
+        return $this->hasMany('Amcor\InterviewAssessment', 'adminid');
     }
 
     public function contract() {

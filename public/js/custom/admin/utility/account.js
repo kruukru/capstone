@@ -71,10 +71,11 @@ $(document).ready(function() {
     function modalAccountClear() {
         $('#formAccount').trigger('reset');
         $('#formAccount').parsley().reset();
+        $('#position').prop('disabled', false);
     }
 
     //modal remove
-    $('#requirement-list').on('click', '#btnRemove', function() {
+    $('#account-list').on('click', '#btnRemove', function() {
         accountid = $(this).val();
 
         $('#modalAccountRemove').modal('show');
@@ -94,7 +95,7 @@ $(document).ready(function() {
 
         $.ajax({
             type: "POST",
-            url: "/admin/maintenance/requirement/remove",
+            url: "/admin/utility/account/remove",
             data: { inputAccountID: accountid },
             dataType: "json",
             success: function(data) {
@@ -105,6 +106,14 @@ $(document).ready(function() {
                 $('#modalAccountRemove').modal('hide');
                 $('#modalAccountRemove').loading('stop');
                 toastr.success("REMOVE SUCCESSFUL");
+            },
+            error: function(data) {
+                console.log(data);
+
+                $('#modalAccountRemove').loading('stop');
+                if (data.responseJSON == "CANNOT REMOVE") {
+                    toastr.error("CANNOT REMOVE WHILE BEING USED");
+                }
             }
         });
     });
@@ -122,6 +131,10 @@ $(document).ready(function() {
     $('#account-list').on('click', '#btnUpdate', function() {
         modalAccountClear();
         accountid = $(this).val();
+
+        if (accountid == 1) {
+            $('#position').prop('disabled', true);
+        }
 
         $.ajax({
             type: "GET",
