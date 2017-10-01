@@ -47,6 +47,18 @@ class JSONController extends Controller
         return Response::json($assessmenttopic);
     }
 
+    public function getCommendAll() {
+        $commend = Commend::get();
+
+        return Response::json($commend);
+    }
+
+    public function getViolationAll() {
+        $violation = Violation::get();
+
+        return Response::json($violation);
+    }
+
 
 
     public function getApplicantOne(Request $request) {

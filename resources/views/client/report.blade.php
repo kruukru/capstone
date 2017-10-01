@@ -15,12 +15,12 @@
 						<table id="tblReport" class="table table-striped table-bordered">
 							<thead>
 								<th>Report Type</th>
-								<th>Issued Date</th>
 								<th>Issued By</th>
+								<th>Issued Date</th>
 								<th>Person(s) Involved</th>
 								<th style="text-align: center;">Status</th>
 							</thead>
-							<tbody id="deploy-list">
+							<tbody id="report-list">
 								<td>Commend</td>
 								<td>Aug. 22, 2017</td>
 								<td>Jermaine</td>
@@ -48,14 +48,23 @@
 					<!-- modal body -->
 					<div class="modal-body">
 						<div class="form-group">
-							<h4>TYPE: COMMEND</h4>
+							<h4 id="modalTitle">REPORT TYPE: COMMEND</h4>
+							<select class="form-control" id="reporttype" required></select>
 						</div>
 						<div class="form-group">
-							<label>SUBJECT:</label>
-							<select class="form-control" id="subject"></select>
+							<label>Place Happened *</label>
+							<input type="text" class="form-control" id="placehappen" required>
 						</div>
 						<div class="form-group">
-							<h3>SECURITY GUARD</h3>
+							<label>Subject *</label>
+							<input type="text" class="form-control" id="subject" required>
+						</div>
+						<div class="form-group">
+							<label>Details *</label>
+							<textarea class="form-control" rows="3" id="detail"></textarea>
+						</div><hr>
+						<div class="form-group table-responsive">
+							<h4>SECURITY GUARD</h4>
 							<table id="tblSecurityGuard" class="table table-striped table-bordered">
 								<thead>
 									<th>Security Guard Name</th>
@@ -64,10 +73,9 @@
 								</thead>
 								<tbody id="securityguard-list"></tbody>
 							</table>
-						</div>
-						<hr>
-						<div class="form-group">
-							<h3>PERSONNEL(S) INVOLVED</h3>
+						</div><hr>
+						<div class="form-group table-responsive">
+							<h4>PERSONNEL(S) INVOLVED</h4>
 							<table id="tblInvolveSecurityGuard" class="table table-striped table-bordered">
 								<thead>
 									<th>Security Guard Name</th>
@@ -81,7 +89,7 @@
 					<!-- modal footer -->
 					<div class="modal-footer">
 						<div class="form-group">
-							<button class="btn btn-primary" id="btnRequestItemSave">SAVE</button>
+							<button class="btn btn-primary" id="btnSaveReport">SAVE</button>
 	        				<button class="btn btn-default" data-dismiss="modal">CANCEL</button>
 						</div>
 					</div>

@@ -42,8 +42,9 @@ Route::get('/json/account/one', 'JSONController@getAccountOne');
 
 Route::get('/json/itemtype/all', 'JSONController@getItemTypeAll');
 Route::get('/json/questionchoice/all', 'JSONController@getQuestionChoiceAll');
-Route::get('/json/industrytype/all', 'JSONController@getIndustryTypeAll');
 Route::get('/json/assessmenttopic/all', 'JSONController@getAssessmentTopicAll');
+Route::get('/json/commend/all', 'JSONController@getCommendAll');
+Route::get('/json/violation/all', 'JSONController@getViolationAll');
 
 Route::get('/json/applicant/educationbackground', 'JSONController@getApplicantEducationBackground');
 Route::get('/json/applicant/employmentrecord', 'JSONController@getApplicantEmploymentRecord');
@@ -389,6 +390,7 @@ Route::group(['middleware' => ['auth']], function() {
 
 		//report
 		Route::name('client-report')->get('/client/report', 'ReportController@getClientReport');
+		Route::get('/client/report/securityguard', 'ReportController@getClientSecurityGuard');
 	});
 
 	//manager manager manager manager manager manager manager manager manager manager manager manager manager manager manager manager

@@ -54,7 +54,7 @@ class Applicant extends Model
     }
 
     public function qualificationcheck() {
-        return $this->hasMany('Amcor\QualificationCheck', 'applicantid');
+        return $this->hasOne('Amcor\QualificationCheck', 'applicantid');
     }
 
     public function appointment() {
