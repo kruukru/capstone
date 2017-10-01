@@ -181,10 +181,11 @@
 				</li>
 				@if (Auth::user()->accounttype == 0 || Auth::user()->accounttype == 3)
 					<!-- utilities -->
-					<li class="treeview {{Request::path() == 'admin/utility/company' ? 'active' : ''}} {{Request::path() == 'admin/utility/appointment' ? 'active' : ''}}">
+					<li class="treeview {{Request::path() == 'admin/utility/account' ? 'active' : ''}} {{Request::path() == 'admin/utility/company' ? 'active' : ''}} {{Request::path() == 'admin/utility/appointment' ? 'active' : ''}}">
 						<a href="#"><i class="fa fa-th-list"></i><span>UTILITY</span><i class="fa fa-angle-left pull-right"></i></a>
 						<ul class="treeview-menu">
 							@if (Auth::user()->accounttype == 0)
+								<li class="{{Request::path() == 'admin/utility/account' ? 'active' : ''}}"><a href="{{ route('admin-utility-account') }}"><i class="fa fa-circle-o"></i>Account</a></li>
 								<li class="{{Request::path() == 'admin/utility/company' ? 'active' : ''}}"><a href="{{ route('admin-utility-company') }}"><i class="fa fa-circle-o"></i>Company</a></li>
 								<li class="{{Request::path() == 'admin/utility/appointment' ? 'active' : ''}}"><a href="{{ route('admin-utility-appointment') }}"><i class="fa fa-circle-o"></i>Appointment</a></li>
 							@elseif (Auth::user()->accounttype == 1)

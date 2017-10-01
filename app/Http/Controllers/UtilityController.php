@@ -8,6 +8,8 @@ use Amcor\AppointmentSlot;
 use Amcor\AppointmentDate;
 use Amcor\Appointment;
 use Amcor\Company;
+use Amcor\Account;
+use Amcor\Admin;
 use Carbon\Carbon;
 use DateTime;
 use DateInterval;
@@ -248,5 +250,87 @@ class UtilityController extends Controller
             $company->logo = $filename;
             $company->save();
         }
+    }
+
+    //account account account account account account account account account account account account account account account account account 
+    public function getAdminAccount() {
+        $accounts = Account::where([
+            ['accounttype', '>=', 0],
+            ['accounttype', '<=', 3]
+        ])->get();
+
+        return view('admin.utility.account', compact('accounts'));
+    }
+
+    public function postAdminAccountNew(Request $request) {
+        $account = Account::where('username', $request->inputUsername)->get();
+        if (!($account->isEmpty())) {
+            return Response::json("SAME USERNAME", 500);
+        }
+
+        if ($request->inputPosition == "Executive") {
+            $accounttype = 0;
+        } else if ($request->inputPosition == "Admin") {
+            $accounttype = 1;
+        } else if ($request->inputPosition == "Operation") {
+            $accounttype = 2;
+        } else if ($request->inputPosition == "HR") {
+            $accounttype = 3;
+        }
+
+        $account = Account::create([
+            'username' => $request->inputUsername,
+            'password' => bcrypt($request->inputPassword),
+            'accounttype' => $accounttype
+        ]);
+
+        $admin = new Admin;
+        $admin->account()->associate($account);
+        $admin->lastname = $request->inputLastName;
+        $admin->firstname = $request->inputFirstName;
+        $admin->middlename = $request->inputMiddleName;
+        $admin->position = $request->inputPosition;
+        $admin->save();
+
+        return Response::json($admin);
+    }
+
+    public function postAdminAccountUpdate(Request $request) {
+        $account = Account::where([
+            ['username', $request->inputUsername],
+            ['accountid', '!=', $request->inputAccountID]
+        ])->get();
+        if (!($account->isEmpty())) {
+            return Response::json("SAME USERNAME", 500);
+        }
+
+        if ($request->inputPosition == "Executive") {
+            $accounttype = 0;
+        } else if ($request->inputPosition == "Admin") {
+            $accounttype = 1;
+        } else if ($request->inputPosition == "Operation") {
+            $accounttype = 2;
+        } else if ($request->inputPosition == "HR") {
+            $accounttype = 3;
+        }
+
+        $account = Account::find($request->inputAccountID);
+        $account->username = $request->inputUsername;
+        $account->password = bcrypt($request->inputPassword);
+        $account->accounttype = $accounttype;
+        $account->save();
+
+        $admin = Admin::with('account')->where('accountid', $request->inputAccountID)->first();
+        $admin->lastname = $request->inputLastName;
+        $admin->firstname = $request->inputFirstName;
+        $admin->middlename = $request->inputMiddleName;
+        $admin->position = $request->inputPosition;
+        $admin->save();
+
+        return Response::json($admin);
+    }
+
+    public function postAdminAccountRemove(Request $request) {
+
     }
 }

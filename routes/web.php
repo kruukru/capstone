@@ -37,6 +37,8 @@ Route::get('/json/holiday/one', 'JSONController@getHolidayOne');
 Route::get('/json/clientqualification/one', 'JSONController@getClientQualificationOne');
 Route::get('/json/manager/one', 'JSONController@getManagerOne');
 Route::get('/json/request/one', 'JSONController@getRequestOne');
+Route::get('/json/admin/one', 'JSONController@getAdminOne');
+Route::get('/json/account/one', 'JSONController@getAccountOne');
 
 Route::get('/json/itemtype/all', 'JSONController@getItemTypeAll');
 Route::get('/json/questionchoice/all', 'JSONController@getQuestionChoiceAll');
@@ -99,6 +101,9 @@ Route::group(['middleware' => ['auth']], function() {
 		Route::post('/admin/utility/company/logo', 'UtilityController@postAdminCompanyLogo');
 		//account
 		Route::name('admin-utility-account')->get('/admin/utility/account', 'UtilityController@getAdminAccount');
+		Route::post('/admin/utility/account/new', 'UtilityController@postAdminAccountNew');
+		Route::post('/admin/utility/account/update', 'UtilityController@postAdminAccountUpdate');
+		Route::post('/admin/utility/account/remove', 'UtilityController@postAdminAccountRemove');
 
 		//archive archive archive archive archive archive archive archive archive archive archive archive archive archive archive archive
 

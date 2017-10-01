@@ -23,6 +23,7 @@ use Amcor\TrainingCertificate;
 use Amcor\Manager;
 use Amcor\Firearm;
 use Amcor\Client;
+use Amcor\Admin;
 use Amcor\Requestt;
 use Response;
 
@@ -154,6 +155,18 @@ class JSONController extends Controller
         $requestt = Requestt::with('deploymentsite')->find($request->inputRequestID);
 
         return Response::json($requestt);
+    }
+
+    public function getAdminOne(Request $request) {
+        $admin = Admin::find($request->inputAdminID);
+
+        return Response::json($admin);
+    }
+
+    public function getAccountOne(Request $request) {
+        $account = Account::with('admin')->find($request->inputAccountID);
+
+        return Response::json($account);
     }
 
 
