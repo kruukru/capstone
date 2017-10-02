@@ -39,6 +39,8 @@ Route::get('/json/manager/one', 'JSONController@getManagerOne');
 Route::get('/json/request/one', 'JSONController@getRequestOne');
 Route::get('/json/admin/one', 'JSONController@getAdminOne');
 Route::get('/json/account/one', 'JSONController@getAccountOne');
+Route::get('/json/report/one', 'JSONController@getReportOne');
+Route::get('/json/deploymentsite/one', 'JSONController@getDeploymentSiteOne');
 
 Route::get('/json/itemtype/all', 'JSONController@getItemTypeAll');
 Route::get('/json/questionchoice/all', 'JSONController@getQuestionChoiceAll');
@@ -360,6 +362,8 @@ Route::group(['middleware' => ['auth']], function() {
 		Route::get('/client/deploymentsite/firearm', 'DeploymentSiteController@getClientFirearm');
 		Route::post('/client/deploymentsite/item', 'DeploymentSiteController@postClientItem');
 
+		Route::get('/client/deploymentsite/view', 'DeploymentSiteController@getClientView');
+
 		//manager
 		Route::name('client-manager')->get('/client/manager', 'ManagerController@getClientManager');
 		Route::post('/client/manager/new', 'ManagerController@postClientNew');
@@ -391,6 +395,9 @@ Route::group(['middleware' => ['auth']], function() {
 		//report
 		Route::name('client-report')->get('/client/report', 'ReportController@getClientReport');
 		Route::get('/client/report/securityguard', 'ReportController@getClientSecurityGuard');
+		Route::post('/client/report/new', 'ReportController@postClientReportNew');
+		Route::post('/client/report/update', 'ReportController@postClientReportUpdate');
+		Route::post('/client/report/remove', 'ReportController@postClientReportRemove');
 	});
 
 	//manager manager manager manager manager manager manager manager manager manager manager manager manager manager manager manager

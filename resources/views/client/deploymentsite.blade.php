@@ -94,72 +94,6 @@
 		</div>
 	</div>
 
-	<!-- modal for security guard profile -->
-	<div class="modal fade" id="modalProfile">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<!-- modal header -->
-				<div class="modal-header">
-					<button class="close" data-dismiss="modal">&times;</button>
-					<h3>Profile</h3>
-				</div>
-				<!-- modal body -->
-				<div class="modal-body">
-					<div class="form-group">
-						<img id="pictureview" src="/applicant/default.png" alt="IMAGE" style="width: 35%; height: 35%;" class="center-block">
-					</div>
-					<div class="form-group table-responsive">
-						<h3>Applicant Info</h3>
-						<table class="table table-striped table-bordered">
-							<tbody id="applicantinfo-list"></tbody>
-						</table>
-					</div>
-					<div class="form-group table-responsive">
-						<h3>Education Background</h3>
-						<table class="table table-striped table-bordered">
-							<thead>
-								<th>Graduate Type</th>
-								<th>Degree</th>
-								<th>Date Graduated</th>
-								<th>School Graduated</th>
-							</thead>
-							<tbody id="education-list"></tbody>
-						</table>
-					</div>
-					<div class="form-group table-responsive">
-						<h3>Employment Record</h3>
-						<table class="table table-striped table-bordered">
-							<thead>
-								<th>Company</th>
-								<th>Industry Type</th>
-								<th>Duration (months)</th>
-								<th>Reason For Leaving</th>
-							</thead>
-							<tbody id="employment-list"></tbody>
-						</table>
-					</div>
-					<div class="form-group table-responsive">
-						<h3>Training Certificate</h3>
-						<table class="table table-striped table-bordered">
-							<thead>
-								<th>Certificate</th>
-								<th>Conducted By</th>
-								<th>Date Conducted</th>
-							</thead>
-							<tbody id="training-list"></tbody>
-						</table>
-					</div>
-				</div>
-				<!-- modal footer -->
-				<div class="modal-footer">
-					<div class="form-group">
-        				<button type="button" class="btn btn-default" data-dismiss="modal">CANCEL</button>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-
 	<div class="modal fade" id="modalQualification">
 		<div class="modal-dialog modal-90">
 			<div class="modal-content">
@@ -333,6 +267,128 @@
 				<div class="modal-footer">
 					<div class="form-group">
 						<button type="button" class="btn btn-primary" id="btnReceive">RECEIVE</button>
+        				<button type="button" class="btn btn-default" data-dismiss="modal">CANCEL</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="modalDeploymentSite">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<!-- modal header -->
+				<div class="modal-header">
+					<button class="close" data-dismiss="modal">&times;</button>
+					<h3>Deployment Site</h3>
+				</div>
+				<!-- modal body -->
+				<div class="modal-body">
+					<div class="form-group table-responsive">
+						<table class="table table-striped table-bordered">
+							<tbody id="deploymentsite-info"></tbody>
+						</table>
+					</div><hr>
+					<div class="form-group table-responsive">
+						<h4>Security Guard</h4>
+						<table id="tblViewSecurityGuard" class="table table-striped table-bordered">
+							<thead>
+								<th>Name</th>
+								<th style="text-align: center;">Action</th>
+							</thead>
+							<tbody id="viewsecurityguard-list"></tbody>
+						</table>
+					</div><hr>
+					<div class="form-group table-responsive">
+						<h4>Item</h4>
+						<table id="tblViewItem" class="table table-striped table-bordered">
+							<thead>
+								<th>Name</th>
+								<th>Item Type</th>
+								<th>Quantity</th>
+							</thead>
+							<tbody id="viewitem-list"></tbody>
+						</table>
+					</div><hr>
+					<div class="form-group table-responsive">
+						<h4>Firearm</h4>
+						<table id="tblViewFirearm" class="table table-striped table-bordered">
+							<thead>
+								<th>Name</th>
+								<th>License</th>
+								<th>Expiration</th>
+							</thead>
+							<tbody id="viewfirearm-list"></tbody>
+						</table>
+					</div>
+				</div>
+				<!-- modal footer -->
+				<div class="modal-footer">
+        			<button type="button" class="btn btn-default" data-dismiss="modal">CANCEL</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- modal for security guard profile -->
+	<div class="modal fade" id="modalProfile">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<!-- modal header -->
+				<div class="modal-header">
+					<button class="close" data-dismiss="modal">&times;</button>
+					<h3>Profile</h3>
+				</div>
+				<!-- modal body -->
+				<div class="modal-body">
+					<div class="form-group">
+						<img id="pictureview" src="/applicant/default.png" alt="IMAGE" style="width: 35%; height: 35%;" class="center-block">
+					</div>
+					<div class="form-group table-responsive">
+						<h3>Applicant Info</h3>
+						<table class="table table-striped table-bordered">
+							<tbody id="applicantinfo-list"></tbody>
+						</table>
+					</div>
+					<div class="form-group table-responsive">
+						<h3>Education Background</h3>
+						<table class="table table-striped table-bordered">
+							<thead>
+								<th>Graduate Type</th>
+								<th>Degree</th>
+								<th>Date Graduated</th>
+								<th>School Graduated</th>
+							</thead>
+							<tbody id="education-list"></tbody>
+						</table>
+					</div>
+					<div class="form-group table-responsive">
+						<h3>Employment Record</h3>
+						<table class="table table-striped table-bordered">
+							<thead>
+								<th>Company</th>
+								<th>Industry Type</th>
+								<th>Duration (months)</th>
+								<th>Reason For Leaving</th>
+							</thead>
+							<tbody id="employment-list"></tbody>
+						</table>
+					</div>
+					<div class="form-group table-responsive">
+						<h3>Training Certificate</h3>
+						<table class="table table-striped table-bordered">
+							<thead>
+								<th>Certificate</th>
+								<th>Conducted By</th>
+								<th>Date Conducted</th>
+							</thead>
+							<tbody id="training-list"></tbody>
+						</table>
+					</div>
+				</div>
+				<!-- modal footer -->
+				<div class="modal-footer">
+					<div class="form-group">
         				<button type="button" class="btn btn-default" data-dismiss="modal">CANCEL</button>
 					</div>
 				</div>

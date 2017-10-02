@@ -25,6 +25,8 @@ use Amcor\Firearm;
 use Amcor\Client;
 use Amcor\Admin;
 use Amcor\Requestt;
+use Amcor\Report;
+use Amcor\DeploymentSite;
 use Response;
 
 class JSONController extends Controller
@@ -179,6 +181,18 @@ class JSONController extends Controller
         $account = Account::with('admin')->find($request->inputAccountID);
 
         return Response::json($account);
+    }
+
+    public function getReportOne(Request $request) {
+        $report = Report::with('commend', 'violation')->find($request->inputReportID);
+
+        return Response::json($report);
+    }
+
+    public function getDeploymentSiteOne(Request $request) {
+        $deploymentsite = DeploymentSite::with('contract')->find($request->inputDeploymentSiteID);
+
+        return Response::json($deploymentsite);
     }
 
 

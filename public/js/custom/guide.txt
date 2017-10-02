@@ -12,3 +12,9 @@ $.ajaxSetup({
 
 //javascript format date
 $.format.date(data.datecreated, "yyyy-MM-dd")
+
+//sending of data
+$dataArray = array(
+    'requireno' => $requireno,
+    'pool' => $pool,
+);

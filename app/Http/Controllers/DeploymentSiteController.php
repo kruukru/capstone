@@ -219,6 +219,28 @@ class DeploymentSiteController extends Controller
         return Response::json($deploymentsite);
     }
 
+    public function getClientView(Request $request) {
+        $applicant = Applicant::whereHas('qualificationcheck', function($query) {
+            $query->where('status', 1);
+        })->whereHas('qualificationcheck.deploymentsite', function($query) use ($request) {
+            $query->where('deploymentsiteid', $request->inputDeploymentSiteID);
+        })->get();
+
+        $item = IssuedItem::with('item.itemtype')->where('deploymentsiteid', $request->inputDeploymentSiteID)->get();
+
+        $firearm = IssuedFirearm::with('firearm.item.itemtype')->whereHas('issueditem', function($query) use ($request) {
+            $query->where('deploymentsiteid', $request->inputDeploymentSiteID);
+        })->get();
+
+        $dataArray = array(
+            'applicant' => $applicant,
+            'item' => $item,
+            'firearm' => $firearm
+        );
+
+        return Response::json($dataArray);
+    }
+
 
 
 }
