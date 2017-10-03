@@ -22,6 +22,20 @@ class ClientSeeder extends Seeder
         	'address' => '1326 Masinop St. Tondo Manila',
         	'companycontactno' => '+63 950 4869 682',
         	'email' => '5jstore@gmail.com',
+            'status' => 1,
+        ]);
+
+        DB::table('clienttbl')->insert([
+            'accountid' => 20,
+            'lastname' => 'client1',
+            'firstname' => 'client1',
+            'middlename' => 'client1',
+            'position' => 'Admin',
+            'contactpersonno' => '+63 950 4869 682',
+            'company' => 'Polytechnic University of the Philippines',
+            'address' => 'Sta. Mesa',
+            'companycontactno' => '+63 950 4869 682',
+            'email' => 'pup@gmail.com',
             'status' => 0,
         ]);
     }

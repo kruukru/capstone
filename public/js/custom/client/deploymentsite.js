@@ -754,6 +754,9 @@ $(document).ready(function() {
     $('#deploymentsite-list').on('click', '#btnView', function(e) {
         e.preventDefault();
         $('#deploymentsite-info').empty();
+        tableViewSecurityGuard.clear().draw();
+        tableViewItem.clear().draw();
+        tableViewFirearm.clear().draw();
 
         $.ajax({
             type: "GET",
@@ -803,14 +806,14 @@ $(document).ready(function() {
                     });
 
                     if (check) {
-                        var row = "<tr id=id" + value.issueditemid + ">" +
+                        var row = "<tr id=id" + value.itemid + ">" +
                             "<td>" + value.item.name + "</td>" +
                             "<td>" + value.item.itemtype.name + "</td>" +
                             "<td>" + value.qty + "</td>" +
                             "</tr>";
                         tableViewItem.row.add($(row)[0]).draw();
                     } else {
-                        tableViewItem.cell('#id'+value.issueditemid, 2).data();
+                        tableViewItem.cell('#id'+value.itemid, 2).data(Number(tableViewItem.cell('#id'+value.itemid, 2).data()) + value.qty);
                     }
                 });
 

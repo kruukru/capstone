@@ -1,4 +1,4 @@
-@extends('client.templates.default')
+@extends('admin.templates.default')
 
 @section('content')
 	<section class="content-header">
@@ -37,11 +37,18 @@
 									</ul></td>
 									@if ($report->account->client)
 										<td>{{$report->account->client->lastname}}, {{$report->account->client->firstname}} {{$report->account->client->middlename}}</td>
-									@else
+									@elseif ($report->account->manager)
 										<td>{{$report->account->manager->lastname}}, {{$report->account->manager->firstname}} {{$report->account->manager->middlename}}</td>
+									@elseif ($report->account->admin)
+										<td>{{$report->account->admin->lastname}}, {{$report->account->admin->firstname}} {{$report->account->admin->middlename}}</td>
 									@endif
 									<td>{{$report->date->format('Y-m-d')}}</td>
 									<td style="text-align: center;">
+										@if ($report->violationid == null)
+											<button class="btn btn-primary btn-xs" id="btnIssueCertificate" value="{{$report->reportid}}">Issue Certificate</button>
+										@else
+											<button class="btn btn-primary btn-xs" id="btnIssueMemorandum" value="{{$report->reportid}}">Issue Memo</button>
+										@endif
 										<button class="btn btn-warning btn-xs" id="btnUpdate" value="{{$report->reportid}}">Update</button>
 										<button class="btn btn-danger btn-xs" id="btnRemove" value="{{$report->reportid}}">Remove</button>
 									</td>
@@ -138,6 +145,66 @@
 			</div>
 		</div>
 	</div>
+
+	<!-- modal certificate -->
+	<div class="modal fade" id="modalCertificate">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<form id="formCertificate" role="form" method="GET" action="{{ route('admin-report-certificate') }}">
+					<!-- modal header -->
+					<div class="modal-header">
+						<button class="close" data-dismiss="modal">&times;</button>
+						<h3>Issue Certificate</h3>
+					</div>
+					<!-- modal body -->
+					<div class="modal-body">
+						<div class="form-group">
+							<label>Certificate Description *</label>
+							<textarea class="form-control" rows="3" id="certificatedescription" name="certificatedescription" required></textarea>
+						</div>
+					</div>
+					<!-- modal footer -->
+					<div class="modal-footer">
+						<input type="hidden" id="certificatereportid" name="certificatereportid">
+						<button type="submit" class="btn btn-primary" id="btnProceedIssueCertificate">ISSUE</button>
+	        			<button type="button" class="btn btn-default" data-dismiss="modal">CANCEL</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<!-- modal memorandum -->
+	<div class="modal fade" id="modalMemorandum">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<form id="formMemorandum" role="form" method="GET" action="{{ route('admin-report-memorandum') }}">
+					<!-- modal header -->
+					<div class="modal-header">
+						<button class="close" data-dismiss="modal">&times;</button>
+						<h3>Issue Memorandum</h3>
+					</div>
+					<!-- modal body -->
+					<div class="modal-body">
+						<div class="form-group">
+							<label>Subject *</label>
+							<input type="text" class="form-control" id="subject" name="subject" required>
+						</div>
+						<div class="form-group">
+							<label>Memorandum Body *</label>
+							<textarea class="form-control" rows="3" id="memorandumbody" name="memorandumbody" required></textarea>
+						</div>
+					</div>
+					<!-- modal footer -->
+					<div class="modal-footer">
+						<input type="hidden" id="memorandumreportid" name="memorandumreportid">
+						<button type="submit" class="btn btn-primary" id="btnProceedIssueMemorandum">ISSUE</button>
+	        			<button type="button" class="btn btn-default" data-dismiss="modal">CANCEL</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
 @endsection
 
 @section('meta')
@@ -145,5 +212,5 @@
 @endsection
 
 @section('script')
-	<script src="/js/custom/client/report.js"></script>
+	<script src="/js/custom/admin/transaction/report.js"></script>
 @endsection

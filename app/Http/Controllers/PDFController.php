@@ -10,6 +10,7 @@ use Amcor\ApplicantRequirement;
 use Amcor\Score;
 use Amcor\Attendance;
 use Amcor\DeploymentSite;
+use Amcor\Report;
 use Carbon\Carbon;
 use PDF;
 use Auth;
@@ -40,6 +41,27 @@ class PDFController extends Controller
         }
 
         $pdf = PDF::loadView('admin.pdf.testresult', compact('applicant', 'scores'));
+        return $pdf->stream();
+    }
+
+    public function getAdminReportCertificate(Request $request) {
+        $applicants = Applicant::whereHas('personinvolve', function($query) use ($request) {
+            $query->where('reportid', $request->input('certificatereportid'));
+        })->get();
+        $certificatedescription = $request->input('certificatedescription');
+
+        $pdf = PDF::loadView('admin.pdf.certificate', compact('applicants', 'certificatedescription'));
+        return $pdf->stream();
+    }
+
+    public function getAdminReportMemorandum(Request $request) {
+        $applicants = Applicant::with('qualificationcheck.deploymentsite')->whereHas('personinvolve', function($query) use ($request) {
+            $query->where('reportid', $request->input('memorandumreportid'));
+        })->get();
+        $subject = $request->input('subject');
+        $memorandumbody = $request->input('memorandumbody');
+
+        $pdf = PDF::loadView('admin.pdf.memorandum', compact('applicants', 'subject', 'memorandumbody'));
         return $pdf->stream();
     }
 

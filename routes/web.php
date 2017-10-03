@@ -178,6 +178,16 @@ Route::group(['middleware' => ['auth']], function() {
 		Route::get('/admin/transaction/request/firearm', 'RequestController@getAdminFirearm');
 		Route::post('/admin/transaction/request/item', 'RequestController@postAdminItem');
 
+		//report
+		Route::name('admin-transaction-report')->get('/admin/transaction/report', 'ReportController@getAdminReport');
+		Route::get('/admin/transaction/report/securityguard', 'ReportController@getAdminSecurityGuard');
+		Route::post('/admin/transaction/report/new', 'ReportController@postAdminReportNew');
+		Route::post('/admin/transaction/report/update', 'ReportController@postAdminReportUpdate');
+		Route::post('/admin/transaction/report/remove', 'ReportController@postAdminReportRemove');
+
+		Route::name('admin-report-certificate')->get('/admin/report/certificate', 'PDFController@getAdminReportCertificate');
+		Route::name('admin-report-memorandum')->get('/admin/report/memorandum', 'PDFController@getAdminReportMemorandum');
+
 		//maintenance maintenance maintenance maintenance maintenance maintenance maintenance maintenance maintenance maintenance maintenance
 		//commend
 		Route::name('admin-maintenance-commend')->get('/admin/maintenance/commend', 'MaintenanceController@getAdminCommend');

@@ -31,7 +31,7 @@
 									<td>{{$contract->startdate->format('M. d, Y')}}</td>
 									<td>{{$contract->expiration->format('M. d, Y')}}</td>
 									@if ($contract->status == 0)
-										<td style="text-align: center;">Active</td>
+										<td style="text-align: center;">ACTIVE</td>
 									@endif
 									<td style="text-align: center;">
 										<a href="{{ route('admin-contract-document', ['contractid' => $contract->contractid]) }}"><button class="btn btn-primary btn-xs">View</button></a>

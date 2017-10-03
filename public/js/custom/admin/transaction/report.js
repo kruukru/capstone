@@ -44,7 +44,7 @@ $(document).ready(function() {
     function getSecurityGuard() {
         $.ajax({
             type: "GET",
-            url: "/client/report/securityguard",
+            url: "/admin/transaction/report/securityguard",
             dataType: "json",
             success: function(data) {
                 console.log(data);
@@ -119,7 +119,7 @@ $(document).ready(function() {
 
         $.ajax({
             type: "POST",
-            url: "/client/report/remove",
+            url: "/admin/transaction/report/remove",
             data: { inputReportID: reportid },
             dataType: "json",
             success: function(data) {
@@ -244,7 +244,7 @@ $(document).ready(function() {
             });
 
             if ($('#btnSaveReport').val() == 0) {
-                var my_url = "/client/report/new";
+                var my_url = "/admin/transaction/report/new";
                 var formData = {
                     inputReportStatus: reporttype,
                     inputReportType: $('#reporttype').val(),
@@ -254,7 +254,7 @@ $(document).ready(function() {
                     formData: formData
                 }
             } else {
-                var my_url = "/client/report/update";
+                var my_url = "/admin/transaction/report/update";
                 var formData = {
                     inputReportID: reportid,
                     inputPlaceHappen: $('#placehappen').val(),
@@ -288,8 +288,13 @@ $(document).ready(function() {
                             "<td><ul>" + personinvolve + "</ul></td>" +
                             "<td>Me</td>" +
                             "<td>Right Now</td>" +
-                            "<td style='text-align: center;'>" +
-                            "<button class='btn btn-warning btn-xs' id='btnUpdate' value="+data.reportid+">Update</button> " +
+                            "<td style='text-align: center;'>";
+                        if (reporttype == 0) {
+                            row += "<button class='btn btn-primary btn-xs' id='btnIssueCertificate' value="+data.reportid+">Issue Certificate</button> ";
+                        } else {
+                            row += "<button class='btn btn-primary btn-xs' id='btnIssueMemorandum' value="+data.reportid+">Issue Memorandum</button> ";
+                        }
+                        row += "<button class='btn btn-warning btn-xs' id='btnUpdate' value="+data.reportid+">Update</button> " +
                             "<button class='btn btn-danger btn-xs' id='btnRemove' value="+data.reportid+">Remove</button>" +
                             "</td>" +
                             "</tr>";
@@ -314,6 +319,22 @@ $(document).ready(function() {
                 }
             });
         }
+    });
+
+    $('#report-list').on('click', '#btnIssueCertificate', function(e) {
+        e.preventDefault();
+        $('#certificatereportid').val($(this).val());
+        $('#formCertificate').trigger('reset');
+
+        $('#modalCertificate').modal('show');
+    });
+
+    $('#report-list').on('click', '#btnIssueMemorandum', function(e) {
+        e.preventDefault();
+        $('#memorandumreportid').val($(this).val());
+        $('#formMemorandum').trigger('reset');
+
+        $('#modalMemorandum').modal('show');
     });
 
 

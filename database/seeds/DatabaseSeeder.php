@@ -27,5 +27,9 @@ class DatabaseSeeder extends Seeder
         $this->call(FirearmSeeder::class);
         $this->call(ScoreSeeder::class);
         $this->call(CompanySeeder::class);
+        $this->call(CommendSeeder::class);
+        $this->call(ViolationSeeder::class);
+        $this->call(ContractSeeder::class);
+        $this->call(DeploymentSiteSeeder::class);
     }
 }

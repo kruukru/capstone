@@ -2,7 +2,7 @@
 
 @section('content')
     <section class="content-header">
-		<h1>Requests</h1>
+		<h1>Request</h1>
 	</section>
 
 	<section class="content">

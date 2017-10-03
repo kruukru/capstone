@@ -92,7 +92,7 @@
 				<!-- separator -->
 				<li class="header"></li>
 				<!-- transaction -->
-				<li class="treeview {{Request::path() == 'admin/transaction/submitcredential' ? 'active' : ''}} {{Request::path() == 'admin/transaction/testlogin' ? 'active' : ''}} {{Request::path() == 'admin/transaction/assesstest' ? 'active' : ''}} {{Request::path() == 'admin/transaction/assessinterview' ? 'active' : ''}} {{Request::path() == 'admin/transaction/securityguard' ? 'active' : ''}} {{Request::path() == 'admin/transaction/contract' ? 'active' : ''}} {{Request::path() == 'admin/transaction/client' ? 'active' : ''}} {{Request::path() == 'admin/transaction/inventory' ? 'active' : ''}} {{Request::path() == 'admin/transaction/deploysecurityguard' ? 'active' : ''}} {{Request::path() == 'admin/transaction/deployitem' ? 'active' : ''}} {{Request::path() == 'admin/transaction/request' ? 'active' : ''}}">
+				<li class="treeview {{Request::path() == 'admin/transaction/submitcredential' ? 'active' : ''}} {{Request::path() == 'admin/transaction/testlogin' ? 'active' : ''}} {{Request::path() == 'admin/transaction/assesstest' ? 'active' : ''}} {{Request::path() == 'admin/transaction/assessinterview' ? 'active' : ''}} {{Request::path() == 'admin/transaction/securityguard' ? 'active' : ''}} {{Request::path() == 'admin/transaction/contract' ? 'active' : ''}} {{Request::path() == 'admin/transaction/client' ? 'active' : ''}} {{Request::path() == 'admin/transaction/inventory' ? 'active' : ''}} {{Request::path() == 'admin/transaction/deploysecurityguard' ? 'active' : ''}} {{Request::path() == 'admin/transaction/deployitem' ? 'active' : ''}} {{Request::path() == 'admin/transaction/request' ? 'active' : ''}} {{Request::path() == 'admin/transaction/report' ? 'active' : ''}}">
 					<a href="#"><i class="fa fa-suitcase"></i><span>TRANSACTION</span><i class="fa fa-angle-left pull-right"></i></a>
 					<ul class="treeview-menu">
 						@if (Auth::user()->accounttype == 0)
@@ -107,11 +107,13 @@
 							<li class="{{Request::path() == 'admin/transaction/deploysecurityguard' ? 'active' : ''}}"><a href="{{ route('admin-transaction-deploysecurityguard') }}"><i class="fa fa-circle-o"></i>Deploy Security Guard</a></li>
 							<li class="{{Request::path() == 'admin/transaction/deployitem' ? 'active' : ''}}"><a href="{{ route('admin-transaction-deployitem') }}"><i class="fa fa-circle-o"></i>Deploy Item</a></li>
 							<li class="{{Request::path() == 'admin/transaction/request' ? 'active' : ''}}"><a href="{{ route('admin-transaction-request') }}"><i class="fa fa-circle-o"></i>Request</a></li>
+							<li class="{{Request::path() == 'admin/transaction/report' ? 'active' : ''}}"><a href="{{ route('admin-transaction-report') }}"><i class="fa fa-circle-o"></i>Report</a></li>
 						@elseif (Auth::user()->accounttype == 1)
 							<li class="{{Request::path() == 'admin/transaction/inventory' ? 'active' : ''}}"><a href="{{ route('admin-transaction-inventory') }}"><i class="fa fa-circle-o"></i>Inventory</a></li>
 							<li class="{{Request::path() == 'admin/transaction/deployitem' ? 'active' : ''}}"><a href="{{ route('admin-transaction-deployitem') }}"><i class="fa fa-circle-o"></i>Deploy Item</a></li>
 						@elseif (Auth::user()->accounttype == 2)
 							<li class="{{Request::path() == 'admin/transaction/request' ? 'active' : ''}}"><a href="{{ route('admin-transaction-request') }}"><i class="fa fa-circle-o"></i>Request</a></li>
+							<li class="{{Request::path() == 'admin/transaction/report' ? 'active' : ''}}"><a href="{{ route('admin-transaction-report') }}"><i class="fa fa-circle-o"></i>Report</a></li>
 						@elseif (Auth::user()->accounttype == 3)
 							<li class="{{Request::path() == 'admin/transaction/submitcredential' ? 'active' : ''}}"><a href="{{ route('admin-transaction-submitcredential') }}"><i class="fa fa-circle-o"></i>Submit Credentials</a></li>
 							<li class="{{Request::path() == 'admin/transaction/testlogin' ? 'active' : ''}}"><a href="{{ route('admin-transaction-testlogin') }}"><i class="fa fa-circle-o"></i>Testing</a></li>
