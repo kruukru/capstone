@@ -9,11 +9,13 @@ use Amcor\Appointment;
 use Amcor\Holiday;
 use Amcor\Applicant;
 use Amcor\Contract;
+use Amcor\Requestt;
 use Carbon\Carbon;
 use DateTime;
 use DateInterval;
 use DatePeriod;
 use Auth;
+use Response;
 
 class HomeController extends Controller
 {
@@ -154,7 +156,26 @@ class HomeController extends Controller
             } else if (Auth::user()->accounttype == 2) {
                 return view('admin.operationhome');
             } else if (Auth::user()->accounttype == 3) {
-                return view('admin.hrhome');
+                $unscheduledapplicants = count(Applicant::where('status', 0)->doesntHave('appointment')->get());
+                $onappointment = count(Appointment::whereHas('applicant', function($query) {
+                    $query->where('status', 0);
+                })->get());
+                $testingandinterview = count(Applicant::where([
+                    ['status', '>=', 1],
+                    ['status', '<=', 3]
+                ])->orWhere([
+                    ['status', '>=', 5],
+                    ['status', '<=', 7]
+                ])->get());
+                $incompletecredentials = count(Applicant::where([
+                    ['status', '>=', 1],
+                    ['status', '<=', 5]
+                ])->get());
+
+                $applicants = Applicant::get();
+                $requests = Requestt::where('status', 0)->get();
+
+                return view('admin.hrhome', compact('unscheduledapplicants', 'onappointment', 'testingandinterview', 'incompletecredentials', 'applicants', 'requests'));
             } else if (Auth::user()->accounttype == 10) {
 	    		return view('client.home');
 	    	} else if (Auth::user()->accounttype == 20) {
@@ -165,5 +186,36 @@ class HomeController extends Controller
     	}
 
     	return view('index.home');
+    }
+
+    public function getAdminHRDashboard() {
+        $deployed = count(Applicant::where('status', 10)->get());
+        $pooling = count(Applicant::where('status', 8)->get());
+        $application = count(Applicant::where([
+            ['status', '>=', 0],
+            ['status', '<=', 7]
+        ])->get());
+        $status = array($deployed, $pooling, $application);
+
+        $mostpriority = 0; $leastpriority = 0;
+        $applicants = Applicant::where([
+            ['status', 8],
+            ['lastdeployed', '<=', Carbon::today()->addDays(-30)]
+        ])->get();
+        foreach ($applicants as $applicant) {
+            if ($applicant->lastdeployed->diffInDays(Carbon::today()) >= 60) {
+                $mostpriority++;
+            } else {
+                $leastpriority++;
+            }
+        }
+        $priority = array($mostpriority, $leastpriority);
+
+        $dataArray = array(
+            'status' => $status,
+            'priority' => $priority,
+        );
+
+        return Response::json($dataArray);
     }
 }

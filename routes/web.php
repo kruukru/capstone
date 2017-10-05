@@ -222,6 +222,9 @@ Route::group(['middleware' => ['auth']], function() {
 
 	//hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr 
 	Route::group(['middleware' => 'Amcor\Http\Middleware\HRMiddleware'], function() {
+		//dashboard
+		Route::get('/admin/hr/dashboard', 'HomeController@getAdminHRDashboard');
+
 		//transaction transaction transaction transaction transaction transaction transaction transaction transaction transaction transaction
 		//submit credential
 		Route::name('admin-transaction-submitcredential')->get('/admin/transaction/submitcredential', 'CredentialController@getAdminSubmitCredential');

@@ -24,7 +24,10 @@ class AppServiceProvider extends ServiceProvider
 
             //security guard pooling vacant
             $countone = 0; $counttwo = 0;
-            $applicants = Applicant::where('lastdeployed', '<=', Carbon::today()->addDays(-30))->get();
+            $applicants = Applicant::where([
+                ['status', 8],
+                ['lastdeployed', '<=', Carbon::today()->addDays(-30)]
+            ])->get();
             foreach ($applicants as $applicant) {
                 if ($applicant->lastdeployed->diffInDays(Carbon::today()) >= 60) {
                     $countone++;

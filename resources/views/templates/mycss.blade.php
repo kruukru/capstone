@@ -16,6 +16,7 @@
 <link rel="stylesheet" type="text/css" href="/css/jquery-editable-select.min.css">
 <link rel="stylesheet" type="text/css" href="/css/jquery.loading.min.css">
 <!-- <link rel="stylesheet" type="text/css" href="/css/jquery.loading.css"> -->
+<link rel="stylesheet" type="text/css" href="/css/ionicons.min.css">
 
 <style type="text/css">
 	@media (min-width: 768px) {
