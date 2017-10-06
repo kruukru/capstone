@@ -38,6 +38,30 @@ $(document).ready(function() {
             });
         }
     });
+    //validate update username
+    $('#updateusername').on('focusout', function() {
+        if ($(this).val() != "") {
+            $('#updateusername').parsley().removeError('forcederror', {updateClass: true});
+            $.ajax({
+                type: "GET",
+                url: "/json/validate-username",
+                data: { inputUsername: $('#updateusername').val(), },
+                dataType: "json",
+                success: function(data) {
+                    $('#updateusername').parsley().removeError('forcederror', {updateClass: true});
+                },
+                error: function(data) {
+                    if (data.responseJSON == "SAME USERNAME") {
+                        $('#updateusername').parsley().addError('forcederror', {
+                            message: 'Username already exist.',
+                            updateClass: true,
+                        });
+                    }
+                },
+            });
+        }
+    });
+
     //validate password
     $('.input-password').on('keyup', function() {
         if ($('#confirmpassword').val() != "") {
@@ -71,12 +95,44 @@ $(document).ready(function() {
             }
         }
     });
+    //validate update password
+    $('.input-updatepassword').on('keyup', function() {
+        if ($('#updateconfirmpassword').val() != "") {
+            $('#updatepassword').parsley().removeError('forcederror', {updateClass: true});
+            $('#updateconfirmpassword').parsley().removeError('forcederror', {updateClass: true});
+            if ($('#updatepassword').val() != $('#updateconfirmpassword').val()) {
+                $('#updatepassword').parsley().addError('forcederror', {
+                    message: 'Password mismatch.',
+                    updateClass: true,
+                });
+                $('#updateconfirmpassword').parsley().addError('forcederror', {
+                    message: 'Password mismatch.',
+                    updateClass: true,
+                });
+            }
+        }
+    });
+    $('.input-updateconfirmpassword').on('keyup', function() {
+        if ($('#updatepassword').val() != "") {
+            $('#updatepassword').parsley().removeError('forcederror', {updateClass: true});
+            $('#updateconfirmpassword').parsley().removeError('forcederror', {updateClass: true});
+            if ($('#updatepassword').val() != $('#updateconfirmpassword').val()) {
+                $('#updatepassword').parsley().addError('forcederror', {
+                    message: 'Password mismatch.',
+                    updateClass: true,
+                });
+                $('#updateconfirmpassword').parsley().addError('forcederror', {
+                    message: 'Password mismatch.',
+                    updateClass: true,
+                });
+            }
+        }
+    });
 
     //modal account clear
     function modalAccountClear() {
         $('#formAccount').trigger('reset');
         $('#formAccount').parsley().reset();
-        $('#position').prop('disabled', false);
     }
 
     //modal remove
@@ -132,10 +188,16 @@ $(document).ready(function() {
 
     //update account
     $('#account-list').on('click', '#btnUpdate', function() {
+        $('#formAdminInformation').trigger('reset');
+        $('#formAdminInformation').parsley().reset();
+        $('#formAccountInformation').trigger('reset');
+        $('#formAccountInformation').parsley().reset();
         accountid = $(this).val();
 
         if (accountid == 1) {
             $('#updateposition').prop('disabled', true);
+        } else {
+            $('#updateposition').prop('disabled', false);
         }
 
         $.ajax({
@@ -219,15 +281,99 @@ $(document).ready(function() {
     });
 
     $('#btnSaveAccountInformation').click(function(e) {
-        e.preventDefault();
+        if ($('#formAccountInformation').parsley().validate()) {
+            e.preventDefault();
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                }
+            });
 
+            if ($('#updatepassword').val() != $('#updateconfirmpassword').val()) {
+                toastr.error("PASSWORD MISMATCH");
+                return;
+            }
 
+            $('#modalUpdateAccount').loading({
+                message: "SAVING..."
+            });
+
+            var formData = {
+                inputAccountID: accountid,
+                inputUsername: $('#updateusername').val(),
+                inputPassword: $('#updatepassword').val()
+            };
+
+            $.ajax({
+                type: "POST",
+                url: "/admin/utility/account/accountinformation",
+                data: formData,
+                dataType: "json",
+                success: function(data) {
+                    console.log(data);
+
+                    var dt = [
+                        table.cell('#id'+accountid, 0).data(),
+                        data.username,
+                        table.cell('#id'+accountid, 2).data(),
+                        table.cell('#id'+accountid, 3).data()
+                    ];
+                    table.row('#id'+accountid).data(dt).draw(false);
+
+                    $('#formAccountInformation').parsley().reset();
+                    $('#modalUpdateAccount').loading('stop');
+                    toastr.success("SAVE SUCCESSFUL");
+                },
+                error: function(data) {
+                    console.log(data);
+
+                    $('#modalUpdateAccount').loading('stop');
+                    if (data.responseJSON == "SAME USERNAME") {
+                        toastr.error("USERNAME ALREADY EXIST");
+                    }
+                }
+            });
+        }
     });
 
     $('#btnSaveImage').click(function(e) {
         e.preventDefault();
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+            }
+        });
 
+        var ext = $('#picture').val().split('.').pop().toLowerCase();
+        if ($.inArray(ext, ['gif','png','jpg','jpeg']) == -1) {
+            toastr.error("INVALID IMAGE INPUT");
+            return;
+        }
+        
+        $('#modalUpdateAccount').loading({
+            message: "SAVING..."
+        });
 
+        var image = $('#picture')[0].files[0];
+        var form = new FormData();
+
+        form.append('accountid', accountid);
+        form.append('image', image);
+
+        $.ajax({
+            type: "POST",
+            url: "/admin/utility/account/profileimage",
+            data: form,
+            cache: false,
+            processData: false,
+            contentType: false,
+            success: function(data) {
+
+                $('#formImage').trigger('reset');
+                $('#modalUpdateAccount').loading('stop');
+                toastr.success("SAVE SUCCESSFUL");
+            }
+        });
     });
 
     //save account new / update

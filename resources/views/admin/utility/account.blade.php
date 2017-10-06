@@ -113,7 +113,7 @@
 						<div class="wizard-inner">
 							<ul class="nav nav-tabs" role="tablist">
 								<li role="presentation" class="active" id="1">
-									<a href="#step1" data-toggle="tab" aria-controls="step1" role="tab" title="Company Details">
+									<a href="#step1" data-toggle="tab" aria-controls="step1" role="tab" title="Admin Information">
 										<span class="round-tab">
 											<i class="glyphicon glyphicon-list-alt"></i>
 										</span>
@@ -121,7 +121,7 @@
 								</li>
 
 								<li role="presentation" id="2">
-									<a href="#step2" data-toggle="tab" aria-controls="step2" role="tab" title="Client Information">
+									<a href="#step2" data-toggle="tab" aria-controls="step2" role="tab" title="Account Information">
 										<span class="round-tab">
 											<i class="glyphicon glyphicon-info-sign"></i>
 										</span>
@@ -129,7 +129,7 @@
 								</li>
 
 								<li role="presentation" id="3">
-									<a href="#step3" data-toggle="tab" aria-controls="step3" role="tab" title="Account Information">
+									<a href="#step3" data-toggle="tab" aria-controls="step3" role="tab" title="Profile Image">
 										<span class="round-tab">
 											<i class="glyphicon glyphicon-user"></i>
 										</span>
@@ -176,15 +176,15 @@
 										<form id="formAccountInformation" data-parsley-validate>
 											<div class="form-group">
 												<label>New Username *</label>
-												<input type="text" class="form-control" id="username" placeholder="Username" required>
+												<input type="text" class="form-control" id="updateusername" placeholder="Username" required>
 											</div>
 											<div class="form-group">
 												<label>New Password *</label>
-												<input type="password" class="form-control input-password" id="password" placeholder="Password" required>
+												<input type="password" class="form-control input-updatepassword" id="updatepassword" placeholder="Password" required>
 											</div>
 											<div class="form-group">
 												<label>Confirm Password *</label>
-												<input type="password" class="form-control input-confirmpassword" id="confirmpassword" placeholder="Confirm Password" required>
+												<input type="password" class="form-control input-updateconfirmpassword" id="updateconfirmpassword" placeholder="Confirm Password" required>
 											</div>
 											<div class="form-group">
 												<button class="btn btn-primary pull-right" id="btnSaveAccountInformation">SAVE</button>

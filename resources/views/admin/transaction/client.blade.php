@@ -151,13 +151,21 @@
 							<li role="presentation" id="2">
 								<a href="#step2" data-toggle="tab" aria-controls="step2" role="tab" title="Client Information">
 									<span class="round-tab">
-										<i class="glyphicon glyphicon-info-sign"></i>
+										<i class="glyphicon glyphicon-list"></i>
 									</span>
 								</a>
 							</li>
 
 							<li role="presentation" id="3">
 								<a href="#step3" data-toggle="tab" aria-controls="step3" role="tab" title="Account Information">
+									<span class="round-tab">
+										<i class="glyphicon glyphicon-info-sign"></i>
+									</span>
+								</a>
+							</li>
+
+							<li role="presentation" id="4">
+								<a href="#step4" data-toggle="tab" aria-controls="step4" role="tab" title="Profile Image">
 									<span class="round-tab">
 										<i class="glyphicon glyphicon-user"></i>
 									</span>
@@ -252,6 +260,29 @@
 										<div class="form-group">
 											<button class="btn btn-primary pull-right" id="btnAccountInformationSave">SAVE</button>
 										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+						<div class="tab-pane" role="tabpanel" id="step4">
+							<div class="box box-primary">
+								<div class="box-body">
+									<form id="formImage" enctype="multipart/form-data" role="form" method="POST" action="">
+										<h3>PROFILE IMAGE</h3>
+										<div class="form-group">
+											<img id="pictureview" src="/admin/default.png" alt="IMAGE" style="width: 50%; height: 50%;" class="center-block">
+										</div>
+										<div class="form-group">
+											<div class="column">
+												<div class="col-md-11 no-padding">
+													<input type="file" class="form-control" name="picture" id="picture" accept="image/*" data-type='image'>
+												</div>
+												<div class="col-md-1 no-padding">
+													<button class="btn btn-primary pull-right" id="btnSaveImage">SAVE</button>
+												</div>
+											</div>
+										</div>
+										<input type="hidden" name="_token" value="{{ Session::token() }}">
 									</form>
 								</div>
 							</div>

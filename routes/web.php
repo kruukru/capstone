@@ -87,6 +87,7 @@ Route::group(['middleware' => ['auth']], function() {
 		Route::post('/admin/transaction/client/companydetail', 'ClientController@postAdminCompanyDetail');
 		Route::post('/admin/transaction/client/clientinformation', 'ClientController@postAdminClientInformation');
 		Route::post('/admin/transaction/client/accountinformation', 'ClientController@postAdminAccountInformation');
+		Route::post('/admin/transaction/client/profileimage', 'ClientController@postAdminProfileImage');
 		
 		Route::post('/admin/transaction/client/contract/new', 'ClientController@postAdminContractNew');
 

@@ -458,7 +458,7 @@
 															<input type="file" class="form-control" name="picture" id="picture" accept="image/*" data-type='image'>
 														</div>
 														<div class="col-md-1 no-padding">
-															<button class="btn btn-primary pull-right" id="btnImageSave">SAVE</button>
+															<button class="btn btn-primary pull-right" id="btnSaveImage">SAVE</button>
 														</div>
 													</div>
 												</div>

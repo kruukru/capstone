@@ -2702,8 +2702,8 @@ $(document).ready(function() {
             var check = true;
 
             if ($('#ebGraduateType').val() == "Elementary" || $('#ebGraduateType').val() == "High School") {
-                $('#tblEducationBackground > tbody > tr').each(function() {
-                    if ($(this).find('#inputEBGraduateType').text() == $('#ebGraduateType').val()) {
+                tableEducationBackground.rows().every(function(rowIdx, tableLoop, rowLoop) {
+                    if (this.cell(rowIdx, 0).data() == $('#ebGraduateType').val()) {
                         check = false;
                     }
                 });
@@ -3289,24 +3289,23 @@ $(document).ready(function() {
     });
 
     //profile image save
-    $('#btnImageSave').click(function(e) {
+    $('#btnSaveImage').click(function(e) {
         e.preventDefault();
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
             }
         });
-        $('#modalCredential').loading({
-            message: "SAVING..."
-        });
 
         var ext = $('#picture').val().split('.').pop().toLowerCase();
         if ($.inArray(ext, ['gif','png','jpg','jpeg']) == -1) {
-            $('#modalCredential').loading('stop');
             toastr.error("INVALID IMAGE INPUT");
             return;
         }
-        
+
+        $('#modalCredential').loading({
+            message: "SAVING..."
+        });
 
         var image = $('#picture')[0].files[0];
         var form = new FormData();
@@ -3460,10 +3459,9 @@ $(document).ready(function() {
         var EBList = [], ERList = [], TCList = [];
         var workExp = 0;
 
-        //computation of work exp
-        if ($('#tblEmploymentRecord > tbody > tr').length != 0) {
-            $('#tblEmploymentRecord > tbody > tr').each(function() {
-                workExp += +($(this).find('#inputERWorkExp').text());
+        if (tableEmploymentRecord.rows().count()) {
+            tableEmploymentRecord.rows().every(function(rowIdx, tableLoop, rowLoop) {
+                workExp += Number(this.cell(rowIdx, 2).data());
             });
         }
 

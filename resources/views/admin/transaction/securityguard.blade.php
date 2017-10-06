@@ -50,8 +50,8 @@
 										<td style="text-align: center;">FAILED</td>
 									@endif
 									<td style="text-align: center;">
-										<button class="btn btn-primary btn-xs">View Profile</button>
-										<button class="btn btn-primary btn-xs" id="btnDeploy" value="test">Remove</button>
+										<!-- <button class="btn btn-primary btn-xs">View Profile</button>
+										<button class="btn btn-primary btn-xs" id="btnDeploy" value="test">Remove</button> -->
 									</td>
 								</tr>
 								@endforeach

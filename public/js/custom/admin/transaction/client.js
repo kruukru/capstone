@@ -2149,6 +2149,11 @@ $(document).ready(function() {
     });
     table.order([[0, 'asc']]).draw();
 
+    //update the picture in the img source
+    $("#picture").change(function() {
+        readURL(this);
+    });
+
     //date picker
     $('.mydatepicker').change(function() {
         $(this).parsley().validate();
@@ -2552,6 +2557,7 @@ $(document).ready(function() {
                     $('#updatecompanycontactno').inputmask("(99) 999 9999");
                 }
 
+                $('#pictureview').attr('src', '/client/' + data.picture);
                 $('#updatelastname').val(data.lastname);
                 $('#updatefirstname').val(data.firstname);
                 $('#updatemiddlename').val(data.middlename);
@@ -2740,6 +2746,47 @@ $(document).ready(function() {
         }
     });
 
+    //profile image save
+    $('#btnSaveImage').click(function(e) {
+        e.preventDefault();
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+            }
+        });
+
+        var ext = $('#picture').val().split('.').pop().toLowerCase();
+        if ($.inArray(ext, ['gif','png','jpg','jpeg']) == -1) {
+            toastr.error("INVALID IMAGE INPUT");
+            return;
+        }
+        
+        $('#modalUpdateClient').loading({
+            message: "SAVING..."
+        });
+
+        var image = $('#picture')[0].files[0];
+        var form = new FormData();
+
+        form.append('clientid', clientid);
+        form.append('image', image);
+
+        $.ajax({
+            type: "POST",
+            url: "/admin/transaction/client/profileimage",
+            data: form,
+            cache: false,
+            processData: false,
+            contentType: false,
+            success: function(data) {
+
+                $('#formImage').trigger('reset');
+                $('#modalUpdateClient').loading('stop');
+                toastr.success("SAVE SUCCESSFUL");
+            }
+        });
+    });
+
     //new contract
     $('#client-list').on('click', '#btnNewContract', function(e) {
         $('#formContract').trigger('reset');
@@ -2889,3 +2936,17 @@ $(document).ready(function() {
 
 
 });
+
+function readURL(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function(e) {
+            $('#pictureview').attr('src', e.target.result);
+        }
+
+        reader.readAsDataURL(input.files[0]);
+    } else {
+        $('#pictureview').attr('src', '/images/default.png');
+    }
+}

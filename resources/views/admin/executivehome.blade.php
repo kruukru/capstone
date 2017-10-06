@@ -11,5 +11,5 @@
 @endsection
 
 @section('script')
-<script src="/js/custom/admin/home.js"></script>
+<!-- <script src="/js/custom/admin/home.js"></script> -->
 @endsection

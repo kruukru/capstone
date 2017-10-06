@@ -62,7 +62,7 @@
   <aside class="main-sidebar">
     <section class="sidebar">
         <!-- user image -->
-        <div class="user-panel">
+        <div class="user-panel" style="min-height: 65px;">
             <div class="pull-left image">
                 <img src="/applicant/{{Auth::user()->applicant->picture}}" class="img-circle" alt="User Image" />
             </div>

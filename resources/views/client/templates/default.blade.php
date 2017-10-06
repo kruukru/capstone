@@ -34,14 +34,14 @@
             <!-- Menu Toggle Button -->
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <!-- The user image in the navbar-->
-              <img src="/images/default.png" class="user-image" alt="User Image"/>
+              <img src="/client/{{Auth::user()->client->picture}}" class="user-image" alt="User Image"/>
               <!-- hidden-xs hides the username on small devices so only the image appears. -->
               <span class="hidden-xs">{{Auth::user()->client->firstname}} {{Auth::user()->client->lastname}}</span>
             </a>
             <ul class="dropdown-menu">
               <!-- The user image in the menu -->
               <li class="user-header">
-                <img src="/images/default.png" class="img-circle" alt="User Image" />
+                <img src="/client/{{Auth::user()->client->picture}}" class="img-circle" alt="User Image" />
                 <p>{{Auth::user()->client->firstname}} {{Auth::user()->client->lastname}} - {{Auth::user()->client->position}}</p>
               </li>
               <!-- Menu Footer-->
@@ -61,9 +61,9 @@
   <aside class="main-sidebar">
     <section class="sidebar">
       <!-- user image -->
-      <div class="user-panel">
+      <div class="user-panel" style="min-height: 65px;">
         <div class="pull-left image">
-          <img src="/images/default.png" class="img-circle" alt="User Image" />
+          <img src="/client/{{Auth::user()->client->picture}}" class="img-circle" alt="User Image" />
         </div>
         <div class="pull-left info">
           <p>{{Auth::user()->client->lastname}}</p>

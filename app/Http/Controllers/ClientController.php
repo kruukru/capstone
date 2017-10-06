@@ -11,6 +11,7 @@ use Amcor\ClientQualification;
 use Amcor\Account;
 use Carbon\Carbon;
 use Response;
+use Image;
 
 class ClientController extends Controller
 {
@@ -38,6 +39,7 @@ class ClientController extends Controller
 
         $client = new Client;
         $client->account()->associate($account);
+        $client->picture = "default.png";
         $client->lastname = $request->inputLastName;
         $client->firstname = $request->inputFirstName;
         $client->middlename = $request->inputMiddleName;
@@ -96,6 +98,24 @@ class ClientController extends Controller
         $client->account->save();
 
         return Response::json($client);
+    }
+
+    public function postAdminProfileImage(Request $request) {
+        $client = Client::find($request->get('clientid'));
+
+        if ($request->hasFile('image')) {
+            if (!($client->picture === "default.png")) {
+                \File::delete('client/' . $client->picture);
+            }
+
+            $picture = $request->file('image');
+
+            $filename = time() . $picture->getClientOriginalName();
+            Image::make($picture)->save('client/' . $filename);
+
+            $client->picture = $filename;
+            $client->save();
+        }
     }
 
     public function postAdminContractNew(Request $request) {

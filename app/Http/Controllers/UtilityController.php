@@ -297,13 +297,19 @@ class UtilityController extends Controller
     }
 
     public function postAdminAdminInformation(Request $request) {
-        $account = Account::where([
-            ['username', $request->inputUsername],
-            ['accountid', '!=', $request->inputAccountID]
-        ])->get();
-        if (!($account->isEmpty())) {
-            return Response::json("SAME USERNAME", 500);
+        if ($request->inputPosition == "Executive") {
+            $accounttype = 0;
+        } else if ($request->inputPosition == "Admin") {
+            $accounttype = 1;
+        } else if ($request->inputPosition == "Operation") {
+            $accounttype = 2;
+        } else if ($request->inputPosition == "HR") {
+            $accounttype = 3;
         }
+
+        $account = Account::find($request->inputAccountID);
+        $account->accounttype = $accounttype;
+        $account->save();
 
         $admin = Admin::where('accountid', $request->inputAccountID)->first();
         $admin->lastname = $request->inputLastName;
@@ -313,6 +319,41 @@ class UtilityController extends Controller
         $admin->save();
 
         return Response::json($admin);
+    }
+
+    public function postAdminAccountInformation(Request $request) {
+        $account = Account::where([
+            ['username', $request->inputUsername],
+            ['accountid', '!=', $request->inputAccountID]
+        ])->get();
+        if (!($account->isEmpty())) {
+            return Response::json("SAME USERNAME", 500);
+        }
+
+        $account = Account::find($request->inputAccountID);
+        $account->username = $request->inputUsername;
+        $account->password = bcrypt($request->inputPassword);
+        $account->save();
+
+        return Response::json($account);
+    }
+
+    public function postAdminProfileImage(Request $request) {
+        $admin = Admin::where('accountid', $request->get('accountid'))->first();
+
+        if ($request->hasFile('image')) {
+            if (!($admin->picture === "default.png")) {
+                \File::delete('admin/' . $admin->picture);
+            }
+
+            $picture = $request->file('image');
+
+            $filename = time() . $picture->getClientOriginalName();
+            Image::make($picture)->save('admin/' . $filename);
+
+            $admin->picture = $filename;
+            $admin->save();
+        }
     }
 
     public function postAdminAccountRemove(Request $request) {
