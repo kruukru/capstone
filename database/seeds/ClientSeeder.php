@@ -13,6 +13,7 @@ class ClientSeeder extends Seeder
     {
         DB::table('clienttbl')->insert([
         	'accountid' => 2,
+            'picture' => 'default.png',
             'lastname' => 'client',
             'firstname' => 'client',
             'middlename' => 'client',
@@ -27,6 +28,7 @@ class ClientSeeder extends Seeder
 
         DB::table('clienttbl')->insert([
             'accountid' => 20,
+            'picture' => 'default.png',
             'lastname' => 'client1',
             'firstname' => 'client1',
             'middlename' => 'client1',

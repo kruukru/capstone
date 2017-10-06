@@ -16,6 +16,7 @@ class Admin extends Migration
         Schema::create('admintbl', function(Blueprint $table) {
             $table->increments('adminid');
             $table->integer('accountid')->unsigned();
+            $table->text('picture');
             $table->string('lastname');
             $table->string('firstname');
             $table->string('middlename')->nullable();

@@ -10,6 +10,11 @@ $(document).ready(function() {
     });
     table.order([[0, 'asc']]).draw();
 
+    //update the picture in the img source
+    $("#picture").change(function() {
+        readURL(this);
+    });
+
     //validate username
     $('#username').on('focusout', function() {
         if ($(this).val() != "") {
@@ -122,18 +127,15 @@ $(document).ready(function() {
     $('#btnNew').click(function() {
         modalAccountClear();
 
-        $('#btnSave').val("New");
-        $('#modalTitle').text("New Account");
         $('#modalAccount').modal('show');
     });
 
     //update account
     $('#account-list').on('click', '#btnUpdate', function() {
-        modalAccountClear();
         accountid = $(this).val();
 
         if (accountid == 1) {
-            $('#position').prop('disabled', true);
+            $('#updateposition').prop('disabled', true);
         }
 
         $.ajax({
@@ -148,16 +150,84 @@ $(document).ready(function() {
                     data.admin.middlename = "";
                 }
 
-                $('#lastname').val(data.admin.lastname);
-                $('#firstname').val(data.admin.firstname);
-                $('#middlename').val(data.admin.middlename);
-                $('#username').val(data.username);
-                $('#position').val(data.admin.position);
-                $('#btnSave').val("Update");
-                $('#modalTitle').text("Update Account");
-                $('#modalAccount').modal('show');
+                $('#pictureview').attr('src', '/admin/' + data.admin.picture);
+                $('#updatelastname').val(data.admin.lastname);
+                $('#updatefirstname').val(data.admin.firstname);
+                $('#updatemiddlename').val(data.admin.middlename);
+                $('#updateposition').val(data.admin.position);
             },
         });
+
+        $('#modalUpdateAccount').modal('show');
+    });
+
+    $('#btnSaveAdminInformation').click(function(e) {
+        if ($('#formAdminInformation').parsley().validate()) {
+            e.preventDefault();
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                }
+            });
+
+            $('#modalUpdateAccount').loading({
+                message: "SAVING..."
+            });
+
+            var formData = {
+                inputAccountID: accountid,
+                inputLastName: $('#updatelastname').val(),
+                inputFirstName: $('#updatefirstname').val(),
+                inputMiddleName: $('#updatemiddlename').val(),
+                inputPosition: $('#updateposition').val()
+            };
+
+            $.ajax({
+                type: "POST",
+                url: "/admin/utility/account/admininformation",
+                data: formData,
+                dataType: "json",
+                success: function(data) {
+                    console.log(data);
+
+                    if (data.middlename == null) {
+                        data.middlename = "";
+                    }
+
+                    var dt = [
+                        data.lastname+", "+data.firstname+" "+data.middlename,
+                        table.cell('#id'+accountid, 1).data(),
+                        data.position,
+                        table.cell('#id'+accountid, 3).data()
+                    ];
+                    table.row('#id'+accountid).data(dt).draw(false);
+
+                    $('#formAdminInformation').parsley().reset();
+                    $('#modalUpdateAccount').loading('stop');
+                    toastr.success("SAVE SUCCESSFUL");
+                },
+                error: function(data) {
+                    console.log(data);
+
+                    $('#modalUpdateAccount').loading('stop');
+                    if (data.responseJSON == "SAME USERNAME") {
+                        toastr.error("USERNAME ALREADY EXIST");
+                    }
+                }
+            });
+        }
+    });
+
+    $('#btnSaveAccountInformation').click(function(e) {
+        e.preventDefault();
+
+
+    });
+
+    $('#btnSaveImage').click(function(e) {
+        e.preventDefault();
+
+
     });
 
     //save account new / update
@@ -179,32 +249,18 @@ $(document).ready(function() {
                 message: "SAVING..."
             });
 
-            if ($('#btnSave').val() == "New") {
-                var my_url = "/admin/utility/account/new";
-                var formData = {
-                    inputLastName: $('#lastname').val(),
-                    inputFirstName: $('#firstname').val(),
-                    inputMiddleName: $('#middlename').val(),
-                    inputPosition: $('#position').val(),
-                    inputUsername: $('#username').val(),
-                    inputPassword: $('#password').val()
-                }
-            } else {
-                var my_url = "/admin/utility/account/update";
-                var formData = {
-                    inputAccountID: accountid,
-                    inputLastName: $('#lastname').val(),
-                    inputFirstName: $('#firstname').val(),
-                    inputMiddleName: $('#middlename').val(),
-                    inputPosition: $('#position').val(),
-                    inputUsername: $('#username').val(),
-                    inputPassword: $('#password').val(),
-                }
+            var formData = {
+                inputLastName: $('#lastname').val(),
+                inputFirstName: $('#firstname').val(),
+                inputMiddleName: $('#middlename').val(),
+                inputPosition: $('#position').val(),
+                inputUsername: $('#username').val(),
+                inputPassword: $('#password').val()
             }
 
             $.ajax({
                 type: "POST",
-                url: my_url,
+                url: "/admin/utility/account/new",
                 data: formData,
                 dataType: "json",
                 success: function(data) {
@@ -214,29 +270,27 @@ $(document).ready(function() {
                         data.middlename = "";
                     }
 
-                    if ($('#btnSave').val() == "New") {
-                        var row = "<tr id=id" + data.account.accountid + ">" +
-                            "<td>" + data.lastname + ", " + data.firstname + " " + data.middlename + "</td>" +
-                            "<td>" + data.account.username + "</td>" +
-                            "<td>" + data.position + "</td>" +
-                            "<td style='text-align: center;'>" +
-                            "<button class='btn btn-warning btn-xs' id='btnUpdate' value="+data.account.accountid+">Update</button> " +
-                            "<button class='btn btn-danger btn-xs' id='btnRemove' value="+data.account.accountid+">Remove</button>" +
-                            "</td>" +
-                            "</tr>";
-                        table.row.add($(row)[0]).draw();
-                    } else {
-                        var button = data.account.accountid == 1 ? "<button class='btn btn-warning btn-xs' id='btnUpdate' value="+data.account.accountid+">Update</button>" :
-                            "<button class='btn btn-warning btn-xs' id='btnUpdate' value="+data.account.accountid+">Update</button> " +
-                            "<button class='btn btn-danger btn-xs' id='btnRemove' value="+data.account.accountid+">Remove</button>";
-                        var dt = [
-                            data.lastname + ", " + data.firstname + " " + data.middlename,
-                            data.account.username,
-                            data.position,
-                            button,
-                        ];
-                        table.row('#id' + accountid).data(dt).draw(false);
-                    }
+                    var row = "<tr id=id" + data.account.accountid + ">" +
+                        "<td>" + data.lastname + ", " + data.firstname + " " + data.middlename + "</td>" +
+                        "<td>" + data.account.username + "</td>" +
+                        "<td>" + data.position + "</td>" +
+                        "<td style='text-align: center;'>" +
+                        "<button class='btn btn-warning btn-xs' id='btnUpdate' value="+data.account.accountid+">Update</button> " +
+                        "<button class='btn btn-danger btn-xs' id='btnRemove' value="+data.account.accountid+">Remove</button>" +
+                        "</td>" +
+                        "</tr>";
+                    table.row.add($(row)[0]).draw();
+
+                    // var button = data.account.accountid == 1 ? "<button class='btn btn-warning btn-xs' id='btnUpdate' value="+data.account.accountid+">Update</button>" :
+                    //     "<button class='btn btn-warning btn-xs' id='btnUpdate' value="+data.account.accountid+">Update</button> " +
+                    //     "<button class='btn btn-danger btn-xs' id='btnRemove' value="+data.account.accountid+">Remove</button>";
+                    // var dt = [
+                    //     data.lastname + ", " + data.firstname + " " + data.middlename,
+                    //     data.account.username,
+                    //     data.position,
+                    //     button,
+                    // ];
+                    // table.row('#id' + accountid).data(dt).draw(false);
 
                     $('#modalAccount').modal('hide');
                     $('#modalAccount').loading('stop');
@@ -257,3 +311,17 @@ $(document).ready(function() {
 
 
 });
+
+function readURL(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function(e) {
+            $('#pictureview').attr('src', e.target.result);
+        }
+
+        reader.readAsDataURL(input.files[0]);
+    } else {
+        $('#pictureview').attr('src', '/images/default.png');
+    }
+}

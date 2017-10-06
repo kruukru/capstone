@@ -286,6 +286,7 @@ class UtilityController extends Controller
 
         $admin = new Admin;
         $admin->account()->associate($account);
+        $admin->picture = "default.png";
         $admin->lastname = $request->inputLastName;
         $admin->firstname = $request->inputFirstName;
         $admin->middlename = $request->inputMiddleName;
@@ -295,7 +296,7 @@ class UtilityController extends Controller
         return Response::json($admin);
     }
 
-    public function postAdminAccountUpdate(Request $request) {
+    public function postAdminAdminInformation(Request $request) {
         $account = Account::where([
             ['username', $request->inputUsername],
             ['accountid', '!=', $request->inputAccountID]
@@ -304,23 +305,7 @@ class UtilityController extends Controller
             return Response::json("SAME USERNAME", 500);
         }
 
-        if ($request->inputPosition == "Executive") {
-            $accounttype = 0;
-        } else if ($request->inputPosition == "Admin") {
-            $accounttype = 1;
-        } else if ($request->inputPosition == "Operation") {
-            $accounttype = 2;
-        } else if ($request->inputPosition == "HR") {
-            $accounttype = 3;
-        }
-
-        $account = Account::find($request->inputAccountID);
-        $account->username = $request->inputUsername;
-        $account->password = bcrypt($request->inputPassword);
-        $account->accounttype = $accounttype;
-        $account->save();
-
-        $admin = Admin::with('account')->where('accountid', $request->inputAccountID)->first();
+        $admin = Admin::where('accountid', $request->inputAccountID)->first();
         $admin->lastname = $request->inputLastName;
         $admin->firstname = $request->inputFirstName;
         $admin->middlename = $request->inputMiddleName;

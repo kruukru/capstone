@@ -48,7 +48,7 @@
 					<!-- modal header -->
 					<div class="modal-header">
 						<button class="close" data-dismiss="modal">&times;</button>
-						<h3 id="modalTitle">XXX</h3>
+						<h3>New Account</h3>
 					</div>
 					<!-- modal body -->
 					<div class="modal-body">
@@ -94,6 +94,137 @@
 						</div>
 					</div>
 				</form>
+			</div>
+		</div>
+	</div>
+
+	<!-- modal for update client -->
+	<div class="modal fade" id="modalUpdateAccount">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<!-- modal header -->
+				<div class="modal-header">
+					<button class="close" data-dismiss="modal">&times;</button>
+					<h3>Update Account</h3>
+				</div>
+				<!-- modal body -->
+				<div class="modal-body">
+					<div class="wizard">
+						<div class="wizard-inner">
+							<ul class="nav nav-tabs" role="tablist">
+								<li role="presentation" class="active" id="1">
+									<a href="#step1" data-toggle="tab" aria-controls="step1" role="tab" title="Company Details">
+										<span class="round-tab">
+											<i class="glyphicon glyphicon-list-alt"></i>
+										</span>
+									</a>
+								</li>
+
+								<li role="presentation" id="2">
+									<a href="#step2" data-toggle="tab" aria-controls="step2" role="tab" title="Client Information">
+										<span class="round-tab">
+											<i class="glyphicon glyphicon-info-sign"></i>
+										</span>
+									</a>
+								</li>
+
+								<li role="presentation" id="3">
+									<a href="#step3" data-toggle="tab" aria-controls="step3" role="tab" title="Account Information">
+										<span class="round-tab">
+											<i class="glyphicon glyphicon-user"></i>
+										</span>
+									</a>
+								</li>
+							</ul>
+						</div>
+						<div class="tab-content">
+							<div class="tab-pane active" role="tabpanel" id="step1">
+								<div class="box box-primary">
+									<div class="box-body">
+										<form id="formAdminInformation" data-parsley-validate>
+											<div class="form-group">
+												<label>Last Name *</label>
+												<input type="text" class="form-control" id="updatelastname" placeholder="Last Name" required>
+											</div>
+											<div class="form-group">
+												<label>First Name *</label>
+												<input type="text" class="form-control" id="updatefirstname" placeholder="First Name" required>
+											</div>
+											<div class="form-group">
+												<label>Middle Name</label>
+												<input type="text" class="form-control" id="updatemiddlename" placeholder="Middle Name">
+											</div>
+											<div class="form-group">
+												<label>Position *</label>
+												<select class="form-control" id="updateposition">
+													<option value="Executive">Executive</option>
+													<option value="Admin">Admin</option>
+													<option value="Operation">Operation</option>
+													<option value="HR">HR</option>
+												</select>
+											</div>
+											<div class="form-group">
+												<button class="btn btn-primary pull-right" id="btnSaveAdminInformation">SAVE</button>
+											</div>
+										</form>
+									</div>
+								</div>
+							</div>
+							<div class="tab-pane" role="tabpanel" id="step2">
+								<div class="box box-primary">
+									<div class="box-body">
+										<form id="formAccountInformation" data-parsley-validate>
+											<div class="form-group">
+												<label>New Username *</label>
+												<input type="text" class="form-control" id="username" placeholder="Username" required>
+											</div>
+											<div class="form-group">
+												<label>New Password *</label>
+												<input type="password" class="form-control input-password" id="password" placeholder="Password" required>
+											</div>
+											<div class="form-group">
+												<label>Confirm Password *</label>
+												<input type="password" class="form-control input-confirmpassword" id="confirmpassword" placeholder="Confirm Password" required>
+											</div>
+											<div class="form-group">
+												<button class="btn btn-primary pull-right" id="btnSaveAccountInformation">SAVE</button>
+											</div>
+										</form>
+									</div>
+								</div>
+							</div>
+							<div class="tab-pane" role="tabpanel" id="step3">
+								<div class="box box-primary">
+									<div class="box-body">
+										<form id="formImage" enctype="multipart/form-data" role="form" method="POST" action="">
+											<h3>PROFILE IMAGE</h3>
+											<div class="form-group">
+												<img id="pictureview" src="/admin/default.png" alt="IMAGE" style="width: 50%; height: 50%;" class="center-block">
+											</div>
+											<div class="form-group">
+												<div class="column">
+													<div class="col-md-11 no-padding">
+														<input type="file" class="form-control" name="picture" id="picture" accept="image/*" data-type='image'>
+													</div>
+													<div class="col-md-1 no-padding">
+														<button class="btn btn-primary pull-right" id="btnSaveImage">SAVE</button>
+													</div>
+												</div>
+											</div>
+											<input type="hidden" name="_token" value="{{ Session::token() }}">
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- modal footer -->
+				<div class="modal-footer">
+					<div class="form-group">
+						<button class="btn btn-default" data-dismiss="modal">CANCEL</button>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>

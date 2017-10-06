@@ -16,6 +16,7 @@ class Client extends Migration
         Schema::create('clienttbl', function(Blueprint $table) {
             $table->increments('clientid');
             $table->integer('accountid')->unsigned();
+            $table->text('picture');
             $table->string('lastname');
             $table->string('firstname');
             $table->string('middlename')->nullable();

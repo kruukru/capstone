@@ -105,7 +105,9 @@ Route::group(['middleware' => ['auth']], function() {
 		//account
 		Route::name('admin-utility-account')->get('/admin/utility/account', 'UtilityController@getAdminAccount');
 		Route::post('/admin/utility/account/new', 'UtilityController@postAdminAccountNew');
-		Route::post('/admin/utility/account/update', 'UtilityController@postAdminAccountUpdate');
+		Route::post('/admin/utility/account/admininformation', 'UtilityController@postAdminAdminInformation');
+		Route::post('/admin/utility/account/accountinformation', 'UtilityController@postAdminAccountInformation');
+		Route::post('/admin/utility/account/profileimage', 'UtilityController@postAdminProfileImage');
 		Route::post('/admin/utility/account/remove', 'UtilityController@postAdminAccountRemove');
 
 		//archive archive archive archive archive archive archive archive archive archive archive archive archive archive archive archive
