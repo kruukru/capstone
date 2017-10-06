@@ -1,4 +1,4 @@
-<link rel="icon" href="/amcor.ico" />
+<link rel="icon" href="/images/{{$company->logo}}" />
 <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="/css/font-awesome.css">
 <link rel="stylesheet" type="text/css" href="/css/AdminLTE.min.css">
@@ -17,6 +17,7 @@
 <link rel="stylesheet" type="text/css" href="/css/jquery.loading.min.css">
 <!-- <link rel="stylesheet" type="text/css" href="/css/jquery.loading.css"> -->
 <link rel="stylesheet" type="text/css" href="/css/ionicons.min.css">
+<link rel="stylesheet" type="text/css" href="/css/jquery.timepicker.min.css">
 
 <style type="text/css">
 	@media (min-width: 768px) {

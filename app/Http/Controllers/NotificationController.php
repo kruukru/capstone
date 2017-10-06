@@ -69,13 +69,13 @@ class NotificationController extends Controller
 
             if (Carbon::today()->diffInDays($applicant->licenseexpiration, false) <= 0) {
                 $notifs->push([
-                    'topic' => "ADMIN - SECURITY GUARD LICENSE",
+                    'topic' => "HR - SECURITY GUARD LICENSE",
                     'description' => $applicant->firstname . " " . $applicant->lastname . " license has expired",
                     'priority' => $priority,
                 ]);
             } else {
                 $notifs->push([
-                    'topic' => "ADMIN - SECURITY GUARD LICENSE",
+                    'topic' => "HR - SECURITY GUARD LICENSE",
                     'description' => $description,
                     'priority' => $priority,
                 ]);

@@ -68,4 +68,8 @@ class Applicant extends Model
     public function personinvolve() {
         return $this->hasMany('Amcor\PersonInvolve', 'applicantid');
     }
+
+    public function schedule() {
+        return $this->hasOne('Amcor\Schedule', 'applicantid');
+    }
 }

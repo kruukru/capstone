@@ -380,17 +380,9 @@ Route::group(['middleware' => ['auth']], function() {
 
 		Route::get('/client/deploymentsite/view', 'DeploymentSiteController@getClientView');
 
-		//manager
-		Route::name('client-manager')->get('/client/manager', 'ManagerController@getClientManager');
-		Route::post('/client/manager/new', 'ManagerController@postClientNew');
-		Route::post('/client/manager/update', 'ManagerController@postClientUpdate');
-		Route::post('/client/manager/update-account', 'ManagerController@postClientUpdateAccount');
-		Route::post('/client/manager/remove', 'ManagerController@postClientRemove');
-
-		Route::get('/client/manager/deploymentsite', 'ManagerController@getClientDeploymentSite');
-		Route::post('/client/manager/deploymentsite', 'ManagerController@postClientDeploymentSite');
-		Route::get('/client/manager/assign/deploymentsite', 'ManagerController@getClientAssignDeploymentSite');
-		Route::post('/client/manager/assign/deploymentsite', 'ManagerController@postClientAssignDeploymentSite');
+		//schedule
+		Route::name('client-schedule')->get('/client/schedule', 'ScheduleController@getClientSchedule');
+		Route::post('/client/schedule', 'ScheduleController@postClientSchedule');
 
 		//request
 		Route::name('client-request')->get('/client/request', 'RequestController@getClientRequest');
@@ -414,6 +406,18 @@ Route::group(['middleware' => ['auth']], function() {
 		Route::post('/client/report/new', 'ReportController@postClientReportNew');
 		Route::post('/client/report/update', 'ReportController@postClientReportUpdate');
 		Route::post('/client/report/remove', 'ReportController@postClientReportRemove');
+
+		//manager
+		Route::name('client-manager')->get('/client/manager', 'ManagerController@getClientManager');
+		Route::post('/client/manager/new', 'ManagerController@postClientNew');
+		Route::post('/client/manager/update', 'ManagerController@postClientUpdate');
+		Route::post('/client/manager/update-account', 'ManagerController@postClientUpdateAccount');
+		Route::post('/client/manager/remove', 'ManagerController@postClientRemove');
+
+		Route::get('/client/manager/deploymentsite', 'ManagerController@getClientDeploymentSite');
+		Route::post('/client/manager/deploymentsite', 'ManagerController@postClientDeploymentSite');
+		Route::get('/client/manager/assign/deploymentsite', 'ManagerController@getClientAssignDeploymentSite');
+		Route::post('/client/manager/assign/deploymentsite', 'ManagerController@postClientAssignDeploymentSite');
 	});
 
 	//manager manager manager manager manager manager manager manager manager manager manager manager manager manager manager manager

@@ -22,6 +22,7 @@
 <script type="text/javascript" src="/js/jquery.slimscroll.min.js"></script>
 <script type="text/javascript" src="/js/jquery.loading.min.js"></script>
 <script type="text/javascript" src="/js/Chart.min.js"></script>
+<script type="text/javascript" src="/js/jquery.timepicker.min.js"></script>
 
 <script>
 	$("#success-alert").fadeTo(2000, 500).slideUp(500, function(){

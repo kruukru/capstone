@@ -75,9 +75,10 @@
       <ul class="sidebar-menu">
         <li class="header"></li>
         <li class="{{Request::path() == 'client/deploymentsite' ? 'active' : ''}}"><a href="{{ route('client-deploymentsite') }}"><i class="fa fa-building-o"></i><span>Deployment Site</span></a></li>
-        <li class="{{Request::path() == 'client/manager' ? 'active' : ''}}"><a href="{{ route('client-manager') }}"><i class="fa fa-users"></i><span>Manager</span></a></li>
+        <li class="{{Request::path() == 'client/schedule' ? 'active' : ''}}"><a href="{{ route('client-schedule') }}"><i class="fa fa-calendar-check-o"></i><span>Schedule</span></a></li>
         <li class="{{Request::path() == 'client/request' ? 'active' : ''}}"><a href="{{ route('client-request') }}"><i class="fa fa-share-square-o"></i><span>Request</span></a></li>
         <li class="{{Request::path() == 'client/report' ? 'active' : ''}}"><a href="{{ route('client-report') }}"><i class="fa fa-file-text"></i><span>Report</span></a></li>
+        <li class="{{Request::path() == 'client/manager' ? 'active' : ''}}"><a href="{{ route('client-manager') }}"><i class="fa fa-users"></i><span>Manager</span></a></li>
       </ul>
     </section>
   </aside>
