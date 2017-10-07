@@ -39,9 +39,9 @@ class ScheduleController extends Controller
     	} else {
     		$schedule->monday = false;
     	}
-    	if ($request->inputTuedayTimeIN != null && $request->inputTuesdayTimeOUT != null) {
+    	if ($request->inputTuesdayTimeIN != null && $request->inputTuesdayTimeOUT != null) {
     		$schedule->tuesday = true;
-    		$schedule->tuesdayin = $request->inputTuedayTimeIN;
+    		$schedule->tuesdayin = $request->inputTuesdayTimeIN;
     		$schedule->tuesdayout = $request->inputTuesdayTimeOUT;
     	} else {
     		$schedule->tuesday = false;

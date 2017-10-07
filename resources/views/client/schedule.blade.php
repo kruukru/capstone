@@ -77,6 +77,10 @@
 					</div>
 					<!-- modal body -->
 					<div class="modal-body">
+						<div class="form-group">
+							<label>Security Guard Name:</label>
+							<h4 id="applicantName"></h4>
+						</div><hr>
 						<div class="row">
 							<div class="form-group">
 								<div class="col-md-2">
@@ -84,11 +88,11 @@
 								</div>
 								<div class="col-md-5">
 									<label>Time IN</label>
-									<input type="text" class="form-control" id="sundaytimein">
+									<input type="text" class="form-control" id="sundaytimein" pattern="^([01]\d|2[0-3]):([0-5]\d):([0-5]\d)$">
 								</div>
 								<div class="col-md-5">
 									<label>Time OUT</label>
-									<input type="text" class="form-control" id="sundaytimeout">
+									<input type="text" class="form-control" id="sundaytimeout" pattern="^([01]\d|2[0-3]):([0-5]\d):([0-5]\d)$">
 								</div>
 							</div>
 							<div class="form-group">
@@ -97,11 +101,11 @@
 								</div>
 								<div class="col-md-5">
 									<label>Time IN</label>
-									<input type="text" class="form-control" id="mondaytimein">
+									<input type="text" class="form-control" id="mondaytimein" pattern="^([01]\d|2[0-3]):([0-5]\d):([0-5]\d)$">
 								</div>
 								<div class="col-md-5">
 									<label>Time OUT</label>
-									<input type="text" class="form-control" id="mondaytimeout">
+									<input type="text" class="form-control" id="mondaytimeout" pattern="^([01]\d|2[0-3]):([0-5]\d):([0-5]\d)$">
 								</div>
 							</div>
 							<div class="form-group">
@@ -110,11 +114,11 @@
 								</div>
 								<div class="col-md-5">
 									<label>Time IN</label>
-									<input type="text" class="form-control" id="tuesdaytimein">
+									<input type="text" class="form-control" id="tuesdaytimein" pattern="^([01]\d|2[0-3]):([0-5]\d):([0-5]\d)$">
 								</div>
 								<div class="col-md-5">
 									<label>Time OUT</label>
-									<input type="text" class="form-control" id="tuesdaytimeout">
+									<input type="text" class="form-control" id="tuesdaytimeout" pattern="^([01]\d|2[0-3]):([0-5]\d):([0-5]\d)$">
 								</div>
 							</div>
 							<div class="form-group">
@@ -123,11 +127,11 @@
 								</div>
 								<div class="col-md-5">
 									<label>Time IN</label>
-									<input type="text" class="form-control" id="wednesdaytimein">
+									<input type="text" class="form-control" id="wednesdaytimein" pattern="^([01]\d|2[0-3]):([0-5]\d):([0-5]\d)$">
 								</div>
 								<div class="col-md-5">
 									<label>Time OUT</label>
-									<input type="text" class="form-control" id="wednesdaytimeout">
+									<input type="text" class="form-control" id="wednesdaytimeout" pattern="^([01]\d|2[0-3]):([0-5]\d):([0-5]\d)$">
 								</div>
 							</div>
 							<div class="form-group">
@@ -136,11 +140,11 @@
 								</div>
 								<div class="col-md-5">
 									<label>Time IN</label>
-									<input type="text" class="form-control" id="thursdaytimein">
+									<input type="text" class="form-control" id="thursdaytimein" pattern="^([01]\d|2[0-3]):([0-5]\d):([0-5]\d)$">
 								</div>
 								<div class="col-md-5">
 									<label>Time OUT</label>
-									<input type="text" class="form-control" id="thursdaytimeout">
+									<input type="text" class="form-control" id="thursdaytimeout" pattern="^([01]\d|2[0-3]):([0-5]\d):([0-5]\d)$">
 								</div>
 							</div>
 							<div class="form-group">
@@ -149,11 +153,11 @@
 								</div>
 								<div class="col-md-5">
 									<label>Time IN</label>
-									<input type="text" class="form-control" id="fridaytimein">
+									<input type="text" class="form-control" id="fridaytimein" pattern="^([01]\d|2[0-3]):([0-5]\d):([0-5]\d)$">
 								</div>
 								<div class="col-md-5">
 									<label>Time OUT</label>
-									<input type="text" class="form-control" id="fridaytimeout">
+									<input type="text" class="form-control" id="fridaytimeout" pattern="^([01]\d|2[0-3]):([0-5]\d):([0-5]\d)$">
 								</div>
 							</div>
 							<div class="form-group">
@@ -162,11 +166,11 @@
 								</div>
 								<div class="col-md-5">
 									<label>Time IN</label>
-									<input type="text" class="form-control" id="saturdaytimein">
+									<input type="text" class="form-control" id="saturdaytimein" pattern="^([01]\d|2[0-3]):([0-5]\d):([0-5]\d)$">
 								</div>
 								<div class="col-md-5">
 									<label>Time OUT</label>
-									<input type="text" class="form-control" id="saturdaytimeout">
+									<input type="text" class="form-control" id="saturdaytimeout" pattern="^([01]\d|2[0-3]):([0-5]\d):([0-5]\d)$">
 								</div>
 							</div>
 						</div>

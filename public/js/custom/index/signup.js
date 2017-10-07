@@ -2952,9 +2952,9 @@ $(document).ready(function() {
             });
 
             //computation of work exp
-            if($('#tblEmploymentRecord > tbody > tr').length != 0) {
-                $('#tblEmploymentRecord > tbody > tr').each(function() {
-                    workExp += +($(this).find('#inputERWorkExp').text());
+            if (tableEmploymentRecord.rows().count()) {
+                tableEmploymentRecord.rows().every(function(rowIdx, tableLoop, rowLoop) {
+                    workExp += Number(this.cell(rowIdx, 2).data());
                 });
             }
 
