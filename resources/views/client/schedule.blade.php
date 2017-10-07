@@ -49,7 +49,9 @@
 													@endif
 												</ul>
 											</td>
-											<td></td>
+											<td style="text-align: center;">
+												<button class="btn btn-primary btn-xs" id="btnUpdate" value="{{$applicant->applicantid}}">Update</button>
+											</td>
 										@else
 											<td style="text-align: center;">N/A</td>
 											<td style="text-align: center;">

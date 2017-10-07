@@ -270,6 +270,15 @@ $(document).ready(function() {
                     success: function(data) {
                         console.log(data);
 
+                        var dt = [
+                            table.cell('#id'+applicantid, 0).data(),
+                            table.cell('#id'+applicantid, 1).data(),
+                            table.cell('#id'+applicantid, 2).data(),
+                            "",
+                            "<button class='btn btn-primary btn-xs' id='btnUpdate' id="+applicantid+">Update</button>"
+                        ];
+                        table.row('#id'+applicantid).data(dt).draw(false);
+
                         $('#modalSchedule').modal('hide');
                         $('#modalSchedule').loading('stop');
                         toastr.success("SAVE SUCCESSFUL");
