@@ -51,11 +51,11 @@
 					<!-- modal body -->
 					<div class="modal-body">
 						<div class="form-group">
-							<label>Violation *</label>
+							<label>Violation <span class="asterisk-red">*</span></label>
 							<input type="text" id="inputViolation" class="form-control" maxlength="100" required>
 						</div>
 						<div class="form-group">
-							<label>Severity *</label>
+							<label>Severity <span class="asterisk-red">*</span></label>
 							<select id="inputViolationSeverity" class="form-control">
 								<option value="Minor Offense">Minor Offense</option>
 								<option value="Major Offense">Major Offense</option>

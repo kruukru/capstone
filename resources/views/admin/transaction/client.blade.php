@@ -64,11 +64,11 @@
 				<div class="modal-body">
 					<h3>Client Information</h3>
 					<div class="form-group">
-						<label>Last Name *</label>
+						<label>Last Name <span class="asterisk-red">*</span></label>
 						<input type="text" class="form-control" id="lastname" placeholder="Last Name" required>
 					</div>
 					<div class="form-group">
-						<label>First Name *</label>
+						<label>First Name <span class="asterisk-red">*</span></label>
 						<input type="text" class="form-control" id="firstname" placeholder="First Name" required>
 					</div>
 					<div class="form-group">
@@ -76,41 +76,41 @@
 						<input type="text" class="form-control" id="middlename" placeholder="Middle Name">
 					</div>
 					<div class="form-group">
-						<label>Position *</label>
+						<label>Position <span class="asterisk-red">*</span></label>
 						<input type="text" class="form-control" id="position" placeholder="Position" required>
 					</div>
 					<div class="form-group">
-						<label>Contact # *</label>
+						<label>Contact # <span class="asterisk-red">*</span></label>
 						<input type="text" class="form-control" id="contactpersonno" placeholder="Contact #" required>
 					</div><hr>
 					<h3>Account Information</h3>
 					<div class="form-group">
-						<label>Username *</label>
+						<label>Username <span class="asterisk-red">*</span></label>
 						<input type="text" class="form-control" id="username" placeholder="Username" required>
 					</div>
 					<div class="form-group">
-						<label>Password *</label>
+						<label>Password <span class="asterisk-red">*</span></label>
 						<input type="password" class="form-control input-password" id="password" placeholder="Password" required>
 					</div>
 					<div class="form-group">
-						<label>Confirm Password *</label>
+						<label>Confirm Password <span class="asterisk-red">*</span></label>
 						<input type="password" class="form-control input-confirmpassword" id="confirmpassword" placeholder="Confirm Password" required>
 					</div><hr>
 					<h3>Company Details</h3>
 					<div class="form-group">
-						<label>Name *</label>
+						<label>Name <span class="asterisk-red">*</span></label>
 						<input type="text" class="form-control" id="companyname" placeholder="Name" required>
 					</div>
 					<div class="form-group">
-						<label>Address *</label>
+						<label>Address <span class="asterisk-red">*</span></label>
 						<input type="text" class="form-control" id="companyaddress" placeholder="Address" required>
 					</div>
 					<div class="form-group">
-						<label>Contact # *</label>
+						<label>Contact # <span class="asterisk-red">*</span></label>
 						<input type="text" class="form-control" id="companycontactno" placeholder="Contact #" required>
 					</div>
 					<div class="form-group">
-						<label>Email *</label>
+						<label>Email <span class="asterisk-red">*</span></label>
 						<input type="email" class="form-control" id="companyemail" placeholder="Email" required>
 					</div>
 				</div>
@@ -182,19 +182,19 @@
 											<h4>Company Details</h4>
 										</div>
 										<div class="form-group">
-											<label>Name *</label>
+											<label>Name <span class="asterisk-red">*</span></label>
 											<input type="text" class="form-control" id="updatecompanyname" placeholder="Name" required>
 										</div>
 										<div class="form-group">
-											<label>Address *</label>
+											<label>Address <span class="asterisk-red">*</span></label>
 											<input type="text" class="form-control" id="updatecompanyaddress" placeholder="Address" required>
 										</div>
 										<div class="form-group">
-											<label>Contact # *</label>
+											<label>Contact # <span class="asterisk-red">*</span></label>
 											<input type="text" class="form-control" id="updatecompanycontactno" placeholder="Contact #" required>
 										</div>
 										<div class="form-group">
-											<label>Email *</label>
+											<label>Email <span class="asterisk-red">*</span></label>
 											<input type="email" class="form-control" id="updatecompanyemail" placeholder="Email" required>
 										</div>
 										<div class="form-group">
@@ -212,11 +212,11 @@
 											<h4>Client Information</h4>
 										</div>
 										<div class="form-group">
-											<label>Last Name *</label>
+											<label>Last Name <span class="asterisk-red">*</span></label>
 											<input type="text" class="form-control" id="updatelastname" placeholder="Last Name" required>
 										</div>
 										<div class="form-group">
-											<label>First Name *</label>
+											<label>First Name <span class="asterisk-red">*</span></label>
 											<input type="text" class="form-control" id="updatefirstname" placeholder="First Name" required>
 										</div>
 										<div class="form-group">
@@ -224,11 +224,11 @@
 											<input type="text" class="form-control" id="updatemiddlename" placeholder="Middle Name">
 										</div>
 										<div class="form-group">
-											<label>Position *</label>
+											<label>Position <span class="asterisk-red">*</span></label>
 											<input type="text" class="form-control" id="updateposition" placeholder="Position" required>
 										</div>
 										<div class="form-group">
-											<label>Contact # *</label>
+											<label>Contact # <span class="asterisk-red">*</span></label>
 											<input type="text" class="form-control" id="updatecontactpersonno" placeholder="Contact #" required>
 										</div>
 										<div class="form-group">
@@ -246,15 +246,15 @@
 											<h4>Account Information</h4>
 										</div>
 										<div class="form-group">
-											<label>New Username *</label>
+											<label>New Username <span class="asterisk-red">*</span></label>
 											<input type="text" class="form-control" id="updateusername" placeholder="Username" required>
 										</div>
 										<div class="form-group">
-											<label>New Password *</label>
+											<label>New Password <span class="asterisk-red">*</span></label>
 											<input type="password" class="form-control input-updatepassword" id="updatepassword" placeholder="Password" required>
 										</div>
 										<div class="form-group">
-											<label>Confirm Password *</label>
+											<label>Confirm Password <span class="asterisk-red">*</span></label>
 											<input type="password" class="form-control input-updateconfirmpassword" id="updateconfirmpassword" placeholder="Confirm Password" required>
 										</div>
 										<div class="form-group">
@@ -316,11 +316,11 @@
 					<div class="form-group">
 						<div class="row">
 							<div class="col-md-6">
-								<label>Start Date *</label>
+								<label>Start Date <span class="asterisk-red">*</span></label>
 								<input type="text" class="form-control mydatepicker" id="startdate" placeholder="yyyy-mm-dd" required>
 							</div>
 							<div class="col-md-6">
-								<label>Price *</label>
+								<label>Price <span class="asterisk-red">*</span></label>
 								<div class="input-group">
 									<span class="input-group-addon"><i>&#8369;</i></span>
 									<input type="text" id="inputPrice" class="form-control" placeholder="Contract Price" style="text-align: right;" maxlength="22" required>
@@ -329,7 +329,7 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<label>Length *</label>
+						<label>Length <span class="asterisk-red">*</span></label>
 						<div class="row">
 							<div class="col-md-12">
 								<div class="column">
@@ -348,19 +348,19 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<label>Place Held *</label>
+						<label>Place Held <span class="asterisk-red">*</span></label>
 						<input type="text" id="inputPlaceHeld" class="form-control" placeholder="Place Held" required>
 					</div>
 					<div class="form-group">
-						<label>Building/Area Name *</label>
+						<label>Building/Area Name <span class="asterisk-red">*</span></label>
 						<input type="text" id="inputBuildingAreaName" class="form-control" placeholder="Building/Area Name" required>
 					</div>
 					<div class="form-group">
-						<label>Address *</label>
+						<label>Address <span class="asterisk-red">*</span></label>
 						<input type="text" id="inputAddress" class="form-control" placeholder="Address" required>
 					</div>
 					<div class="form-group">
-						<label>Province *</label>
+						<label>Province <span class="asterisk-red">*</span></label>
 						<select class="form-control" id="inputProvince" required>
 							<option></option>
 							<option value="Abra">Abra</option>
@@ -448,7 +448,7 @@
 						</select>
 					</div>
 					<div class="form-group">
-						<label>City/Municipality *</label>
+						<label>City/Municipality <span class="asterisk-red">*</span></label>
 						<select class="form-control" id="inputCity" required></select>
 					</div>
 				</div>

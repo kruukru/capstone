@@ -50,23 +50,23 @@
 					<!-- modal body -->
 					<div class="modal-body">
 						<div class="form-group">
-        					<label>Username *</label>
+        					<label>Username <span class="asterisk-red">*</span></label>
         					<input type="text" class="form-control" id="username" placeholder="Username" required>
         				</div>
         				<div class="form-group">
-        					<label>Password *</label>
+        					<label>Password <span class="asterisk-red">*</span></label>
         					<input type="password" class="form-control input-password" id="password" placeholder="Password" required>
         				</div>
         				<div class="form-group">
-        					<label>Confirm Password *</label>
+        					<label>Confirm Password <span class="asterisk-red">*</span></label>
         					<input type="password" class="form-control input-confirmpassword" id="confirmpassword" placeholder="Confirm Password" required>
         				</div><hr>
         				<div class="form-group">
-        					<label>Lastname *</label>
+        					<label>Lastname <span class="asterisk-red">*</span></label>
         					<input type="text" class="form-control" id="inputLastname" placeholder="Lastname" required>
         				</div>
         				<div class="form-group">
-        					<label>Firstname *</label>
+        					<label>Firstname <span class="asterisk-red">*</span></label>
         					<input type="text" class="form-control" id="inputFirstname" placeholder="Firstname" required>
         				</div>
         				<div class="form-group">
@@ -99,15 +99,15 @@
 				<div class="modal-body">
 					<form id="formAccountUpdate" data-parsley-validate>
 						<div class="form-group">
-	    					<label>New Username *</label>
+	    					<label>New Username <span class="asterisk-red">*</span></label>
 	    					<input type="text" class="form-control" id="updateusername" placeholder="Username" required>
 	    				</div>
 	    				<div class="form-group">
-	    					<label>New Password *</label>
+	    					<label>New Password <span class="asterisk-red">*</span></label>
 	    					<input type="password" class="form-control updateinput-password" id="updatepassword" placeholder="Password" required>
 	    				</div>
 	    				<div class="form-group">
-	    					<label>Confirm Password *</label>
+	    					<label>Confirm Password <span class="asterisk-red">*</span></label>
 	    					<input type="password" class="form-control updateinput-confirmpassword" id="updateconfirmpassword" placeholder="Confirm Password" required>
 	    				</div>
 	    				<div class="form-group">
@@ -117,11 +117,11 @@
     				<hr>
 					<form id="formManagerUpdate" data-parsley-validate>
 	    				<div class="form-group">
-	    					<label>Lastname *</label>
+	    					<label>Lastname <span class="asterisk-red">*</span></label>
 	    					<input type="text" class="form-control" id="updateinputLastname" placeholder="Lastname" required>
 	    				</div>
 	    				<div class="form-group">
-	    					<label>Firstname *</label>
+	    					<label>Firstname <span class="asterisk-red">*</span></label>
 	    					<input type="text" class="form-control" id="updateinputFirstname" placeholder="Firstname" required>
 	    				</div>
 	    				<div class="form-group">

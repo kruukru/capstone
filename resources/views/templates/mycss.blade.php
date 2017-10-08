@@ -53,4 +53,9 @@
 	.slider-selection {
 		background: lightblue;
 	}
+
+	.asterisk-red {
+		font-size: 17px;
+		color: red;
+	}
 </style>

@@ -47,7 +47,7 @@
 					<!-- modal body -->
 					<div class="modal-body">
 						<div class="form-group">
-							<label>Question/Topic *</label>
+							<label>Question/Topic <span class="asterisk-red">*</span></label>
 							<textarea id="inputQuestion" rows="3" class="form-control" required></textarea>
 						</div>
 					</div>

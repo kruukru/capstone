@@ -15,6 +15,7 @@ use Amcor\ClientQualification;
 use Amcor\QualificationCheck;
 use Amcor\Applicant;
 use Amcor\EducationBackground;
+use Amcor\ReplaceApplicant;
 use Carbon\Carbon;
 use Geotools;
 use Response;
@@ -26,8 +27,9 @@ class RequestController extends Controller
     //admin admin admin admin admin admin admin admin admin admin admin admin admin admin admin admin admin admin 
     public function getAdminRequest() {
         $requests = Requestt::where('status', '<=', 1)->get();
+        $replaceapplicants = ReplaceApplicant::get();
 
-        return view('admin.transaction.request', compact('requests'));
+        return view('admin.transaction.request', compact('requests', 'replaceapplicants'));
     }
 
     public function postAdminDecline(Request $request) {
@@ -557,6 +559,50 @@ class RequestController extends Controller
         $requestt->save();
 
         return Response::json($requestt);
+    }
+
+    //admin replace
+    public function getAdminReplaceSecurityGuard(Request $request) {
+        $applicants = Applicant::where('status', 8)->get();
+
+        $pool = collect();
+        foreach ($applicants as $applicant) {
+            $pool->push([
+                'applicantid' => $applicant->applicantid,
+                'name' => $applicant->firstname . " " . $applicant->middlename . " " . $applicant->lastname,
+                'vacant' => $applicant->lastdeployed->diffInDays(Carbon::today())
+            ]);
+        }
+
+        return Response::json($pool);
+    }
+
+    public function postAdminReplace(Request $request) {
+        $applicant = Applicant::find($request->inputApplicantID);
+        $replaceapplicant = ReplaceApplicant::find($request->inputReplaceApplicantID);
+        $qualificationcheck = QualificationCheck::find($replaceapplicant->qualificationcheckid);
+
+        $applicant->status = 10;
+        $applicant->lastdeployed = null;
+        $applicant->save();
+        
+        $applicantold = Applicant::find($replaceapplicant->qualificationcheck->applicantid);
+        $applicantold->lastdeployed = Carbon::today();
+        $applicantold->status = 8;
+        $applicantold->save();
+
+        $qualificationcheck->applicant()->associate($applicant);
+        $qualificationcheck->save();
+
+        ReplaceApplicant::find($request->inputReplaceApplicantID)->forceDelete();
+
+        return Response::json($applicant);
+    }
+
+    public function postAdminReplaceRemove(Request $request) {
+        ReplaceApplicant::find($request->inputReplaceApplicantID)->forceDelete();
+
+        return Response::json(400);
     }
 
     //client client client client client client client client client client client client client client 

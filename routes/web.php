@@ -41,6 +41,7 @@ Route::get('/json/admin/one', 'JSONController@getAdminOne');
 Route::get('/json/account/one', 'JSONController@getAccountOne');
 Route::get('/json/report/one', 'JSONController@getReportOne');
 Route::get('/json/deploymentsite/one', 'JSONController@getDeploymentSiteOne');
+Route::get('/json/replaceapplicant/one', 'JSONController@getReplaceApplicantOne');
 
 Route::get('/json/itemtype/all', 'JSONController@getItemTypeAll');
 Route::get('/json/questionchoice/all', 'JSONController@getQuestionChoiceAll');
@@ -180,6 +181,10 @@ Route::group(['middleware' => ['auth']], function() {
 		Route::get('/admin/transaction/request/item/inventory', 'RequestController@getAdminItemInventory');
 		Route::get('/admin/transaction/request/firearm', 'RequestController@getAdminFirearm');
 		Route::post('/admin/transaction/request/item', 'RequestController@postAdminItem');
+
+		Route::get('/admin/transaction/request/replace/securityguard', 'RequestController@getAdminReplaceSecurityGuard');
+		Route::post('/admin/transaction/request/replace', 'RequestController@postAdminReplace');
+		Route::post('/admin/transaction/request/replace/remove', 'RequestController@postAdminReplaceRemove');
 
 		//report
 		Route::name('admin-transaction-report')->get('/admin/transaction/report', 'ReportController@getAdminReport');
@@ -367,6 +372,12 @@ Route::group(['middleware' => ['auth']], function() {
 
 	//client client client client client client client client client client client client client client client client client client 
 	Route::group(['middleware' => 'Amcor\Http\Middleware\ClientMiddleware'], function() {
+		//security guard
+		Route::name('client-securityguard')->get('/client/securityguard', 'SecurityGuardController@getClientSecurityGuard');
+
+		Route::post('/client/securityguard/replace', 'SecurityGuardController@postClientSecurityGuardReplace');
+		Route::post('/client/securityguard/replace/cancel', 'SecurityGuardController@postClientSecurityGuardReplaceCancel');
+
 		//deployment site
 		Route::name('client-deploymentsite')->get('/client/deploymentsite', 'DeploymentSiteController@getClientDeploymentSite');
 		Route::get('/client/deploymentsite/clientqualification', 'DeploymentSiteController@getClientClientQualification');

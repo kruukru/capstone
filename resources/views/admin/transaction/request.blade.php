@@ -57,6 +57,24 @@
 									@endif
 								</tr>
 								@endforeach
+								@foreach ($replaceapplicants as $replaceapplicant)
+								<tr id="idr{{$replaceapplicant->replaceapplicantid}}">
+									<td>{{$replaceapplicant->replaceapplicantid}}</td>
+									<td id="replaceapplicanttype">REPLACEMENT</td>
+									<td>{{$replaceapplicant->qualificationcheck->deploymentsite->sitename}}</td>
+									<td>{{$replaceapplicant->qualificationcheck->deploymentsite->location}}</td>
+									@if ($replaceapplicant->account->client)
+										<td>{{$replaceapplicant->account->client->lastname}}, {{$replaceapplicant->account->client->firstname}} {{$replaceapplicant->account->client->middlename}}</td>
+									@else
+										<td>{{$replaceapplicant->account->manager->lastname}}, {{$replaceapplicant->account->manager->firstname}} {{$replaceapplicant->account->manager->middlename}}</td>
+									@endif
+									<td>{{$replaceapplicant->created_at->format('Y-m-d')}}</td>
+									<td style="text-align: center;">PENDING</td>
+									<td style="text-align: center;">
+										<button class="btn btn-primary btn-xs" id="btnAssessReplace" value="{{$replaceapplicant->replaceapplicantid}}">Assess</button>
+									</td>
+								</tr>
+								@endforeach
 							</tbody>
 						</table>
 					</div>
@@ -263,6 +281,69 @@
 				<div class="modal-footer">
 					<button class="btn btn-primary" id="btnSaveFirearm">SAVE</button>
 	        		<button class="btn btn-default" data-dismiss="modal">CANCEL</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="modalReplace">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<!-- modal header -->
+				<div class="modal-header">
+					<button class="close" data-dismiss="modal">&times;</button>
+					<h3>Replace Security Guard</h3>
+				</div>
+				<!-- modal body -->
+				<div class="modal-body">
+					<div class="form-group">
+						<div class="form-group">
+							<label>Applicant need to be replace:</label>
+							<h4 id="replaceapplicant"></h4>
+						</div>
+						<div class="form-group">
+							<label>Reason:</label>
+							<h4 id="reason"></h4>
+						</div>
+					</div>
+					<div class="form-group table-responsive" id="divreplace" style="display: none;">
+						<h3>Security Guard</h3>
+						<table id="tblReplaceSecurityGuard" class="table table-striped table-bordered">
+							<thead>
+								<th>Name</th>
+								<th style="text-align: center;">Vacant(day)</th>
+								<th style="text-align: center;">Action</th>
+							</thead>
+							<tbody id="replacesecurityguard-list"></tbody>
+						</table>
+					</div>
+				</div>
+				<!-- modal footer -->
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" id="btnApproveReplace">REPLACE</button>
+					<button type="button" class="btn btn-danger" id="btnDeclineReplace">DECLINE</button>
+        			<button type="button" class="btn btn-default" data-dismiss="modal">CANCEL</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="modalReplaceConfirmation">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<!-- modal header -->
+				<div class="modal-header">
+					<button class="close" data-dismiss="modal">&times;</button>
+					<h3>CONFIRMATION</h3>
+				</div>
+				<!-- modal body -->
+				<div class="modal-body">
+					Are you sure you want to replace with this applicant?
+				</div>
+				<!-- modal footer -->
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" id="btnReplaceConfirm">CONFIRM</button>
+        			<button type="button" class="btn btn-default" data-dismiss="modal">CANCEL</button>
 				</div>
 			</div>
 		</div>

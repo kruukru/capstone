@@ -60,21 +60,21 @@
 					<!-- modal body -->
 					<div class="modal-body">
 						<div class="form-group">
-							<label>Test *</label>
+							<label>Test <span class="asterisk-red">*</span></label>
 							<input type="text" id="inputTest" class="form-control" maxlength="100" required>
 						</div>
 						<div class="form-group">
-							<label>Instruction *</label>
+							<label>Instruction <span class="asterisk-red">*</span></label>
 							<textarea id="inputInstruction" rows="3" class="form-control" required></textarea>
 						</div>
 						<div class="form-group">
 							<div class="row">
 								<div class="col-md-6">
-									<label>Max Question *</label>
+									<label>Max Question <span class="asterisk-red">*</span></label>
 									<input type="text" id="inputMaxQuestion" class="form-control" maxlength="3" style="text-align: right;" pattern="^[1-9][0-9]*$" required>
 								</div>
 								<div class="col-md-6">
-									<label>Time Alloted *</label>
+									<label>Time Alloted <span class="asterisk-red">*</span></label>
 									<div class="column">
 										<div class="col-md-6 no-padding">
 			            					<input type="text" id="inputTimeAlloted" class="form-control" maxlength="5" style="text-align: right;" pattern="^[1-9][0-9]*$" required>

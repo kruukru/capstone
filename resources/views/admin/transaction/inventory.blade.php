@@ -51,7 +51,7 @@
 					<!-- modal body -->
 					<div class="modal-body">
 						<div class="form-group">
-							<label>Quantity *</label>
+							<label>Quantity <span class="asterisk-red">*</span></label>
 							<input type="text" id="inputQuantity" class="form-control" maxlength="5" pattern="^[1-9][0-9]*$" required>
 						</div>
 					</div>
@@ -80,7 +80,7 @@
 						<div class="form-group">
 							<div class="row">
 								<div class="col-md-10 col-md-offset-1">
-									<label>License *</label>
+									<label>License <span class="asterisk-red">*</span></label>
 									<input type="text" id="inputFirearmLicense" class="form-control" placeholder="A99AA9999999" data-inputmask="'mask': 'a99aa9999999'" required>
 								</div>
 							</div>
@@ -88,7 +88,7 @@
 						<div class="form-group">
 							<div class="row">
 								<div class="col-md-5 col-md-offset-1">
-									<label>Expiration *</label>
+									<label>Expiration <span class="asterisk-red">*</span></label>
 									<input type="text" id="inputFirearmExpiration" class="form-control mydatepicker" placeholder="yyyy-mm-dd" required>
 								</div>
 								<div class="col-md-2 col-md-offset-3">

@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    var requestid, itemid, qtyavailable, qtyinput, name, itemtype, countFirearm = 0;
+    var requestid, itemid, qtyavailable, qtyinput, name, itemtype, replaceapplicantid, applicantid, countFirearm = 0;
     var firearmsave = [];
     var table = $('#tblRequest').DataTable({
         "aoColumns": [
@@ -78,6 +78,13 @@ $(document).ready(function() {
             null,
             null,
             null,
+            null,
+            null,
+            { "bSearchable": false, "bSortable": false, },
+        ]
+    });
+    var tableReplaceSecurityGuard = $('#tblReplaceSecurityGuard').DataTable({
+        "aoColumns": [
             null,
             null,
             { "bSearchable": false, "bSortable": false, },
@@ -363,7 +370,7 @@ $(document).ready(function() {
 
                     $('#modalSecurityGuard').modal('hide');
                     $('#modalSecurityGuard').loading('stop');
-                    toastr.success("SAVE SUCCESSFULLY");
+                    toastr.success("SAVE SUCCESSFUL");
                 },
             });
         } else {
@@ -879,6 +886,139 @@ $(document).ready(function() {
             }
         });
     }
+
+    //assess replacement
+    $('#request-list').on('click', '#btnAssessReplace', function() {
+        tableReplaceSecurityGuard.clear().draw();
+        replaceapplicantid = $(this).val();
+
+        $.ajax({
+            type: "GET",
+            url: "/json/replaceapplicant/one",
+            data: { inputReplaceApplicantID: replaceapplicantid },
+            dataType: "json",
+            success: function(data) {
+                console.log(data);
+
+                if (data.qualificationcheck.applicant.middlename == "") {
+                    data.qualificationcheck.applicant.middlename = "";
+                }
+                var applicantname = data.qualificationcheck.applicant.firstname+" "+
+                    data.qualificationcheck.applicant.middlename+" "+
+                    data.qualificationcheck.applicant.lastname;
+
+                $('#replaceapplicant').text(applicantname);
+                $('#reason').text(data.reason);
+            }
+        });
+
+        $.ajax({
+            type: "GET",
+            url: "/admin/transaction/request/replace/securityguard",
+            dataType: "json",
+            success: function(data) {
+                console.log(data);
+
+                $.each(data, function(index, value) {
+                    if (value.middlename == "") {
+                        value.middlename = "";
+                    }
+
+                    var row = "<tr id=id" + value.applicantid + ">" +
+                        "<td>" + value.name + "</td>" +
+                        "<td style='text-align: center;'>" + value.vacant + "</td>" + 
+                        "<td style='text-align: center;'>" +
+                            "<button class='btn btn-primary btn-xs' id='btnReplaceSecurityGuard' value="+value.applicantid+">Replace</button>" +
+                        "</td>" +
+                        "</tr>";
+                    tableReplaceSecurityGuard.row.add($(row)[0]).draw();
+                });
+
+                tableReplaceSecurityGuard.order([[1, 'desc']]).draw();
+            }
+        });
+
+        $('#modalReplace').modal('show');
+    });
+
+    //replace modal
+    $('#replacesecurityguard-list').on('click', '#btnReplaceSecurityGuard', function() {
+        applicantid = $(this).val();
+
+        $('#modalReplaceConfirmation').modal('show');
+    });
+
+    //save replace applicant
+    $('#btnReplaceConfirm').click(function(e) {
+        e.preventDefault();
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+            }
+        });
+
+        $('#modalReplaceConfirmation').loading({
+            message: "SAVING..."
+        });
+
+        $.ajax({
+            type: "POST",
+            url: "/admin/transaction/request/replace",
+            data: { inputReplaceApplicantID: replaceapplicantid, inputApplicantID: applicantid },
+            dataType: "json",
+            success: function(data) {
+                console.log(data);
+
+                table.row('#idr'+replaceapplicantid).remove().draw(false);
+
+                $('#modalReplace').modal('hide');
+                $('#modalReplaceConfirmation').modal('hide');
+                $('#modalReplaceConfirmation').loading('stop');
+                toastr.success("SAVE SUCCESSFUL");
+            }
+        });
+    });
+
+    //show / hide security guard list
+    $('#btnApproveReplace').click(function(e) {
+        e.preventDefault();
+
+        if ($('#divreplace').is(":visible")) {
+            $('#divreplace').hide();
+        } else {
+            $('#divreplace').show();
+        }
+    });
+
+    //decline replacement
+    $('#btnDeclineReplace').click(function(e) {
+        e.preventDefault();
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+            }
+        });
+
+        $('#modalReplace').loading({
+            message: "SAVING..."
+        });
+
+        $.ajax({
+            type: "POST",
+            url: "/admin/transaction/request/replace/remove",
+            data: { inputReplaceApplicantID: replaceapplicantid },
+            dataType: "json",
+            success: function(data) {
+                console.log(data);
+
+                table.row('#idr'+replaceapplicantid).remove().draw(false);
+
+                $('#modalReplace').modal('hide');
+                $('#modalReplace').loading('stop');
+                toastr.success("SAVE SUCCESSFUL");
+            }
+        });
+    });
 
 
 

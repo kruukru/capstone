@@ -62,7 +62,7 @@
 				border-collapse: collapse;
 				margin-left:auto;
 				margin-right:auto;
-				width:150px;
+				width:125px;
 			}
 			#applicant
 			{
@@ -75,9 +75,9 @@
 	</head>
 	<body>
 		<div class="header">
-			<img src="images/amcor1.png" id="logo">
-			<p id="txtHeader">AMCOR SECURITY & INVESTIGATION AGENCY, INC.</p>
-			<p id="txtSub">353 Doña Dolores Building, San Rafael St., Brgy. Plainview, Mandaluyong City</p>
+			<img src="images/{{$company->logo}}" id="logo">
+			<p id="txtHeader">{{$company->name}}</p>
+			<p id="txtSub">{{$company->address}}</p>
 		<div class="test">
 		<h2 id="applicant">APPLICANT DETAILS</h2>
 		<fieldset>
@@ -105,7 +105,8 @@
 				<th id="TestForm">Test Form</th>
 				<th id="TestForm">Score</th>
 				<th id="TestForm">Number of Items</th>
-				<th id="TestForm">Percent</th>
+				<th id="TestForm">Percentage</th>
+				<th id="TestForm">Status</th>
 			</tr>
 			@foreach ($scores as $score)
 				<tr id="TestForm">
@@ -113,6 +114,7 @@
 					<td id="TestForm">{{$score->score}}</td>
 					<td id="TestForm">{{$score->item}}</td>
 					<td id="TestForm">{{number_format(($score->score / $score->item) * 100, 2, '.', ',')}}%</td>
+					<td id="TestForm">{{($score->score / $score->item) * 100 >= 75 ? "PASSED" : "FAILED"}}</td>
 				</tr>
 			@endforeach
 		</table>

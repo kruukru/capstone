@@ -13,6 +13,10 @@ class QualificationCheck extends Model
     protected $primaryKey = 'qualificationcheckid';
     protected $dates = ['deleted_at'];
 
+    public function replaceapplicant() {
+        return $this->hasOne('Amcor\ReplaceApplicant', 'qualificationcheckid');
+    }
+
     public function deploymentsite() {
         return $this->belongsTo('Amcor\DeploymentSite', 'deploymentsiteid');
     }

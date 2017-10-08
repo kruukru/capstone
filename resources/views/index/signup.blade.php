@@ -76,15 +76,15 @@
 					                        		<div class="form-group">
 					                        			<div class="row">
 					                        				<div class="col-md-4 col-md-offset-1">
-					                        					<label>Username *</label>
+					                        					<label>Username <span class="asterisk-red">*</span></label>
 					                        					<input type="text" class="form-control" id="username" placeholder="Username" required>
 					                        				</div>
 					                        				<div class="col-md-3">
-					                        					<label>Password *</label>
+					                        					<label>Password <span class="asterisk-red">*</span></label>
 					                        					<input type="password" class="form-control input-password" id="password" placeholder="Password" required>
 					                        				</div>
 					                        				<div class="col-md-3">
-					                        					<label>Confirm Password *</label>
+					                        					<label>Confirm Password <span class="asterisk-red">*</span></label>
 					                        					<input type="password" class="form-control input-confirmpassword" id="confirmpassword" placeholder="Confirm Password" required>
 					                        				</div>
 					                        			</div>
@@ -93,11 +93,11 @@
 									            	<div class="form-group">
 									            		<div class="row">
 									            			<div class="col-md-3 col-md-offset-1">
-									            				<label>Last Name *</label>
+									            				<label>Last Name <span class="asterisk-red">*</span></label>
 									            				<input type="text" class="form-control" id="lastname" placeholder="Last Name" required>
 									            			</div>
 									            			<div class="col-md-3">
-									            				<label>First Name *</label>
+									            				<label>First Name <span class="asterisk-red">*</span></label>
 									            				<input type="text" class="form-control" id="firstname" placeholder="First Name" required>
 									            			</div>
 									            			<div class="col-md-3">
@@ -114,7 +114,7 @@
 									            	<div class="form-group">
 									            		<div class="row">
 									            			<div class="col-md-2 col-md-offset-1">
-									            				<label>Birthdate *</label>
+									            				<label>Birthdate <span class="asterisk-red">*</span></label>
 									            				<input type="text" class="form-control mydatepicker" id="birthdate" placeholder="yyyy-mm-dd" required>
 									            			</div>
 									            			<div class="col-md-1">
@@ -122,11 +122,11 @@
 									            				<input type="text" class="form-control" id="age" disabled>
 									            			</div>
 									            			<div class="col-md-5">
-									            				<label>Birthplace *</label>
+									            				<label>Birthplace <span class="asterisk-red">*</span></label>
 									            				<input type="text" class="form-control" id="birthplace" placeholder="Birthplace" required>
 									            			</div>
 									            			<div class="col-md-2">
-									            				<label>Contact # *</label>
+									            				<label>Contact # <span class="asterisk-red">*</span></label>
 									            				<input type="text" class="form-control" id="appcontactno" placeholder="Contact #" required>
 									            			</div>
 									            		</div>
@@ -134,12 +134,12 @@
 									            	<div class="form-group">
 									            		<div class="row">
 									            			<div class="col-md-1 col-md-offset-1">
-									            				<label>Gender *</label><br>
+									            				<label>Gender <span class="asterisk-red">*</span></label><br>
 									            				<label><input type="radio" name="gender" id="gender" value="Male" checked> Male</label><br>
 									            				<label><input type="radio" name="gender" id="gender" value="Female"> Female</label>
 									            			</div>
 									            			<div class="col-md-2">
-									            				<label>Civil Status *</label>
+									            				<label>Civil Status <span class="asterisk-red">*</span></label>
 									            				<select class="form-control" id="civilstatus">
 										              				<option value="Single">Single</option>
 										              				<option value="Married">Married</option>
@@ -148,7 +148,7 @@
 										              			</select>
 									            			</div>
 									            			<div class="col-md-2">
-									            				<label>Religion *</label>
+									            				<label>Religion <span class="asterisk-red">*</span></label>
 									            				<select class="form-control" id="religion" required>
 										              				<option value="Roman Catholic">Roman Catholic</option>
 										              				<option value="Islam">Islam</option>
@@ -166,7 +166,7 @@
 										              			</select>
 									            			</div>
 									            			<div class="col-md-2">
-									            				<label>Height *</label>
+									            				<label>Height <span class="asterisk-red">*</span></label>
 									            				<div class="column">
 									            					<div class="col-md-6 no-padding">
 										            					<input type="text" class="form-control" id="height" placeholder="Height" style="text-align: right;" pattern="\d+(\.\d{1,2})?" required>
@@ -181,7 +181,7 @@
 												              	</div>
 									            			</div>
 									            			<div class="col-md-2">
-									            				<label>Weight *</label>
+									            				<label>Weight <span class="asterisk-red">*</span></label>
 									            				<div class="column">
 									            					<div class="col-md-6 no-padding">
 										            					<input type="text" class="form-control" id="weight" placeholder="Weight" style="text-align: right;" pattern="\d+(\.\d{1,2})?" required>
@@ -195,7 +195,7 @@
 												              	</div>
 									            			</div>
 									            			<div class="col-md-1">
-									            				<label>Blood Type *</label>
+									            				<label>Blood Type <span class="asterisk-red">*</span></label>
 									            				<select class="form-control" id="bloodtype">
 										              				<option value="A+">A+</option>
 										              				<option value="A-">A-</option>
@@ -212,11 +212,11 @@
 									            	<div class="form-group">
 									            		<div class="row">
 									            			<div class="col-md-4 col-md-offset-1">
-									            				<label>City Address *</label>
+									            				<label>City Address <span class="asterisk-red">*</span></label>
 									            				<input type="text" class="form-control" id="cityaddress" placeholder="City Address" required>
 									            			</div>
 									            			<div class="col-md-3">
-									            				<label>Province *</label>
+									            				<label>Province <span class="asterisk-red">*</span></label>
 									            				<select class="form-control" id="cityaddressprovince" required>
 										              				<option></option>
 										              				<option value="Abra">Abra</option>
@@ -304,7 +304,7 @@
 										              			</select>
 									            			</div>
 									            			<div class="col-md-3">
-									            				<label>City/Municipality *</label>
+									            				<label>City/Municipality <span class="asterisk-red">*</span></label>
 									            				<select class="form-control" id="cityaddresscity" required></select>
 									            			</div>
 									            		</div>
@@ -450,11 +450,11 @@
 					                        		<div class="form-group">
 					                        			<div class="row">
 					                        				<div class="col-md-3 col-md-offset-1">
-					                        					<label>Security Guard License *</label>
+					                        					<label>Security Guard License <span class="asterisk-red">*</span></label>
 					                        					<input type="text" class="form-control" id="license" placeholder="AAA99999999999" data-inputmask="'mask': 'aaa99999999999'" pattern="([a-zA-Z]{3})(\d{11})" required>
 					                        				</div>
 					                        				<div class="col-md-2">
-					                        					<label>License Expiration *</label>
+					                        					<label>License Expiration <span class="asterisk-red">*</span></label>
 					                        					<input type="text" class="form-control mydatepicker" id="licenseexpiration" placeholder="yyyy-mm-dd" required>
 					                        				</div>
 					                        			</div>
@@ -462,19 +462,19 @@
 					                        		<div class="form-group">
 					                        			<div class="row">
 					                        				<div class="col-md-2 col-md-offset-1">
-					                        					<label>SSS *</label>
+					                        					<label>SSS <span class="asterisk-red">*</span></label>
 					                        					<input type="text" class="form-control" id="sss" placeholder="99-9999999-9" data-inputmask="'mask': '99-9999999-9'" pattern="(\d{2})-(\d{7})-(\d{1})" required>
 					                        				</div>
 					                        				<div class="col-md-2">
-					                        					<label>PHILHEALTH *</label>
+					                        					<label>PHILHEALTH <span class="asterisk-red">*</span></label>
 					                        					<input type="text" class="form-control" id="philhealth" placeholder="99-999999999-9" data-inputmask="'mask': '99-999999999-9'" pattern="(\d{2})-(\d{9})-(\d{1})" required>
 					                        				</div>
 					                        				<div class="col-md-2">
-					                        					<label>PAGIBIG *</label>
+					                        					<label>PAGIBIG <span class="asterisk-red">*</span></label>
 					                        					<input type="text" class="form-control" id="pagibig" placeholder="9999-9999-9999" data-inputmask="'mask': '9999-9999-9999'" pattern="(\d{4})-(\d{4})-(\d{4})" required>
 					                        				</div>
 					                        				<div class="col-md-2">
-					                        					<label>TIN *</label>
+					                        					<label>TIN <span class="asterisk-red">*</span></label>
 					                        					<input type="text" class="form-control" id="tin" placeholder="999-999-999-999" data-inputmask="'mask': '999-999-999-999'" pattern="(\d{3})-(\d{3})-(\d{3})-(\d{3})" required>
 					                        				</div>
 					                        			</div>
@@ -485,11 +485,11 @@
 					                        		<div class="form-group">
 					                        			<div class="row">
 					                        				<div class="col-md-6 col-md-offset-1">
-					                        					<label>Contact Person *</label>
+					                        					<label>Contact Person <span class="asterisk-red">*</span></label>
 					                        					<input type="text" class="form-control" id="contactperson" placeholder="Contact Person" required>
 					                        				</div>
 					                        				<div class="col-md-2">
-					                        					<label>Mobile # *</label>
+					                        					<label>Mobile # <span class="asterisk-red">*</span></label>
 					                        					<input type="text" class="form-control" id="contactno" placeholder="Mobile #" data-inputmask="'mask': '+63 999 9999 999'" required>
 					                        				</div>
 					                        				<div class="col-md-2">
@@ -532,7 +532,7 @@
 				                        	<div class="box-body">
 				                        		<div class="box box-primary">
 				                        			<div class="box-header with-border">
-				                        				<h3 class="box-title">EDUCATION BACKGROUND *</h3>
+				                        				<h3 class="box-title">EDUCATION BACKGROUND <span class="asterisk-red">*</span></h3>
 				                        				<div class="box-tools pull-right">
 				                        					<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
 				                        				</div>

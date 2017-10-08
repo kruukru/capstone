@@ -74,6 +74,7 @@
       <!-- list of button -->
       <ul class="sidebar-menu">
         <li class="header"></li>
+        <li class="{{Request::path() == 'client/securityguard' ? 'active' : ''}}"><a href="{{ route('client-securityguard') }}"><i class="fa fa-male"></i><span>Security Guard</span></a></li>
         <li class="{{Request::path() == 'client/deploymentsite' ? 'active' : ''}}"><a href="{{ route('client-deploymentsite') }}"><i class="fa fa-building-o"></i><span>Deployment Site</span></a></li>
         <li class="{{Request::path() == 'client/schedule' ? 'active' : ''}}"><a href="{{ route('client-schedule') }}"><i class="fa fa-calendar-check-o"></i><span>Schedule</span></a></li>
         <li class="{{Request::path() == 'client/request' ? 'active' : ''}}"><a href="{{ route('client-request') }}"><i class="fa fa-share-square-o"></i><span>Request</span></a></li>

@@ -53,11 +53,11 @@
 					<!-- modal body -->
 					<div class="modal-body">
 						<div class="form-group">
-							<label>Last Name *</label>
+							<label>Last Name <span class="asterisk-red">*</span></label>
 							<input type="text" class="form-control" id="lastname" placeholder="Last Name" required>
 						</div>
 						<div class="form-group">
-							<label>First Name *</label>
+							<label>First Name <span class="asterisk-red">*</span></label>
 							<input type="text" class="form-control" id="firstname" placeholder="First Name" required>
 						</div>
 						<div class="form-group">
@@ -65,7 +65,7 @@
 							<input type="text" class="form-control" id="middlename" placeholder="Middle Name">
 						</div>
 						<div class="form-group">
-							<label>Position *</label>
+							<label>Position <span class="asterisk-red">*</span></label>
 							<select class="form-control" id="position">
 								<option value="Executive">Executive</option>
 								<option value="Admin">Admin</option>
@@ -74,15 +74,15 @@
 							</select>
 						</div><hr>
 						<div class="form-group">
-							<label>Username *</label>
+							<label>Username <span class="asterisk-red">*</span></label>
 							<input type="text" class="form-control" id="username" placeholder="Username" required>
 						</div>
 						<div class="form-group">
-							<label>Password *</label>
+							<label>Password <span class="asterisk-red">*</span></label>
 							<input type="password" class="form-control input-password" id="password" placeholder="Password" required>
 						</div>
 						<div class="form-group">
-							<label>Confirm Password *</label>
+							<label>Confirm Password <span class="asterisk-red">*</span></label>
 							<input type="password" class="form-control input-confirmpassword" id="confirmpassword" placeholder="Confirm Password" required>
 						</div>
 					</div>
@@ -143,11 +143,11 @@
 									<div class="box-body">
 										<form id="formAdminInformation" data-parsley-validate>
 											<div class="form-group">
-												<label>Last Name *</label>
+												<label>Last Name <span class="asterisk-red">*</span></label>
 												<input type="text" class="form-control" id="updatelastname" placeholder="Last Name" required>
 											</div>
 											<div class="form-group">
-												<label>First Name *</label>
+												<label>First Name <span class="asterisk-red">*</span></label>
 												<input type="text" class="form-control" id="updatefirstname" placeholder="First Name" required>
 											</div>
 											<div class="form-group">
@@ -155,7 +155,7 @@
 												<input type="text" class="form-control" id="updatemiddlename" placeholder="Middle Name">
 											</div>
 											<div class="form-group">
-												<label>Position *</label>
+												<label>Position <span class="asterisk-red">*</span></label>
 												<select class="form-control" id="updateposition">
 													<option value="Executive">Executive</option>
 													<option value="Admin">Admin</option>
@@ -175,15 +175,15 @@
 									<div class="box-body">
 										<form id="formAccountInformation" data-parsley-validate>
 											<div class="form-group">
-												<label>New Username *</label>
+												<label>New Username <span class="asterisk-red">*</span></label>
 												<input type="text" class="form-control" id="updateusername" placeholder="Username" required>
 											</div>
 											<div class="form-group">
-												<label>New Password *</label>
+												<label>New Password <span class="asterisk-red">*</span></label>
 												<input type="password" class="form-control input-updatepassword" id="updatepassword" placeholder="Password" required>
 											</div>
 											<div class="form-group">
-												<label>Confirm Password *</label>
+												<label>Confirm Password <span class="asterisk-red">*</span></label>
 												<input type="password" class="form-control input-updateconfirmpassword" id="updateconfirmpassword" placeholder="Confirm Password" required>
 											</div>
 											<div class="form-group">

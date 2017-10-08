@@ -68,7 +68,7 @@
 						<div class="form-group">
 							<div class="row">
 								<div class="col-md-8 col-md-offset-1">
-									<label>Topic *</label>
+									<label>Topic <span class="asterisk-red">*</span></label>
 									<select class="form-control" id="assessmenttopic" required></select>
 								</div>
 								<div class="col-md-2">
@@ -79,7 +79,7 @@
 						<div class="form-group">
 							<div class="row">
 								<div class="col-md-10 col-md-offset-1">
-									<label>Remarks *</label>
+									<label>Remarks <span class="asterisk-red">*</span></label>
 									<textarea id="inputAssessment" class="form-control col-md-11" rows="3" required></textarea>
 								</div>
 							</div>

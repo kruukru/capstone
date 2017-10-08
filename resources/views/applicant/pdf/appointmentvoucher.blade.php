@@ -115,13 +115,11 @@
             <table>
                 <tr>
                     <td id="mainLeftCell">
-                        <img src="images/amcor.png" id="imgLogo">
+                        <img src="images/{{$company->logo}}" id="imgLogo">
                     </td>
                     <td id="mainRightCell">
-                        <h2 id="compName">AMCOR SECURITY AND INVESTIGATION AGENCY, INC.</h2>
-                        <p id="pSubHD">
-                            353 DOÑA DOLORES BUILDING, SAN RAFAEL ST., BRGY. PLAINVIEW, MANDALUYONG CITY
-                        </p>
+                        <h2 id="compName">{{$company->name}}</h2>
+                        <p id="pSubHD">{{$company->address}}</p>
                     </td>
                 </tr>
                 <tr>
@@ -180,13 +178,11 @@ provided to the Agency are true and correct to the best of my knowledge..</p>
             <table>
                 <tr>
                     <td id="mainLeftCell">
-                        <img src="images/amcor.png" id="imgLogo">
+                        <img src="images/{{$company->logo}}" id="imgLogo">
                     </td>
                     <td id="mainRightCell">
-                        <h2 id="compName">AMCOR SECURITY AND INVESTIGATION AGENCY, INC.</h2>
-                        <p id="pSubHD">
-                            353 DOÑA DOLORES BUILDING, SAN RAFAEL ST., BRGY. PLAINVIEW, MANDALUYONG CITY
-                        </p>
+                        <h2 id="compName">{{$company->name}}</h2>
+                        <p id="pSubHD">{{$company->address}}</p>
                     </td>
                 </tr>
                 <tr>
@@ -235,7 +231,6 @@ provided to the Agency are true and correct to the best of my knowledge..</p>
                     </td>
                 </tr>
             </table>
-
         </div>
         <div id="wrap1">
         <br/>

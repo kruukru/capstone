@@ -16,7 +16,17 @@ $(document).ready(function() {
                 success: function(data) {
                     console.log(data);
 
-                    window.localStorage.setItem("applicantid", data.applicantid);
+                    var formData = [];
+                    $.each(data.test, function(index, value) {
+                        var dt = {
+                            name: value.name,
+                            instruction: value.instruction
+                        };
+                        formData.push(dt);
+                    });
+
+                    window.localStorage.setItem("applicantid", data.applicant.applicantid);
+                    window.localStorage.setItem("test", JSON.stringify(formData));
                     window.location.href = "/admin/transaction/testlogin/test";
                 },
                 error: function(data) {

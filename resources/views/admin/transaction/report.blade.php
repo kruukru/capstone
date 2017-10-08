@@ -78,15 +78,15 @@
 							<select class="form-control" id="reporttype" required></select>
 						</div>
 						<div class="form-group">
-							<label>Subject *</label>
+							<label>Subject <span class="asterisk-red">*</span></label>
 							<input type="text" class="form-control" id="subject" required>
 						</div>
 						<div class="form-group">
-							<label>Place Happened *</label>
+							<label>Place Happened <span class="asterisk-red">*</span></label>
 							<input type="text" class="form-control" id="placehappen" required>
 						</div>
 						<div class="form-group">
-							<label>Details *</label>
+							<label>Details <span class="asterisk-red">*</span></label>
 							<textarea class="form-control" rows="3" id="detail" required></textarea>
 						</div><hr>
 						<div class="form-group table-responsive" id="divSecurityGuard">
@@ -159,7 +159,7 @@
 					<!-- modal body -->
 					<div class="modal-body">
 						<div class="form-group">
-							<label>Certificate Description *</label>
+							<label>Certificate Description <span class="asterisk-red">*</span></label>
 							<textarea class="form-control" rows="3" id="certificatedescription" name="certificatedescription" required></textarea>
 						</div>
 					</div>
@@ -187,11 +187,11 @@
 					<!-- modal body -->
 					<div class="modal-body">
 						<div class="form-group">
-							<label>Subject *</label>
+							<label>Subject <span class="asterisk-red">*</span></label>
 							<input type="text" class="form-control" id="subject" name="subject" required>
 						</div>
 						<div class="form-group">
-							<label>Memorandum Body *</label>
+							<label>Memorandum Body <span class="asterisk-red">*</span></label>
 							<textarea class="form-control" rows="3" id="memorandumbody" name="memorandumbody" required></textarea>
 						</div>
 					</div>

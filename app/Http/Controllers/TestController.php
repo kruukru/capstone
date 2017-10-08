@@ -41,7 +41,11 @@ class TestController extends Controller
                     if ($appointment == NULL) {
                         return Response::json("INVALID USERNAME/PASSWORD", 500);
                     } else if ($appointment->appointmentdate->date->format('Y-m-d') == Carbon::today()->format('Y-m-d')) {
-                        return Response::json($applicant);
+                        $dataArray = array(
+                            'applicant' => $applicant,
+                            'test' => Test::get()
+                        );
+                        return Response::json($dataArray);
                     } else {
                         return Response::json("INVALID DATE", 500);
                     }

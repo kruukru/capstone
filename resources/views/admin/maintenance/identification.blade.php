@@ -49,11 +49,11 @@
 					<!-- modal body -->
 					<div class="modal-body">
 						<div class="form-group">
-							<label>Question *</label>
+							<label>Question <span class="asterisk-red">*</span></label>
 							<textarea id="inputQuestion" rows="3" class="form-control" required></textarea>
 						</div>
 						<div class="form-group">
-							<label>Correct Answer *</label><br>
+							<label>Correct Answer <span class="asterisk-red">*</span></label><br>
 							<input type="text" class="form-control" id="inputChoice" required>
 						</div>
 					</div>

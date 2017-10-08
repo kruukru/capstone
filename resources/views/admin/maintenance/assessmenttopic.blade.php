@@ -49,7 +49,7 @@
 					<!-- modal body -->
 					<div class="modal-body">
 						<div class="form-group">
-							<label>Assessment Topic *</label>
+							<label>Assessment Topic <span class="asterisk-red">*</span></label>
 							<input type="text" id="inputAssessmentTopic" class="form-control" maxlength="100" required>
 						</div>
 						<div class="form-group">

@@ -1,6 +1,13 @@
 $(document).ready(function() {
     var applicantid = window.localStorage.getItem("applicantid");
+    var test = JSON.parse(window.localStorage.getItem("test"));
     localStorage.removeItem("applicantid");
+
+    $.each(test, function(data, value) {
+        var row = "<h2>"+value.name+"</h2>" +
+            "<h4>Instruction: "+value.instruction+"</h4><hr>";
+        $('#testpreview').append(row);
+    });
 
     var formData = [];
     var testtime = 0;
@@ -96,6 +103,7 @@ $(document).ready(function() {
 
     //start of test
     $('#btnStart').click(function() {
+        $('#testpreview').hide();
         $(this).remove();
 
         if (applicantid == null) {

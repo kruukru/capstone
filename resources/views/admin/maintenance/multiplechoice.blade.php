@@ -47,13 +47,13 @@
 				<div class="modal-body">
 					<form id="formMultipleChoice" data-parsley-validate>
 						<div class="form-group">
-							<label>Question *</label>
+							<label>Question <span class="asterisk-red">*</span></label>
 							<textarea id="inputQuestion" rows="3" class="form-control" required></textarea>
 						</div>
 					</form>
 					<form id="formChoice" data-parsley-validate>
 						<div class="form-group">
-							<label>Choice *</label>
+							<label>Choice <span class="asterisk-red">*</span></label>
 							<input type="text" class="form-control" id="inputChoice" required><br>
 							<label><input type="checkbox" name="cbCorrect" id="cbCorrect"> CORRECT</label>
 							<div class="pull-right">

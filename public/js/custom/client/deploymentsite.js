@@ -261,7 +261,7 @@ $(document).ready(function() {
     });
 
     //add qualification to the table
-    $('#btnQualificationAdd').click(function(e) {
+    $('#btnAddQualification').click(function(e) {
         if ($('#formQualification').parsley().isValid()) {
             e.preventDefault();
 
@@ -425,7 +425,7 @@ $(document).ready(function() {
         });
     });
 
-    $('#btnQualificationSave').click(function(e) {
+    $('#btnSaveQualification').click(function(e) {
         e.preventDefault();
         $.ajaxSetup({
             headers: {

@@ -17,12 +17,12 @@
 		}
 	</style>
 </head>
-<body class="skin-purple">
+<body class="skin-blue">
   	<header class="main-header">
 	    <!-- Logo -->
 	    <a href="#" class="logo">
-	    	<img src="/images/amcor.png" style="height: 40px; width: 40px;">
-	      	<span class="logo-sm"><b>AMCOR</b></span>
+	    	<img src="/images/{{$company->logo}}" style="height: 40px; width: 40px;">
+	      	<span class="logo-sm"><b>{{$company->shortname}}</b></span>
 	    </a>
 
 	    <!-- Header Navbar -->
@@ -36,6 +36,7 @@
 			<div class="container col-sm-12">
 				<div class="box box-primary">
 					<div class="box-body table-responsive">
+						<div class="box box-primary box-body" id="testpreview"></div>
 						<div class="box-body">
 							<div class="form-group">
 		            			<h3 id="time"></h3>

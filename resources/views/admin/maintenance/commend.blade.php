@@ -49,7 +49,7 @@
 					<!-- modal body -->
 					<div class="modal-body">
 						<div class="form-group">
-							<label>Commend *</label>
+							<label>Commend <span class="asterisk-red">*</span></label>
 							<input type="text" id="inputCommend" class="form-control" maxlength="100" required>
 						</div>
 						<div class="form-group">

@@ -27,6 +27,7 @@ use Amcor\Admin;
 use Amcor\Requestt;
 use Amcor\Report;
 use Amcor\DeploymentSite;
+use Amcor\ReplaceApplicant;
 use Response;
 
 class JSONController extends Controller
@@ -193,6 +194,12 @@ class JSONController extends Controller
         $deploymentsite = DeploymentSite::with('contract')->find($request->inputDeploymentSiteID);
 
         return Response::json($deploymentsite);
+    }
+
+    public function getReplaceApplicantOne(Request $request) {
+        $replaceapplicant = ReplaceApplicant::with('qualificationcheck.applicant')->find($request->inputReplaceApplicantID);
+
+        return Response::json($replaceapplicant);
     }
 
 

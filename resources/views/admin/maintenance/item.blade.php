@@ -51,11 +51,11 @@
 					<!-- modal body -->
 					<div class="modal-body">
 							<div class="form-group">
-								<label>Item *</label>
+								<label>Item <span class="asterisk-red">*</span></label>
 								<input type="text" id="inputItem" class="form-control" maxlength="100" required>
 							</div>
 							<div class="form-group">
-								<label>Item Type *</label>
+								<label>Item Type <span class="asterisk-red">*</span></label>
 								<select id="inputItemType" class="form-control" required></select>
 							</div>
 							<div class="form-group">

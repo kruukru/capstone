@@ -109,13 +109,13 @@
 					<!-- modal body -->
 					<div class="modal-body">
 						<div class="form-group">
-							<label>Name *</label>
+							<label>Name <span class="asterisk-red">*</span></label>
 							<input type="text" id="inputHoliday" class="form-control" maxlength="100" required>
 						</div>
 						<div class="form-group">
 							<div class="row">
 								<div class="col-md-9">
-									<label>Date *</label>
+									<label>Date <span class="asterisk-red">*</span></label>
 									<input type="text" class="form-control mydatepicker" id="inputHolidayDate" placeholder="yyyy-mm-dd" required>
 								</div>
 								<div class="col-md-3">
