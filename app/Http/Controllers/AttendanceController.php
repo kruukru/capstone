@@ -133,6 +133,7 @@ class AttendanceController extends Controller
                     ])->get());
 
                     if ($notset->isEmpty()) {
+                        //ito ata nakakasira ng start date nung calendar
                         $applicantcheck = Applicant::whereDate('updated_at', '<', $date)
                             ->whereHas('qualificationcheck', function($query) use ($request) {
                                 $query->where([
