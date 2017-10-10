@@ -117,31 +117,34 @@ class AttendanceController extends Controller
                             ['status', 1]
                         ]);
                     })->whereHas('schedule', function($query) use ($dayname, $date) {
-                        $query->where($dayname, 1)
-                            ->whereDate('updated_at', '<=', $date);
+                        $query->where($dayname, 1);
                     })->get());
                     $attendanceno = count(Attendance::where([
                         ['deploymentsiteid', $request->inputDeploymentSiteID],
                         ['date', $dt->format('Y-m-d')],
                         ['timein', '!=', null],
                         ['timeout', '!=', null],
-                        ['status', '!=', 2]
+                        ['status', '!=', 2],
+                        ['status', '>=', 0],
+                        ['status', '<=', 1],
                     ])->get()) + count(Attendance::where([
                         ['deploymentsiteid', $request->inputDeploymentSiteID],
                         ['date', $dt->format('Y-m-d')],
-                        ['status', 2]
+                        ['status', 2],
+                        ['status', '>=', 0],
+                        ['status', '<=', 2],
                     ])->get());
 
                     if ($notset->isEmpty()) {
-                        //ito ata nakakasira ng start date nung calendar
-                        $applicantcheck = Applicant::whereDate('updated_at', '<', $date)
+                        $applicantcheck = Applicant::whereDate('updated_at', '<=', $date)
                             ->whereHas('qualificationcheck', function($query) use ($request) {
                                 $query->where([
                                     ['deploymentsiteid', $request->inputDeploymentSiteID],
                                     ['status', 1]
                                 ]);
                             })->whereHas('schedule', function($query) use ($dayname, $date) {
-                                $query->where($dayname, 1);
+                                $query->where($dayname, 1)
+                                    ->whereDate('updated_at', '<=', $date);
                             })->whereDoesntHave('attendance', function($query) use ($date) {
                                 $query->where('date', $date->format('Y-m-d'));
                             })->get();
@@ -160,11 +163,33 @@ class AttendanceController extends Controller
                             'status' => 0,
                         ]);
                     } else {
-                        $collection->push([
-                            'title' => 'INCOMPLETE',
-                            'date' => $dt->format('Y-m-d'),
-                            'status' => 1,
-                        ]);
+                        $applicants = Applicant::whereHas('qualificationcheck', function($query) use ($request) {
+                            $query->where([
+                                ['deploymentsiteid', $request->inputDeploymentSiteID],
+                                ['status', 1]
+                            ]);
+                        })->get();
+
+                        $checkdate = false;
+                        foreach ($applicants as $applicant) {
+                            if (new DateTime($applicant->schedule->updated_at) >= new DateTime($date)) {
+                                $checkdate = true;
+                            }
+                        }
+
+                        if ($checkdate) {
+                            $collection->push([
+                                'title' => 'COMPLETE',
+                                'date' => $dt->format('Y-m-d'),
+                                'status' => 0,
+                            ]);
+                        } else {
+                            $collection->push([
+                                'title' => 'INCOMPLETE',
+                                'date' => $dt->format('Y-m-d'),
+                                'status' => 1,
+                            ]);
+                        }
                     }
                 }
             }
@@ -203,7 +228,7 @@ class AttendanceController extends Controller
         } else if ($date->dayOfWeek == Carbon::SATURDAY) {
             $dayname = 'saturday';
         }
-        $applicant = Applicant::with('schedule')->whereDate('updated_at', '<', $date)
+        $applicant = Applicant::with('schedule')->whereDate('updated_at', '<=', $date)
             ->whereHas('qualificationcheck', function($query) use ($request) {
                 $query->where([
                     ['deploymentsiteid', $request->inputDeploymentSiteID],

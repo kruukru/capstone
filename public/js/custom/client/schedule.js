@@ -71,6 +71,10 @@ $(document).ready(function() {
 
     //update schedule
     $('#securityguard-list').on('click', '#btnUpdate', function() {
+        $('#modalSchedule').loading({
+            message: "LOADING..."
+        });
+
         resetFormSchedule();
         applicantid = $(this).val();
 
@@ -83,7 +87,7 @@ $(document).ready(function() {
                 console.log(data);
 
                 $('#applicantName').text(data.firstname+" "+data.middlename+" "+data.lastname);
-            },
+            }
         });
 
         $.ajax({
@@ -122,10 +126,21 @@ $(document).ready(function() {
                     $('#saturdaytimein').val(data.saturdayin);
                     $('#saturdaytimeout').val(data.saturdayout);
                 }
-            },
-        });
 
-        $('#modalSchedule').modal('show');
+                $('#modalSchedule').modal('show');
+                $('#modalSchedule').loading('stop');
+            },
+            error: function(data) {
+                console.log(data);
+
+                $('#modalSchedule').loading('stop');
+                if (data.responseJSON == "INPUT ALL DATE FIRST") {
+                    toastr.error("INPUT ALL DATE FIRST BEFORE UPDATE");
+                } else if (data.responseJSON == "COMPLETE ATTENDANCE FIRST") {
+                    toastr.error("COMPLETE ATTENDANCE FIRST");
+                }
+            }
+        });
     });
 
     //save schedule

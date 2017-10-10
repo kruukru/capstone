@@ -16,7 +16,12 @@ use Amcor\QualificationCheck;
 use Amcor\Applicant;
 use Amcor\EducationBackground;
 use Amcor\ReplaceApplicant;
+use Amcor\Attendance;
+use Amcor\Schedule;
 use Carbon\Carbon;
+use DateTime;
+use DateInterval;
+use DatePeriod;
 use Geotools;
 use Response;
 use Auth;
@@ -582,11 +587,18 @@ class RequestController extends Controller
         $replaceapplicant = ReplaceApplicant::find($request->inputReplaceApplicantID);
         $qualificationcheck = QualificationCheck::find($replaceapplicant->qualificationcheckid);
 
+        Schedule::where('applicantid', $qualificationcheck->applicantid)->forceDelete();
+        $attendances = Attendance::where('applicantid', $qualificationcheck->applicantid)->get();
+        foreach ($attendances as $attendance) {
+            $attendance->status += 3;
+            $attendance->save();
+        }
+
         $applicant->status = 10;
         $applicant->lastdeployed = null;
         $applicant->save();
         
-        $applicantold = Applicant::find($replaceapplicant->qualificationcheck->applicantid);
+        $applicantold = Applicant::find($qualificationcheck->applicantid);
         $applicantold->lastdeployed = Carbon::today();
         $applicantold->status = 8;
         $applicantold->save();
@@ -640,6 +652,153 @@ class RequestController extends Controller
 
     public function postClientClientQualification(Request $request) {
         $deploymentsite = DeploymentSite::find($request->inputDeploymentSiteID);
+
+        $applicants = Applicant::whereHas('qualificationcheck', function($query) use ($deploymentsite) {
+            $query->where([
+                ['deploymentsiteid', $deploymentsite->deploymentsiteid],
+                ['status', 1]
+            ]);
+        })->get();
+
+        foreach ($applicants as $applicant) {
+            if (!$applicant->schedule) {
+                return Response::json("INPUT ALL DATE FIRST", 500);
+            }
+        }
+
+        $sunday = false; $monday = false; $tuesday = false; $wednesday = false; $thursday = false; $friday = false; $saturday = false;
+        foreach ($applicants as $applicant) {
+            if ($applicant->schedule->sunday == 1) {
+                $sunday = true;
+            }
+            if ($applicant->schedule->monday == 1) {
+                $monday = true;
+            }
+            if ($applicant->schedule->tuesday == 1) {
+                $tuesday = true;
+            }
+            if ($applicant->schedule->wednesday == 1) {
+                $wednesday = true;
+            }
+            if ($applicant->schedule->thursday == 1) {
+                $thursday = true;
+            }
+            if ($applicant->schedule->friday == 1) {
+                $friday = true;
+            }
+            if ($applicant->schedule->saturday == 1) {
+                $saturday = true;
+            }
+        }
+
+        $begin = new DateTime($deploymentsite->contract->startdate);
+        $end = new DateTime(Carbon::today()->addDays(1));
+
+        $interval = DateInterval::createFromDateString('1 day');
+        $period = new DatePeriod($begin, $interval, $end);
+
+        foreach ($period as $dt) {
+            $date = Carbon::parse($dt->format('Y-m-d'));
+            if ($sunday == false && $date->dayOfWeek == Carbon::SUNDAY) {
+
+            } else if ($monday == false && $date->dayOfWeek == Carbon::MONDAY) {
+
+            } else if ($tuesday == false && $date->dayOfWeek == Carbon::TUESDAY) {
+
+            } else if ($wednesday == false && $date->dayOfWeek == Carbon::WEDNESDAY) {
+
+            } else if ($thursday == false && $date->dayOfWeek == Carbon::THURSDAY) {
+
+            } else if ($friday == false && $date->dayOfWeek == Carbon::FRIDAY) {
+
+            } else if ($saturday == false && $date->dayOfWeek == Carbon::SATURDAY) {
+
+            } else {
+                if ($date->dayOfWeek == Carbon::SUNDAY) {
+                    $dayname = 'sunday';
+                } else if ($date->dayOfWeek == Carbon::MONDAY) {
+                    $dayname = 'monday';
+                } else if ($date->dayOfWeek == Carbon::TUESDAY) {
+                    $dayname = 'tuesday';
+                } else if ($date->dayOfWeek == Carbon::WEDNESDAY) {
+                    $dayname = 'wednesday';
+                } else if ($date->dayOfWeek == Carbon::THURSDAY) {
+                    $dayname = 'thursday';
+                } else if ($date->dayOfWeek == Carbon::FRIDAY) {
+                    $dayname = 'friday';
+                } else if ($date->dayOfWeek == Carbon::SATURDAY) {
+                    $dayname = 'saturday';
+                }
+                $notset = Attendance::where([
+                    ['deploymentsiteid', $deploymentsite->deploymentsiteid],
+                    ['date', $dt->format('Y-m-d')]
+                ])->get();
+                $applicantno = count(Applicant::whereHas('qualificationcheck', function($query) use ($deploymentsite) {
+                    $query->where([
+                        ['deploymentsiteid', $deploymentsite->deploymentsiteid],
+                        ['status', 1]
+                    ]);
+                })->whereHas('schedule', function($query) use ($dayname, $date) {
+                    $query->where($dayname, 1);
+                })->get());
+                $attendanceno = count(Attendance::where([
+                    ['deploymentsiteid', $deploymentsite->deploymentsiteid],
+                    ['date', $dt->format('Y-m-d')],
+                    ['timein', '!=', null],
+                    ['timeout', '!=', null],
+                    ['status', '!=', 2],
+                    ['status', '>=', 0],
+                    ['status', '<=', 1],
+                ])->get()) + count(Attendance::where([
+                    ['deploymentsiteid', $deploymentsite->deploymentsiteid],
+                    ['date', $dt->format('Y-m-d')],
+                    ['status', 2],
+                    ['status', '>=', 0],
+                    ['status', '<=', 2],
+                ])->get());
+
+                if ($notset->isEmpty()) {
+                    $applicantcheck = Applicant::whereDate('updated_at', '<=', $date)
+                        ->whereHas('qualificationcheck', function($query) use ($deploymentsite) {
+                            $query->where([
+                                ['deploymentsiteid', $deploymentsite->deploymentsiteid],
+                                ['status', 1]
+                            ]);
+                        })->whereHas('schedule', function($query) use ($dayname, $date) {
+                            $query->where($dayname, 1)
+                                ->whereDate('updated_at', '<=', $date);
+                        })->whereDoesntHave('attendance', function($query) use ($date) {
+                            $query->where('date', $date->format('Y-m-d'));
+                        })->get();
+
+                    if (!$applicantcheck->isEmpty()) {
+                        return Response::json("COMPLETE ATTENDANCE FIRST", 500);
+                    }
+                } else if ($applicantno == $attendanceno) {
+                    
+                } else {
+                    $applicants = Applicant::whereHas('qualificationcheck', function($query) use ($deploymentsite) {
+                        $query->where([
+                            ['deploymentsiteid', $deploymentsite->deploymentsiteid],
+                            ['status', 1]
+                        ]);
+                    })->get();
+
+                    $checkdate = false;
+                    foreach ($applicants as $applicant) {
+                        if (new DateTime($applicant->schedule->updated_at) >= new DateTime($date)) {
+                            $checkdate = true;
+                        }
+                    }
+
+                    if ($checkdate) {
+
+                    } else {
+                        return Response::json("COMPLETE ATTENDANCE FIRST", 500);
+                    }
+                }
+            }
+        }
 
         if ($request->inputRequestID == null) {
             $requestt = new Requestt;

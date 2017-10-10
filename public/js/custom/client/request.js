@@ -437,6 +437,8 @@ $(document).ready(function() {
                     $('#modalQualification').loading('stop');
                     if (data.responseJSON == "INSUFFICIENT REQUIRE NO") {
                         toastr.error("INVALID REQUIRE NO");
+                    } else if (data.responseJSON == "COMPLETE ATTENDANCE FIRST") {
+                        toastr.error("COMPLETE ATTENDANCE FIRST");
                     }
                 }
             });

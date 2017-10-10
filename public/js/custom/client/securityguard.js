@@ -213,6 +213,13 @@ $(document).ready(function() {
                     $('#modalReplace').loading('stop');
                     $('#modalReplace').modal('hide');
                 },
+                error: function(data) {
+                    $('#modalReplace').loading('stop');
+
+                    if (data.responseJSON == "COMPLETE ATTENDANCE FIRST") {
+                        toastr.error("COMPLETE ATTENDANCE FIRST");
+                    }
+                }
             });
         }
     });
