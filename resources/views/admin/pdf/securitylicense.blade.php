@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Firearm License Expiration Report</title>
+		<title>SECURITY LICENSE EXPIRATION REPORT</title>
 		<style>
 			div.header
 			{
@@ -96,27 +96,26 @@
 					<td id="rowData"></td>
                 </tr>
             </table>
-			<p id="text">This is to inform that the license of the firearms mentioned below has to be renewed before they reach their date of expiration.</p>
+			<p id="text">This is to inform that the license of the security guard mentioned below has to be renewed before they reach their date of expiration.</p>
 		</div>
 			<table id="table1">
-				<tr>
+				<tr >
 					<th id="table1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-					<th id="table1">FIREARM</th>
+					<th id="table1">OFFICER</th>
+					<th id="table1">CURRENT ASSIGNMENT</th>
 					<th id="table1">LICENSE NUMBER</th>
-					<th id="table1">HANDLER</th>
 					<th id="table1">EXPIRATION</th>
 				</tr>
-				@foreach ($firearms as $firearm)
+				@foreach ($applicants as $applicant)
 					<tr id="table1">
 						<td id="table1"> </td>
-						<td id="table1">{{$firearm->item->name}}</td>
-						<td id="table1">{{$firearm->license}}</td>
+						<td id="table1">{{$applicant->lastname}}, {{$applicant->firstname}} {{$applicant->middlename}}</td>
 						<td id="table1"></td>
-						<td id="table1">{{$firearm->expiration->format('M. d, Y')}}</td>
+						<td id="table1">{{$applicant->license}}</td>
+						<td id="table1">{{$applicant->licenseexpiration->format('M. d, Y')}}</td>
 					</tr>
 				@endforeach
 			</table>
-			
 		<div class="notedby">
 			<table>
                 <tr>

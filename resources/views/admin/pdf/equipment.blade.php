@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title>Equipment Tracking Report</title>
+    <title>EQUIPMENT TRACKING REPORT</title>
     <style>
     	html
         {

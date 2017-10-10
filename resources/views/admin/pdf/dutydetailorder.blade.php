@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title>Duty Detail Order</title>
+    <title>DUTY DETAIL ORDER</title>
     <style>
     	html
         {

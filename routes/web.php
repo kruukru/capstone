@@ -77,6 +77,9 @@ Route::group(['middleware' => ['auth']], function() {
 	//admins admins admins admins admins admins admins admins admins admins admins admins admins admins admins admins admins admins admins
 	Route::group(['middleware' => 'Amcor\Http\Middleware\AdminsMiddleware'], function() {
 		Route::name('admin-notification')->get('/admin/notification', 'NotificationController@getAdminNotification');
+
+		Route::name('admin-query')->get('/admin/query', 'QueryController@getAdminQuery');
+		Route::name('admin-report')->get('/admin/report', 'PDFController@getAdminReport');
 	});
 
 	//executive executive executive executive executive executive executive executive executive executive executive executive executive executive 
@@ -113,11 +116,6 @@ Route::group(['middleware' => ['auth']], function() {
 		Route::post('/admin/utility/account/remove', 'UtilityController@postAdminAccountRemove');
 
 		//archive archive archive archive archive archive archive archive archive archive archive archive archive archive archive archive
-
-		//query query query query query query query query query query query query query query query query query query
-		Route::name('admin-query-clientcontract')->get('/admin/query/clientcontract', 'QueryController@getAdminClientContract');
-
-		//report report report report report report report report report report report report report report report report report report
 	});
 
 	//admin admin admin admin admin admin admin admin admin admin admin admin admin admin admin admin admin admin admin admin admin admin 
@@ -157,14 +155,6 @@ Route::group(['middleware' => ['auth']], function() {
 		//item
 		Route::name('admin-archive-item')->get('/admin/archive/item', 'ArchiveController@getAdminArchiveItem');
 		Route::post('/admin/archive/item/restore', 'ArchiveController@postAdminArchiveItemRestore');
-
-		//query query query query query query query query query query query query query query query query query query
-
-		//report report report report report report report report report report report report report report report report report report
-		Route::name('admin-report-firearmlicense')->get('/admin/report/firearmlicense', 'ReportController@getAdminFirearmLicense');
-		Route::name('admin-report-securitylicense')->get('/admin/report/securitylicense', 'ReportController@getAdminSecurityLicense');
-		Route::name('admin-report-equipment')->get('/admin/report/equipment', 'ReportController@getAdminEquipment');
-		Route::name('admin-report-mdr')->get('/admin/report/mdr', 'ReportController@getAdminMDR');
 	});
 
 	//operation operation operation operation operation operation operation operation operation operation operation operation operation operation 
@@ -219,13 +209,6 @@ Route::group(['middleware' => ['auth']], function() {
 		//violation
 		Route::name('admin-archive-violation')->get('/admin/archive/violation', 'ArchiveController@getAdminArchiveViolation');
 		Route::post('/admin/archive/violation/restore', 'ArchiveController@postAdminArchiveViolationRestore');
-
-		//query query query query query query query query query query query query query query query query query query
-		Route::name('admin-query-securityguardcommend')->get('/admin/query/securityguardcommend', 'QueryController@getAdminSecurityGuardCommend');
-		Route::name('admin-query-securityguardviolation')->get('/admin/query/securityguardviolation', 'QueryController@getAdminSecurityGuardViolation');
-		Route::name('admin-query-deploymentsitearea')->get('/admin/query/deploymentsitearea', 'QueryController@getAdminDeploymentSiteArea');
-
-		//report report report report report report report report report report report report report report report report report report
 	});
 
 	//hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr 
@@ -361,13 +344,6 @@ Route::group(['middleware' => ['auth']], function() {
 		Route::name('admin-archive-question')->get('/admin/archive/question', 'ArchiveController@getAdminArchiveQuestion');
 		Route::post('/admin/archive/question/change', 'ArchiveController@postAdminArchiveQuestionChange');
 		Route::post('/admin/archive/question/restore', 'ArchiveController@postAdminArchiveQuestionRestore');
-
-		//query query query query query query query query query query query query query query query query query query
-		Route::name('admin-query-securityguardscore')->get('/admin/query/securityguardscore', 'QueryController@getAdminSecurityGuardScore');
-		Route::name('admin-query-securityguardvacant')->get('/admin/query/securityguardvacant', 'QueryController@getAdminSecurityGuardVacant');
-
-		//report report report report report report report report report report report report report report report report report report
-		Route::name('admin-report-ddo')->get('/admin/report/ddo', 'ReportController@getAdminDDO');
 	});
 
 	//client client client client client client client client client client client client client client client client client client 

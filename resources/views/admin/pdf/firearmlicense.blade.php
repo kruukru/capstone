@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Warranty Expiration Report</title>
+		<title>FIREARM LICENSE EXPIRATION REPORT</title>
 		<style>
 			div.header
 			{
@@ -50,7 +50,7 @@
 			#text
 			{
 				font-size:14px;
-				line-height:40px;
+				line-height:20px;
 			}
 			#table1
 			{
@@ -76,16 +76,16 @@
 	</head>
 	<body>
 		<div class="header">
-			<img src="amcor_logo.jpg" id="logo">
-			<p id="txtHeader">AMCOR SECURITY & INVESTIGATION AGENCY, INC.</p>
-			<p>353 Doña Dolores Building, San Rafael St., Brgy. Plainview, Mandaluyong City</p>
-			<h2 id="title">WARRANTY EXPIRATION REPORT</h2>
+			<img src="images/{{$company->logo}}" id="logo">
+			<p id="txtHeader">{{$company->name}}</p>
+			<p>{{$company->address}}</p>
+			<h2 id="title">FIREARM LICENSE EXPIRATION REPORT</h2>
 		</div>
 		<div class="to_from">
 			<table>
                 <tr>
                     <td id="rowLabel">DATE:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-					<td id="rowData"></td>
+					<td id="rowData">{{Carbon\Carbon::now()->toDayDateTimeString()}}</td>
                 </tr>
                 <tr>
                     <td id="rowLabel">TO:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
@@ -96,23 +96,25 @@
 					<td id="rowData"></td>
                 </tr>
             </table>
-			<p id="text">This is to inform that the equipment of the firearms mentioned below are near to losing their warranty.</p>
+			<p id="text">This is to inform that the license of the firearms mentioned below has to be renewed before they reach their date of expiration.</p>
 		</div>
 			<table id="table1">
-				<tr >
+				<tr>
 					<th id="table1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-					<th id="table1">EQUIPMENT</th>
-					<th id="table1">BRAND</th>
-					<th id="table1">SERIAL NUMBER</th>
+					<th id="table1">FIREARM</th>
+					<th id="table1">LICENSE NUMBER</th>
+					<th id="table1">HANDLER</th>
 					<th id="table1">EXPIRATION</th>
 				</tr>
-				<tr id="table1">
-					<td id="table1"> </td>
-					<td id="table1">.9 mm pistol</td>
-					<td id="table1">Glock, Inc.</td>
-					<td id="table1">ZXC210933</td>
-					<td id="table1">December 31, 2017</td>
-				</tr>
+				@foreach ($firearms as $firearm)
+					<tr id="table1">
+						<td id="table1"> </td>
+						<td id="table1">{{$firearm->item->name}}</td>
+						<td id="table1">{{$firearm->license}}</td>
+						<td id="table1"></td>
+						<td id="table1">{{$firearm->expiration->format('M. d, Y')}}</td>
+					</tr>
+				@endforeach
 			</table>
 			
 		<div class="notedby">
@@ -125,12 +127,11 @@
 		<div class="footer">
 			<table>
                 <tr>
-                    <td id="rowLabelfooter">Insert Name</td>
+                    <td id="rowLabelfooter">{{Auth::user()->admin->firstname}} {{Auth::user()->admin->middlename}} {{Auth::user()->admin->lastname}}</td>
                 </tr>
 				<tr>
-					<td id="rowDatafooter">Insert Position</td>
+					<td id="rowDatafooter">{{Auth::user()->admin->position}}</td>
                 </tr>
-				
             </table>
 		</div>
 	</body>

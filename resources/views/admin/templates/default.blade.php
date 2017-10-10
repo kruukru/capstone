@@ -229,52 +229,11 @@
 				</li>
 				@if (Auth::user()->accounttype != 1)
 					<!-- queries -->
-					<li class="treeview {{Request::path() == 'admin/query/securityguardscore' ? 'active' : ''}} {{Request::path() == 'admin/query/securityguardvacant' ? 'active' : ''}} {{Request::path() == 'admin/query/securityguardcommend' ? 'active' : ''}} {{Request::path() == 'admin/query/securityguardviolation' ? 'active' : ''}} {{Request::path() == 'admin/query/clientcontract' ? 'active' : ''}} {{Request::path() == 'admin/query/deploymentsitearea' ? 'active' : ''}}">
-						<a href="#"><i class="fa fa-book"></i><span>QUERY</span><i class="fa fa-angle-left pull-right"></i></a>
-						<ul class="treeview-menu">
-							@if (Auth::user()->accounttype == 0)
-								<li class="{{Request::path() == 'admin/query/securityguardscore' ? 'active' : ''}}"><a href="{{ route('admin-query-securityguardscore') }}"><i class="fa fa-circle-o"></i>SG Score</a></li>
-								<li class="{{Request::path() == 'admin/query/securityguardvacant' ? 'active' : ''}}"><a href="{{ route('admin-query-securityguardvacant') }}"><i class="fa fa-circle-o"></i>SG Vacant</a></li>
-								<li class="{{Request::path() == 'admin/query/securityguardcommend' ? 'active' : ''}}"><a href="{{ route('admin-query-securityguardcommend') }}"><i class="fa fa-circle-o"></i>SG Commend</a></li>
-								<li class="{{Request::path() == 'admin/query/securityguardviolation' ? 'active' : ''}}"><a href="{{ route('admin-query-securityguardviolation') }}"><i class="fa fa-circle-o"></i>SG Violation</a></li>
-								<li class="{{Request::path() == 'admin/query/clientcontract' ? 'active' : ''}}"><a href="{{ route('admin-query-clientcontract') }}"><i class="fa fa-circle-o"></i>Client Contract</a></li>
-								<li class="{{Request::path() == 'admin/query/deploymentsitearea' ? 'active' : ''}}"><a href="{{ route('admin-query-deploymentsitearea') }}"><i class="fa fa-circle-o"></i>Deployment Site Area</a></li>
-							@elseif (Auth::user()->accounttype == 1)
-								
-							@elseif (Auth::user()->accounttype == 2)
-								<li class="{{Request::path() == 'admin/query/securityguardcommend' ? 'active' : ''}}"><a href="{{ route('admin-query-securityguardcommend') }}"><i class="fa fa-circle-o"></i>SG Commend</a></li>
-								<li class="{{Request::path() == 'admin/query/securityguardviolation' ? 'active' : ''}}"><a href="{{ route('admin-query-securityguardviolation') }}"><i class="fa fa-circle-o"></i>SG Violation</a></li>
-								<li class="{{Request::path() == 'admin/query/deploymentsitearea' ? 'active' : ''}}"><a href="{{ route('admin-query-deploymentsitearea') }}"><i class="fa fa-circle-o"></i>Deployment Site Area</a></li>
-							@elseif (Auth::user()->accounttype == 3)
-								<li class="{{Request::path() == 'admin/query/securityguardscore' ? 'active' : ''}}"><a href="{{ route('admin-query-securityguardscore') }}"><i class="fa fa-circle-o"></i>SG Score</a></li>
-								<li class="{{Request::path() == 'admin/query/securityguardvacant' ? 'active' : ''}}"><a href="{{ route('admin-query-securityguardvacant') }}"><i class="fa fa-circle-o"></i>SG Vacant</a></li>
-							@endif
-						</ul>
-					</li>
+					<li class="{{Request::path() == 'admin/query' ? 'active' : ''}}"><a href="{{ route('admin-query') }}"><i class="fa fa-book"></i>QUERY</a></li>
 				@endif
 				@if (Auth::user()->accounttype != 2)
 					<!-- reports -->
-					<li class="treeview {{Request::path() == 'admin/report/firearmlicense' ? 'active' : ''}} {{Request::path() == 'admin/report/securitylicense' ? 'active' : ''}} {{Request::path() == 'admin/report/equipment' ? 'active' : ''}} {{Request::path() == 'admin/report/ddo' ? 'active' : ''}} {{Request::path() == 'admin/report/mdr' ? 'active' : ''}}">
-						<a href="#"><i class="fa fa-file-text"></i><span>REPORT</span><i class="fa fa-angle-left pull-right"></i></a>
-						<ul class="treeview-menu">
-							@if (Auth::user()->accounttype == 0)
-								<li class="{{Request::path() == 'admin/report/firearmlicense' ? 'active' : ''}}"><a href="{{ route('admin-report-firearmlicense') }}"><i class="fa fa-circle-o"></i>Firearm License</a></li>
-								<li class="{{Request::path() == 'admin/report/securitylicense' ? 'active' : ''}}"><a href="{{ route('admin-report-securitylicense') }}"><i class="fa fa-circle-o"></i>Security License</a></li>
-								<li class="{{Request::path() == 'admin/report/equipment' ? 'active' : ''}}"><a href="{{ route('admin-report-equipment') }}"><i class="fa fa-circle-o"></i>Equipment</a></li>
-								<li class="{{Request::path() == 'admin/report/ddo' ? 'active' : ''}}"><a href="{{ route('admin-report-ddo') }}"><i class="fa fa-circle-o"></i>DDO</a></li>
-								<li class="{{Request::path() == 'admin/report/mdr' ? 'active' : ''}}"><a href="{{ route('admin-report-mdr') }}"><i class="fa fa-circle-o"></i>MDR</a></li>
-							@elseif (Auth::user()->accounttype == 1)
-								<li class="{{Request::path() == 'admin/report/firearmlicense' ? 'active' : ''}}"><a href="{{ route('admin-report-firearmlicense') }}"><i class="fa fa-circle-o"></i>Firearm License</a></li>
-								<li class="{{Request::path() == 'admin/report/securitylicense' ? 'active' : ''}}"><a href="{{ route('admin-report-securitylicense') }}"><i class="fa fa-circle-o"></i>Security License</a></li>
-								<li class="{{Request::path() == 'admin/report/equipment' ? 'active' : ''}}"><a href="{{ route('admin-report-equipment') }}"><i class="fa fa-circle-o"></i>Equipment</a></li>
-								<li class="{{Request::path() == 'admin/report/mdr' ? 'active' : ''}}"><a href="{{ route('admin-report-mdr') }}"><i class="fa fa-circle-o"></i>MDR</a></li>
-							@elseif (Auth::user()->accounttype == 2)
-								
-							@elseif (Auth::user()->accounttype == 3)
-								<li class="{{Request::path() == 'admin/report/ddo' ? 'active' : ''}}"><a href="{{ route('admin-report-ddo') }}"><i class="fa fa-circle-o"></i>DDO</a></li>
-							@endif
-						</ul>
-					</li>
+					<li class="{{Request::path() == 'admin/report' ? 'active' : ''}}"><a href="{{ route('admin-report') }}"><i class="fa fa-file-text"></i>REPORT</a></li>
 				@endif
 			</ul>
 		</section>
