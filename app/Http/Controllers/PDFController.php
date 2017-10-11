@@ -11,6 +11,7 @@ use Amcor\Score;
 use Amcor\Attendance;
 use Amcor\DeploymentSite;
 use Amcor\Report;
+use Amcor\Firearm;
 use Carbon\Carbon;
 use PDF;
 use Auth;
@@ -18,14 +19,6 @@ use Auth;
 class PDFController extends Controller
 {
     //temp
-    public function getAdminFirearmLicense() {
-        $firearms = Firearm::with('Item')
-            ->orderBy('expiration')->get();
-
-        $pdf = PDF::loadView('admin.report.firearmlicense', compact('firearms'));
-        return $pdf->stream();
-    }
-
     public function getAdminSecurityLicense() {
         $applicants = Applicant::orderBy('licenseexpiration')->get();
 
@@ -50,11 +43,33 @@ class PDFController extends Controller
         return $pdf->stream();
     }
 
-    //admin
+    //admin report
     public function getAdminReport() {
-        return view('admin.report.report');
+        $deploymentsites = DeploymentSite::where('status', 5)->get();
+
+        return view('admin.report.report', compact('deploymentsites'));
     }
 
+    public function getAdminFirearmLicense(Request $request) {
+        $deploymentsiteid = $request->input('firearmdeploymentsiteid');
+        $startdate = $request->input('firearmstartdate');
+        $enddate = $request->input('firearmenddate');
+ 
+        if ($deploymentsiteid == "none") {
+            $firearms = Firearm::with('item')->whereBetween('expiration', array($startdate, $enddate))
+                ->orderBy('expiration')->get();
+        } else {
+            $firearms = Firearm::with('item')->whereBetween('expiration', array($startdate, $enddate))
+                ->whereHas('issuedfirearm.issueditem', function($query) use ($deploymentsiteid) {
+                    $query->where('deploymentsiteid', $deploymentsiteid);
+                })->orderBy('expiration')->get();
+        }
+
+        $pdf = PDF::loadView('admin.pdf.firearmlicense', compact('firearms'));
+        return $pdf->stream();
+    }
+
+    //admin
     public function getAdminContractDocument($contractid) {
         $contract = Contract::with('client', 'deploymentsite')->find($contractid);
 

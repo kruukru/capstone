@@ -79,7 +79,9 @@ Route::group(['middleware' => ['auth']], function() {
 		Route::name('admin-notification')->get('/admin/notification', 'NotificationController@getAdminNotification');
 
 		Route::name('admin-query')->get('/admin/query', 'QueryController@getAdminQuery');
+
 		Route::name('admin-report')->get('/admin/report', 'PDFController@getAdminReport');
+		Route::name('admin-report-firearmlicense')->get('/admin/report/firearmlicense', 'PDFController@getAdminFirearmLicense');
 	});
 
 	//executive executive executive executive executive executive executive executive executive executive executive executive executive executive 

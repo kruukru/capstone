@@ -87,14 +87,6 @@
                     <td id="rowLabel">DATE:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
 					<td id="rowData">{{Carbon\Carbon::now()->toDayDateTimeString()}}</td>
                 </tr>
-                <tr>
-                    <td id="rowLabel">TO:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-					<td id="rowData"></td>
-                </tr>
-				<tr>
-                    <td id="rowLabel">FROM:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-					<td id="rowData"></td>
-                </tr>
             </table>
 			<p id="text">This is to inform that the license of the firearms mentioned below has to be renewed before they reach their date of expiration.</p>
 		</div>
