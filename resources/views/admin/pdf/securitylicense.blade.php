@@ -79,21 +79,13 @@
 			<img src="images/{{$company->logo}}" id="logo">
 			<p id="txtHeader">{{$company->name}}</p>
 			<p>{{$company->address}}</p>
-			<h2 id="title">FIREARM LICENSE EXPIRATION REPORT</h2>
+			<h2 id="title">SECURITY LICENSE EXPIRATION REPORT</h2>
 		</div>
 		<div class="to_from">
 			<table>
                 <tr>
                     <td id="rowLabel">DATE:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
 					<td id="rowData">{{Carbon\Carbon::now()->toDayDateTimeString()}}</td>
-                </tr>
-                <tr>
-                    <td id="rowLabel">TO:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-					<td id="rowData"></td>
-                </tr>
-				<tr>
-                    <td id="rowLabel">FROM:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-					<td id="rowData"></td>
                 </tr>
             </table>
 			<p id="text">This is to inform that the license of the security guard mentioned below has to be renewed before they reach their date of expiration.</p>
@@ -110,7 +102,7 @@
 					<tr id="table1">
 						<td id="table1"> </td>
 						<td id="table1">{{$applicant->lastname}}, {{$applicant->firstname}} {{$applicant->middlename}}</td>
-						<td id="table1"></td>
+						<td id="table1">{{$applicant->qualificationcheck ? $applicant->qualificationcheck->deploymentsite->sitename : "" }}</td>
 						<td id="table1">{{$applicant->license}}</td>
 						<td id="table1">{{$applicant->licenseexpiration->format('M. d, Y')}}</td>
 					</tr>

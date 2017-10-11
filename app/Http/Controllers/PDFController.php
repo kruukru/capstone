@@ -19,13 +19,6 @@ use Auth;
 class PDFController extends Controller
 {
     //temp
-    public function getAdminSecurityLicense() {
-        $applicants = Applicant::orderBy('licenseexpiration')->get();
-
-        $pdf = PDF::loadView('admin.report.securitylicense', compact('applicants'));
-        return $pdf->stream();
-    }
-
     public function getAdminEquipment() {
         $items = Item::get();
 
@@ -56,16 +49,55 @@ class PDFController extends Controller
         $enddate = $request->input('firearmenddate');
  
         if ($deploymentsiteid == "none") {
-            $firearms = Firearm::with('item')->whereBetween('expiration', array($startdate, $enddate))
-                ->orderBy('expiration')->get();
+            if ($startdate == null && $enddate == null) {
+                $firearms = Firearm::with('item')->orderBy('expiration')->get();
+            } else {
+                $firearms = Firearm::with('item')->whereBetween('expiration', array($startdate, $enddate))
+                    ->orderBy('expiration')->get();
+            }
         } else {
-            $firearms = Firearm::with('item')->whereBetween('expiration', array($startdate, $enddate))
-                ->whereHas('issuedfirearm.issueditem', function($query) use ($deploymentsiteid) {
+            if ($startdate == null && $enddate == null) {
+                $firearms = Firearm::with('item')->whereHas('issuedfirearm.issueditem', function($query) use ($deploymentsiteid) {
                     $query->where('deploymentsiteid', $deploymentsiteid);
                 })->orderBy('expiration')->get();
+            } else {
+                $firearms = Firearm::with('item')->whereBetween('expiration', array($startdate, $enddate))
+                    ->whereHas('issuedfirearm.issueditem', function($query) use ($deploymentsiteid) {
+                        $query->where('deploymentsiteid', $deploymentsiteid);
+                    })->orderBy('expiration')->get();
+                }
         }
 
         $pdf = PDF::loadView('admin.pdf.firearmlicense', compact('firearms'));
+        return $pdf->stream();
+    }
+
+    public function getAdminSecurityLicense(Request $request) {
+        $deploymentsiteid = $request->input('securitydeploymentsiteid');
+        $startdate = $request->input('securitystartdate');
+        $enddate = $request->input('securityenddate');
+ 
+        if ($deploymentsiteid == "none") {
+            if ($startdate == null && $enddate == null) {
+                $applicants = Applicant::orderBy('licenseexpiration')->get();
+            } else {
+                $applicants = Applicant::whereBetween('licenseexpiration', array($startdate, $enddate))
+                    ->orderBy('licenseexpiration')->get();
+            }
+        } else {
+            if ($startdate == null && $enddate == null) {
+                $applicants = Applicant::whereHas('qualificationcheck', function($query) use ($deploymentsiteid) {
+                    $query->where('deploymentsiteid', $deploymentsiteid);
+                })->orderBy('licenseexpiration')->get();
+            } else {
+                $applicants = Applicant::whereBetween('licenseexpiration', array($startdate, $enddate))
+                    ->whereHas('qualificationcheck', function($query) use ($deploymentsiteid) {
+                        $query->where('deploymentsiteid', $deploymentsiteid);
+                    })->orderBy('licenseexpiration')->get();
+            }
+        }
+
+        $pdf = PDF::loadView('admin.pdf.securitylicense', compact('applicants'));
         return $pdf->stream();
     }
 

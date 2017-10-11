@@ -49,16 +49,41 @@
 			@endif
 			@if (Auth::user()->accounttype == 0)
 				<div class="container col-md-6">
-					<div class="box box-primary collapsed-box">
-						<div class="box-header with-border">
-	        				<h3 class="box-title">SECURITY LICENSE</h3>
-	        				<div class="box-tools pull-right">
-	        					<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
-	        				</div>
-	        			</div>
-						<div class="box-body table-responsive">
-							
-						</div>
+					<div class="box box-primary">
+						<form id="formSecurityLicense" role="form" method="GET" action="{{ route('admin-report-securitylicense') }}">
+							<div class="box-header with-border">
+		        				<h3 class="box-title">SECURITY LICENSE</h3>
+		        				<div class="box-tools pull-right">
+		        					<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+		        				</div>
+		        			</div>
+							<div class="box-body table-responsive">
+								<div class="form-group">
+									<label>Deployment Site</label>
+									<select class="form-control" id="securitydeploymentsiteid" name="securitydeploymentsiteid">
+										<option value="none">None</option>
+										@foreach ($deploymentsites as $deploymentsite)
+											<option value="{{$deploymentsite->deploymentsiteid}}">{{$deploymentsite->sitename}}, {{$deploymentsite->location}}</option>
+										@endforeach
+									</select>
+								</div>
+								<div class="form-group">
+									<label>Date Range</label>
+									<div class="input-group">
+										<button type="button" class="btn btn-default" id="btnDateRangeSecurity">
+											<span></span>&ensp;<i class="fa fa-caret-down"></i>
+										</button>
+									</div>
+								</div>
+							</div>
+							<div class="box-footer">
+								<div class="form-group">
+									<input type="hidden" id="securitystartdate" name="securitystartdate">
+									<input type="hidden" id="securityenddate" name="securityenddate">
+									<button type="submit" class="btn btn-primary pull-right" id="btnGenerateSecurity">GENERATE</button>
+								</div>
+							</div>
+						</form>
 					</div>
 				</div>
 			@endif
