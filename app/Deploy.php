@@ -11,7 +11,7 @@ class Deploy extends Model
 
     protected $table = 'deploytbl';
     protected $primaryKey = 'deployid';
-    protected $dates = ['expiration', 'deleted_at'];
+    protected $dates = ['dateissued', 'expiration', 'deleted_at'];
 
     public function deploymentsite() {
     	return $this->belongsTo('Amcor\DeploymentSite', 'deploymentsiteid');

@@ -40,7 +40,7 @@
 								<div class="form-group">
 									<input type="hidden" id="firearmstartdate" name="firearmstartdate">
 									<input type="hidden" id="firearmenddate" name="firearmenddate">
-									<button type="submit" class="btn btn-primary pull-right" id="btnGenerateFirearm">GENERATE</button>
+									<button type="submit" class="btn btn-primary pull-right">GENERATE</button>
 								</div>
 							</div>
 						</form>
@@ -80,7 +80,7 @@
 								<div class="form-group">
 									<input type="hidden" id="securitystartdate" name="securitystartdate">
 									<input type="hidden" id="securityenddate" name="securityenddate">
-									<button type="submit" class="btn btn-primary pull-right" id="btnGenerateSecurity">GENERATE</button>
+									<button type="submit" class="btn btn-primary pull-right">GENERATE</button>
 								</div>
 							</div>
 						</form>
@@ -89,16 +89,31 @@
 			@endif
 			@if (Auth::user()->accounttype == 0)
 				<div class="container col-md-6">
-					<div class="box box-primary collapsed-box">
-						<div class="box-header with-border">
-	        				<h3 class="box-title">EQUIPMENT</h3>
-	        				<div class="box-tools pull-right">
-	        					<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
-	        				</div>
-	        			</div>
-						<div class="box-body table-responsive">
-							
-						</div>
+					<div class="box box-primary">
+						<form id="formEquipment" role="form" method="GET" action="{{ route('admin-report-equipment') }}">
+							<div class="box-header with-border">
+		        				<h3 class="box-title">EQUIPMENT</h3>
+		        				<div class="box-tools pull-right">
+		        					<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
+		        				</div>
+		        			</div>
+							<div class="box-body table-responsive">
+								<div class="form-group">
+									<label>Deployment Site</label>
+									<select class="form-control" id="equipmentdeploymentsiteid" name="equipmentdeploymentsiteid">
+										<option value="none">None</option>
+										@foreach ($deploymentsites as $deploymentsite)
+											<option value="{{$deploymentsite->deploymentsiteid}}">{{$deploymentsite->sitename}}, {{$deploymentsite->location}}</option>
+										@endforeach
+									</select>
+								</div>
+							</div>
+							<div class="box-footer">
+								<div class="form-group">
+									<button type="submit" class="btn btn-primary pull-right">GENERATE</button>
+								</div>
+							</div>
+						</form>
 					</div>
 				</div>
 			@endif

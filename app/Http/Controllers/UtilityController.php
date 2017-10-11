@@ -230,7 +230,10 @@ class UtilityController extends Controller
         $company->name = $request->inputName;
         $company->shortname = $request->inputShortName;
         $company->address = $request->inputAddress;
+        $company->license = $request->inputLicense;
+        $company->expiration = $request->inputExpiration;
         $company->contactno = $request->inputContactNo;
+        $company->email = $request->inputEmail;
         $company->save();
 
         return Response::json($company);

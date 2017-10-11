@@ -18,7 +18,10 @@ class Company extends Migration
             $table->string('name', 100);
             $table->string('shortname', 9);
             $table->text('address');
+            $table->string('license', 15);
+            $table->date('expiration');
             $table->text('contactno');
+            $table->string('email');
             $table->text('logo');
 
             $table->timestamps();

@@ -14,22 +14,38 @@
 							<div class="form-group">
 								<div class="row">
 									<div class="col-md-9">
-										<label>Company Name</label>
+										<label>Name</label>
 										<input type="text" class="form-control" id="name" value="{{$company->name}}" maxlength="100" required>
 									</div>
 									<div class="col-md-3">
-										<label>Company Short Name</label>
+										<label>Short Name</label>
 										<input type="text" class="form-control" id="shortname" value="{{$company->shortname}}" maxlength="9" required>
 									</div>
 								</div>
 							</div>
 							<div class="form-group">
-								<label>Company Address</label>
+								<label>Address</label>
 								<textarea class="form-control" rows="2" id="address" required>{{$company->address}}</textarea>
 							</div>
 							<div class="form-group">
-								<label>Company Contact No.</label>
+								<div class="row">
+									<div class="col-md-7">
+										<label>LTO License</label>
+										<input type="text" class="form-control" id="license" value="{{$company->license}}" data-inputmask="'mask': 'aaa-999999-9999'" pattern="([a-zA-Z]{3})-(\d{6})-(\d{4})" required>
+									</div>
+									<div class="col-md-5">
+										<label>Expiration</label>
+										<input type="text" class="form-control mydatepicker" id="expiration" value="{{$company->expiration}}" pattern="(\d{4})-(\d{2})-(\d{2})" required>
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<label>Contact No.</label>
 								<input type="text" class="form-control" id="contactno" value="{{$company->contactno}}" required>
+							</div>
+							<div class="form-group">
+								<label>Email</label>
+								<input type="email" class="form-control" id="email" value="{{$company->email}}" required>
 							</div>
 						</div>
 						<div class="box-footer">

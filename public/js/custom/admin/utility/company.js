@@ -1,4 +1,16 @@
 $(document).ready(function() {
+    //date picker
+    $('.mydatepicker').change(function() {
+        $(this).parsley().validate();
+    });
+    $('#expiration').inputmask("9999-99-99");
+    $('#expiration').datepicker({
+        format: 'yyyy-mm-dd',
+        autoclose: true,
+        startDate: '+1d',
+        endDate: '+100y',
+    });
+
     $('#btnSaveCompany').click(function(e) {
         if ($('#formCompany').parsley().isValid()) {
             e.preventDefault();
@@ -15,7 +27,10 @@ $(document).ready(function() {
                 inputName: $('#name').val(),
                 inputShortName: $('#shortname').val(),
                 inputAddress: $('#address').val(),
-                inputContactNo: $('#contactno').val()
+                inputLicense: $('#license').val(),
+                inputExpiration: $('#expiration').val(),
+                inputContactNo: $('#contactno').val(),
+                inputEmail: $('#email').val()
             };
 
             $.ajax({

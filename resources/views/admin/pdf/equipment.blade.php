@@ -122,7 +122,7 @@
                             <b>DETACHMENT: </b>
                         </td>
                         <td>
-                            <span id="detachInfo">*Sta. Rosa, Laguna Plant!*</span>
+                            <span id="detachInfo">{{$deploymentsiteout}}</span>
                         </td>
                     </tr>
                     <tr>
@@ -130,7 +130,7 @@
                             <b>DATE:</b>
                         </td>
                         <td>
-                            <span id="detachInfo">*DATE*</span>
+                            <span id="detachInfo">{{Carbon\Carbon::now()->toDayDateTimeString()}}</span>
                         </td>
                     </tr>
                     <tr>
@@ -138,7 +138,7 @@
                             <b>SUBJECT:</b>
                         </td>
                         <td>
-                            <span id="detachInfo">*SUBJECT*</span>
+                            <span id="detachInfo"></span>
                         </td>
                     </tr>
                 </table>
@@ -155,16 +155,29 @@
                 <th>DATE ISSUED</th>
                 <th>REMARKS</th>
             </tr>
-            @foreach ($items as $item)
+            @if ($deploymentsiteout == "All")
+                @foreach ($items as $item)
                 <tr>
                     <td id="itemName">{{$item->name}}</td>
                     <td>{{$item->itemtype->name}}</td>
                     <td>{{$item->qty}}</td>
-                    <td>**</td>
-                    <td>**</td>
-                    <td>**</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
                 </tr>
-            @endforeach
+                @endforeach
+            @else
+                @foreach ($items as $item)
+                <tr>
+                    <td id="itemName">{{$item->item->name}}</td>
+                    <td>{{$item->item->itemtype->name}}</td>
+                    <td>{{$item->qty}}</td>
+                    <td></td>
+                    <td>{{$item->deploy->dateissued->format('M. d, Y')}}</td>
+                    <td></td>
+                </tr>
+                @endforeach
+            @endif
         </table>
         <br><br>
         <table id="Sign">
@@ -173,12 +186,12 @@
                     <b>PREPARED BY: </b>
                 </td>
                 <td align="center">
-                    <span id="detachInfo">*DEPCOMM NAME*</span>
+                    <span id="detachInfo">{{Auth::user()->admin->firstname}} {{Auth::user()->admin->middlename}} {{Auth::user()->admin->lastname}}</span>
                 </td>
             </tr>
             <tr>
                 <td></td>
-                <td align="center"><b>DEPUTY COMMANDER</b></td>
+                <td align="center"><b>{{Auth::user()->admin->position}}</b></td>
             </tr>
         </table>
     </div>
