@@ -143,9 +143,9 @@
             <tr>
                 <td>
                     <b>Duty Detail Order No: </b>
-                    <span class="FormData">*DDO NUMBER (9999-99-999) </span></td>
+                    <span class="FormData">{{$floatnumber->floatnumberid}}</span></td>
                 <td>
-                    <center><span class="FormData">*DATE (MMMM dd, yyyy)*</span></center>
+                    <center><span class="FormData">{{Carbon\Carbon::today()->format('F d, Y')}}</span></center>
                 </td>
             </tr>
             <tr>
@@ -171,11 +171,11 @@
             </li>
 
             <li>
-                <span> <b>Purpose of Detail: </b> <span class="FormData">*PURPOSE*</span></span>
+                <span> <b>Purpose of Detail: </b> <span class="FormData">{{$purpose}}</span></span>
             </li>
 
             <li>
-                 <span> <b>Durations/ Inclusive Dates of Detailed: </b> <span class="FormData">*DURATION* (From MMMM dd - MMMM dd yyyy)</span></span>
+                 <span> <b>Durations/ Inclusive Dates of Detailed: </b> <span class="FormData">{{$startdate->format('F d')}} - {{$enddate->format('F d Y')}}</span></span>
             </li>
             <li>
                 <span> The following security guards (SGs) are hereby assigned to render post security service duties in place/s indicated and hereby issued agency/company owned firearms (FA's). </span> <br/>
@@ -194,16 +194,18 @@
                         <th>FAs Serial No.</th>
                         <th>Validity of FAs License</th>
                     </tr>
+                    @foreach ($applicants as $applicant)
                     <tr>
-                        <td>*Name*</td>
-                        <td>*Designation*</td>
-                        <td>*Place*</td>
-                        <td>*Shift*</td>
-                        <td>*Kind*</td>
-                        <td>*Cal.*</td>
-                        <td>*Serial*</td>
-                        <td>*Serial*</td>
+                        <td>{{$applicant->firstname}} {{$applicant->middlename}} {{$applicant->lastname}}</td>
+                        <td>Duty Guard</td>
+                        <td>{{$applicant->qualificationcheck ? $applicant->qualificationcheck->deploymentsite->sitename : ""}}</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
                     </tr>
+                    @endforeach
                 </table>
             </li>
             
@@ -249,12 +251,11 @@
         <table id="Signature">
             <tr>
                 <td>
-                    <span class="Signee">*OP. MAN.*</span><br>
-                    Operations Manager
+                    <span class="Signee">{{Auth::user()->admin->firstname}} {{Auth::user()->admin->middlename}} {{Auth::user()->admin->lastname}}</span><br>{{Auth::user()->admin->position}}
                 </td>
                 <td>
-                    <span class="Signee">*EVP*</span><br>
-                    Executive Vice President
+                    <!-- <span class="Signee">*OP. MAN.*</span><br>
+                    Operations Manager -->
                 </td>
             </tr>
         </table>

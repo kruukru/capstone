@@ -292,6 +292,11 @@
 					    @elseif (Auth::user()->applicant->status == 125)
 					    	<h3>YOU FAILED</h3>
 					    	<h5>You cannot make an appointment temporarily until {{Auth::user()->applicant->updated_at->addMonths(3)->format('M. d, Y')}}.</h5>
+					    @else
+					    	<h3>{{$company->name}}</h3>
+					    	<h4>{{$company->address}}</h4>
+					    	<h4>{{$company->contactno}}</h4>
+					    	<h4>Email: {{$company->email}}</h4>
 						@endif
 					</div>
 				</div>

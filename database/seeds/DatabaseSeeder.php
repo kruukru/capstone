@@ -31,5 +31,6 @@ class DatabaseSeeder extends Seeder
         $this->call(ViolationSeeder::class);
         $this->call(ContractSeeder::class);
         $this->call(DeploymentSiteSeeder::class);
+        $this->call(HolidaySeeder::class);
     }
 }

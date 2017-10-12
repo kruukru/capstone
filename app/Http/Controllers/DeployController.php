@@ -381,7 +381,6 @@ class DeployController extends Controller
                 $deploy = new Deploy();
                 $deploy->deploymentsite()->associate($deploymentsite);
                 $deploy->dateissued = Carbon::today();
-                $deploy->expiration = '2020-10-10';
                 $deploy->status = 0;
                 $deploy->save();
             }

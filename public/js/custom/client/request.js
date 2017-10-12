@@ -439,6 +439,8 @@ $(document).ready(function() {
                         toastr.error("INVALID REQUIRE NO");
                     } else if (data.responseJSON == "COMPLETE ATTENDANCE FIRST") {
                         toastr.error("COMPLETE ATTENDANCE FIRST");
+                    } else if (data.responseJSON == "INPUT ALL DATE FIRST") {
+                        toastr.error("COMPLETE SCHEDULE FIRST");
                     }
                 }
             });

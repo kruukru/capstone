@@ -32,4 +32,8 @@ class Requestt extends Model
     public function deploymentsite() {
         return $this->belongsTo('Amcor\DeploymentSite', 'deploymentsiteid');
     }
+
+    public function leaverequest() {
+        return $this->hasOne('Amcor\LeaveRequest', 'requestid');
+    }
 }

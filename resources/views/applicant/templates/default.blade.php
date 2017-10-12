@@ -9,7 +9,6 @@
 
   @include('templates.mycss')
   @yield('css')
-  
 </head>
 <body class="skin-blue fixed hold-transition sidebar-mini">
   <!-- HEADER -->
@@ -75,6 +74,9 @@
         <!-- list of button -->
         <ul class="sidebar-menu">
             <li class="header"></li>
+            @if (Auth::user()->applicant->status == 10)
+              <li class="{{Request::path() == 'applicant/schedule' ? 'active' : ''}}"><a href="{{ route('applicant-schedule') }}"><i class="fa fa-calendar-check-o"></i><span>Schedule</span></a></li>
+            @endif
             <li class="{{Request::path() == 'applicant/appointment' ? 'active' : ''}}"><a href="{{ route('applicant-appointment') }}"><i class="fa fa-calendar"></i><span>Appointment</span></a></li>
         </ul>
     </section>

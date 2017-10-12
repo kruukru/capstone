@@ -52,6 +52,7 @@ Route::get('/json/violation/all', 'JSONController@getViolationAll');
 Route::get('/json/applicant/educationbackground', 'JSONController@getApplicantEducationBackground');
 Route::get('/json/applicant/employmentrecord', 'JSONController@getApplicantEmploymentRecord');
 Route::get('/json/applicant/trainingcertificate', 'JSONController@getApplicantTrainingCertificate');
+Route::get('/json/applicant/requirement', 'JSONController@getApplicantRequirement');
 
 Route::get('/json/validate-username', 'JSONController@getValidateUsername');
 Route::get('/json/validate-firearm', 'JSONController@getValidateFirearm');
@@ -84,6 +85,8 @@ Route::group(['middleware' => ['auth']], function() {
 		Route::name('admin-report-firearmlicense')->get('/admin/report/firearmlicense', 'PDFController@getAdminFirearmLicense');
 		Route::name('admin-report-securitylicense')->get('/admin/report/securitylicense', 'PDFController@getAdminSecurityLicense');
 		Route::name('admin-report-equipment')->get('/admin/report/equipment', 'PDFController@getAdminEquipment');
+		Route::name('admin-report-dutydetailorder')->get('/admin/report/dutydetailorder', 'PDFController@getAdminDutyDetailOrder');
+		Route::name('admin-report-monthlydispositionreport')->get('/admin/report/monthlydispositionreport', 'PDFController@getAdminMonthlyDispositionReport');
 	});
 
 	//executive executive executive executive executive executive executive executive executive executive executive executive executive executive 
@@ -262,6 +265,7 @@ Route::group(['middleware' => ['auth']], function() {
 
 		//security guard
 		Route::name('admin-transaction-securityguard')->get('/admin/transaction/securityguard', 'SecurityGuardController@getAdminSecurityGuard');
+		Route::post('/admin/transaction/securityguard/remove', 'SecurityGuardController@postAdminSecurityGuardRemove');
 
 		//deploy security guard
 		Route::name('admin-transaction-deploysecurityguard')->get('/admin/transaction/deploysecurityguard', 'DeployController@getAdminDeploySecurityGuard');
@@ -432,6 +436,11 @@ Route::group(['middleware' => ['auth']], function() {
 
 	//applicant applicant applicant applicant applicant applicant applicant applicant applicant applicant applicant applicant applicant
 	Route::group(['middleware' => 'Amcor\Http\Middleware\ApplicantMiddleware'], function() {
+		//schedule
+		Route::name('applicant-schedule')->get('/applicant/schedule', 'ScheduleController@getApplicantSchedule');
+		Route::post('/applicant/schedule/requestleave', 'ScheduleController@getApplicantScheduleRequestLeave');
+		Route::post('/applicant/schedule/requestleave/cancel', 'ScheduleController@getApplicantScheduleRequestLeaveCancel');
+
 		//appointment
 		Route::name('applicant-appointment')->get('/applicant/appointment', 'AppointmentController@getApplicantAppointment');
 		Route::post('/applicant/appointment', 'AppointmentController@postApplicantAppointment');

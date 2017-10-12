@@ -72,4 +72,8 @@ class Applicant extends Model
     public function schedule() {
         return $this->hasOne('Amcor\Schedule', 'applicantid');
     }
+
+    public function leaverequest() {
+        return $this->hasOne('Amcor\LeaveRequest', 'applicantid');
+    }
 }

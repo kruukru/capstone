@@ -11,5 +11,5 @@ class Company extends Model
 
     protected $table = 'companytbl';
     protected $primaryKey = 'companyid';
-    protected $dates = ['deleted_at'];
+    protected $dates = ['expiration', 'deleted_at'];
 }

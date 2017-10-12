@@ -66,8 +66,8 @@
                 <td align="center">
                     <div id="header">
                         <span id="agencyName">{{$company->name}}</span><br>
-                        <span id="agencyInfo">{{$company->address}}<br>{{$company->contactno}}<br>*Agency License*</span><br>
-                        <span id="agencyLTO">*LTO EXPIRES ON *AGENCY LICENSE EXPIRATION (dd MMMM yyyy)*</span><br>
+                        <span id="agencyInfo">{{$company->address}}<br>{{$company->contactno}}<br>{{$company->license}}</span><br>
+                        <span id="agencyLTO">LTO EXPIRES ON {{$company->expiration->format('d F Y')}}</span><br>
                     </div>
                 </td>
             </tr>
@@ -84,11 +84,11 @@
                         </tr>
                         <tr>
                             <th>DATE</th>
-                            <td width="100%" style="text-transform: uppercase;">*Date (MMMM dd, yyyy)*</td>
+                            <td width="100%" style="text-transform: uppercase;">{{Carbon\Carbon::today()->format('F d, Y')}}</td>
                         </tr>
                         <tr>
                             <th>EMAIL ADDRESS:</th>
-                            <td>*EMAIL ADDRESS*</td>
+                            <td>{{$company->email}}</td>
                         </tr>
                     </table> 
                 </td>
@@ -101,7 +101,7 @@
 
         <br><br>
 
-        Respectfully submitted herewith is the disposition of our clients, firearms, security guards and their respective insurance policy for the Month of *DATE (MMMM yyyy)!!*
+        Respectfully submitted herewith is the disposition of our clients, firearms, security guards and their respective insurance policy for the Month of {{Carbon\Carbon::today()->format('F Y')}}
         <br><br>
         <table id="mainTable">
             <tr>
@@ -134,23 +134,31 @@
                 <th>SERIAL</th>
                 <th>Cont.</th>
             </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
+            @foreach ($contracts as $contract)
+                @foreach ($contract->deploymentsite->qualificationcheck as $qualificationcheck)
+                <tr>
+                    <td>{{$contract->client->company}} - {{$contract->deploymentsite->sitename}}</td>
+                    <td></td>
+                    <td></td>
+                    <td>{{$qualificationcheck->applicant->firstname}}</td>
+                    <td>{{$qualificationcheck->applicant->middlename}}</td>
+                    <td>{{$qualificationcheck->applicant->lastname}}</td>
+                    <td>
+                        @foreach ($qualificationcheck->applicant->educationbackground as $educationbackground)
+                            {{$educationbackground->graduatetype}}
+                        @endforeach
+                    </td>
+                    <td>{{$qualificationcheck->applicant->license}}</td>
+                    <td>{{$qualificationcheck->applicant->licenseexpiration->format('M. d Y')}}</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                @endforeach
+            @endforeach
         </table>
     </div>
 </body>

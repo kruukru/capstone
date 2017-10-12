@@ -71,7 +71,7 @@ class AppointmentController extends Controller
 
     public function postApplicantRemove(Request $request) {
         $appointment = Appointment::find($request->inputAppointmentDateID);
-        $appointment->delete();
+        $appointment->forceDelete();
 
         return Response::json($appointment);
     }

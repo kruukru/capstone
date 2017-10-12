@@ -9,6 +9,10 @@ use Amcor\Account;
 use Amcor\ReplaceApplicant;
 use Amcor\DeploymentSite;
 use Amcor\Attendance;
+use Amcor\EducationBackground;
+use Amcor\EmploymentRecord;
+use Amcor\TrainingCertificate;
+use Amcor\ApplicantRequirement;
 use Carbon\Carbon;
 use DateTime;
 use DateInterval;
@@ -18,10 +22,27 @@ use Response;
 
 class SecurityGuardController extends Controller
 {
+    //admin admin admin admin admin admin admin admin admin admin admin admin admin admin admin admin admin admin admin admin admin admin admin 
     public function getAdminSecurityGuard() {
     	$applicants = Applicant::get();
 
     	return view('admin.transaction.securityguard', compact('applicants'));
+    }
+
+    
+
+    public function postAdminSecurityGuardRemove(Request $request) {
+        $applicant = Applicant::find($request->inputApplicantID);
+        $account = Account::find($applicant->accountid);
+
+        EducationBackground::where('applicantid', $applicant->applicantid)->forceDelete();
+        EmploymentRecord::where('applicantid', $applicant->applicantid)->forceDelete();
+        TrainingCertificate::where('applicantid', $applicant->applicantid)->forceDelete();
+        ApplicantRequirement::where('applicantid', $applicant->applicantid)->forceDelete();
+        $applicant->forceDelete();
+        $account->forceDelete();
+
+        return Response::json(400);
     }
 
     //client client client client client client client client client client client client client client client client client client client client client

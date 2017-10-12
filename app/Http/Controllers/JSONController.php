@@ -28,6 +28,7 @@ use Amcor\Requestt;
 use Amcor\Report;
 use Amcor\DeploymentSite;
 use Amcor\ReplaceApplicant;
+use Amcor\ApplicantRequirement;
 use Response;
 
 class JSONController extends Controller
@@ -220,6 +221,12 @@ class JSONController extends Controller
         $trainingcertificate = TrainingCertificate::where('applicantid', $request->inputApplicantID)->get();
 
         return Response::json($trainingcertificate);
+    }
+
+    public function getApplicantRequirement(Request $request) {
+        $applicantrequirement = ApplicantRequirement::with('requirement')->where('applicantid', $request->inputApplicantID)->get();
+
+        return Response::json($applicantrequirement);
     }
 
 

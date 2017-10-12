@@ -31,7 +31,10 @@ class RequestController extends Controller
 {
     //admin admin admin admin admin admin admin admin admin admin admin admin admin admin admin admin admin admin 
     public function getAdminRequest() {
-        $requests = Requestt::where('status', '<=', 1)->get();
+        $requests = Requestt::where([
+            ['status', '<=', 1],
+            ['type', '!=', 'LEAVE']
+        ])->get();
         $replaceapplicants = ReplaceApplicant::get();
 
         return view('admin.transaction.request', compact('requests', 'replaceapplicants'));
@@ -73,7 +76,6 @@ class RequestController extends Controller
                 $deploy->deploymentsite()->associate($deploymentsite);
                 $deploy->request()->associate($requestt);
                 $deploy->dateissued = Carbon::today();
-                $deploy->expiration = '2020-10-10';
                 $deploy->status = 0;
                 $deploy->save();
             }
@@ -530,7 +532,6 @@ class RequestController extends Controller
             $deploy->deploymentsite()->associate($deploymentsite);
             $deploy->request()->associate($requestt);
             $deploy->dateissued = Carbon::today();
-            $deploy->expiration = '2020-10-10';
             $deploy->status = 0;
             $deploy->save();
         }
@@ -619,7 +620,7 @@ class RequestController extends Controller
 
     //client client client client client client client client client client client client client client 
     public function getClientRequest() {
-        $requests = Requestt::withTrashed()->whereHas('deploymentsite.contract', function($query) {
+        $requests = Requestt::withTrashed()->where('type', '!=', 'LEAVE')->whereHas('deploymentsite.contract', function($query) {
             $query->where('clientid', Auth::user()->client->clientid);
         })->get();
 

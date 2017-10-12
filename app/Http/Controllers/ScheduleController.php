@@ -7,6 +7,8 @@ use Amcor\Applicant;
 use Amcor\Schedule;
 use Amcor\DeploymentSite;
 use Amcor\Attendance;
+use Amcor\LeaveRequest;
+use Amcor\Requestt;
 use Carbon\Carbon;
 use Response;
 use DateTime;
@@ -16,6 +18,7 @@ use Auth;
 
 class ScheduleController extends Controller
 {
+    //client client client client client client client client client client client client client client client client client client client client 
     public function getClientSchedule() {
     	$applicants = Applicant::whereHas('qualificationcheck', function($query) {
             $query->where('status', 1);
@@ -242,5 +245,39 @@ class ScheduleController extends Controller
         $schedule->save();
 
     	return Response::json($schedule);
+    }
+
+    //applicant applicant applicant applicant applicant applicant applicant applicant applicant applicant applicant applicant applicant applicant 
+    public function getApplicantSchedule() {
+        return view('applicant.schedule');
+    }
+
+    public function getApplicantScheduleRequestLeave(Request $request) {
+        $deploymentsite = DeploymentSite::find(Auth::user()->applicant->qualificationcheck->deploymentsite->deploymentsiteid);
+
+        $requestt = new Requestt;
+        $requestt->deploymentsite()->associate($deploymentsite);
+        $requestt->account()->associate(Auth::user());
+        $requestt->type = "LEAVE";
+        $requestt->datecreated = Carbon::today();
+        $requestt->status = 0;
+        $requestt->save();
+
+        $leaverequest = new LeaveRequest;
+        $leaverequest->request()->associate($requestt);
+        $leaverequest->applicant()->associate(Auth::user()->applicant);
+        $leaverequest->start = $request->inputStartDate;
+        $leaverequest->end = $request->inputEndDate;
+        $leaverequest->reason = $request->inputReason;
+        $leaverequest->save();
+
+        return Response::json(400);
+    }
+
+    public function getApplicantScheduleRequestLeaveCancel() {
+        LeaveRequest::where('applicantid', Auth::user()->applicant->applicantid)->forceDelete();
+        Requestt::where('accountid', Auth::user()->accountid)->forceDelete();
+
+        return Response::json(400);
     }
 }

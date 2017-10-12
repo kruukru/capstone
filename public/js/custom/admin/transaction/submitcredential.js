@@ -1,6 +1,5 @@
 $(document).ready(function() {
     var applicantid, qid, idTable = 0;
-
     var abra = [
         "Bangued", 
         "Boliney", 
@@ -3115,7 +3114,7 @@ $(document).ready(function() {
     });
 
     //personal information info save
-     $('#btnPersonalInformationSave').click(function(e) {
+    $('#btnPersonalInformationSave').click(function(e) {
         if ($('#formPersonalInformation').parsley().validate()) {
             e.preventDefault();
             $.ajaxSetup({
@@ -3526,7 +3525,7 @@ $(document).ready(function() {
                 toastr.success("SAVE SUCCESSFUL");
             },
         });
-    })
+    });
 
     function resetModalCredential() {
         $('#formPersonalInformation').trigger('reset');

@@ -14,6 +14,8 @@ use Amcor\Report;
 use Amcor\Firearm;
 use Amcor\Item;
 use Amcor\IssuedItem;
+use Amcor\FloatNumber;
+use Amcor\Client;
 use Carbon\Carbon;
 use PDF;
 use Auth;
@@ -23,8 +25,9 @@ class PDFController extends Controller
     //admin report
     public function getAdminReport() {
         $deploymentsites = DeploymentSite::where('status', 5)->get();
+        $applicants = Applicant::where('status', 10)->get();
 
-        return view('admin.report.report', compact('deploymentsites'));
+        return view('admin.report.report', compact('deploymentsites', 'applicants'));
     }
 
     public function getAdminFirearmLicense(Request $request) {
@@ -56,22 +59,6 @@ class PDFController extends Controller
         return $pdf->stream();
     }
 
-    public function getAdminEquipment(Request $request) {
-        $deploymentsiteid = $request->input('equipmentdeploymentsiteid');
-        $deploymentsite = DeploymentSite::find($deploymentsiteid);
-
-        if ($deploymentsiteid == "none") {
-            $deploymentsiteout = "All";
-            $items = Item::get();
-        } else {
-            $deploymentsiteout = $deploymentsite->sitename . ", " . $deploymentsite->location;
-            $items = IssuedItem::where('deploymentsiteid', $deploymentsiteid)->get();
-        }
-
-        $pdf = PDF::loadView('admin.pdf.equipment', compact('items', 'deploymentsiteout'));
-        return $pdf->stream();
-    }
-
     public function getAdminSecurityLicense(Request $request) {
         $deploymentsiteid = $request->input('securitydeploymentsiteid');
         $startdate = $request->input('securitystartdate');
@@ -98,6 +85,60 @@ class PDFController extends Controller
         }
 
         $pdf = PDF::loadView('admin.pdf.securitylicense', compact('applicants'));
+        return $pdf->stream();
+    }
+
+    public function getAdminEquipment(Request $request) {
+        $deploymentsiteid = $request->input('equipmentdeploymentsiteid');
+        $deploymentsite = DeploymentSite::find($deploymentsiteid);
+
+        if ($deploymentsiteid == "none") {
+            $deploymentsiteout = "All";
+            $items = Item::get();
+        } else {
+            $deploymentsiteout = $deploymentsite->sitename . ", " . $deploymentsite->location;
+            $items = IssuedItem::where('deploymentsiteid', $deploymentsiteid)->get();
+        }
+
+        $pdf = PDF::loadView('admin.pdf.equipment', compact('items', 'deploymentsiteout'));
+        return $pdf->stream();
+    }
+
+    public function getAdminDutyDetailOrder(Request $request) {
+        $deploymentsiteid = $request->input('ddodeploymentsiteid');
+        $applicantid = $request->input('ddosecurityguardid');
+        $purpose = $request->input('ddopurpose');
+        $startdate = Carbon::parse($request->input('ddostartdate'));
+        $enddate = Carbon::parse($request->input('ddoenddate'));
+        $floatnumber = new FloatNumber;
+        $floatnumber->save();
+
+        if ($deploymentsiteid == "none" && $applicantid == "none") {
+            $applicants = Applicant::where('status', 10)->get();
+        } else if ($deploymentsiteid == "none" && $applicantid != "none") {
+            $applicants = Applicant::where('applicantid', $applicantid)->get();
+        } else {
+            $applicants = Applicant::whereHas('qualificationcheck', function($query) use ($deploymentsiteid) {
+                $query->where('deploymentsiteid', $deploymentsiteid);
+            })->get();
+        }
+
+        $pdf = PDF::loadView('admin.pdf.dutydetailorder', compact('applicants', 'purpose', 'startdate', 'enddate', 'floatnumber'));
+        return $pdf->stream();
+    }
+
+    public function getAdminMonthlyDispositionReport(Request $request) {
+        $deploymentsiteid = $request->input('mdrdeploymentsiteid');
+
+        if ($deploymentsiteid == "none") {
+            $contracts = Contract::get();
+        } else {
+            $contracts = Contract::whereHas('deploymentsite', function($query) use ($deploymentsiteid) {
+                $query->where('deploymentsiteid', $deploymentsiteid);
+            })->get();
+        }
+
+        $pdf = PDF::loadView('admin.pdf.monthlydispositionreport', compact('contracts'));
         return $pdf->stream();
     }
 

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class Deploy extends Migration
+class Leaverequest extends Migration
 {
     /**
      * Run the migrations.
@@ -13,18 +13,19 @@ class Deploy extends Migration
      */
     public function up()
     {
-        Schema::create('deploytbl', function(Blueprint $table) {
-            $table->increments('deployid');
-            $table->integer('deploymentsiteid')->unsigned();
-            $table->integer('requestid')->unsigned()->nullable();
-            $table->date('dateissued');
-            $table->tinyInteger('status');
+        Schema::create('leaverequesttbl', function(Blueprint $table) {
+            $table->increments('leaverequestid');
+            $table->integer('requestid')->unsigned();
+            $table->integer('applicantid')->unsigned();
+            $table->date('start');
+            $table->date('end');
+            $table->text('reason');
 
             $table->timestamps();
             $table->softDeletes();
 
-            $table->foreign('deploymentsiteid')->references('deploymentsiteid')->on('deploymentsitetbl');
             $table->foreign('requestid')->references('requestid')->on('requesttbl');
+            $table->foreign('applicantid')->references('applicantid')->on('applicanttbl');
         });
     }
 
@@ -35,6 +36,6 @@ class Deploy extends Migration
      */
     public function down()
     {
-        Schema::drop('deploytbl');
+        Schema::drop('leaverequesttbl');
     }
 }

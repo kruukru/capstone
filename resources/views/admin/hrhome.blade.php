@@ -96,7 +96,7 @@
 								@foreach ($requests as $request)
 								<tr>
 									<td>{{$request->requestid}}</td>
-									<td>{{$request->account->client->company}}</td>
+									<td>{{$request->deploymentsite->contract->client->company}}</td>
 									<td>{{$request->deploymentsite->sitename}}</td>
 								</tr>
 								@endforeach
