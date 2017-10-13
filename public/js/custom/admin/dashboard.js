@@ -15,13 +15,20 @@ $(document).ready(function() {
         ]
     });
     tableRequest.order([[0, 'asc']]).draw();
+    var tableRecentlyDeployed = $('#tblRecentlyDeployed').DataTable({
+    	"bSort": false,
+    	"aoColumns": [
+    		null,
+    		null,
+    	]
+    });
 
 	var csgstatus = $('#sgstatus');
 	var csgpriority = $('#sgpriority');
 
 	$.ajax({
         type: "GET",
-        url: "/admin/hr/dashboard",
+        url: "/admin/dashboard",
         dataType: "json",
         success: function(data) {
             console.log(data);

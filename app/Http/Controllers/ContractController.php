@@ -12,6 +12,7 @@ use Amcor\IssuedFirearm;
 use Amcor\Item;
 use Amcor\QualificationCheck;
 use Amcor\Applicant;
+use Amcor\Schedule;
 use Carbon\Carbon;
 use Response;
 
@@ -45,7 +46,6 @@ class ContractController extends Controller
 		foreach ($issueditems as $issueditem) {
 			IssuedFirearm::where('issueditemid', $issueditem->issueditemid)->forceDelete();
 			$item = Item::find($issueditem->itemid);
-			$item->qty += $issueditem->qty;
 			$item->qtyavailable += $issueditem->qty;
 			$item->save();
 		}

@@ -164,7 +164,6 @@ class HomeController extends Controller
             foreach ($issueditems as $issueditem) {
                 IssuedFirearm::where('issueditemid', $issueditem->issueditemid)->forceDelete();
                 $item = Item::find($issueditem->itemid);
-                $item->qty += $issueditem->qty;
                 $item->qtyavailable += $issueditem->qty;
                 $item->save();
             }
@@ -197,7 +196,16 @@ class HomeController extends Controller
 
     	if (Auth::check()) {
     		if (Auth::user()->accounttype == 0) {
-                return view('admin.executivehome');
+                $unscheduledapplicants = count(Applicant::where('status', 0)->doesntHave('appointment')->get());
+                $onappointment = count(Appointment::whereHas('applicant', function($query) {
+                    $query->where('status', 0);
+                })->get());
+                $activecontracts = count(Contract::where('status', 0)->get());
+
+                $applicants = Applicant::get();
+                $qualificationchecks = QualificationCheck::orderBy('created_at', 'desc')->get();
+
+                return view('admin.executivehome', compact('unscheduledapplicants', 'onappointment', 'activecontracts', 'applicants', 'qualificationchecks'));
 	    	} else if (Auth::user()->accounttype == 1) {
                 return view('admin.adminhome');
             } else if (Auth::user()->accounttype == 2) {
@@ -220,7 +228,10 @@ class HomeController extends Controller
                 ])->get());
 
                 $applicants = Applicant::get();
-                $requests = Requestt::where('status', 0)->get();
+                $requests = Requestt::where([
+                    ['status', 0],
+                    ['type', '!=', 'LEAVE']
+                ])->get();
 
                 return view('admin.hrhome', compact('unscheduledapplicants', 'onappointment', 'testingandinterview', 'incompletecredentials', 'applicants', 'requests'));
             } else if (Auth::user()->accounttype == 10) {
@@ -235,7 +246,7 @@ class HomeController extends Controller
     	return view('index.home');
     }
 
-    public function getAdminHRDashboard() {
+    public function getAdminDashboard() {
         $deployed = count(Applicant::where('status', 10)->get());
         $pooling = count(Applicant::where('status', 8)->get());
         $application = count(Applicant::where([

@@ -78,10 +78,16 @@ Route::group(['middleware' => ['guest']], function() {
 Route::group(['middleware' => ['auth']], function() {
 	//admins admins admins admins admins admins admins admins admins admins admins admins admins admins admins admins admins admins admins
 	Route::group(['middleware' => 'Amcor\Http\Middleware\AdminsMiddleware'], function() {
+		//dashboard
+		Route::get('/admin/dashboard', 'HomeController@getAdminDashboard');
+
+		//notification
 		Route::name('admin-notification')->get('/admin/notification', 'NotificationController@getAdminNotification');
 
+		//query
 		Route::name('admin-query')->get('/admin/query', 'QueryController@getAdminQuery');
 
+		//report
 		Route::name('admin-report')->get('/admin/report', 'PDFController@getAdminReport');
 		Route::name('admin-report-firearmlicense')->get('/admin/report/firearmlicense', 'PDFController@getAdminFirearmLicense');
 		Route::name('admin-report-securitylicense')->get('/admin/report/securitylicense', 'PDFController@getAdminSecurityLicense');
@@ -226,9 +232,6 @@ Route::group(['middleware' => ['auth']], function() {
 
 	//hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr 
 	Route::group(['middleware' => 'Amcor\Http\Middleware\HRMiddleware'], function() {
-		//dashboard
-		Route::get('/admin/hr/dashboard', 'HomeController@getAdminHRDashboard');
-
 		//transaction transaction transaction transaction transaction transaction transaction transaction transaction transaction transaction
 		//submit credential
 		Route::name('admin-transaction-submitcredential')->get('/admin/transaction/submitcredential', 'CredentialController@getAdminSubmitCredential');
@@ -362,6 +365,9 @@ Route::group(['middleware' => ['auth']], function() {
 
 	//client client client client client client client client client client client client client client client client client client 
 	Route::group(['middleware' => 'Amcor\Http\Middleware\ClientMiddleware'], function() {
+		//notification
+		Route::name('client-notification')->get('/client/notification', 'NotificationController@getClientNotification');
+
 		//security guard
 		Route::name('client-securityguard')->get('/client/securityguard', 'SecurityGuardController@getClientSecurityGuard');
 

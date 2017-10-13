@@ -119,7 +119,10 @@ class ClientController extends Controller
     }
 
     public function postAdminContractNew(Request $request) {
-        $deploymentsite = DeploymentSite::where('sitename', $request->inputBuildingAreaName)->get();
+        $deploymentsite = DeploymentSite::where([
+            ['sitename', $request->inputBuildingAreaName],
+            ['status', 0]
+        ])->get();
         if (!($deploymentsite->isEmpty())) {
             return Response::json("SAME DEPLOYMENT SITE", 500);
         }

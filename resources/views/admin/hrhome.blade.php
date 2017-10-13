@@ -115,5 +115,5 @@
 @endsection
 
 @section('script')
-<script src="/js/custom/admin/hrhome.js"></script>
+<script src="/js/custom/admin/dashboard.js"></script>
 @endsection

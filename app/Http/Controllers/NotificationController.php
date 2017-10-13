@@ -87,6 +87,38 @@ class NotificationController extends Controller
     }
 
     public function getClientNotification() {
-        
+        $notifs = collect();
+
+        //contract expiration
+        $contracts = Contract::where([
+            ['expiration', '<=', Carbon::today()->addDays(60)],
+            ['clientid', Auth::user()->client->clientid]
+        ])->get();
+
+        foreach ($contracts as $contract) {
+            $description = $contract->deploymentsite->sitename . " will expire in " .
+                $contract->expiration->diffInDays(Carbon::today()) . " day(s)";
+
+            $priority = 2;
+            if (Carbon::today()->diffInDays($contract->expiration, false) <= 30) {
+                $priority = 1;
+            }
+
+            if (Carbon::today()->diffInDays($contract->expiration, false) <= 0) {
+                // $notifs->push([
+                //     'topic' => "EXECUTIVE - CONTRACT",
+                //     'description' => $contract->deploymentsite->sitename . " has expired",
+                //     'priority' => $priority,
+                // ]);
+            } else {
+                $notifs->push([
+                    'topic' => "CONTRACT",
+                    'description' => $description,
+                    'priority' => $priority,
+                ]);
+            }
+        }
+
+        return view('client.notification', compact('notifs'));
     }
 }
