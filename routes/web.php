@@ -42,6 +42,7 @@ Route::get('/json/account/one', 'JSONController@getAccountOne');
 Route::get('/json/report/one', 'JSONController@getReportOne');
 Route::get('/json/deploymentsite/one', 'JSONController@getDeploymentSiteOne');
 Route::get('/json/replaceapplicant/one', 'JSONController@getReplaceApplicantOne');
+Route::get('/json/firearm/one', 'JSONController@getFirearmOne');
 
 Route::get('/json/itemtype/all', 'JSONController@getItemTypeAll');
 Route::get('/json/questionchoice/all', 'JSONController@getQuestionChoiceAll');
@@ -131,7 +132,10 @@ Route::group(['middleware' => ['auth']], function() {
 		//inventory
 		Route::name('admin-transaction-inventory')->get('/admin/transaction/inventory', 'InventoryController@getAdminInventory');
 		Route::post('/admin/transaction/inventory/item/add', 'InventoryController@postAdminItemAdd');
+		Route::post('/admin/transaction/inventory/item/remove', 'InventoryController@postAdminItemRemove');
 		Route::post('/admin/transaction/inventory/firearm/add', 'InventoryController@postAdminFirearmAdd');
+		Route::post('/admin/transaction/inventory/firearm/update', 'InventoryController@postAdminFirearmUpdate');
+		Route::post('/admin/transaction/inventory/firearm/remove', 'InventoryController@postAdminFirearmRemove');
 
 		//deploy item
 		Route::name('admin-transaction-deployitem')->get('/admin/transaction/deployitem', 'DeployController@getAdminDeployItem');

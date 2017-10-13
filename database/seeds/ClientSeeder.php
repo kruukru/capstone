@@ -13,10 +13,10 @@ class ClientSeeder extends Seeder
     {
         DB::table('clienttbl')->insert([
         	'accountid' => 2,
-            'picture' => 'default.png',
-            'lastname' => 'Geronimo',
-            'firstname' => 'Jervy',
-            'middlename' => 'Manalo',
+            'picture' => '150787778621558804_1384616114985537_4934037888004332921_n.jpg',
+            'lastname' => 'Astudillo',
+            'firstname' => 'Jamee Camille',
+            'middlename' => 'Hetigan',
             'position' => 'Admin',
             'contactpersonno' => '(02) 254 9192',
         	'company' => '5J Store',

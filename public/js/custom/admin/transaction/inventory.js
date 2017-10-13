@@ -1,5 +1,5 @@
 $(document).ready(function(){
-    var itemid, idTable = 0;
+    var itemid, firearmid, idTable = 0;
     var table = $('#tblInventory').DataTable({
         "aoColumns": [
             null,
@@ -10,6 +10,16 @@ $(document).ready(function(){
         ]
     });
     table.order([[0, 'asc']]).draw();
+    var tableFirearmInventory = $('#tblFirearmInventory').DataTable({
+        "aoColumns": [
+            null,
+            null,
+            null,
+            null,
+            { "bSearchable": false, "bSortable": false, },
+        ]
+    });
+    tableFirearmInventory.order([[2, 'asc']]).draw();
     var tableFirearm = $('#tblFirearm').DataTable({
         "aoColumns": [
             null,
@@ -25,6 +35,13 @@ $(document).ready(function(){
     //expiration firearm license
     $('#inputFirearmExpiration').inputmask("9999-99-99");
     $('#inputFirearmExpiration').datepicker({
+        format: 'yyyy-mm-dd',
+        autoclose: true,
+        startDate: '1d',
+        endDate: '+100y',
+    });
+    $('#inputUpdateFirearmExpiration').inputmask("9999-99-99");
+    $('#inputUpdateFirearmExpiration').datepicker({
         format: 'yyyy-mm-dd',
         autoclose: true,
         startDate: '1d',
@@ -144,7 +161,8 @@ $(document).ready(function(){
                         data.itemtype.name,
                         data.qty,
                         data.qtyavailable,
-                        "<button class='btn btn-success btn-xs' id='btnAdd' value="+data.itemid+">Add</button>",
+                        "<button class='btn btn-primary btn-xs' id='btnAdd' value="+data.itemid+">Add</button> " +
+                        "<button class='btn btn-danger btn-xs' id='btnRemove' value="+data.itemid+">Remove</button>",
                     ];
                     table.row('#id' + itemid).data(dt).draw(false);
 
@@ -198,7 +216,7 @@ $(document).ready(function(){
                         data.itemtype.name,
                         data.qty,
                         data.qtyavailable,
-                        "<button class='btn btn-success btn-xs' id='btnAdd' value="+data.itemid+">Add</button>",
+                        "<button class='btn btn-primary btn-xs' id='btnAdd' value="+data.itemid+">Add</button>",
                     ];
                     table.row('#id' + itemid).data(dt).draw(false);
 
@@ -210,6 +228,156 @@ $(document).ready(function(){
         } else {
             toastr.error("NO FIREARM INPUT");
         }
+    });
+
+    //remove item
+    $('#item-list').on('click', '#btnRemove', function() {
+        $('#formRemoveItem').trigger('reset');
+        $('#formRemoveItem').parsley().reset();
+        itemid = $(this).val();
+
+        if (table.cell('#id'+itemid, 3).data() != 0) {
+            $('#modalRemoveItem').modal('show');
+        } else {
+            toastr.error("CANNOT REMOVE WHILE ITS NOT AVAILABLE");
+        }
+    });
+    $('#btnSaveRemoveItem').click(function(e) {
+        if ($('#formRemoveItem').parsley().validate()) {
+            e.preventDefault();
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                }
+            });
+
+            if (table.cell('#id'+itemid, 3).data() < $('#inputRemoveQuantity').val()) {
+                toastr.error("INVALID QUANTITY");
+                return;
+            }
+
+            $('#modalRemoveItem').loading({
+                message: "SAVING..."
+            });
+
+            $.ajax({
+                type: "POST",
+                url: "/admin/transaction/inventory/item/remove",
+                data: { inputItemID: itemid, inputQuantity: $('#inputRemoveQuantity').val() },
+                dataType: "json",
+                success: function(data) {
+                    console.log(data);
+
+                    var dt = [
+                        table.cell('#id'+itemid, 0).data(),
+                        table.cell('#id'+itemid, 1).data(),
+                        data.qty,
+                        data.qtyavailable,
+                        table.cell('#id'+itemid, 4).data()
+                    ];
+                    table.row('#id'+itemid).data(dt).draw(false);
+
+                    $('#modalRemoveItem').modal('hide');
+                    $('#modalRemoveItem').loading('stop');
+                    toastr.success("REMOVE SUCCESSFUL");
+                }
+            });
+        }
+    });
+
+    $('#firearminventory-list').on('click', '#btnUpdate', function() {
+        $('#formUpdateFirearm').trigger('reset');
+        $('#formUpdateFirearm').parsley().reset();
+        firearmid = $(this).val();
+
+        $.ajax({
+            type: "GET",
+            url: "/json/firearm/one",
+            data: { inputFirearmID: firearmid },
+            dataType: "json",
+            success: function(data) {
+                console.log(data);
+
+                $('#firearmname').text(data.item.name);
+                $('#firearmlicense').text(data.license);
+                $('#inputUpdateFirearmExpiration').val(data.expiration);
+            }
+        });
+
+        $('#modalUpdateFirearm').modal('show');
+    });
+
+    $('#btnSaveUpdateFirearm').click(function(e) {
+        if ($('#formUpdateFirearm').parsley().validate()) {
+            e.preventDefault();
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                }
+            });
+
+            $('#modalUpdateFirearm').loading({
+                message: "SAVING..."
+            });
+
+            var formData = {
+                inputFirearmID: firearmid,
+                inputExpiration: $('#inputUpdateFirearmExpiration').val()
+            };
+
+            $.ajax({
+                type: "POST",
+                url: "/admin/transaction/inventory/firearm/update",
+                data: formData,
+                dataType: "json",
+                success: function(data) {
+                    console.log(data);
+
+                    $('#modalUpdateFirearm').modal('hide');
+                    $('#modalUpdateFirearm').loading('stop');
+                    toastr.success("SAVE SUCCESSFUL");
+                }
+            });
+        }
+    });
+
+    //remove firearm
+    $('#firearminventory-list').on('click', '#btnRemove', function() {
+        firearmid = $(this).val();
+
+        if (tableFirearmInventory.cell('#id'+firearmid, 3).data() == "AVAILABLE") {
+            $('#modalRemoveFirearm').modal('show');
+        } else {
+            toastr.error("CANNOT REMOVE WHILE ITS NOT AVAILABLE");
+        }
+    });
+    $('#btnRemoveConfirm').click(function(e) {
+        e.preventDefault();
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+            }
+        });
+
+        $('#modalRemoveFirearm').loading({
+            message: "SAVING..."
+        });
+
+        $.ajax({
+            type: "POST",
+            url: "/admin/transaction/inventory/firearm/remove",
+            data: { inputFirearmID: firearmid },
+            dataType: "json",
+            success: function(data) {
+                console.log(data);
+
+                tableFirearmInventory.row('#id'+firearmid).remove().draw(false);
+
+                $('#modalRemoveFirearm').modal('hide');
+                $('#modalRemoveFirearm').loading('stop');
+                toastr.success("REMOVE SUCCESSFUL");
+            }
+        });
     });
 
 

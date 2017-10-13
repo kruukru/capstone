@@ -203,6 +203,12 @@ class JSONController extends Controller
         return Response::json($replaceapplicant);
     }
 
+    public function getFirearmOne(Request $request) {
+        $firearm = Firearm::with('item')->find($request->inputFirearmID);
+
+        return Response::json($firearm);
+    }
+
 
 
     public function getApplicantEducationBackground(Request $request) {
