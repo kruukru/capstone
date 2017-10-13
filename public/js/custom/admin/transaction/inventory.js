@@ -251,7 +251,7 @@ $(document).ready(function(){
                 }
             });
 
-            if (table.cell('#id'+itemid, 3).data() < $('#inputRemoveQuantity').val()) {
+            if (Number(table.cell('#id'+itemid, 3).data()) < Number($('#inputRemoveQuantity').val())) {
                 toastr.error("INVALID QUANTITY");
                 return;
             }

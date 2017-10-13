@@ -105,6 +105,8 @@ Route::group(['middleware' => ['auth']], function() {
 
 		//contract
 		Route::name('admin-transaction-contract')->get('/admin/transaction/contract', 'ContractController@getAdminContract');
+		Route::post('/admin/transaction/contract/extend', 'ContractController@postAdminContractExtend');
+		Route::post('/admin/transaction/contract/terminate', 'ContractController@postAdminContractTerminate');
 
 		Route::name('admin-contract-document')->get('/admin/contract/document/{contractid}', 'PDFController@getAdminContractDocument');
 

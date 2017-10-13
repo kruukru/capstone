@@ -185,8 +185,10 @@ class PDFController extends Controller
         })->get();
         $subject = $request->input('subject');
         $memorandumbody = $request->input('memorandumbody');
+        $floatnumber = new FloatNumber;
+        $floatnumber->save();
 
-        $pdf = PDF::loadView('admin.pdf.memorandum', compact('applicants', 'subject', 'memorandumbody'));
+        $pdf = PDF::loadView('admin.pdf.memorandum', compact('applicants', 'subject', 'memorandumbody', 'floatnumber'));
         return $pdf->stream();
     }
 

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Amcor\Applicant;
 use Amcor\Contract;
 use Carbon\Carbon;
+use Auth;
 
 class NotificationController extends Controller
 {
@@ -42,11 +43,11 @@ class NotificationController extends Controller
             }
 
             if (Carbon::today()->diffInDays($contract->expiration, false) <= 0) {
-                $notifs->push([
-                    'topic' => "EXECUTIVE - CONTRACT",
-                    'description' => $contract->deploymentsite->sitename . " has expired",
-                    'priority' => $priority,
-                ]);
+                // $notifs->push([
+                //     'topic' => "EXECUTIVE - CONTRACT",
+                //     'description' => $contract->deploymentsite->sitename . " has expired",
+                //     'priority' => $priority,
+                // ]);
             } else {
                 $notifs->push([
                     'topic' => "EXECUTIVE - CONTRACT",
@@ -83,5 +84,9 @@ class NotificationController extends Controller
         }
 
     	return view('admin.notification', compact('notifs'));
+    }
+
+    public function getClientNotification() {
+        
     }
 }

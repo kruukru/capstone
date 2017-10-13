@@ -47,7 +47,7 @@
 										@if ($report->violationid == null)
 											<button class="btn btn-primary btn-xs" id="btnIssueCertificate" value="{{$report->reportid}}">Issue Certificate</button>
 										@else
-											<button class="btn btn-primary btn-xs" id="btnIssueMemorandum" value="{{$report->reportid}}">Issue Memo</button>
+											<button class="btn btn-primary btn-xs" id="btnIssueMemorandum" value="{{$report->reportid}}">Issue Memorandum</button>
 										@endif
 										<button class="btn btn-warning btn-xs" id="btnUpdate" value="{{$report->reportid}}">Update</button>
 										<button class="btn btn-danger btn-xs" id="btnRemove" value="{{$report->reportid}}">Remove</button>

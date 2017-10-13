@@ -21,7 +21,13 @@
 									<tr id="id{{$deploymentsite->deploymentsiteid}}">
 										<td>{{$deploymentsite->sitename}}</td>
 										<td>{{$deploymentsite->location}} {{$deploymentsite->city}} {{$deploymentsite->province}}</td>
-										@if ($deploymentsite->status == 0)
+										@if ($deploymentsite->contract->status == 1)
+											<td style="text-align: center;">EXPIRED</td>
+											<td></td>
+										@elseif ($deploymentsite->contract->status == 2)
+											<td style="text-align: center;">TERMINATED</td>
+											<td></td>
+										@elseif ($deploymentsite->status == 0)
 											<td style="text-align: center;">QUALIFICATION LIST</td>
 											<td style="text-align: center;">
 												<button class="btn btn-primary btn-xs" id="btnQualification" value="{{$deploymentsite->deploymentsiteid}}">Send Qualification</button>

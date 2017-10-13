@@ -29,6 +29,24 @@
       <!-- Navbar Right Menu -->
       <div class="navbar-custom-menu">
         <ul class="nav navbar-nav">
+          <!-- Notification -->
+          <li class="dropdown notifications-menu">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+              <i class="fa fa-bell-o"></i>
+              <span class="label label-warning">{{$clientnotifications->count() == 0 ? "" : $clientnotifications->count()}}</span>
+            </a>
+            <ul class="dropdown-menu">
+              <li class="header">You have {{$clientnotifications->count() == 0 ? "no" : $clientnotifications->count()}} notification(s)</li>
+              <li>
+                <ul class="menu">
+                  @foreach ($clientnotifications as $clientnotification)
+                    <li><a href="#"><i class="fa fa-warning {{$clientnotification['priority'] == 1 ? 'text-red' : 'text-yellow'}}"></i>{{$clientnotification['description']}}</a></li>
+                  @endforeach
+                </ul>
+              </li>
+              <li class="footer"><a href="{{ route('client-notification') }}">View all</a></li>
+            </ul>
+          </li>
           <!-- User Account Menu -->
           <li class="dropdown user user-menu">
             <!-- Menu Toggle Button -->

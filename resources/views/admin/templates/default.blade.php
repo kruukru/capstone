@@ -31,10 +31,10 @@
 					<li class="dropdown notifications-menu">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
 							<i class="fa fa-bell-o"></i>
-							<span class="label label-warning">{{$notifications->count()}}</span>
+							<span class="label label-warning">{{$notifications->count() == 0 ? "" : $notifications->count()}}</span>
 						</a>
 						<ul class="dropdown-menu">
-							<li class="header">You have {{$notifications->count()}} notification(s)</li>
+							<li class="header">You have {{$notifications->count() == 0 ? "no" : $notifications->count()}} notification(s)</li>
 							<li>
 								<ul class="menu">
 									@foreach ($notifications as $notification)

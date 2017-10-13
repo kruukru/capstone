@@ -75,7 +75,7 @@
 	</table>
 
 	<br><br>
-	MEMO No. <b><span id="txtMemoNo">1</span></b>
+	MEMO No. <b><span id="txtMemoNo">{{$floatnumber->floatnumberid}}</span></b>
 	<br><br>
 
 	<table id="tblInfo">

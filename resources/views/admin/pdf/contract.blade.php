@@ -185,7 +185,7 @@
 
         <div class="Section">
         <span class="SecName">SECTION 7. PERFORMANCE BOND</span> -
-            The CONTRACTOR shall secure and maintain, for its own account, and submit to the CLIENT a PERFORMANCE BOND in the amount of 500000 issued by a surely company acceptable to the CLIENT to guarantee the satisfactory and faithful execution and performance of this Agreement. Performance Bond shall be submitted one week from the signing of this Agreement.
+            The CONTRACTOR shall secure and maintain, for its own account, and submit to the CLIENT a PERFORMANCE BOND in the amount of {{$contract->price}} issued by a surely company acceptable to the CLIENT to guarantee the satisfactory and faithful execution and performance of this Agreement. Performance Bond shall be submitted one week from the signing of this Agreement.
         </div><br/><br/><br/>
 
         <div class="Section">
