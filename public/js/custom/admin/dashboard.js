@@ -22,10 +22,27 @@ $(document).ready(function() {
     		null,
     	]
     });
+    var tableRecentlyCertificate = $('#tblRecentlyCertificate').DataTable({
+    	"bSort": false,
+    	"aoColumns": [
+    		null,
+    		null,
+    		null,
+    		null,
+    	]
+    });
+    var tableRecentlyMemorandum = $('#tblRecentlyMemorandum').DataTable({
+    	"bSort": false,
+    	"aoColumns": [
+    		null,
+    		null,
+    		null,
+    		null,
+    	]
+    });
 
 	var csgstatus = $('#sgstatus');
 	var csgpriority = $('#sgpriority');
-
 	$.ajax({
         type: "GET",
         url: "/admin/dashboard",

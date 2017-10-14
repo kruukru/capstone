@@ -106,19 +106,27 @@
 					<div class="form-group">
 						<div class="form-group">
 							<label>Date Range:</label>
-							<h4>{{Auth::user()->applicant->leaverequest->start->format('F d, Y')}} - {{Auth::user()->applicant->leaverequest->end->format('F d, Y')}}</h4>
-							<h4>{{$leaverequest ? $leaverequest->start->format('F d, Y')}} - {{$leaverequest ? $leaverequest->end->format('F d, Y')}}</h4>
+							<h4>{{$leaverequest ? $leaverequest->start->format('F d, Y') : "N/A"}} - {{$leaverequest ? $leaverequest->end->format('F d, Y') : "N/A"}}</h4>
 						</div>
 						<div class="form-group">
 							<label>Reason:</label>
-							<h4>{{Auth::user()->applicant->leaverequest->reason}}</h4>
+							<h4>{{$leaverequest ? $leaverequest->reason : "N/A"}}</h4>
 						</div>
-						<div class="form-group">
+						<div>
 							<label>Status:</label>
-							<h4>{{Auth::user()->applicant->leaverequest->request->status == 0 ? "PENDING" : "APPROVED"}}</h4>
-						</div>
-						<div class="form-group">
-							<button class="btn btn-default pull-right" id="btnCancelRequestLeave">CANCEL LEAVE</button>
+							<h4>
+								@if ($leaverequest)
+									@if ($leaverequest->request->status == 0)
+										PENDING
+									@elseif ($leaverequest->request->status == 1)
+										APPROVED
+									@elseif ($leaverequest->request->status == 2)
+										DECLINED
+									@endif
+								@else
+									N/A
+								@endif
+							</h4>
 						</div>
 					</div>
 				</div>

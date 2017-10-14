@@ -17,6 +17,8 @@ use Amcor\QualificationCheck;
 use Amcor\Schedule;
 use Amcor\Client;
 use Amcor\PersonInvolve;
+use Amcor\LeaveRequest;
+use Amcor\Report;
 use Carbon\Carbon;
 use DateTime;
 use DateInterval;
@@ -213,7 +215,14 @@ class HomeController extends Controller
                 return view('admin.adminhome');
             } else if (Auth::user()->accounttype == 2) {
                 //operation operation operation operation operation operation operation operation operation operation operation operation 
-                return view('admin.operationhome');
+                $requestforpersonnel = count(Requestt::where('type', 'PERSONNEL')->get());
+                $requestforitem = count(Requestt::where('type', 'ITEM')->get());
+                $numberofreport = count(Report::get());
+
+                $certificates = Report::where('violationid', null)->orderBy('created_at', 'desc')->get();
+                $memorandums = Report::where('commendid', null)->orderBy('created_at', 'desc')->get();
+
+                return view('admin.operationhome', compact('requestforpersonnel', 'requestforitem', 'numberofreport', 'certificates', 'memorandums'));
             } else if (Auth::user()->accounttype == 3) {
                 //hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr 
                 $unscheduledapplicants = count(Applicant::where('status', 0)->doesntHave('appointment')->get());
