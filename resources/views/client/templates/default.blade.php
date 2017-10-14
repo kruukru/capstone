@@ -54,7 +54,7 @@
               <!-- The user image in the navbar-->
               <img src="/client/{{Auth::user()->client->picture}}" class="user-image" alt="User Image"/>
               <!-- hidden-xs hides the username on small devices so only the image appears. -->
-              <span class="hidden-xs">{{Auth::user()->client->firstname}} {{Auth::user()->client->lastname}}</span>
+              <span class="hidden-xs"  id="clockTime"></span>
             </a>
             <ul class="dropdown-menu">
               <!-- The user image in the menu -->
@@ -112,5 +112,11 @@
 
   @include('templates.myjs')
   @yield('script')
+  <script type="text/javascript">
+    function updateClock() {
+      $('#clockTime').text(moment().format('MMMM D, YYYY - H:mm:ss'))
+    }
+    setInterval(updateClock, 1000);
+  </script>
 </body>
 </html>

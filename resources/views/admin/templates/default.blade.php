@@ -248,5 +248,11 @@
 
 	@include('templates.myjs')
 	@yield('script')
+	<script type="text/javascript">
+		function updateClock() {
+			$('#clockTime').text(moment().format('MMMM D, YYYY - H:mm:ss'))
+		}
+		setInterval(updateClock, 1000);
+	</script>
 </body>
 </html>
