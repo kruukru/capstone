@@ -75,7 +75,7 @@
         <ul class="sidebar-menu">
             <li class="header"></li>
             @if (Auth::user()->applicant->status == 10)
-              <li class="{{Request::path() == 'applicant/schedule' ? 'active' : ''}}"><a href="{{ route('applicant-schedule') }}"><i class="fa fa-calendar-check-o"></i><span>Schedule</span></a></li>
+              <li class="{{Request::path() == 'applicant/leave' ? 'active' : ''}}"><a href="{{ route('applicant-leave') }}"><i class="fa fa-calendar-times-o"></i><span>Leave</span></a></li>
             @endif
             <li class="{{Request::path() == 'applicant/appointment' ? 'active' : ''}}"><a href="{{ route('applicant-appointment') }}"><i class="fa fa-calendar"></i><span>Appointment</span></a></li>
         </ul>

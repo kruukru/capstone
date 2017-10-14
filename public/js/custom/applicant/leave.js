@@ -6,6 +6,8 @@ $(document).ready(function() {
         locale: {
             format: 'MMMM DD, YYYY'
         },
+        minDate: moment($('#contractstartdate').val()),
+        maxDate: moment($('#contractenddate').val()),
         startDate: startDate,
         endDate: endDate,
     }, function(start, end) {
@@ -13,7 +15,7 @@ $(document).ready(function() {
     });
 
     //request leave
-    $('#btnRequestLeave').click(function() {
+    $('#btnNewLeave').click(function() {
         $('#formRequestLeave').trigger('reset');
         $('#formRequestLeave').parsley().reset();
 

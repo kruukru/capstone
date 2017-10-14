@@ -448,10 +448,10 @@ Route::group(['middleware' => ['auth']], function() {
 
 	//applicant applicant applicant applicant applicant applicant applicant applicant applicant applicant applicant applicant applicant
 	Route::group(['middleware' => 'Amcor\Http\Middleware\ApplicantMiddleware'], function() {
-		//schedule
-		Route::name('applicant-schedule')->get('/applicant/schedule', 'ScheduleController@getApplicantSchedule');
-		Route::post('/applicant/schedule/requestleave', 'ScheduleController@getApplicantScheduleRequestLeave');
-		Route::post('/applicant/schedule/requestleave/cancel', 'ScheduleController@getApplicantScheduleRequestLeaveCancel');
+		//leave
+		Route::name('applicant-leave')->get('/applicant/leave', 'LeaveAbsentController@getApplicantLeave');
+		Route::post('/applicant/leave/requestleave', 'LeaveAbsentController@getApplicantRequestLeave');
+		Route::post('/applicant/leave/cancel', 'LeaveAbsentController@getApplicantLeaveCancel');
 
 		//appointment
 		Route::name('applicant-appointment')->get('/applicant/appointment', 'AppointmentController@getApplicantAppointment');
