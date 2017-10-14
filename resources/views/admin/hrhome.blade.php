@@ -13,7 +13,8 @@
 					<span class="info-box-icon bg-blue"><i class="ion ion-ios-list-outline"></i></span>
 					<div class="info-box-content">
 						<span class="info-box-text">UNSCHEDULED APPLICANTS</span>
-		              	<span class="info-box-number">{{$unscheduledapplicants}}</span>
+						<h3>{{$unscheduledapplicants}}</h3>
+		              	<!-- <span class="info-box-number"></span> -->
 		            </div>
 		        </div>
 			</div>
@@ -22,7 +23,8 @@
 					<span class="info-box-icon bg-blue"><i class="ion ion-ios-copy-outline"></i></span>
 					<div class="info-box-content">
 						<span class="info-box-text">ON APPOINTMENT</span>
-		              	<span class="info-box-number">{{$onappointment}}</span>
+						<h3>{{$onappointment}}</h3>
+		              	<!-- <span class="info-box-number"></span> -->
 		            </div>
 		        </div>
 			</div>
@@ -31,7 +33,8 @@
 					<span class="info-box-icon bg-blue"><i class="ion ion-ios-paper-outline"></i></span>
 					<div class="info-box-content">
 						<span class="info-box-text">TESTING AND INTERVIEW</span>
-		              	<span class="info-box-number">{{$testingandinterview}}</span>
+						<h3>{{$testingandinterview}}</h3>
+		              	<!-- <span class="info-box-number"></span> -->
 		            </div>
 		        </div>
 		    </div>
@@ -40,7 +43,8 @@
 					<span class="info-box-icon bg-blue"><i class="ion ion-ios-bookmarks-outline"></i></span>
 					<div class="info-box-content">
 						<span class="info-box-text">INCOMPLETE CREDENTIALS</span>
-		              	<span class="info-box-number">{{$incompletecredentials}}</span>
+						<h3>{{$incompletecredentials}}</h3>
+		              	<!-- <span class="info-box-number"></span> -->
 		            </div>
 		        </div>
 		    </div>

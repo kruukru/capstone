@@ -13,7 +13,8 @@
 					<span class="info-box-icon bg-blue"><i class="ion ion-ios-list-outline"></i></span>
 					<div class="info-box-content">
 						<span class="info-box-text">UNSCHEDULED APPLICANTS</span>
-		              	<span class="info-box-number">{{$unscheduledapplicants}}</span>
+						<h3>{{$unscheduledapplicants}}</h3>
+		              	<!-- <span class="info-box-number"></span> -->
 		            </div>
 		        </div>
 			</div>
@@ -22,7 +23,8 @@
 					<span class="info-box-icon bg-blue"><i class="ion ion-ios-copy-outline"></i></span>
 					<div class="info-box-content">
 						<span class="info-box-text">ON APPOINTMENT</span>
-		              	<span class="info-box-number">{{$onappointment}}</span>
+						<h3>{{$onappointment}}</h3>
+		              	<!-- <span class="info-box-number"></span> -->
 		            </div>
 		        </div>
 			</div>
@@ -31,7 +33,8 @@
 					<span class="info-box-icon bg-blue"><i class="ion ion-clipboard"></i></span>
 					<div class="info-box-content">
 						<span class="info-box-text">ACTIVE CONTRACTS</span>
-		              	<span class="info-box-number">{{$activecontracts}}</span>
+						<h3>{{$activecontracts}}</h3>
+		              	<!-- <span class="info-box-number"></span> -->
 		            </div>
 		        </div>
 		    </div>

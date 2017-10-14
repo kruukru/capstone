@@ -13,7 +13,8 @@
 					<span class="info-box-icon bg-blue"><i class="ion ion-person-add"></i></span>
 					<div class="info-box-content">
 						<span class="info-box-text">REQUEST FOR PERSONNEL</span>
-		              	<span class="info-box-number">{{$requestforpersonnel}}</span>
+						<h3>{{$requestforpersonnel}}</h3>
+		              	<!-- <span class="info-box-number"></span> -->
 		            </div>
 		        </div>
 			</div>
@@ -22,7 +23,8 @@
 					<span class="info-box-icon bg-blue"><i class="ion ion-tshirt-outline"></i></span>
 					<div class="info-box-content">
 						<span class="info-box-text">REQUEST FOR ITEM</span>
-		              	<span class="info-box-number">{{$requestforitem}}</span>
+						<h3>{{$requestforitem}}</h3>
+		              	<!-- <span class="info-box-number"></span> -->
 		            </div>
 		        </div>
 			</div>
@@ -31,7 +33,8 @@
 					<span class="info-box-icon bg-blue"><i class="ion ion-clipboard"></i></span>
 					<div class="info-box-content">
 						<span class="info-box-text">NUMBER OF REPORTS</span>
-		              	<span class="info-box-number">{{$numberofreport}}</span>
+						<h3>{{$numberofreport}}</h3>
+		              	<!-- <span class="info-box-number"></span> -->
 		            </div>
 		        </div>
 		    </div>

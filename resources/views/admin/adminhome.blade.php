@@ -13,7 +13,8 @@
 					<span class="info-box-icon bg-blue"><i class="ion ion-cube"></i></span>
 					<div class="info-box-content">
 						<span class="info-box-text">LOWEST ITEM AVAILABILITY</span>
-		              	<span class="info-box-number">{{$itemcollections->count()}}</span>
+						<h3>{{$itemcollections->count()}}</h3>
+		              	<!-- <span class="info-box-number"></span> -->
 		            </div>
 		        </div>
 			</div>
@@ -22,7 +23,8 @@
 					<span class="info-box-icon bg-blue"><i class="ion ion-close-circled"></i></span>
 					<div class="info-box-content">
 						<span class="info-box-text">FIREARMS WITH EXPIRING LICENSE</span>
-		              	<span class="info-box-number">{{$firearms->count()}}</span>
+						<h3>{{$firearms->count()}}</h3>
+		              	<!-- <span class="info-box-number"></span> -->
 		            </div>
 		        </div>
 			</div>

@@ -2821,6 +2821,7 @@ $(document).ready(function() {
         tableEducationBackground.clear().draw();
         tableEmploymentRecord.clear().draw();
         tableTrainingCertificate.clear().draw();
+        tableApplicantRequirement.clear().draw();
     }
 
     //remove security guard
@@ -3027,6 +3028,9 @@ $(document).ready(function() {
                 console.log(data);
 
                 $.each(data, function(index, value) {
+                    if (value.remarks == null) {
+                        value.remarks = "";
+                    }
                     value.issubmitted = value.issubmitted == 1 ? "YES" : "NO";
 
                     var row = "<tr>" +
