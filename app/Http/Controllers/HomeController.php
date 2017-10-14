@@ -16,6 +16,7 @@ use Amcor\Item;
 use Amcor\QualificationCheck;
 use Amcor\Schedule;
 use Amcor\Client;
+use Amcor\PersonInvolve;
 use Carbon\Carbon;
 use DateTime;
 use DateInterval;
@@ -196,6 +197,7 @@ class HomeController extends Controller
 
     	if (Auth::check()) {
     		if (Auth::user()->accounttype == 0) {
+                //executive executive executive executive executive executive executive executive executive executive executive executive 
                 $unscheduledapplicants = count(Applicant::where('status', 0)->doesntHave('appointment')->get());
                 $onappointment = count(Appointment::whereHas('applicant', function($query) {
                     $query->where('status', 0);
@@ -207,10 +209,13 @@ class HomeController extends Controller
 
                 return view('admin.executivehome', compact('unscheduledapplicants', 'onappointment', 'activecontracts', 'applicants', 'qualificationchecks'));
 	    	} else if (Auth::user()->accounttype == 1) {
+                //admin admin admin admin admin admin admin admin admin admin admin admin admin admin admin admin admin admin admin admin 
                 return view('admin.adminhome');
             } else if (Auth::user()->accounttype == 2) {
+                //operation operation operation operation operation operation operation operation operation operation operation operation 
                 return view('admin.operationhome');
             } else if (Auth::user()->accounttype == 3) {
+                //hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr hr 
                 $unscheduledapplicants = count(Applicant::where('status', 0)->doesntHave('appointment')->get());
                 $onappointment = count(Appointment::whereHas('applicant', function($query) {
                     $query->where('status', 0);
@@ -235,10 +240,20 @@ class HomeController extends Controller
 
                 return view('admin.hrhome', compact('unscheduledapplicants', 'onappointment', 'testingandinterview', 'incompletecredentials', 'applicants', 'requests'));
             } else if (Auth::user()->accounttype == 10) {
+                //client client client client client client client client client client client client client client client client client client client 
 	    		return view('client.home');
 	    	} else if (Auth::user()->accounttype == 20) {
-                return view('applicant.home');
+                //applicant applicant applicant applicant applicant applicant applicant applicant applicant applicant applicant applicant applicant
+                $memorandums = PersonInvolve::where('applicantid', Auth::user()->applicant->applicantid)
+                    ->whereHas('report', function($query) {
+                        $query->where('violationid', '!=', null);
+                    })->orderBy('created_at', 'desc')->get();
+                $leaverequest = LeaveRequest::where('applicantid', Auth::user()->applicant->applicantid)
+                    ->orderBy('created_at', 'desc')->first();
+
+                return view('applicant.home', compact('memorandums', 'leaverequest'));
             } else if (Auth::user()->accounttype == 11) {
+                //manager manager manager manager manager manager manager manager manager manager manager manager manager manager manager manager 
                 return view('manager.home');
             }
     	}
