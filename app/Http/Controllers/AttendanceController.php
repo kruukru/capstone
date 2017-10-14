@@ -13,15 +13,25 @@ use DateInterval;
 use DatePeriod;
 use Auth;
 
-
 class AttendanceController extends Controller
 {
     //client client client client client client client client client client client client client client client client client client client 
     public function getClientAttendance() {
-        $deploymentsites = DeploymentSite::where('status', 5)->whereHas('contract', function($query) {
-            $query->where('clientid', Auth::user()->client->clientid);
-        })->get();
-
+        if (Auth::user()->accounttype == 10) {
+            $deploymentsites = DeploymentSite::where('status', 5)->whereHas('contract', function($query) {
+                $query->where([
+                    ['clientid', Auth::user()->client->clientid],
+                    ['status', 0]
+                ]);
+            })->get();
+        } else {
+            $deploymentsites = DeploymentSite::where('status', 5)->whereHas('managersite', function($query) {
+                $query->where('managerid', Auth::user()->manager->managerid);
+            })->whereHas('contract', function($query) {
+                $query->where('status', 0);
+            })->get();
+        }
+        
         return view('client.attendance', compact('deploymentsites'));
     }
 
@@ -298,67 +308,5 @@ class AttendanceController extends Controller
         $attendance->save();
 
         return Response::json($attendance);
-    }
-
-    //manager manager manager manager manager manager manager manager manager manager manager manager manager manager manager manager manager 
-    public function getManagerAttendance() {
-    	$deploymentsites = DeploymentSite::where('status', 5)->whereHas('managersite', function($query) {
-    		$query->where('managerid', Auth::user()->manager->managerid);
-    	})->whereHas('contract', function($query) {
-    		$query->where([
-				['startdate', '<=', Carbon::today()],
-				['expiration', '>=', Carbon::today()],
-			]);
-    	})->whereDoesntHave('attendance', function($query) {
-            $query->where('date', Carbon::today());
-        })->get();
-
-        $deploymentsitess = DeploymentSite::where('status', 5)->whereHas('managersite', function($query) {
-            $query->where('managerid', Auth::user()->manager->managerid);
-        })->whereHas('contract', function($query) {
-            $query->where([
-                ['startdate', '<=', Carbon::today()],
-                ['expiration', '>=', Carbon::today()],
-            ]);
-        })->whereHas('attendance', function($query) {
-            $query->where('date', Carbon::today());
-        })->get();
-
-    	return view ('manager.attendance', compact('deploymentsites', 'deploymentsitess'));
-    }
-
-    public function getManagerSecurityGuard(Request $request) {
-    	$deploymentsite = DeploymentSite::find($request->inputDeploymentSiteID);
-    	$applicant = Applicant::whereHas('qualificationcheck', function($query) use ($deploymentsite) {
-    		$query->where([
-    			['status', 1],
-    			['deploymentsiteid', $deploymentsite->deploymentsiteid],
-    		]);
-    	})->get();
-
-    	return Response::json($applicant);
-    }
-
-    public function postManagerSecurityGuard(Request $request) {
-    	$deploymentsite = DeploymentSite::find($request->inputDeploymentSiteID);
-
-        foreach ($request->formData as $data) {
-            $applicant = Applicant::find($data['inputApplicantID']);
-            
-            $attendance = new Attendance;
-            $attendance->deploymentsite()->associate($deploymentsite);
-            $attendance->applicant()->associate($applicant);
-            $attendance->date = Carbon::today();
-            if ($data['inputStatus'] == "Present") {
-                $attendance->status = 0;
-            } else if ($data['inputStatus'] == "Late") {
-                $attendance->status = 1;
-            } else if ($data['inputStatus'] == "Absent") {
-                $attendance->status = 2;
-            }
-            $attendance->save();
-        }
-
-    	return Response::json($deploymentsite);
     }
 }

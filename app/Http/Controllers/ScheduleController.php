@@ -20,11 +20,19 @@ class ScheduleController extends Controller
 {
     //client client client client client client client client client client client client client client client client client client client client 
     public function getClientSchedule() {
-    	$applicants = Applicant::whereHas('qualificationcheck', function($query) {
-            $query->where('status', 1);
-        })->whereHas('qualificationcheck.deploymentsite.contract', function($query) {
-            $query->where('clientid', Auth::user()->client->clientid);
-        })->get();
+    	if (Auth::user()->accounttype == 10) {
+            $applicants = Applicant::whereHas('qualificationcheck', function($query) {
+                $query->where('status', 1);
+            })->whereHas('qualificationcheck.deploymentsite.contract', function($query) {
+                $query->where('clientid', Auth::user()->client->clientid);
+            })->get();
+        } else {
+            $applicants = Applicant::whereHas('qualificationcheck', function($query) {
+                $query->where('status', 1);
+            })->whereHas('qualificationcheck.deploymentsite.managersite', function($query) {
+                $query->where('managerid', Auth::user()->manager->managerid);
+            })->get();
+        }
 
     	return view('client.schedule', compact('applicants'));
     }

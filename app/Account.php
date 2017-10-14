@@ -42,4 +42,16 @@ class Account extends Model implements AuthenticatableContract
     public function manager() {
         return $this->hasOne('Amcor\Manager', 'accountid');
     }
+
+    public function replaceapplicant() {
+        return $this->hasMany('Amcor\ReplaceApplicant', 'accountid');
+    }
+
+    public function request() {
+        return $this->hasMany('Amcor\Requestt', 'accountid');
+    }
+
+    public function report() {
+        return $this->hasMany('Amcor\Report', 'accountid');
+    }
 }

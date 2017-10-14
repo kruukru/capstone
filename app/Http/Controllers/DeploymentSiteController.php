@@ -20,9 +20,15 @@ class DeploymentSiteController extends Controller
 {
     //client
     public function getClientDeploymentSite() {
-        $deploymentsites = DeploymentSite::whereHas('contract', function($query) {
-            $query->where('clientid', Auth::user()->client->clientid);
-        })->get();
+        if (Auth::user()->accounttype == 10) {
+            $deploymentsites = DeploymentSite::whereHas('contract', function($query) {
+                $query->where('clientid', Auth::user()->client->clientid);
+            })->get();
+        } else {
+            $deploymentsites = DeploymentSite::whereHas('managersite', function($query) {
+                $query->where('managerid', Auth::user()->manager->managerid);
+            })->get();
+        }
 
     	return view('client.deploymentsite', compact('deploymentsites'));
     }

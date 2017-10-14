@@ -19,17 +19,39 @@ class ReportController extends Controller
 {
     //client client client client client client client client client client client client client client client client client client client client client 
     public function getClientReport() {
-        $reports = Report::where('accountid', Auth::user()->accountid)->get();
+        if (Auth::user()->accounttype == 10) {
+            $partone = Report::where('accountid', Auth::user()->accountid)->get();
+            $parttwo = Report::whereHas('account.manager', function($query) {
+                $query->where('clientid', Auth::user()->client->clientid);
+            })->get();
+            $reports = $partone->merge($parttwo);
+        } else {
+            $partone = Report::whereHas('account.client', function($query) {
+                $query->where('clientid', Auth::user()->manager->clientid);
+            })->get();
+            $parttwo = Report::whereHas('account.manager', function($query) {
+                $query->where('clientid', Auth::user()->manager->clientid);
+            })->get();
+            $reports = $partone->merge($parttwo);
+        }
 
         return view('client.report', compact('reports'));
     }
 
     public function getClientSecurityGuard() {
-        $applicant = Applicant::with('qualificationcheck.deploymentsite')->whereHas('qualificationcheck', function($query) {
-            $query->where('status', 1);
-        })->whereHas('qualificationcheck.deploymentsite.contract', function($query) {
-            $query->where('clientid', Auth::user()->client->clientid);
-        })->get();
+        if (Auth::user()->accounttype == 10) {
+            $applicant = Applicant::with('qualificationcheck.deploymentsite')->whereHas('qualificationcheck', function($query) {
+                $query->where('status', 1);
+            })->whereHas('qualificationcheck.deploymentsite.contract', function($query) {
+                $query->where('clientid', Auth::user()->client->clientid);
+            })->get();
+        } else {
+            $applicant = Applicant::with('qualificationcheck.deploymentsite')->whereHas('qualificationcheck', function($query) {
+                $query->where('status', 1);
+            })->whereHas('qualificationcheck.deploymentsite.managersite', function($query) {
+                $query->where('managerid', Auth::user()->manager->managerid);
+            })->get();
+        }
 
         return Response::json($applicant);
     }

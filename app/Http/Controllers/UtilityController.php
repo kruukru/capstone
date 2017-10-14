@@ -361,7 +361,8 @@ class UtilityController extends Controller
 
     public function postAdminAccountRemove(Request $request) {
         $admin = Admin::where('accountid', $request->inputAccountID)->first();
-        if (count($admin->testassessment) || count($admin->interviewassessment) || count($admin->contract)) {
+        $account = Account::find($request->inputAccountID);
+        if (count($admin->testassessment) || count($admin->interviewassessment) || count($admin->contract) || !$account->report->isEmpty()) {
             return Response::json("CANNOT REMOVE", 500);
         } else {
             Admin::whereHas('account', function($query) use ($request) {

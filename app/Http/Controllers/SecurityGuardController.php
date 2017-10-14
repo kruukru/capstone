@@ -29,8 +29,6 @@ class SecurityGuardController extends Controller
     	return view('admin.transaction.securityguard', compact('applicants'));
     }
 
-    
-
     public function postAdminSecurityGuardRemove(Request $request) {
         $applicant = Applicant::find($request->inputApplicantID);
         $account = Account::find($applicant->accountid);
@@ -47,12 +45,20 @@ class SecurityGuardController extends Controller
 
     //client client client client client client client client client client client client client client client client client client client client client
     public function getClientSecurityGuard() {
-    	$applicants = Applicant::whereHas('qualificationcheck', function($query) {
-            $query->where('status', 1);
-        })->whereHas('qualificationcheck.deploymentsite.contract', function($query) {
-            $query->where('clientid', Auth::user()->client->clientid);
-        })->get();
-
+        if (Auth::user()->accounttype == 10) {
+            $applicants = Applicant::whereHas('qualificationcheck', function($query) {
+                $query->where('status', 1);
+            })->whereHas('qualificationcheck.deploymentsite.contract', function($query) {
+                $query->where('clientid', Auth::user()->client->clientid);
+            })->get();
+        } else {
+            $applicants = Applicant::whereHas('qualificationcheck', function($query) {
+                $query->where('status', 1);
+            })->whereHas('qualificationcheck.deploymentsite.managersite', function($query) {
+                $query->where('managerid', Auth::user()->manager->managerid);
+            })->get();
+        }
+        	
         return view('client.securityguard', compact('applicants'));
     }
 

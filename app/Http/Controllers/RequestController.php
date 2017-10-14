@@ -620,18 +620,42 @@ class RequestController extends Controller
 
     //client client client client client client client client client client client client client client 
     public function getClientRequest() {
-        $requests = Requestt::withTrashed()->where('type', '!=', 'LEAVE')->whereHas('deploymentsite.contract', function($query) {
-            $query->where('clientid', Auth::user()->client->clientid);
-        })->get();
+        if (Auth::user()->accounttype == 10) {
+            $requests = Requestt::withTrashed()->where('type', '!=', 'LEAVE')
+                ->whereHas('deploymentsite.contract', function($query) {
+                    $query->where([
+                        ['clientid', Auth::user()->client->clientid],
+                        ['status', 0]
+                    ]);
+                })->get();
+        } else {
+            $requests = Requestt::withTrashed()->where('type', '!=', 'LEAVE')
+                ->whereHas('deploymentsite.managersite', function($query) {
+                    $query->where('managerid', Auth::user()->manager->managerid);
+                })->whereHas('deploymentsite.contract', function($query) {
+                    $query->where('status', 0);
+                })->get();
+        }
 
     	return view('client.request', compact('requests'));
     }
 
     public function getClientDeploymentSite() {
-    	$deploymentsite = DeploymentSite::where('status', 5)->whereHas('contract', function($query) {
-    		$query->where('clientid', Auth::user()->client->clientid);
-    	})->get();
-
+        if (Auth::user()->accounttype == 10) {
+            $deploymentsite = DeploymentSite::where('status', 5)->whereHas('contract', function($query) {
+                $query->where([
+                    ['clientid', Auth::user()->client->clientid],
+                    ['status', 0]
+                ]);
+            })->get();
+        } else {
+            $deploymentsite = DeploymentSite::where('status', 5)->whereHas('managersite', function($query) {
+                $query->where('managerid', Auth::user()->manager->managerid);
+            })->whereHas('contract', function($query) {
+                $query->where('status', 0);
+            })->get();
+        }
+        
     	return Response::json($deploymentsite);
     }
 

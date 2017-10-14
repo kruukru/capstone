@@ -15,7 +15,7 @@ class ManagerMiddleware
      */
     public function handle($request, Closure $next)
     {
-        if ($request->user()->accounttype == 11) {
+        if ($request->user()->accounttype == 10 || $request->user()->accounttype == 11) {
             return $next($request);
         }
 

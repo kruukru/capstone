@@ -37,7 +37,7 @@
                         <!-- The user image in the navbar-->
                         <img src="/images/default.png" class="user-image" alt="User Image"/>
                         <!-- hidden-xs hides the username on small devices so only the image appears. -->
-                        <span class="hidden-xs">{{Auth::user()->manager->firstname}} {{Auth::user()->manager->lastname}}</span>
+                        <span class="hidden-xs" id="clockTime"></span>
                     </a>
                     <ul class="dropdown-menu">
                         <!-- The user image in the menu -->
@@ -75,7 +75,12 @@
         <!-- list of button -->
         <ul class="sidebar-menu">
             <li class="header"></li>
-            <li class="{{Request::path() == 'manager/attendance' ? 'active' : ''}}"><a href="{{ route('manager-attendance') }}"><i class="fa fa-calendar-check-o"></i><span>Attendance</span></a></li>
+            <li class="{{Request::path() == 'client/securityguard' ? 'active' : ''}}"><a href="{{ route('client-securityguard') }}"><i class="fa fa-male"></i><span>Security Guard</span></a></li>
+            <li class="{{Request::path() == 'client/deploymentsite' ? 'active' : ''}}"><a href="{{ route('client-deploymentsite') }}"><i class="fa fa-building-o"></i><span>Deployment Site</span></a></li>
+            <li class="{{Request::path() == 'client/attendance' ? 'active' : ''}}"><a href="{{ route('client-attendance') }}"><i class="fa fa-calendar-check-o"></i><span>Attendance</span></a></li>
+            <li class="{{Request::path() == 'client/schedule' ? 'active' : ''}}"><a href="{{ route('client-schedule') }}"><i class="fa fa-calendar"></i><span>Schedule</span></a></li>
+            <li class="{{Request::path() == 'client/request' ? 'active' : ''}}"><a href="{{ route('client-request') }}"><i class="fa fa-share-square-o"></i><span>Request</span></a></li>
+            <li class="{{Request::path() == 'client/report' ? 'active' : ''}}"><a href="{{ route('client-report') }}"><i class="fa fa-file-text"></i><span>Report</span></a></li>
         </ul>
     </section>
   </aside>
@@ -89,5 +94,11 @@
 
   @include('templates.myjs')
   @yield('script')
+  <script type="text/javascript">
+    function updateClock() {
+      $('#clockTime').text(moment().format('MMMM D, YYYY - H:mm:ss'))
+    }
+    setInterval(updateClock, 1000);
+  </script>
 </body>
 </html>

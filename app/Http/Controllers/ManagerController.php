@@ -69,6 +69,11 @@ class ManagerController extends Controller
 
     public function postClientRemove(Request $request) {
         $manager = Manager::find($request->inputManagerID);
+
+        if (!$manager->account->replaceapplicant->isEmpty() || !$manager->account->request->isEmpty() || !$manager->account->report->isEmpty()) {
+            return Response::json("CANNOT REMOVE", 500);
+        } 
+
         $manager->managersite()->forceDelete();
         $manager->forceDelete();
         $manager->account()->forceDelete();
@@ -78,7 +83,10 @@ class ManagerController extends Controller
 
     public function getClientDeploymentSite(Request $request) {
         $deploymentsite = DeploymentSite::whereHas('contract', function($query) {
-            $query->where('clientid', Auth::user()->client->clientid);
+            $query->where([
+                ['clientid', Auth::user()->client->clientid],
+                ['status', 0]
+            ]);
         })->whereDoesntHave('managersite', function($query) use ($request) {
             $query->where('managerid', $request->inputManagerID);
         })->get();
@@ -88,7 +96,10 @@ class ManagerController extends Controller
 
     public function getClientAssignDeploymentSite(Request $request) {
         $deploymentsite = DeploymentSite::whereHas('contract', function($query) {
-            $query->where('clientid', Auth::user()->client->clientid);
+            $query->where([
+                ['clientid', Auth::user()->client->clientid],
+                ['status', 0]
+            ]);
         })->whereHas('managersite', function($query) use ($request) {
             $query->where('managerid', $request->inputManagerID);
         })->get();

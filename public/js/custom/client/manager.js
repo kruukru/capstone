@@ -179,10 +179,10 @@ $(document).ready(function() {
                 $('#updateinputLastname').val(data.lastname);
                 $('#updateinputFirstname').val(data.firstname);
                 $('#updateinputMiddlename').val(data.middlename);
-
-                $('#modalManagerUpdate').modal('show');
             },
         });
+
+        $('#modalManagerUpdate').modal('show');
     });
 
     //display modal for confirmation of remove
@@ -201,6 +201,10 @@ $(document).ready(function() {
             }
         });
 
+        $('#modalManagerRemove').loading({
+            message: "SAVING..."
+        });
+
         $.ajax({
             type: "POST",
             url: "/client/manager/remove",
@@ -212,8 +216,17 @@ $(document).ready(function() {
                 table.row('#id' + managerid).remove().draw(false);
 
                 $('#modalManagerRemove').modal('hide');
+                $('#modalManagerRemove').loading('stop');
                 toastr.success("REMOVE SUCCESSFUL");
             },
+            error: function(data) {
+                console.log(data);
+
+                $('#modalManagerRemove').loading('stop');
+                if (data.responseJSON == "CANNOT REMOVE") {
+                    toastr.error("CANNOT REMOVE WHILE BEING USED");
+                }
+            }
         });
     });
 
@@ -225,6 +238,10 @@ $(document).ready(function() {
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
                 }
+            });
+
+            $('#modalManagerUpdate').loading({
+                message: "SAVING..."
             });
 
             var formData = {
@@ -256,11 +273,13 @@ $(document).ready(function() {
 
                     $('#formAccountUpdate').trigger('reset');
                     $('#formAccountUpdate').parsley().reset();
+                    $('#modalManagerUpdate').loading('stop');
                     toastr.success("SAVE SUCCESSFUL");
                 },
                 error: function(data) {
                     console.log(data);
 
+                    $('#modalManagerUpdate').loading('stop');
                     if (data.responseJSON == "SAME USERNAME") {
                         toastr.error("USERNAME ALREADY EXISTS");
                     }
@@ -277,6 +296,10 @@ $(document).ready(function() {
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
                 }
+            });
+
+            $('#modalManagerUpdate').loading({
+                message: "SAVING..."
             });
 
             var formData = {
@@ -307,7 +330,7 @@ $(document).ready(function() {
                     ];
                     table.row('#id' + managerid).data(dt).draw(false);
 
-                    $('#modalManagerUpdate').modal('hide');
+                    $('#modalManagerUpdate').loading('stop');
                     toastr.success("SAVE SUCCESSFUL");
                 },
             });
@@ -322,6 +345,10 @@ $(document).ready(function() {
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
                 }
+            });
+
+            $('#modalManager').loading({
+                message: "SAVING..."
             });
 
             var formData = {
@@ -356,11 +383,13 @@ $(document).ready(function() {
                     table.row.add($(row)[0]).draw();
 
                     $('#modalManager').modal('hide');
+                    $('#modalManager').loading('stop');
                     toastr.success("SAVE SUCCESSFUL");
                 },
                 error: function(data) {
                     console.log(data);
 
+                    $('#modalManager').loading('stop');
                     if (data.responseJSON == "SAME USERNAME") {
                         toastr.error("USERNAME ALREADY EXISTS");
                     }
@@ -385,8 +414,6 @@ $(document).ready(function() {
                 }
 
                 $('#managerName').text(data.lastname+", "+data.firstname+" "+data.middlename);
-
-                $('#modalAssign').modal('show');
             },
         });
 
@@ -431,6 +458,8 @@ $(document).ready(function() {
                 });
             },
         });
+
+        $('#modalAssign').modal('show');
     });
 
     $('#deploymentsite-list').on('click', '#btnAssign', function(e) {
@@ -441,6 +470,10 @@ $(document).ready(function() {
             }
         });
         deploymentsiteid = $(this).val();
+
+        $('#modalAssign').loading({
+            message: "SAVING..."
+        });
 
         $.ajax({
             type: "POST",
@@ -459,6 +492,8 @@ $(document).ready(function() {
                     "</tr>";
                 tableAssignDeploymentSite.row.add($(row)[0]).draw();
                 tableDeploymentSite.row('#id' + deploymentsiteid).remove().draw(false);
+
+                $('#modalAssign').loading('stop');
             },
         });
     });
@@ -471,6 +506,10 @@ $(document).ready(function() {
             }
         });
         deploymentsiteid = $(this).val();
+
+        $('#modalAssign').loading({
+            message: "SAVING..."
+        });
 
         $.ajax({
             type: "POST",
@@ -489,6 +528,8 @@ $(document).ready(function() {
                     "</tr>";
                 tableDeploymentSite.row.add($(row)[0]).draw();
                 tableAssignDeploymentSite.row('#id' + deploymentsiteid).remove().draw(false);
+
+                $('#modalAssign').loading('stop');
             },
         });
     });

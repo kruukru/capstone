@@ -1,4 +1,4 @@
-@extends('client.templates.default')
+@extends(Auth::user()->accounttype == 10 ? 'client.templates.default' : 'manager.templates.default')
 
 @section('content')
 	<section class="content-header">

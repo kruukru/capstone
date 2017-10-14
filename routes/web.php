@@ -368,6 +368,21 @@ Route::group(['middleware' => ['auth']], function() {
 		//notification
 		Route::name('client-notification')->get('/client/notification', 'NotificationController@getClientNotification');
 
+		//manager
+		Route::name('client-manager')->get('/client/manager', 'ManagerController@getClientManager');
+		Route::post('/client/manager/new', 'ManagerController@postClientNew');
+		Route::post('/client/manager/update', 'ManagerController@postClientUpdate');
+		Route::post('/client/manager/update-account', 'ManagerController@postClientUpdateAccount');
+		Route::post('/client/manager/remove', 'ManagerController@postClientRemove');
+
+		Route::get('/client/manager/deploymentsite', 'ManagerController@getClientDeploymentSite');
+		Route::post('/client/manager/deploymentsite', 'ManagerController@postClientDeploymentSite');
+		Route::get('/client/manager/assign/deploymentsite', 'ManagerController@getClientAssignDeploymentSite');
+		Route::post('/client/manager/assign/deploymentsite', 'ManagerController@postClientAssignDeploymentSite');
+	});
+
+	//manager manager manager manager manager manager manager manager manager manager manager manager manager manager manager manager
+	Route::group(['middleware' => 'Amcor\Http\Middleware\ManagerMiddleware'], function() {
 		//security guard
 		Route::name('client-securityguard')->get('/client/securityguard', 'SecurityGuardController@getClientSecurityGuard');
 
@@ -423,26 +438,7 @@ Route::group(['middleware' => ['auth']], function() {
 		Route::post('/client/report/update', 'ReportController@postClientReportUpdate');
 		Route::post('/client/report/remove', 'ReportController@postClientReportRemove');
 
-		//manager
-		Route::name('client-manager')->get('/client/manager', 'ManagerController@getClientManager');
-		Route::post('/client/manager/new', 'ManagerController@postClientNew');
-		Route::post('/client/manager/update', 'ManagerController@postClientUpdate');
-		Route::post('/client/manager/update-account', 'ManagerController@postClientUpdateAccount');
-		Route::post('/client/manager/remove', 'ManagerController@postClientRemove');
-
-		Route::get('/client/manager/deploymentsite', 'ManagerController@getClientDeploymentSite');
-		Route::post('/client/manager/deploymentsite', 'ManagerController@postClientDeploymentSite');
-		Route::get('/client/manager/assign/deploymentsite', 'ManagerController@getClientAssignDeploymentSite');
-		Route::post('/client/manager/assign/deploymentsite', 'ManagerController@postClientAssignDeploymentSite');
-	});
-
-	//manager manager manager manager manager manager manager manager manager manager manager manager manager manager manager manager
-	Route::group(['middleware' => 'Amcor\Http\Middleware\ManagerMiddleware'], function() {
-		//attendance
-		Route::name('manager-attendance')->get('/manager/attendance', 'AttendanceController@getManagerAttendance');
-		Route::get('/manager/attendance/securityguard', 'AttendanceController@getManagerSecurityGuard');
-		Route::post('/manager/attendance/securityguard', 'AttendanceController@postManagerSecurityGuard');
-
+		//old manager
 		Route::name('manager-attendance-document')->get('/manager/attendance/document/{deploymentsiteid}', 'PDFController@getManagerAttendanceDocument');
 	});
 
