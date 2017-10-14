@@ -3,12 +3,20 @@
 namespace Amcor\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Amcor\Requestt;
+use Amcor\DeploymentSite;
+use Amcor\LeaveRequest;
+use Carbon\Carbon;
+use Response;
+use Auth;
 
 class LeaveAbsentController extends Controller
 {
 	//applicant applicant applicant applicant applicant applicant applicant applicant applicant applicant applicant applicant applicant 
     public function getApplicantLeave() {
-    	return view('applicant.leave');
+        $leaverequests = LeaveRequest::where('applicantid', Auth::user()->applicant->applicantid)->get();
+
+    	return view('applicant.leave', compact('leaverequests'));
     }
 
     public function getApplicantRequestLeave(Request $request) {
@@ -30,13 +38,14 @@ class LeaveAbsentController extends Controller
         $leaverequest->reason = $request->inputReason;
         $leaverequest->save();
 
-        return Response::json(400);
+        return Response::json($leaverequest);
     }
 
-    public function getApplicantLeaveCancel() {
-        LeaveRequest::where('applicantid', Auth::user()->applicant->applicantid)->forceDelete();
-        Requestt::where('accountid', Auth::user()->accountid)->forceDelete();
+    public function getApplicantLeaveCancel(Request $request) {
+        $leaverequest = LeaveRequest::find($request->inputLeaveRequestID);
+        $leaverequest->forceDelete();
+        $leaverequest->request->forceDelete();
 
-        return Response::json(400);
+        return Response::json($leaverequest);
     }
 }
