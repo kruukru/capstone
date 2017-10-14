@@ -10,7 +10,7 @@
 		<div class="container col-sm-12">
 			<div class="col-md-4">
 				<div class="info-box">
-					<span class="info-box-icon bg-blue"><i class="ion ion-ios-list-outline"></i></span>
+					<span class="info-box-icon bg-blue"><i class="ion ion-person-add"></i></span>
 					<div class="info-box-content">
 						<span class="info-box-text">REQUEST FOR PERSONNEL</span>
 		              	<span class="info-box-number">{{$requestforpersonnel}}</span>
@@ -19,7 +19,7 @@
 			</div>
 			<div class="col-md-4">
 				<div class="info-box">
-					<span class="info-box-icon bg-blue"><i class="ion ion-ios-copy-outline"></i></span>
+					<span class="info-box-icon bg-blue"><i class="ion ion-tshirt-outline"></i></span>
 					<div class="info-box-content">
 						<span class="info-box-text">REQUEST FOR ITEM</span>
 		              	<span class="info-box-number">{{$requestforitem}}</span>
@@ -80,6 +80,23 @@
 								@endforeach
 							</tbody>
 						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="container col-sm-12">
+			<div class="box box-primary">
+				<div class="box-header with-border">
+					<h3 class="box-title">SECURITY GUARDS</h3>
+				</div>
+				<div class="box-body table-responsive">
+					<div class="col-md-6">
+						<h4>Status</h4>
+						<canvas id="sgstatus"></canvas>
+					</div>
+					<div class="col-md-6">
+						<h4>Priority for Deployment</h4>
+						<canvas id="sgpriority"></canvas>
 					</div>
 				</div>
 			</div>

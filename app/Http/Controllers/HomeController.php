@@ -19,6 +19,7 @@ use Amcor\Client;
 use Amcor\PersonInvolve;
 use Amcor\LeaveRequest;
 use Amcor\Report;
+use Amcor\Firearm;
 use Carbon\Carbon;
 use DateTime;
 use DateInterval;
@@ -212,7 +213,28 @@ class HomeController extends Controller
                 return view('admin.executivehome', compact('unscheduledapplicants', 'onappointment', 'activecontracts', 'applicants', 'qualificationchecks'));
 	    	} else if (Auth::user()->accounttype == 1) {
                 //admin admin admin admin admin admin admin admin admin admin admin admin admin admin admin admin admin admin admin admin 
-                return view('admin.adminhome');
+                $items = Item::get();
+                $itemcollections = collect();
+                foreach ($items as $item) {
+                    if ($item->qtyavailable == 0) {
+                        $itemcollections->push([
+                            'name' => $item->name,
+                            'qty' => $item->qty,
+                            'qtyavailable' => $item->qtyavailable,
+                            'percent' => 0,
+                        ]);
+                    } else if (($item->qtyavailable / $item->qty * 100) <= 50) {
+                        $itemcollections->push([
+                            'name' => $item->name,
+                            'qty' => $item->qty,
+                            'qtyavailable' => $item->qtyavailable,
+                            'percent' => ($item->qtyavailable / $item->qty * 100),
+                        ]);
+                    }
+                }
+                $firearms = Firearm::where('expiration', '<=', Carbon::today()->addDays(60))->orderBy('expiration')->get();
+
+                return view('admin.adminhome', compact('itemcollections', 'firearms'));
             } else if (Auth::user()->accounttype == 2) {
                 //operation operation operation operation operation operation operation operation operation operation operation operation 
                 $requestforpersonnel = count(Requestt::where('type', 'PERSONNEL')->get());
@@ -249,7 +271,7 @@ class HomeController extends Controller
 
                 return view('admin.hrhome', compact('unscheduledapplicants', 'onappointment', 'testingandinterview', 'incompletecredentials', 'applicants', 'requests'));
             } else if (Auth::user()->accounttype == 10) {
-                //client client client client client client client client client client client client client client client client client client client 
+                //client client client client client client client client client client client client client client client client client client client
 	    		return view('client.home');
 	    	} else if (Auth::user()->accounttype == 20) {
                 //applicant applicant applicant applicant applicant applicant applicant applicant applicant applicant applicant applicant applicant

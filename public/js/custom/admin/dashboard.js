@@ -32,13 +32,31 @@ $(document).ready(function() {
     	]
     });
     var tableRecentlyMemorandum = $('#tblRecentlyMemorandum').DataTable({
-    	"bSort": false,
+        "bSort": false,
+        "aoColumns": [
+            null,
+            null,
+            null,
+            null,
+        ]
+    });
+    var tableItemAvailability = $('#tblItemAvailability').DataTable({
     	"aoColumns": [
     		null,
     		null,
     		null,
-    		null,
+            null,
     	]
+    });
+    tableItemAvailability.order([[3, 'asc']]).draw();
+    var tableExpiringFirearm = $('#tblExpiringFirearm').DataTable({
+        "bSort": false,
+        "aoColumns": [
+            null,
+            null,
+            null,
+            null,
+        ]
     });
 
 	var csgstatus = $('#sgstatus');
