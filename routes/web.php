@@ -43,6 +43,7 @@ Route::get('/json/report/one', 'JSONController@getReportOne');
 Route::get('/json/deploymentsite/one', 'JSONController@getDeploymentSiteOne');
 Route::get('/json/replaceapplicant/one', 'JSONController@getReplaceApplicantOne');
 Route::get('/json/firearm/one', 'JSONController@getFirearmOne');
+Route::get('/json/leaverequest/one', 'JSONController@getLeaveRequestOne');
 
 Route::get('/json/itemtype/all', 'JSONController@getItemTypeAll');
 Route::get('/json/questionchoice/all', 'JSONController@getQuestionChoiceAll');
@@ -204,6 +205,12 @@ Route::group(['middleware' => ['auth']], function() {
 
 		Route::name('admin-report-certificate')->get('/admin/report/certificate', 'PDFController@getAdminReportCertificate');
 		Route::name('admin-report-memorandum')->get('/admin/report/memorandum', 'PDFController@getAdminReportMemorandum');
+
+		//leave absent
+		Route::name('admin-transaction-leaveabsent')->get('/admin/transaction/leaveabsent', 'LeaveAbsentController@getAdminLeaveAbsent');
+		Route::get('/admin/transaction/leaveabsent/reliever', 'LeaveAbsentController@getAdminLeaveAbsentReliever');
+		Route::post('/admin/transaction/leave/reliever', 'LeaveAbsentController@postAdminLeaveReliever');
+		Route::post('/admin/transaction/leave/decline', 'LeaveAbsentController@postAdminLeaveDecline');
 
 		//maintenance maintenance maintenance maintenance maintenance maintenance maintenance maintenance maintenance maintenance maintenance
 		//commend

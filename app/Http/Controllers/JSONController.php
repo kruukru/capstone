@@ -29,6 +29,7 @@ use Amcor\Report;
 use Amcor\DeploymentSite;
 use Amcor\ReplaceApplicant;
 use Amcor\ApplicantRequirement;
+use Amcor\LeaveRequest;
 use Response;
 
 class JSONController extends Controller
@@ -207,6 +208,12 @@ class JSONController extends Controller
         $firearm = Firearm::with('item')->find($request->inputFirearmID);
 
         return Response::json($firearm);
+    }
+
+    public function getLeaveRequestOne(Request $request) {
+        $leaverequest = LeaveRequest::with('applicant')->find($request->inputLeaveRequestID);
+
+        return Response::json($leaverequest);
     }
 
 

@@ -18,8 +18,6 @@ class Reliever extends Migration
             $table->integer('applicantid')->unsigned();
             $table->string('type');
             $table->date('date');
-            $table->time('timefrom');
-            $table->time('timeto');
             $table->tinyInteger('status');
 
             $table->timestamps();

@@ -108,12 +108,14 @@
 							<li class="{{Request::path() == 'admin/transaction/deployitem' ? 'active' : ''}}"><a href="{{ route('admin-transaction-deployitem') }}"><i class="fa fa-circle-o"></i>Deploy Item</a></li>
 							<li class="{{Request::path() == 'admin/transaction/request' ? 'active' : ''}}"><a href="{{ route('admin-transaction-request') }}"><i class="fa fa-circle-o"></i>Request</a></li>
 							<li class="{{Request::path() == 'admin/transaction/report' ? 'active' : ''}}"><a href="{{ route('admin-transaction-report') }}"><i class="fa fa-circle-o"></i>Report</a></li>
+							<li class="{{Request::path() == 'admin/transaction/leaveabsent' ? 'active' : ''}}"><a href="{{ route('admin-transaction-leaveabsent') }}"><i class="fa fa-circle-o"></i>Leave / Absent</a></li>
 						@elseif (Auth::user()->accounttype == 1)
 							<li class="{{Request::path() == 'admin/transaction/inventory' ? 'active' : ''}}"><a href="{{ route('admin-transaction-inventory') }}"><i class="fa fa-circle-o"></i>Inventory</a></li>
 							<li class="{{Request::path() == 'admin/transaction/deployitem' ? 'active' : ''}}"><a href="{{ route('admin-transaction-deployitem') }}"><i class="fa fa-circle-o"></i>Deploy Item</a></li>
 						@elseif (Auth::user()->accounttype == 2)
 							<li class="{{Request::path() == 'admin/transaction/request' ? 'active' : ''}}"><a href="{{ route('admin-transaction-request') }}"><i class="fa fa-circle-o"></i>Request</a></li>
 							<li class="{{Request::path() == 'admin/transaction/report' ? 'active' : ''}}"><a href="{{ route('admin-transaction-report') }}"><i class="fa fa-circle-o"></i>Report</a></li>
+							<li class="{{Request::path() == 'admin/transaction/leaveabsent' ? 'active' : ''}}"><a href="{{ route('admin-transaction-leaveabsent') }}"><i class="fa fa-circle-o"></i>Leave / Absent</a></li>
 						@elseif (Auth::user()->accounttype == 3)
 							<li class="{{Request::path() == 'admin/transaction/submitcredential' ? 'active' : ''}}"><a href="{{ route('admin-transaction-submitcredential') }}"><i class="fa fa-circle-o"></i>Submit Credentials</a></li>
 							<li class="{{Request::path() == 'admin/transaction/testlogin' ? 'active' : ''}}"><a href="{{ route('admin-transaction-testlogin') }}"><i class="fa fa-circle-o"></i>Testing</a></li>
