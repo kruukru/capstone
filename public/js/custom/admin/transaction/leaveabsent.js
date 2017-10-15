@@ -49,6 +49,7 @@ $(document).ready(function() {
 
     //assess leave
     $('#leave-list').on('click', '#btnAssess', function() {
+        tableLeaveReliever.clear().draw();
         leaverequestid = $(this).val();
 
         $.ajax({
@@ -194,6 +195,7 @@ $(document).ready(function() {
 
     //assess absent
     $('#absent-list').on('click', '#btnAssess', function() {
+        tableAbsentReliever.clear().draw();
         attendanceid = $(this).val();
 
         $.ajax({

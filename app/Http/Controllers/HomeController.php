@@ -20,6 +20,7 @@ use Amcor\PersonInvolve;
 use Amcor\LeaveRequest;
 use Amcor\Report;
 use Amcor\Firearm;
+use Amcor\Reliever;
 use Carbon\Carbon;
 use DateTime;
 use DateInterval;
@@ -199,13 +200,30 @@ class HomeController extends Controller
         }
 
         //for reliever
-        $applicants = Applicant::where('status', 11)
-            ->whereHas('reliever', function($query) {
-                $query->whereDate('date', '<', Carbon::today());
+        $relievers = Reliever::where([
+            ['type', 'ABSENT'],
+            ['status', 0]
+        ])->whereDate('date', '<', Carbon::today())
+            ->whereHas('applicant', function($query) {
+                $query->where('status', 11);
             })->get();
-        foreach ($applicants as $applicant) {
-            $applicant->status = 8;
-            $applicant->save();
+        foreach ($relievers as $reliever) {
+            $reliever->status = 1;
+            $reliever->save();
+            $reliever->applicant->status = 8;
+            $reliever->applicant->save();
+        }
+        $relievers = Reliever::where([
+            ['type', 'LEAVE'],
+            ['status', 0]
+        ])->whereHas('relieverleave.leaverequest', function($query) {
+            $query->whereDate('end', '<', Carbon::today());
+        })->get();
+        foreach ($relievers as $reliever) {
+            $reliever->status = 1;
+            $reliever->save();
+            $reliever->applicant->status = 8;
+            $reliever->applicant->save();
         }
 
     	if (Auth::check()) {

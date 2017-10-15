@@ -90,6 +90,7 @@ class LeaveAbsentController extends Controller
         $applicant->save();
 
         $reliever = new Reliever;
+        $reliever->deploymentsite()->associate($attendance->applicant->qualificationcheck->deploymentsite);
         $reliever->applicant()->associate($applicant);
         $reliever->type = "ABSENT";
         $reliever->date = Carbon::today();
@@ -120,6 +121,7 @@ class LeaveAbsentController extends Controller
         $period = new DatePeriod($begin, $interval, $end);
         foreach ($period as $dt) {
             $reliever = new Reliever;
+            $reliever->deploymentsite()->associate($leaverequest->applicant->qualificationcheck->deploymentsite);
             $reliever->applicant()->associate($applicant);
             $reliever->type = "LEAVE";
             $reliever->date = $dt->format('Y-m-d');

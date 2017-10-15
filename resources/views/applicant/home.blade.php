@@ -18,19 +18,19 @@
 							<div class="col-md-6">
 								<div class="form-group">
 									<label>Deployment Site:</label>
-									<h4 id="sitename">{{Auth::user()->applicant->qualificationcheck ? Auth::user()->applicant->qualificationcheck->deploymentsite->sitename : "N/A"}}</h4>
+									<h4 id="sitename">&emsp;{{Auth::user()->applicant->qualificationcheck ? Auth::user()->applicant->qualificationcheck->deploymentsite->sitename : "N/A"}}</h4>
 								</div>
 								<div class="form-group">
 									<label>Location:</label>
-									<h4 id="location">{{Auth::user()->applicant->qualificationcheck ? Auth::user()->applicant->qualificationcheck->deploymentsite->location : "N/A"}}</h4>
+									<h4 id="location">&emsp;{{Auth::user()->applicant->qualificationcheck ? Auth::user()->applicant->qualificationcheck->deploymentsite->location : "N/A"}}</h4>
 								</div>
 								<div class="form-group">
 									<label>Start Date:</label>
-									<h4 id="startdate">{{Auth::user()->applicant->qualificationcheck ? Auth::user()->applicant->qualificationcheck->deploymentsite->contract->startdate->format('F d, Y') : "N/A"}}</h4>
+									<h4 id="startdate">&emsp;{{Auth::user()->applicant->qualificationcheck ? Auth::user()->applicant->qualificationcheck->deploymentsite->contract->startdate->format('F d, Y') : "N/A"}}</h4>
 								</div>
 								<div class="form-group">
 									<label>End Date:</label>
-									<h4 id="enddate">{{Auth::user()->applicant->qualificationcheck ? Auth::user()->applicant->qualificationcheck->deploymentsite->contract->expiration->format('F d, Y') : "N/A"}}</h4>
+									<h4 id="enddate">&emsp;{{Auth::user()->applicant->qualificationcheck ? Auth::user()->applicant->qualificationcheck->deploymentsite->contract->expiration->format('F d, Y') : "N/A"}}</h4>
 								</div>
 							</div>
 							<div class="col-md-6">
@@ -60,7 +60,7 @@
 										@endif
 									</ul>
 								@else
-									<h4>N/A</h4>
+									<h4>&emsp;N/A</h4>
 								@endif
 							</div>
 						</div>
@@ -106,15 +106,15 @@
 					<div class="form-group">
 						<div class="form-group">
 							<label>Date Range:</label>
-							<h4>{{$leaverequest ? $leaverequest->start->format('F d, Y') : "N/A"}} - {{$leaverequest ? $leaverequest->end->format('F d, Y') : "N/A"}}</h4>
+							<h4>&emsp;{{$leaverequest ? $leaverequest->start->format('F d, Y') : "N/A"}} - {{$leaverequest ? $leaverequest->end->format('F d, Y') : "N/A"}}</h4>
 						</div>
 						<div class="form-group">
 							<label>Reason:</label>
-							<h4>{{$leaverequest ? $leaverequest->reason : "N/A"}}</h4>
+							<h4>&emsp;{{$leaverequest ? $leaverequest->reason : "N/A"}}</h4>
 						</div>
 						<div>
 							<label>Status:</label>
-							<h4>
+							<h4>&emsp;
 								@if ($leaverequest)
 									@if ($leaverequest->request->status == 0)
 										PENDING

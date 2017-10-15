@@ -1,5 +1,5 @@
 $(document).ready(function() {
-	var deploymentsiteid, itemid, qtyavailable, qtyinput, name, itemtype, countFirearm = 0;
+	var deploymentsiteid, itemid, qtyavailable, qtyinput, name, itemtype, countFirearm = 0, firearmlimit = 0, firearmsavelimit = 0;
 	var firearmsave = [];
 	var table = $('#tblDeploymentSite').DataTable({
         "aoColumns": [
@@ -70,6 +70,7 @@ $(document).ready(function() {
             success: function(data) {
                 console.log(data);
 
+                firearmlimit = 0;
                 $.each(data.applicant, function(index, value) {
                 	if (data.middlename === null) {
                         data.middlename = '';
@@ -79,6 +80,7 @@ $(document).ready(function() {
 	                    "<td>" + value.lastname + ", " + value.firstname + ", " + value.middlename + "</td>" +
 	                    "</tr>";
 	                tableSecurityGuard.row.add($(row)[0]).draw();
+	                firearmlimit++;
                 });
 
                 $.each(data.item, function(index, value) {
@@ -114,6 +116,7 @@ $(document).ready(function() {
             success: function(data) {
                 console.log(data);
 
+                firearmlimit = 0;
                 $.each(data.applicant, function(index, value) {
                 	if (data.middlename === null) {
                         data.middlename = '';
@@ -123,6 +126,7 @@ $(document).ready(function() {
 	                    "<td>" + value.lastname + ", " + value.firstname + ", " + value.middlename + "</td>" +
 	                    "</tr>";
 	                tableSecurityGuard.row.add($(row)[0]).draw();
+	                firearmlimit++;
                 });
 
                 $.each(data.item, function(index, value) {
@@ -153,6 +157,7 @@ $(document).ready(function() {
 	                tableDeployItem.row.add($(row)[0]).draw();
                 });
 
+                firearmsavelimit = 0;
                 $.each(data.firearmsent, function(index, value) {
                 	var data = {
 						inputItemID: value.itemid,
@@ -161,6 +166,7 @@ $(document).ready(function() {
 						inputExpiration: value.expiration,
 					};
 					firearmsave.push(data);
+					firearmsavelimit++;
                 });
 
 				$('#modalDeploy').modal('show');
@@ -183,6 +189,11 @@ $(document).ready(function() {
 				toastr.error("INVALID QUANTITY");
 			} else {
 				if (itemtype.toUpperCase() == "FIREARM" || itemtype.toUpperCase() == "FIREARMS") {
+					if ((Number($('#inputQty'+itemid).val()) + firearmsavelimit) > firearmlimit) {
+						toastr.error("EXCESS FIREARMS");
+						return;
+					}
+
 					$.ajax({
 			            type: "GET",
 			            url: "/admin/transaction/deployitem/firearm",

@@ -77,6 +77,9 @@
             @if (Auth::user()->applicant->status == 10)
               <li class="{{Request::path() == 'applicant/leave' ? 'active' : ''}}"><a href="{{ route('applicant-leave') }}"><i class="fa fa-calendar-times-o"></i><span>Leave</span></a></li>
             @endif
+            @if (Auth::user()->applicant->status == 11)
+              <li class="{{Request::path() == 'applicant/reliever' ? 'active' : ''}}"><a href="{{ route('applicant-reliever') }}"><i class="fa fa-calendar-check-o"></i><span>Reliever</span></a></li>
+            @endif
             <li class="{{Request::path() == 'applicant/appointment' ? 'active' : ''}}"><a href="{{ route('applicant-appointment') }}"><i class="fa fa-calendar"></i><span>Appointment</span></a></li>
         </ul>
     </section>

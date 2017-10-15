@@ -11,7 +11,7 @@ class Reliever extends Model
 
     protected $table = 'relievertbl';
     protected $primaryKey = 'relieverid';
-    protected $dates = ['deleted_at'];
+    protected $dates = ['date', 'deleted_at'];
 
     public function relieverabsent() {
     	return $this->hasMany('Amcor\RelieverAbsent', 'relieverid');

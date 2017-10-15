@@ -458,6 +458,9 @@ Route::group(['middleware' => ['auth']], function() {
 		Route::post('/applicant/leave/requestleave', 'LeaveAbsentController@getApplicantRequestLeave');
 		Route::post('/applicant/leave/cancel', 'LeaveAbsentController@getApplicantLeaveCancel');
 
+		//reliever
+		Route::name('applicant-reliever')->get('/applicant/reliever', 'RelieverController@getApplicantReliever');
+
 		//appointment
 		Route::name('applicant-appointment')->get('/applicant/appointment', 'AppointmentController@getApplicantAppointment');
 		Route::post('/applicant/appointment', 'AppointmentController@postApplicantAppointment');
