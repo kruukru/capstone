@@ -24,4 +24,8 @@ class Reliever extends Model
     public function applicant() {
         return $this->belongsTo('Amcor\Applicant', 'applicantid');
     }
+
+    public function deploymentsite() {
+        return $this->belongsTo('Amcor\DeploymentSite', 'deploymentsiteid');
+    }
 }

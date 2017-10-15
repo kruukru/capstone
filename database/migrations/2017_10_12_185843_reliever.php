@@ -15,6 +15,7 @@ class Reliever extends Migration
     {
         Schema::create('relievertbl', function(Blueprint $table) {
             $table->increments('relieverid');
+            $table->integer('deploymentsiteid')->unsigned();
             $table->integer('applicantid')->unsigned();
             $table->string('type');
             $table->date('date');
@@ -23,6 +24,7 @@ class Reliever extends Migration
             $table->timestamps();
             $table->softDeletes();
 
+            $table->foreign('deploymentsiteid')->references('deploymentsiteid')->on('deploymentsitetbl');
             $table->foreign('applicantid')->references('applicantid')->on('applicanttbl');
         });
     }

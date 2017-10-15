@@ -10,25 +10,6 @@
 			<div class="container col-sm-12">
 				<div class="box box-primary">
 					<div class="box-header with-border">
-        				<h3 class="box-title">ABSENT</h3>
-        			</div>
-					<div class="box-body table-responsive">
-						<table id="tblAbsent" class="table table-striped table-bordered">
-							<thead>
-								<th>Applicant Name</th>
-								<th>Date Range</th>
-								<th style="text-align: center;">Action</th>
-							</thead>
-							<tbody id="absent-list">
-
-							</tbody>
-						</table>
-					</div>
-				</div>
-			</div>
-			<div class="container col-sm-12">
-				<div class="box box-primary">
-					<div class="box-header with-border">
         				<h3 class="box-title">LEAVE</h3>
         			</div>
 					<div class="box-body table-responsive">
@@ -69,8 +50,78 @@
 					</div>
 				</div>
 			</div>
+			<div class="container col-sm-12">
+				<div class="box box-primary">
+					<div class="box-header with-border">
+        				<h3 class="box-title">ABSENT</h3>
+        			</div>
+					<div class="box-body table-responsive">
+						<table id="tblAbsent" class="table table-striped table-bordered">
+							<thead>
+								<th>Applicant Name</th>
+								<th>Deployment Site</th>
+								<th>Location</th>
+								<th>Date</th>
+								<th style="text-align: center;">Action</th>
+							</thead>
+							<tbody id="absent-list">
+								@foreach ($attendances as $attendance)
+									<tr id="id{{$attendance->attendanceid}}">
+										<td>{{$attendance->applicant->firstname}} {{$attendance->applicant->middlename}} {{$attendance->applicant->lastname}}</td>
+										<td>{{$attendance->applicant->qualificationcheck->deploymentsite->sitename}}</td>
+										<td>{{$attendance->applicant->qualificationcheck->deploymentsite->location}}</td>
+										<td>{{$attendance->date->format('Y-m-d')}}</td>
+										<td style="text-align: center;"> 
+											<button class="btn btn-primary btn-xs" id="btnAssess" value="{{$attendance->attendanceid}}">Assess</button>
+										</td>
+									</tr>
+								@endforeach
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
 		</div>
 	</section>
+
+	<div class="modal fade" id="modalAssessAbsent">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<!-- modal header -->
+				<div class="modal-header">
+					<button class="close" data-dismiss="modal">&times;</button>
+					<h3>Absent</h3>
+				</div>
+				<!-- modal body -->
+				<div class="modal-body">
+					<div class="form-group">
+						<img id="pictureview" src="/applicant/default.png" alt="IMAGE" style="width: 35%; height: 35%;" class="center-block">
+					</div>
+					<div class="form-group">
+						<label>Security Guard Name:</label>
+						<h4 id="securityguardname"></h4>
+					</div><hr>
+					<div class="form-group table-responsive">
+						<h3>Security Guard</h3>
+						<table id="tblAbsentReliever" class="table table-striped table-bordered">
+							<thead>
+								<th>Name</th>
+								<th style="text-align: center;">Vacant(day)</th>
+								<th style="text-align: center;">Action</th>
+							</thead>
+							<tbody id="absentreliever-list"></tbody>
+						</table>
+					</div>
+				</div>
+				<!-- modal footer -->
+				<div class="modal-footer">
+					<div class="form-group">
+        				<button class="btn btn-default" data-dismiss="modal">CANCEL</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
 	<div class="modal fade" id="modalAssessLeave">
 		<div class="modal-dialog">
@@ -136,6 +187,27 @@
 				<!-- modal footer -->
 				<div class="modal-footer">
 					<button type="button" class="btn btn-primary" id="btnLeaveRelieverConfirm">CONFIRM</button>
+        			<button type="button" class="btn btn-default" data-dismiss="modal">CANCEL</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="modalAbsentRelieverConfirmation">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<!-- modal header -->
+				<div class="modal-header">
+					<button class="close" data-dismiss="modal">&times;</button>
+					<h3>CONFIRMATION</h3>
+				</div>
+				<!-- modal body -->
+				<div class="modal-body">
+					Are you sure you want to replace with this applicant?
+				</div>
+				<!-- modal footer -->
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" id="btnAbsentRelieverConfirm">CONFIRM</button>
         			<button type="button" class="btn btn-default" data-dismiss="modal">CANCEL</button>
 				</div>
 			</div>

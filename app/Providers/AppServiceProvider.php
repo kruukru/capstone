@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\View;
 use Amcor\Applicant;
 use Amcor\Contract;
 use Amcor\Company;
+use Amcor\Attendance;
 use Carbon\Carbon;
 use Auth;
 
@@ -19,11 +20,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //notification admin
+        //notification admin notification admin notification admin notification admin notification admin notification admin notification admin 
         try {
             $notification = collect();
 
-            //security guard pooling vacant
+            //security guard pooling vacant security guard pooling vacant security guard pooling vacant security guard pooling vacant 
             $countone = 0; $counttwo = 0;
             $applicants = Applicant::where([
                 ['status', 8],
@@ -49,7 +50,7 @@ class AppServiceProvider extends ServiceProvider
                 ]);
             }
 
-            //contract expiration
+            //contract expiration contract expiration contract expiration contract expiration contract expiration contract expiration
             $countone = 0; $counttwo = 0; $countthree = 0;
             $contracts = Contract::where('expiration', '<=', Carbon::today()->addDays(60))->get();
             foreach ($contracts as $contract) {
@@ -80,7 +81,7 @@ class AppServiceProvider extends ServiceProvider
                 ]);
             }
 
-            //security guard license expiration
+            //security guard license expiration security guard license expiration security guard license expiration security guard license expiration
             $countone = 0; $counttwo = 0; $countthree = 0;
             $applicants = Applicant::where('licenseexpiration', '<=', Carbon::today()->addDays(60))->get();
             foreach ($applicants as $applicant) {
@@ -111,12 +112,23 @@ class AppServiceProvider extends ServiceProvider
                 ]);
             }
 
+            //absent absent absent absent absent absent absent absent absent absent absent absent absent absent absent absent absent absent 
+            $attendance = Attendance::where('status', 2)
+                ->whereDoesntHave('relieverabsent')
+                ->whereDate('date', Carbon::today())->get();
+            if (!$attendance->isEmpty()) {
+                $notification->push([
+                    'description' => $attendance->count() . " SG(s) are absent today",
+                    'priority' => 1,
+                ]);
+            }
+
             $notifications = $notification->sortBy('priority');
         } catch (\Exception $e) {
             $notifications = null;
         }
 
-        //notification client
+        //notification client notification client notification client notification client notification client notification client 
         try {
             $notification = collect();
 

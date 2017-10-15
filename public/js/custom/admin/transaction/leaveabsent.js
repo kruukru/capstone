@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    var leaverequestid, applicantrelieverid;
+    var leaverequestid, applicantrelieverid, attendanceid;
     var tableLeave = $('#tblLeave').DataTable({
         "aoColumns": [
             null,
@@ -11,7 +11,24 @@ $(document).ready(function() {
         ]
     });
     tableLeave.order([[1, 'asc']]).draw();
+    var tableAbsent = $('#tblAbsent').DataTable({
+        "aoColumns": [
+            null,
+            null,
+            null,
+            null,
+            { "bSearchable": false, "bSortable": false, },
+        ]
+    });
+    tableAbsent.order([[3, 'desc']]).draw();
     var tableLeaveReliever = $('#tblLeaveReliever').DataTable({
+        "aoColumns": [
+            null,
+            null,
+            { "bSearchable": false, "bSortable": false, },
+        ]
+    });
+    var tableAbsentReliever = $('#tblAbsentReliever').DataTable({
         "aoColumns": [
             null,
             null,
@@ -173,6 +190,96 @@ $(document).ready(function() {
                 toastr.success("SAVE SUCCESSFUL");
             },
         });        
+    });
+
+    //assess absent
+    $('#absent-list').on('click', '#btnAssess', function() {
+        attendanceid = $(this).val();
+
+        $.ajax({
+            type: "GET",
+            url: "/json/attendance/one",
+            data: { inputAttendanceID: attendanceid },
+            dataType: "json",
+            success: function(data) {
+                console.log(data);
+
+                if (data.applicant.middlename == null) {
+                    data.applicant.middlename = "";
+                }
+
+                $('#securityguardname').text(data.applicant.firstname + " " + data.applicant.middlename + " " + data.applicant.lastname);
+            },
+        });
+
+        $.ajax({
+            type: "GET",
+            url: "/admin/transaction/leaveabsent/reliever",
+            dataType: "json",
+            success: function(data) {
+                console.log(data);
+
+                $.each(data, function(index, value) {
+                    if (value.middlename == "") {
+                        value.middlename = "";
+                    }
+
+                    var row = "<tr id=id" + value.applicantid + ">" +
+                        "<td>" + value.name + "</td>" +
+                        "<td style='text-align: center;'>" + value.vacant + "</td>" + 
+                        "<td style='text-align: center;'>" +
+                            "<button class='btn btn-primary btn-xs' id='btnAbsentReliever' value="+value.applicantid+">Reliever</button>" +
+                        "</td>" +
+                        "</tr>";
+                    tableAbsentReliever.row.add($(row)[0]).draw();
+                });
+
+                tableAbsentReliever.order([[1, 'desc']]).draw();
+            },
+        });
+
+        $('#modalAssessAbsent').modal('show');
+    });
+    //pick a reliever
+    $('#absentreliever-list').on('click', '#btnAbsentReliever', function() {
+        applicantrelieverid = $(this).val();
+
+        $('#modalAbsentRelieverConfirmation').modal('show');
+    });
+    //confirm a reliever
+    $('#btnAbsentRelieverConfirm').click(function(e) {
+        e.preventDefault();
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+            }
+        });
+
+        $('#modalAbsentRelieverConfirmation').loading({
+            message: "SAVING..."
+        });
+
+        var formData = {
+            inputAttendanceID: attendanceid,
+            inputApplicantRelieverID: applicantrelieverid
+        };
+
+        $.ajax({
+            type: "POST",
+            url: "/admin/transaction/absent/reliever",
+            data: formData,
+            dataType: "json",
+            success: function(data) {
+                console.log(data);
+
+                tableAbsent.row('#id'+attendanceid).remove().draw(false);
+
+                $('#modalAbsentRelieverConfirmation').modal('hide');
+                $('#modalAbsentRelieverConfirmation').loading('stop');
+                $('#modalAssessAbsent').modal('hide');
+                toastr.success("SAVE SUCCESSFUL");
+            },
+        });
     });
 
 

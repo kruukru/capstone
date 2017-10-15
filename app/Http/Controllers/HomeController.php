@@ -198,6 +198,16 @@ class HomeController extends Controller
             }
         }
 
+        //for reliever
+        $applicants = Applicant::where('status', 11)
+            ->whereHas('reliever', function($query) {
+                $query->whereDate('date', '<', Carbon::today());
+            })->get();
+        foreach ($applicants as $applicant) {
+            $applicant->status = 8;
+            $applicant->save();
+        }
+
     	if (Auth::check()) {
     		if (Auth::user()->accounttype == 0) {
                 //executive executive executive executive executive executive executive executive executive executive executive executive 

@@ -30,6 +30,7 @@ use Amcor\DeploymentSite;
 use Amcor\ReplaceApplicant;
 use Amcor\ApplicantRequirement;
 use Amcor\LeaveRequest;
+use Amcor\Attendance;
 use Response;
 
 class JSONController extends Controller
@@ -214,6 +215,12 @@ class JSONController extends Controller
         $leaverequest = LeaveRequest::with('applicant')->find($request->inputLeaveRequestID);
 
         return Response::json($leaverequest);
+    }
+
+    public function getAttendanceOne(Request $request) {
+        $attendance = Attendance::with('applicant')->find($request->inputAttendanceID);
+
+        return Response::json($attendance);
     }
 
 

@@ -48,8 +48,12 @@
 										<td style="text-align: center;">PENDING</td>
 									@elseif ($applicant->status == 10)
 										<td style="text-align: center;">DEPLOYED</td>
+									@elseif ($applicant->status == 11)
+										<td style="text-align: center;">RELIEVER</td>
 									@elseif ($applicant->status == 125)
 										<td style="text-align: center;">FAILED</td>
+									@else
+										<td></td>
 									@endif
 									<td style="text-align: center;">
 										<button class="btn btn-primary btn-xs" id="btnProfile" value="{{$applicant->applicantid}}">Profile</button>

@@ -5,6 +5,7 @@ namespace Amcor\Http\Controllers;
 use Illuminate\Http\Request;
 use Amcor\Applicant;
 use Amcor\Contract;
+use Amcor\Attendance;
 use Carbon\Carbon;
 use Auth;
 
@@ -81,6 +82,20 @@ class NotificationController extends Controller
                     'priority' => $priority,
                 ]);
             }
+        }
+
+        //absent
+        $attendances = Attendance::where('status', 2)
+            ->whereDoesntHave('relieverabsent')
+            ->whereDate('date', Carbon::today())->get();
+        foreach ($attendances as $attendance) {
+            $notifs->push([
+                'topic' => "OPERATION - SECURITY GUARD ABSENT",
+                'description' => $attendance->applicant->firstname . " " . $attendance->applicant->middlename . " " . $attendance->applicant->lastname . 
+                    " is absent today at " . $attendance->applicant->qualificationcheck->deploymentsite->sitename . ", " .
+                    $attendance->applicant->qualificationcheck->deploymentsite->location,
+                'priority' => 1
+            ]);
         }
 
     	return view('admin.notification', compact('notifs'));

@@ -76,4 +76,8 @@ class Applicant extends Model
     public function leaverequest() {
         return $this->hasOne('Amcor\LeaveRequest', 'applicantid');
     }
+
+    public function reliever() {
+        return $this->hasMany('Amcor\Reliever', 'applicantid');
+    }
 }

@@ -20,4 +20,8 @@ class Attendance extends Model
     public function applicant() {
     	return $this->belongsTo('Amcor\Applicant', 'applicantid');
     }
+
+    public function relieverabsent() {
+        return $this->hasOne('Amcor\RelieverAbsent', 'attendanceid');
+    }
 }

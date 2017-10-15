@@ -9,6 +9,8 @@ use Amcor\LeaveRequest;
 use Amcor\Applicant;
 use Amcor\Reliever;
 use Amcor\RelieverLeave;
+use Amcor\RelieverAbsent;
+use Amcor\Attendance;
 use Carbon\Carbon;
 use DateTime;
 use DateInterval;
@@ -58,8 +60,11 @@ class LeaveAbsentController extends Controller
     //admin admin admin admin admin admin admin admin admin admin admin admin admin admin admin admin admin admin admin admin
     public function getAdminLeaveAbsent() {
         $leaverequests = LeaveRequest::get();
+        $attendances = Attendance::where('status', 2)
+            ->whereDoesntHave('relieverabsent')
+            ->whereDate('date', Carbon::today())->get();
 
-        return view('admin.transaction.leaveabsent', compact('leaverequests'));
+        return view('admin.transaction.leaveabsent', compact('leaverequests', 'attendances'));
     }
 
     public function getAdminLeaveAbsentReliever() {
@@ -75,6 +80,28 @@ class LeaveAbsentController extends Controller
         }
 
         return Response::json($pool);
+    }
+
+    public function postAdminAbsentReliever(Request $request) {
+        $attendance = Attendance::find($request->inputAttendanceID);
+        $applicant = Applicant::find($request->inputApplicantRelieverID);
+
+        $applicant->status = 11;
+        $applicant->save();
+
+        $reliever = new Reliever;
+        $reliever->applicant()->associate($applicant);
+        $reliever->type = "ABSENT";
+        $reliever->date = Carbon::today();
+        $reliever->status = 0;
+        $reliever->save();
+
+        $relieverabsent = new RelieverAbsent;
+        $relieverabsent->reliever()->associate($reliever);
+        $relieverabsent->attendance()->associate($attendance);
+        $relieverabsent->save();
+
+        return Response::json($attendance);
     }
 
     public function postAdminLeaveReliever(Request $request) {
