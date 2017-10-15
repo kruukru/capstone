@@ -18,7 +18,7 @@ class QueryController extends Controller
         $applicants = Applicant::where('lastdeployed', '!=', null)->get();
 
         $commends = Applicant::whereHas('personinvolve.report', function($query) {
-            $query->where('commendid', null);
+            $query->where('commendid', '!=', null);
         })->get();
 
         $violations = Applicant::whereHas('personinvolve.report', function($query) {

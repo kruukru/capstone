@@ -122,57 +122,57 @@ class DeployController extends Controller
             //age
             $ageout = 0;
             $clientage = explode(',', $clientqualification->age);
-            if ($securityguard->age == $clientage[2]) {
+            if ($securityguard->age == $clientage[1]) {
                 $ageout = 100;
-            } else if ($clientage[0] <= $securityguard->age && $securityguard->age < $clientage[2]) {
-                $diff = $clientage[2] - $clientage[0];
+            } else if ($clientage[0] <= $securityguard->age && $securityguard->age < $clientage[1]) {
+                $diff = $clientage[1] - $clientage[0];
                 $ptsperpt = 100 / $diff;
 
                 $secudiff = $securityguard->age - $clientage[0];
                 $ageout += $ptsperpt * $secudiff;
-            } else if ($clientage[2] < $securityguard->age && $securityguard->age <= $clientage[1]) {
-                $diff = $clientage[1] - $clientage[2];
+            } else if ($clientage[1] < $securityguard->age && $securityguard->age <= $clientage[2]) {
+                $diff = $clientage[2] - $clientage[1];
                 $ptsperpt = 100 / $diff;
 
-                $secudiff = $clientage[1] - $securityguard->age;
+                $secudiff = $clientage[2] - $securityguard->age;
                 $ageout += $ptsperpt * $secudiff;
             }
 
             //height
             $heightout = 0;
             $clientheight = explode(',', $clientqualification->height);
-            if ($securityguard->height == $clientheight[2]) {
+            if ($securityguard->height == $clientheight[1]) {
                 $heightout = 100;
-            } else if ($clientheight[0] <= $securityguard->height && $securityguard->height < $clientheight[2]) {
-                $diff = $clientheight[2] - $clientheight[0];
+            } else if ($clientheight[0] <= $securityguard->height && $securityguard->height < $clientheight[1]) {
+                $diff = $clientheight[1] - $clientheight[0];
                 $ptsperpt = 100 / $diff;
 
                 $secudiff = $securityguard->height - $clientheight[0];
                 $heightout += $ptsperpt * $secudiff;
-            } else if ($clientheight[2] < $securityguard->height && $securityguard->height <= $clientheight[1]) {
-                $diff = $clientheight[1] - $clientheight[2];
+            } else if ($clientheight[1] < $securityguard->height && $securityguard->height <= $clientheight[2]) {
+                $diff = $clientheight[2] - $clientheight[1];
                 $ptsperpt = 100 / $diff;
 
-                $secudiff = $clientheight[1] - $securityguard->height;
+                $secudiff = $clientheight[2] - $securityguard->height;
                 $heightout += $ptsperpt * $secudiff;
             }
 
             //weight
             $weightout = 0;
             $clientweight = explode(',', $clientqualification->weight);
-            if ($securityguard->weight == $clientweight[2]) {
+            if ($securityguard->weight == $clientweight[1]) {
                 $weightout = 100;
-            } else if ($clientweight[0] <= $securityguard->weight && $securityguard->weight < $clientweight[2]) {
-                $diff = $clientweight[2] - $clientweight[0];
+            } else if ($clientweight[0] <= $securityguard->weight && $securityguard->weight < $clientweight[1]) {
+                $diff = $clientweight[1] - $clientweight[0];
                 $ptsperpt = 100 / $diff;
 
                 $secudiff = $securityguard->weight - $clientweight[0];
                 $weightout += $ptsperpt * $secudiff;
-            } else if ($clientweight[2] < $securityguard->weight && $securityguard->weight <= $clientweight[1]) {
-                $diff = $clientweight[1] - $clientweight[2];
+            } else if ($clientweight[1] < $securityguard->weight && $securityguard->weight <= $clientweight[2]) {
+                $diff = $clientweight[2] - $clientweight[1];
                 $ptsperpt = 100 / $diff;
 
-                $secudiff = $clientweight[1] - $securityguard->weight;
+                $secudiff = $clientweight[2] - $securityguard->weight;
                 $weightout += $ptsperpt * $secudiff;
             }
 
@@ -284,57 +284,57 @@ class DeployController extends Controller
             //age
             $ageout = 0;
             $clientage = explode(',', $clientqualification->age);
-            if ($securityguard->age == $clientage[2]) {
+            if ($securityguard->age == $clientage[1]) {
                 $ageout = 100;
-            } else if ($clientage[0] <= $securityguard->age && $securityguard->age < $clientage[2]) {
-                $diff = $clientage[2] - $clientage[0];
+            } else if ($clientage[0] <= $securityguard->age && $securityguard->age < $clientage[1]) {
+                $diff = $clientage[1] - $clientage[0];
                 $ptsperpt = 100 / $diff;
 
                 $secudiff = $securityguard->age - $clientage[0];
                 $ageout += $ptsperpt * $secudiff;
-            } else if ($clientage[2] < $securityguard->age && $securityguard->age <= $clientage[1]) {
-                $diff = $clientage[1] - $clientage[2];
+            } else if ($clientage[1] < $securityguard->age && $securityguard->age <= $clientage[2]) {
+                $diff = $clientage[2] - $clientage[1];
                 $ptsperpt = 100 / $diff;
 
-                $secudiff = $clientage[1] - $securityguard->age;
+                $secudiff = $clientage[2] - $securityguard->age;
                 $ageout += $ptsperpt * $secudiff;
             }
 
             //height
             $heightout = 0;
             $clientheight = explode(',', $clientqualification->height);
-            if ($securityguard->height == $clientheight[2]) {
+            if ($securityguard->height == $clientheight[1]) {
                 $heightout = 100;
-            } else if ($clientheight[0] <= $securityguard->height && $securityguard->height < $clientheight[2]) {
-                $diff = $clientheight[2] - $clientheight[0];
+            } else if ($clientheight[0] <= $securityguard->height && $securityguard->height < $clientheight[1]) {
+                $diff = $clientheight[1] - $clientheight[0];
                 $ptsperpt = 100 / $diff;
 
                 $secudiff = $securityguard->height - $clientheight[0];
                 $heightout += $ptsperpt * $secudiff;
-            } else if ($clientheight[2] < $securityguard->height && $securityguard->height <= $clientheight[1]) {
-                $diff = $clientheight[1] - $clientheight[2];
+            } else if ($clientheight[1] < $securityguard->height && $securityguard->height <= $clientheight[2]) {
+                $diff = $clientheight[2] - $clientheight[1];
                 $ptsperpt = 100 / $diff;
 
-                $secudiff = $clientheight[1] - $securityguard->height;
+                $secudiff = $clientheight[2] - $securityguard->height;
                 $heightout += $ptsperpt * $secudiff;
             }
 
             //weight
             $weightout = 0;
             $clientweight = explode(',', $clientqualification->weight);
-            if ($securityguard->weight == $clientweight[2]) {
+            if ($securityguard->weight == $clientweight[1]) {
                 $weightout = 100;
-            } else if ($clientweight[0] <= $securityguard->weight && $securityguard->weight < $clientweight[2]) {
-                $diff = $clientweight[2] - $clientweight[0];
+            } else if ($clientweight[0] <= $securityguard->weight && $securityguard->weight < $clientweight[1]) {
+                $diff = $clientweight[1] - $clientweight[0];
                 $ptsperpt = 100 / $diff;
 
                 $secudiff = $securityguard->weight - $clientweight[0];
                 $weightout += $ptsperpt * $secudiff;
-            } else if ($clientweight[2] < $securityguard->weight && $securityguard->weight <= $clientweight[1]) {
-                $diff = $clientweight[1] - $clientweight[2];
+            } else if ($clientweight[1] < $securityguard->weight && $securityguard->weight <= $clientweight[2]) {
+                $diff = $clientweight[2] - $clientweight[1];
                 $ptsperpt = 100 / $diff;
 
-                $secudiff = $clientweight[1] - $securityguard->weight;
+                $secudiff = $clientweight[2] - $securityguard->weight;
                 $weightout += $ptsperpt * $secudiff;
             }
 
