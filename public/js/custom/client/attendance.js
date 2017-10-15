@@ -44,10 +44,16 @@ $(document).ready(function() {
         $('#cbabsent').iCheck('uncheck');
     });
     $('#cbabsent').on('ifChecked', function(event) {
+        $('#timein').prop('disabled', true);
+        $('#timeout').prop('disabled', true);
+        $('#timein').val("");
+        $('#timeout').val("");
         $('#cblate').iCheck('uncheck');
         $('#divreason').show();
     });
     $('#cbabsent').on('ifUnchecked', function(event) {
+        $('#timein').prop('disabled', false);
+        $('#timeout').prop('disabled', false);
         $('#divreason').hide();
         $('#reason').val("");
     });
