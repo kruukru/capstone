@@ -18,7 +18,10 @@ class AssessController extends Controller
 {
 	//assess test
     public function getAdminAssessTest(Request $request) {
-        $applicants = Applicant::where('status', '>=', 2)->get();
+        $applicants = Applicant::where([
+            ['status', '>=', 2],
+            ['status', '!=', 125]
+        ])->get();
 
         return view('admin.transaction.assesstest', compact('applicants'));
     }

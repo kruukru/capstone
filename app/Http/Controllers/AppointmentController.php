@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Amcor\AppointmentDate;
 use Amcor\AppointmentSlot;
 use Amcor\Appointment;
+use Amcor\Requirement;
 use Amcor\ApplicantRequirement;
 use Carbon\Carbon;
 use Response;
@@ -66,11 +67,21 @@ class AppointmentController extends Controller
         $appointment->appointmentdateid = $request->inputAppointmentDateID;
         $appointment->save();
 
+        $requirements = Requirement::get();
+        foreach ($requirements as $requirement) {
+            $applicantrequirement = new ApplicantRequirement;
+            $applicantrequirement->applicant()->associate(Auth::user()->applicant);
+            $applicantrequirement->requirement()->associate($requirement);
+            $applicantrequirement->issubmitted = 0;
+            $applicantrequirement->save();
+        }
+
         return Response::json($appointment);
     }
 
     public function postApplicantRemove(Request $request) {
         $appointment = Appointment::find($request->inputAppointmentDateID);
+        ApplicantRequirement::where('applicantid', $appointment->applicantid)->forceDelete();
         $appointment->forceDelete();
 
         return Response::json($appointment);

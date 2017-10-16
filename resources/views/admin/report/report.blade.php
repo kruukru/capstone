@@ -139,7 +139,7 @@
 								</div>
 								<div class="form-group">
 									<label>Security Guard</label>
-									<select class="form-control" id="ddosecurityguardid" name="ddosecurityguardid">
+									<select class="form-control" id="ddosecurityguardid" name="ddosecurityguardid" style="width: 100%">
 										<option value="none">None</option>
 										@foreach ($applicants as $applicant)
 											<option value="{{$applicant->applicantid}}">{{$applicant->firstname}} {{$applicant->middlename}} {{$applicant->lastname}}</option>

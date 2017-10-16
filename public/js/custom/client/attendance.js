@@ -111,7 +111,9 @@ $(document).ready(function() {
                     }
 
                     var schedule = "";
-                    if (data.dayofweek == 0) {
+                    if (value.schedule == null) {
+                        schedule = "Reliever";
+                    } else if (data.dayofweek == 0) {
                         schedule = value.schedule.sundayin+" - "+value.schedule.sundayout;
                     } else if (data.dayofweek == 1) {
                         schedule = value.schedule.mondayin+" - "+value.schedule.mondayout;
@@ -319,6 +321,45 @@ $(document).ready(function() {
                     toastr.success("SAVE SUCCESSFUL");
                 },
             });
+        }
+    });
+
+    //attendance
+    $('#btnPrintAttendance').click(function() {
+        $('#modalPrintAttendance').modal('show');
+    });
+
+    $('#securityguardid').select2();
+    $('#deploymentsiteid').change(function() {
+        $('#securityguardid').val('none').trigger('change');
+    });
+
+    var startDateAttendance = moment().startOf('month');
+    var endDateAttendance = moment().endOf('month');
+
+    $('#btnDateRangeAttendance span').html(startDateAttendance.format('MMMM D, YYYY') + ' - ' + endDateAttendance.format('MMMM D, YYYY'));
+    $('#attendancestartdate').val(startDateAttendance.format('YYYY-MM-DD'));
+    $('#attendanceenddate').val(endDateAttendance.format('YYYY-MM-DD'));
+
+    $('#btnDateRangeAttendance').daterangepicker({
+        startDate: startDateAttendance,
+        endDate: endDateAttendance,
+        ranges: {
+            'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
+            'This Month': [moment().startOf('month'), moment().endOf('month')],
+            'Next Month': [moment().add(1, 'month').startOf('month'), moment().add(1, 'month').endOf('month')]
+        }
+    }, function(start, end) {
+        startDateAttendance = start; endDateAttendance = end;
+        if (startDateAttendance._d == "Invalid Date" && endDateAttendance._d == "Invalid Date") {
+            startDateAttendance = null; endDateAttendance = null;
+            $('#attendancestartdate').val(null);
+            $('#attendanceenddate').val(null);
+            $('#btnDateRangeAttendance span').html('None');
+        } else {
+            $('#attendancestartdate').val(startDateAttendance.format('YYYY-MM-DD'));
+            $('#attendanceenddate').val(endDateAttendance.format('YYYY-MM-DD'));
+            $('#btnDateRangeAttendance span').html(startDateAttendance.format('MMMM D, YYYY') + ' - ' + endDateAttendance.format('MMMM D, YYYY'));
         }
     });
 

@@ -190,6 +190,8 @@ $(document).ready(function() {
 			} else {
 				if (itemtype.toUpperCase() == "FIREARM" || itemtype.toUpperCase() == "FIREARMS") {
 					if ((Number($('#inputQty'+itemid).val()) + firearmsavelimit) > firearmlimit) {
+						console.log(firearmsavelimit);
+						console.log(firearmlimit);
 						toastr.error("EXCESS FIREARMS");
 						return;
 					}
@@ -291,6 +293,8 @@ $(document).ready(function() {
 						inputExpiration: value.inputExpiration,
 					};
 					firearmtemp.push(data);
+				} else {
+					firearmsavelimit--;
 				}
 			});
 
@@ -343,6 +347,7 @@ $(document).ready(function() {
 	$('#btnSaveFirearm').click(function(e) {
 		e.preventDefault();
 
+		firearmsavelimit += Number($('#inputQty'+itemid).val());
 		var firearmtemp = [];
 		if (countFirearm == qtyinput) {
 			tableDeployFirearm.rows().every(function(rowIdx, tableLoop, rowLoop) {

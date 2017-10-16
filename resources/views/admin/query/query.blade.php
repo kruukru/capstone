@@ -87,8 +87,8 @@
 								<tbody>
 									@foreach ($commends as $commend)
 									<tr>
-										<td>{{$commend->lastname}}, {{$commend->firstname}} {{$commend->middlename}}</td>
-										<td style="text-align: right;">{{$commend->personinvolve->count()}}</td>
+										<td>{{$commend['name']}}</td>
+										<td style="text-align: right;">{{$commend['count']}}</td>
 									</tr>
 									@endforeach
 								</tbody>
@@ -115,8 +115,8 @@
 								<tbody>
 									@foreach ($violations as $violation)
 									<tr>
-										<td>{{$violation->lastname}}, {{$violation->firstname}} {{$violation->middlename}}</td>
-										<td style="text-align: right;">{{$violation->personinvolve->count()}}</td>
+										<td>{{$violation['name']}}</td>
+										<td style="text-align: right;">{{$violation['count']}}</td>
 									</tr>
 									@endforeach
 								</tbody>

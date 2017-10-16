@@ -21,6 +21,7 @@ use Amcor\LeaveRequest;
 use Amcor\Report;
 use Amcor\Firearm;
 use Amcor\Reliever;
+use Amcor\DeploymentSite;
 use Carbon\Carbon;
 use DateTime;
 use DateInterval;
@@ -300,7 +301,36 @@ class HomeController extends Controller
                 return view('admin.hrhome', compact('unscheduledapplicants', 'onappointment', 'testingandinterview', 'incompletecredentials', 'applicants', 'requests'));
             } else if (Auth::user()->accounttype == 10) {
                 //client client client client client client client client client client client client client client client client client client client
-	    		return view('client.home');
+                $applicant = Applicant::whereHas('qualificationcheck', function($query) {
+                    $query->where('status', 1);
+                })->whereHas('qualificationcheck.deploymentsite.contract', function($query) {
+                    $query->where('clientid', Auth::user()->client->clientid);
+                })->get();
+
+                $deploymentsite = DeploymentSite::whereHas('contract', function($query) {
+                    $query->where([
+                        ['clientid', Auth::user()->client->clientid],
+                        ['status', 0]
+                    ]);
+                })->get();
+
+                $absents = Applicant::whereHas('qualificationcheck', function($query) {
+                    $query->where('status', 1);
+                })->whereHas('qualificationcheck.deploymentsite.contract', function($query) {
+                    $query->where('clientid', Auth::user()->client->clientid);
+                })->whereHas('attendance', function($query) {
+                    $query->where('status', 2);
+                })->get();
+
+                $lates = Applicant::whereHas('qualificationcheck', function($query) {
+                    $query->where('status', 1);
+                })->whereHas('qualificationcheck.deploymentsite.contract', function($query) {
+                    $query->where('clientid', Auth::user()->client->clientid);
+                })->whereHas('attendance', function($query) {
+                    $query->where('status', 1);
+                })->get();
+
+	    		return view('client.home', compact('applicant', 'deploymentsite', 'absents', 'lates'));
 	    	} else if (Auth::user()->accounttype == 20) {
                 //applicant applicant applicant applicant applicant applicant applicant applicant applicant applicant applicant applicant applicant
                 $memorandums = PersonInvolve::where('applicantid', Auth::user()->applicant->applicantid)
@@ -313,7 +343,35 @@ class HomeController extends Controller
                 return view('applicant.home', compact('memorandums', 'leaverequest'));
             } else if (Auth::user()->accounttype == 11) {
                 //manager manager manager manager manager manager manager manager manager manager manager manager manager manager manager manager 
-                return view('manager.home');
+                $applicant = Applicant::whereHas('qualificationcheck', function($query) {
+                    $query->where('status', 1);
+                })->whereHas('qualificationcheck.deploymentsite.managersite', function($query) {
+                    $query->where('managerid', Auth::user()->manager->managerid);
+                })->get();
+
+                $deploymentsite = DeploymentSite::where('status', 5)->whereHas('managersite', function($query) {
+                    $query->where('managerid', Auth::user()->manager->managerid);
+                })->whereHas('contract', function($query) {
+                    $query->where('status', 0);
+                })->get();
+
+                $absents = Applicant::whereHas('qualificationcheck', function($query) {
+                    $query->where('status', 1);
+                })->whereHas('qualificationcheck.deploymentsite.managersite', function($query) {
+                    $query->where('managerid', Auth::user()->manager->managerid);
+                })->whereHas('attendance', function($query) {
+                    $query->where('status', 2);
+                })->get();
+
+                $lates = Applicant::whereHas('qualificationcheck', function($query) {
+                    $query->where('status', 1);
+                })->whereHas('qualificationcheck.deploymentsite.managersite', function($query) {
+                    $query->where('managerid', Auth::user()->manager->managerid);
+                })->whereHas('attendance', function($query) {
+                    $query->where('status', 1);
+                })->get();
+
+                return view('client.home', compact('applicant', 'deploymentsite', 'absents', 'lates'));
             }
     	}
 

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <title>ATTENDANCE</title>
 	<style type="text/css">
 
 		html
@@ -105,7 +106,7 @@
 	<table id="tblHeader">
 		<tr>
 			<td>
-				<img src="images/amcor1.png" id="imgLogo">
+				<img src="images/{{$company->logo}}" id="imgLogo">
 			</td>
 		</tr>
 		<tr>
@@ -113,17 +114,16 @@
 		</tr>
 		<tr>
 			<td>
-				<span style="font-weight: bold; font-size: 12pt;" >AMCOR SECURITY AND INVESTIGATION AGENCY INC.</span>
+				<span style="font-weight: bold; font-size: 12pt;" >{{$company->name}}</span>
 				<br>
-				<span style="font-size: 8pt;">353 Doña Dolores Bldg., San Rafael St.
-Brgy. Plainview, Mandaluyong City</span>
+				<span style="font-size: 8pt;">{{$company->address}}</span>
 			</td>
 		</tr>
 	</table>
 	<br><br>
 	<center>
-		<span style="font-weight: bold; font-size: 14pt;"><b>DAILY ATTENDANCE</b></span><br>
-		Date: <span id="formData">{{Carbon\Carbon::today()->format('l, M. d, Y')}}</span>
+		<span style="font-weight: bold; font-size: 14pt;"><b>SUMMARY OF ATTENDANCE</b></span><br>
+		Date: <span id="formData">{{Carbon\Carbon::today()->format('F d, Y')}}</span>
 	</center>
 	<br><br>
 
@@ -131,24 +131,34 @@ Brgy. Plainview, Mandaluyong City</span>
 	<table id="tblAttendInfo">
 		<tr>
 			<td class="clientInfo">CLIENT:</td>
-			<td class="clientData" id="formData">{{$deploymentsite->contract->client->contactperson}}</td>
+			<td class="clientData" id="formData">{{$applicant->attendance[0]->deploymentsite->contract->client->company}}</td>
 		</tr>
 		<tr>
 			<td class="clientInfo">DETACHMENT SITE:</td>
-			<td class="clientData" id="formData">{{$deploymentsite->sitename}}</td>
+			<td class="clientData" id="formData">{{$applicant->attendance[0]->deploymentsite->sitename}}</td>
 		</tr>
+		<tr>
+			<td class="clientInfo">SECURITY GUARD:</td>
+			<td class="clientData" id="formData">{{$applicant->firstname}} {{$applicant->middlename}} {{$applicant->lastname}}</td>
+		</tr>
+        <tr>
+            <td class="clientInfo">DATE:</td>
+            <td class="clientData" id="formData">{{$startdate->format('F d, Y')}} - {{$enddate->format('F d, Y')}}</td>
+        </tr>
 	</table>
-
+	<br>
 	<table id="tblAttend">
 		<tr id="attendInfo">
-			<th></th>
-			<th id="attendInfo">SECURITY GUARD NAME</th>
-			<th id="attendInfo">ATTENDANCE</th>
+			<th id="attendInfo">DATE</th>
+			<th id="attendInfo" style="width: 80px">TIME IN</th>
+			<th id="attendInfo" style="width: 80px">TIME OUT</th>
+			<th id="attendInfo" style="width: 80px">REMARKS</th>
 		</tr>
-    	@foreach ($attendances as $attendance)
+        @foreach ($attendances as $attendance)
             <tr id="attendInfo">
-                <td id="attendInfo" style="text-align: center;"></td>
-                <td id="attendInfo">{{$attendance->applicant->lastname}}, {{$attendance->applicant->firstname}} {{$attendance->applicant->middlename}}</td>
+                <td id="attendInfo">{{$attendance->date->format('d F Y')}}</td>
+                <td id="attendInfo" style="text-align: center;">{{$attendance->timein}}</td>
+                <td id="attendInfo" style="text-align: center;">{{$attendance->timeout}}</td>
                 <td id="attendInfo" style="text-align: center;">
                     @if ($attendance->status == 0)
                         PRESENT
@@ -161,5 +171,6 @@ Brgy. Plainview, Mandaluyong City</span>
             </tr>
         @endforeach
 	</table>
+	
 </body>
 </html>

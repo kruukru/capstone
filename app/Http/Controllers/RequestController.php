@@ -589,11 +589,11 @@ class RequestController extends Controller
         $qualificationcheck = QualificationCheck::find($replaceapplicant->qualificationcheckid);
 
         Schedule::where('applicantid', $qualificationcheck->applicantid)->forceDelete();
-        $attendances = Attendance::where('applicantid', $qualificationcheck->applicantid)->get();
-        foreach ($attendances as $attendance) {
-            $attendance->status += 3;
-            $attendance->save();
-        }
+        // $attendances = Attendance::where('applicantid', $qualificationcheck->applicantid)->get();
+        // foreach ($attendances as $attendance) {
+        //     $attendance->status += 3;
+        //     $attendance->save();
+        // }
 
         $applicant->status = 10;
         $applicant->lastdeployed = null;

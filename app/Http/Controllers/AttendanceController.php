@@ -25,15 +25,23 @@ class AttendanceController extends Controller
                     ['status', 0]
                 ]);
             })->get();
+
+            $applicants = Applicant::whereHas('attendance.deploymentsite.contract.client', function($query) {
+                $query->where('clientid', Auth::user()->client->clientid);
+            })->get();
         } else {
             $deploymentsites = DeploymentSite::where('status', 5)->whereHas('managersite', function($query) {
                 $query->where('managerid', Auth::user()->manager->managerid);
             })->whereHas('contract', function($query) {
                 $query->where('status', 0);
             })->get();
+
+            $applicants = Applicant::whereHas('attendance.deploymentsite.managersite', function($query) {
+                $query->where('managerid', Auth::user()->manager->managerid);
+            })->get();
         }
         
-        return view('client.attendance', compact('deploymentsites'));
+        return view('client.attendance', compact('deploymentsites', 'applicants'));
     }
 
     public function getClientCalendar(Request $request) {
@@ -165,6 +173,8 @@ class AttendanceController extends Controller
                         ['status', '>=', 0],
                         ['status', '<=', 2],
                     ])->get());
+
+                    //dd($applicantno . " - " . $attendanceno);
 
                     if ($notset->isEmpty()) {
                         $collection->push([
@@ -371,9 +381,7 @@ class AttendanceController extends Controller
         $attendance = Attendance::with('applicant')->where([
             ['deploymentsiteid', $request->inputDeploymentSiteID],
             ['date', $request->inputDate]
-        ])->whereHas('applicant.qualificationcheck', function($query) use ($request) {
-            $query->where('deploymentsiteid', $request->inputDeploymentSiteID);
-        })->get();
+        ])->get();
 
         return Response::json($attendance);
     }
@@ -395,7 +403,7 @@ class AttendanceController extends Controller
         } else if ($date->dayOfWeek == Carbon::SATURDAY) {
             $dayname = 'saturday';
         }
-        $applicant = Applicant::with('schedule')->whereDate('updated_at', '<=', $date)
+        $applicant1 = Applicant::with('schedule')->whereDate('updated_at', '<=', $date)
             ->whereHas('qualificationcheck', function($query) use ($request) {
                 $query->where([
                     ['deploymentsiteid', $request->inputDeploymentSiteID],
@@ -405,7 +413,20 @@ class AttendanceController extends Controller
                 $query->where($dayname, 1);
             })->whereDoesntHave('attendance', function($query) use ($date) {
                 $query->where('date', $date->format('Y-m-d'));
+            })->whereDoesntHave('leaverequest', function($query) use ($date) {
+                $query->whereDate('start', '<=', $date->format('Y-m-d'))
+                    ->whereDate('end', '>=', $date->format('Y-m-d'));
             })->get();
+        $applicant2 = Applicant::with('schedule')->whereHas('reliever', function($query) use ($request, $date) {
+            $query->where([
+                ['status', 0],
+                ['deploymentsiteid', $request->inputDeploymentSiteID],
+                ['date', $date->format('Y-m-d')]
+            ]);
+        })->whereDoesntHave('attendance', function($query) use ($date) {
+            $query->where('date', $date->format('Y-m-d'));
+        })->get();
+        $applicant = $applicant1->merge($applicant2);
 
         $dataArray = array(
             'applicant' => $applicant,

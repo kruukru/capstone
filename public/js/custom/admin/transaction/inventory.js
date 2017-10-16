@@ -333,6 +333,15 @@ $(document).ready(function(){
                 success: function(data) {
                     console.log(data);
 
+                    var dt = [
+                        tableFirearmInventory.cell('#id'+firearmid, 0).data(),
+                        tableFirearmInventory.cell('#id'+firearmid, 1).data(),
+                        $.format.date(data.expiration, "yyyy-MM-dd"),
+                        tableFirearmInventory.cell('#id'+firearmid, 3).data(),
+                        tableFirearmInventory.cell('#id'+firearmid, 4).data(),
+                    ];
+                    tableFirearmInventory.row('#id'+firearmid).data(dt).draw(false);
+
                     $('#modalUpdateFirearm').modal('hide');
                     $('#modalUpdateFirearm').loading('stop');
                     toastr.success("SAVE SUCCESSFUL");

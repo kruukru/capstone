@@ -18,7 +18,7 @@ $(document).ready(function() {
         locale: {
             format: 'MMMM DD, YYYY'
         },
-        minDate: moment($('#contractstartdate').val()),
+        minDate: moment().add(3, 'days'),
         maxDate: moment($('#contractenddate').val()),
         startDate: startDate,
         endDate: endDate,
