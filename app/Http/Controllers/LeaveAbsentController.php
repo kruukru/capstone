@@ -30,6 +30,21 @@ class LeaveAbsentController extends Controller
     public function getApplicantRequestLeave(Request $request) {
         $deploymentsite = DeploymentSite::find(Auth::user()->applicant->qualificationcheck->deploymentsite->deploymentsiteid);
 
+        $leaverequest = LeaveRequest::whereHas('request', function($query) {
+            $query->where('status', 0);
+        })->where([
+            ['applicantid', Auth::user()->applicant->applicantid],
+            ['start', '<=', $request->inputStartDate],
+            ['end', '>=', $request->inputStartDate]
+        ])->orWhere([
+            ['applicantid', Auth::user()->applicant->applicantid],
+            ['start', '<=', $request->inputEndDate],
+            ['end', '>=', $request->inputEndDate]
+        ])->get();
+        if (!$leaverequest->isEmpty()) {
+            return Response::json("INVALID DATE", 500);
+        }
+
         $requestt = new Requestt;
         $requestt->deploymentsite()->associate($deploymentsite);
         $requestt->account()->associate(Auth::user());
@@ -90,7 +105,7 @@ class LeaveAbsentController extends Controller
         $applicant->save();
 
         $reliever = new Reliever;
-        $reliever->deploymentsite()->associate($attendance->applicant->qualificationcheck->deploymentsite);
+        $reliever->deploymentsite()->associate($attendance->deploymentsite);
         $reliever->applicant()->associate($applicant);
         $reliever->type = "ABSENT";
         $reliever->date = Carbon::today();

@@ -32,7 +32,7 @@ $(document).ready(function() {
 
             if (testtime == 0) {
                 //get all the radio button
-                $(".box-body :radio:checked").each(function() {
+                $(".question-here :radio:checked").each(function() {
                     var data = {
                         inputTestQuestionID: $(this).attr('id'),
                         inputAnswer: $(this).attr('value'),
@@ -42,7 +42,7 @@ $(document).ready(function() {
                 });
 
                 //get all the textarea
-                $(".box-body textarea").each(function() {
+                $(".question-here textarea").each(function() {
                     var data = {
                         inputTestQuestionID: $(this).attr('id'),
                         inputAnswer: $(this).val(),
@@ -136,7 +136,7 @@ $(document).ready(function() {
                                 "<div class='box-body table-responsive'>" +
                                 "<h2>"+dataTestEach.name+" Test</h2>" +
                                 "<h3>Instruction: "+dataTestEach.instruction+"</h3>" +
-                                "<div class='box-body' id='question-list"+dataTestQuestion[0].testid+"'>" +
+                                "<div class='box-body question-here' id='question-list"+dataTestQuestion[0].testid+"'>" +
                                 "</div></div></div></div>";
                             $('#test-list').append(row);
 
@@ -204,9 +204,9 @@ $(document).ready(function() {
             e.preventDefault();
 
             //validate for the radio button choice
-            var checked = $(".box-body :radio:checked");
+            var checked = $(".question-here :radio:checked");
             var groups = [];
-            $(".box-body :radio").each(function() {
+            $(".question-here :radio").each(function() {
                 if (groups.indexOf(this.name) < 0) {
                     groups.push(this.name);
                 }
@@ -220,7 +220,7 @@ $(document).ready(function() {
             }
 
             //get all the radio button
-            $(".box-body :radio:checked").each(function() {
+            $(".question-here :radio:checked").each(function() {
                 data = {
                     inputTestQuestionID: $(this).attr('id'),
                     inputAnswer: $(this).attr('value'),
@@ -230,7 +230,7 @@ $(document).ready(function() {
             });
 
             //get all the textarea
-            $(".box-body textarea").each(function() {
+            $(".question-here textarea").each(function() {
                 var data = {
                     inputTestQuestionID: $(this).attr('id'),
                     inputAnswer: $(this).val(),

@@ -68,8 +68,8 @@
 								@foreach ($attendances as $attendance)
 									<tr id="id{{$attendance->attendanceid}}">
 										<td>{{$attendance->applicant->firstname}} {{$attendance->applicant->middlename}} {{$attendance->applicant->lastname}}</td>
-										<td>{{$attendance->applicant->qualificationcheck->deploymentsite->sitename}}</td>
-										<td>{{$attendance->applicant->qualificationcheck->deploymentsite->location}}</td>
+										<td>{{$attendance->deploymentsite->sitename}}</td>
+										<td>{{$attendance->deploymentsite->location}}</td>
 										<td>{{$attendance->date->format('Y-m-d')}}</td>
 										<td style="text-align: center;"> 
 											<button class="btn btn-primary btn-xs" id="btnAssess" value="{{$attendance->attendanceid}}">Assess</button>

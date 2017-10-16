@@ -70,7 +70,7 @@ $(document).ready(function() {
             success: function(data) {
                 console.log(data);
 
-                firearmlimit = 0;
+                firearmlimit = 0; firearmsavelimit = 0;
                 $.each(data.applicant, function(index, value) {
                 	if (data.middlename === null) {
                         data.middlename = '';
@@ -190,8 +190,7 @@ $(document).ready(function() {
 			} else {
 				if (itemtype.toUpperCase() == "FIREARM" || itemtype.toUpperCase() == "FIREARMS") {
 					if ((Number($('#inputQty'+itemid).val()) + firearmsavelimit) > firearmlimit) {
-						console.log(firearmsavelimit);
-						console.log(firearmlimit);
+						console.log(firearmlimit + "-" + firearmsavelimit);
 						toastr.error("EXCESS FIREARMS");
 						return;
 					}
