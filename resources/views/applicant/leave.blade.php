@@ -45,6 +45,8 @@
 					</div>
 				</div>
 			</div>
+			<input type="hidden" id="contractstartdate" name="contractstartdate" value="{{Auth::user()->applicant->qualificationcheck->deploymentsite->contract->startdate}}">
+			<input type="hidden" id="contractenddate" name="contractenddate" value="{{Auth::user()->applicant->qualificationcheck->deploymentsite->contract->expiration}}">
 		</div>
 	</section>
 

@@ -154,8 +154,8 @@ class LeaveAbsentController extends Controller
 
     public function postAdminLeaveDecline(Request $request) {
         $leaverequest = LeaveRequest::find($request->inputLeaveRequestID);
-        $leaverequest->request->status = 2;
-        $leaverequest->request->save();
+        $leaverequest->forceDelete();
+        $leaverequest->request->forceDelete();
 
         return Response::json($leaverequest);
     }

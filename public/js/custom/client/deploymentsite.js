@@ -591,8 +591,11 @@ $(document).ready(function() {
         });
 
         if (check) {
-            if (acceptedsg < requireno) {
-                toastr.error("YOU NEED TO ACCEPT " + (requireno - acceptedsg) + " MORE SECURITY GUARD");
+            // if (acceptedsg < requireno) {
+            //     toastr.error("YOU NEED TO ACCEPT " + (requireno - acceptedsg) + " MORE SECURITY GUARD");
+            // }
+            if (acceptedsg == 0) {
+                toastr.error("YOU NEED TO ACCEPT ATLEAST ONE SECURITY GUARD");
             } else if (acceptedsg > requireno) {
                 toastr.error("ACCEPTED SECURITY GUARD EXCEED");
             } else {

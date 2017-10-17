@@ -13,15 +13,6 @@ $(document).ready(function() {
     });
     table.order([[0, 'desc']]).draw();
     
-    var table = $('#tblRequirement').DataTable({
-        "aoColumns": [
-            null,
-            null,
-            { "bSearchable": false, "bSortable": false, },
-        ]
-    });
-    table.order([[0, 'desc']]).draw();
-
     //date range picker
     $('#daterange').daterangepicker({
         locale: {

@@ -226,7 +226,7 @@ $(document).ready(function() {
             }
         });
 
-        if (requireno <= tableDeploy.rows().count()) {
+        //if (requireno <= tableDeploy.rows().count()) {
             $('#modalDeploy').loading({
                 message: "SAVING..."
             });
@@ -265,9 +265,9 @@ $(document).ready(function() {
                     toastr.success("SAVE SUCCESSFULLY");
                 }
             });
-        } else {
-            toastr.error("YOU NEED " + (requireno - tableDeploy.rows().count()) + " MORE SECURITY GUARD");
-        }
+        // } else {
+        //     toastr.error("YOU NEED " + (requireno - tableDeploy.rows().count()) + " MORE SECURITY GUARD");
+        // }
     });
 
     function getSecurityGuard() {

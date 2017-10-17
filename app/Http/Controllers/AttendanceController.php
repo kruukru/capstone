@@ -174,7 +174,9 @@ class AttendanceController extends Controller
                         ['status', '<=', 2],
                     ])->get());
 
-                    //dd($applicantno . " - " . $attendanceno);
+                    // if ($date->format('Y-m-d') == "2017-10-24") {
+                    //     dd($applicantno . " - " . $attendanceno);
+                    // }
 
                     if ($notset->isEmpty()) {
                         $collection->push([

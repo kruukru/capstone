@@ -59,7 +59,7 @@
     "/images/bg2.jpg",
     "/images/bg3.jpg",
     "/images/bg4.jpg",
-  ], {duration: 2000, fade: 1000});
+  ], {duration: 4000, fade: 2000});
 </script>
 </body>
 </html>

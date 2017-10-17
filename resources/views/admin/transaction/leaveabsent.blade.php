@@ -95,7 +95,7 @@
 				<!-- modal body -->
 				<div class="modal-body">
 					<div class="form-group">
-						<img id="pictureview" src="/applicant/default.png" alt="IMAGE" style="width: 35%; height: 35%;" class="center-block">
+						<img id="absentpictureview" src="/applicant/default.png" alt="IMAGE" style="width: 35%; height: 35%;" class="center-block">
 					</div>
 					<div class="form-group">
 						<label>Security Guard Name:</label>
@@ -134,7 +134,7 @@
 				<!-- modal body -->
 				<div class="modal-body">
 					<div class="form-group">
-						<img id="pictureview" src="/applicant/default.png" alt="IMAGE" style="width: 35%; height: 35%;" class="center-block">
+						<img id="leavepictureview" src="/applicant/default.png" alt="IMAGE" style="width: 35%; height: 35%;" class="center-block">
 					</div>
 					<div class="form-group">
 						<label>Security Guard Name:</label>

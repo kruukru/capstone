@@ -64,7 +64,7 @@ $(document).ready(function() {
                     data.applicant.middlename = "";
                 }
 
-                $('#pictureview').attr('src', '/applicant/'+data.applicant.picture);
+                $('#leavepictureview').attr('src', '/applicant/'+data.applicant.picture);
                 $('#securityguardname').text(data.applicant.firstname + " " + data.applicant.middlename + " " + data.applicant.lastname);
                 $('#daterange').text($.format.date(data.start, "MMMM dd, yyyy") + " - " + $.format.date(data.end, "MMMM dd, yyyy"));
                 $('#reason').text(data.reason);
@@ -175,15 +175,7 @@ $(document).ready(function() {
             success: function(data) {
                 console.log(data);
 
-                var dt = [
-                    tableLeave.cell('#id'+leaverequestid, 0).data(),
-                    tableLeave.cell('#id'+leaverequestid, 1).data(),
-                    tableLeave.cell('#id'+leaverequestid, 2).data(),
-                    tableLeave.cell('#id'+leaverequestid, 3).data(),
-                    "DECLINED",
-                    "",
-                ];
-                tableLeave.row('#id'+leaverequestid).data(dt).draw(false);
+                tableLeave.row('#id'+leaverequestid).remove().draw(false);
 
                 $('#modalDeclineLeave').modal('hide');
                 $('#modalDeclineLeave').loading('stop');
@@ -210,6 +202,7 @@ $(document).ready(function() {
                     data.applicant.middlename = "";
                 }
 
+                $('#absentpictureview').attr('src', '/applicant/'+data.applicant.picture);
                 $('#securityguardname').text(data.applicant.firstname + " " + data.applicant.middlename + " " + data.applicant.lastname);
             },
         });
