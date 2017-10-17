@@ -23,7 +23,7 @@
 									<select class="form-control" id="firearmdeploymentsiteid" name="firearmdeploymentsiteid">
 										<option value="none">None</option>
 										@foreach ($deploymentsites as $deploymentsite)
-											<option value="{{$deploymentsite->deploymentsiteid}}">{{$deploymentsite->sitename}}, {{$deploymentsite->location}}</option>
+											<option value="{{$deploymentsite->deploymentsiteid}}">{{$deploymentsite->sitename}}, {{$deploymentsite->location}} - {{$deploymentsite->contract->startdate->format('F d, Y')}}</option>
 										@endforeach
 									</select>
 								</div>
@@ -63,7 +63,7 @@
 									<select class="form-control" id="securitydeploymentsiteid" name="securitydeploymentsiteid">
 										<option value="none">None</option>
 										@foreach ($deploymentsites as $deploymentsite)
-											<option value="{{$deploymentsite->deploymentsiteid}}">{{$deploymentsite->sitename}}, {{$deploymentsite->location}}</option>
+											<option value="{{$deploymentsite->deploymentsiteid}}">{{$deploymentsite->sitename}}, {{$deploymentsite->location}} - {{$deploymentsite->contract->startdate->format('F d, Y')}}</option>
 										@endforeach
 									</select>
 								</div>
@@ -103,7 +103,7 @@
 									<select class="form-control" id="equipmentdeploymentsiteid" name="equipmentdeploymentsiteid">
 										<option value="none">None</option>
 										@foreach ($deploymentsites as $deploymentsite)
-											<option value="{{$deploymentsite->deploymentsiteid}}">{{$deploymentsite->sitename}}, {{$deploymentsite->location}}</option>
+											<option value="{{$deploymentsite->deploymentsiteid}}">{{$deploymentsite->sitename}}, {{$deploymentsite->location}} - {{$deploymentsite->contract->startdate->format('F d, Y')}}</option>
 										@endforeach
 									</select>
 								</div>
@@ -133,7 +133,7 @@
 									<select class="form-control" id="ddodeploymentsiteid" name="ddodeploymentsiteid">
 										<option value="none">None</option>
 										@foreach ($deploymentsites as $deploymentsite)
-											<option value="{{$deploymentsite->deploymentsiteid}}">{{$deploymentsite->sitename}}, {{$deploymentsite->location}}</option>
+											<option value="{{$deploymentsite->deploymentsiteid}}">{{$deploymentsite->sitename}}, {{$deploymentsite->location}} - {{$deploymentsite->contract->startdate->format('F d, Y')}}</option>
 										@endforeach
 									</select>
 								</div>
@@ -186,7 +186,7 @@
 									<select class="form-control" id="mdrdeploymentsiteid" name="mdrdeploymentsiteid">
 										<option value="none">None</option>
 										@foreach ($deploymentsites as $deploymentsite)
-											<option value="{{$deploymentsite->deploymentsiteid}}">{{$deploymentsite->sitename}}, {{$deploymentsite->location}}</option>
+											<option value="{{$deploymentsite->deploymentsiteid}}">{{$deploymentsite->sitename}}, {{$deploymentsite->location}} - {{$deploymentsite->contract->startdate->format('F d, Y')}}</option>
 										@endforeach
 									</select>
 								</div>

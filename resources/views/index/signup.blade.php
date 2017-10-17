@@ -1,14 +1,17 @@
 @extends('index.templates.default')
 
 @section('content')
-	<section class="content-header">
+	<!-- <section class="content-header">
 		<h1>REGISTER</h1>
-	</section>
-
+	</section> -->
+	
 	<section class="content">
 		<div class="row">
 			<div class="container col-sm-12">
 				<div class="box box-primary">
+					<div class="box-header with-border">
+        				<h3 class="box-title">REGISTER</h3>
+        			</div>
 					<div class="box-body table-responsive">
 				        <div class="wizard">
 				            <div class="wizard-inner">

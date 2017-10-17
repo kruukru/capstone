@@ -9,6 +9,14 @@
 
   @include('templates.mycss')
   @yield('css')
+  <style type="text/css">
+    footer {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      background: rgba(60, 141, 188, 1);
+    }
+  </style>
 </head>
 <body class="skin-blue">
   <header class="main-header">
@@ -25,9 +33,9 @@
           <span class="fa fa-bars"></span>
         </button>
         <div class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
+          <!-- <ul class="nav navbar-nav">
             <li><a href="{{ route('home') }}">HOME</a></li>
-          </ul>
+          </ul> -->
           <ul class="nav navbar-nav navbar-right">
             <li><a href="{{ route('signup') }}">REGISTER</a></li>
             <li><a href="{{ route('signin') }}">SIGN IN</a></li>
@@ -39,8 +47,19 @@
 
   @include('templates.alert')
   @yield('content')
+  <footer>
+    <strong>&emsp;<b>COPYRIGHT © AMCOR SECURITY AND INVESTIGATION AGENCY 2017</b></strong>
+  </footer>
 
   @include('templates.myjs')
   @yield('script')
+  <script type="text/javascript">
+  $.backstretch([
+    "/images/bg1.jpg",
+    "/images/bg2.jpg",
+    "/images/bg3.jpg",
+    "/images/bg4.jpg",
+  ], {duration: 2000, fade: 1000});
+</script>
 </body>
 </html>
