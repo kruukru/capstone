@@ -83,6 +83,12 @@
 							<label>Security Guard Name:</label>
 							<h4 id="applicantName"></h4>
 						</div><hr>
+						<div class="form-group">
+							<label>Note <span class="asterisk-red">*</span></label><br>
+							<label>4 min, 5 max; no. of days</label><br>
+							<label>32 min, 40 max; no. of hours</label><br>
+							<label>8 min, 10 max; no. of hours per day</label>
+						</div>
 						<div class="row">
 							<div class="form-group">
 								<div class="col-md-2">

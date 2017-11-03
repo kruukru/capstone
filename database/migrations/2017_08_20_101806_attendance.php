@@ -18,6 +18,9 @@ class Attendance extends Migration
             $table->integer('deploymentsiteid')->unsigned();
             $table->integer('applicantid')->unsigned();
             $table->date('date');
+            $table->time('timein')->nullable();
+            $table->time('timeout')->nullable();
+            $table->text('reason')->nullable();
             $table->tinyInteger('status');
 
             $table->timestamps();

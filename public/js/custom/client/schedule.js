@@ -43,8 +43,15 @@ $(document).ready(function() {
     $('#saturdaytimein').timepicker({'timeFormat':'H:i:s'});
     $('#saturdaytimeout').timepicker({'timeFormat':'H:i:s'});
 
+    //reset form schedule
+    function resetFormSchedule() {
+        $('#formSchedule').trigger('reset');
+        $('#formSchedule').parsley().reset();
+    }
+
     //manage schedule
     $('#securityguard-list').on('click', '#btnManage', function() {
+        resetFormSchedule();
         applicantid = $(this).val();
 
         $.ajax({
@@ -56,6 +63,65 @@ $(document).ready(function() {
                 console.log(data);
 
                 $('#applicantName').text(data.firstname+" "+data.middlename+" "+data.lastname);
+            },
+        });
+
+        $('#modalSchedule').modal('show');
+    });
+
+    //update schedule
+    $('#securityguard-list').on('click', '#btnUpdate', function() {
+        resetFormSchedule();
+        applicantid = $(this).val();
+
+        $.ajax({
+            type: "GET",
+            url: "/json/applicant/one",
+            data: { inputApplicantID: applicantid, },
+            dataType: "json",
+            success: function(data) {
+                console.log(data);
+
+                $('#applicantName').text(data.firstname+" "+data.middlename+" "+data.lastname);
+            },
+        });
+
+        $.ajax({
+            type: "GET",
+            url: "/client/schedule/securityguard",
+            data: { inputApplicantID: applicantid, },
+            dataType: "json",
+            success: function(data) {
+                console.log(data);
+
+                if (data.sunday == 1) {
+                    $('#sundaytimein').val(data.sundayin);
+                    $('#sundaytimeout').val(data.sundayout);
+                }
+                if (data.monday == 1) {
+                    $('#mondaytimein').val(data.mondayin);
+                    $('#mondaytimeout').val(data.mondayout);
+                }
+                if (data.tuesday == 1) {
+                    $('#tuesdaytimein').val(data.tuesdayin);
+                    $('#tuesdaytimeout').val(data.tuesdayout);
+                }
+                if (data.wednesday == 1) {
+                    $('#wednesdaytimein').val(data.wednesdayin);
+                    $('#wednesdaytimeout').val(data.wednesdayout);
+                }
+                if (data.thursday == 1) {
+                    $('#thursdaytimein').val(data.thursdayin);
+                    $('#thursdaytimeout').val(data.thursdayout);
+                }
+                if (data.friday == 1) {
+                    $('#fridaytimein').val(data.fridayin);
+                    $('#fridaytimeout').val(data.fridayout);
+                }
+                if (data.saturday == 1) {
+                    $('#saturdaytimein').val(data.saturdayin);
+                    $('#saturdaytimeout').val(data.saturdayout);
+                }
             },
         });
 
@@ -275,7 +341,7 @@ $(document).ready(function() {
                             table.cell('#id'+applicantid, 1).data(),
                             table.cell('#id'+applicantid, 2).data(),
                             "",
-                            "<button class='btn btn-primary btn-xs' id='btnUpdate' id="+applicantid+">Update</button>"
+                            "<button class='btn btn-primary btn-xs' id='btnUpdate' value="+applicantid+">Update</button>"
                         ];
                         table.row('#id'+applicantid).data(dt).draw(false);
 
@@ -289,4 +355,7 @@ $(document).ready(function() {
             }
         }
     });
+
+
+
 });

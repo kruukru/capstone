@@ -393,7 +393,16 @@ Route::group(['middleware' => ['auth']], function() {
 
 		//schedule
 		Route::name('client-schedule')->get('/client/schedule', 'ScheduleController@getClientSchedule');
+		Route::get('/client/schedule/securityguard', 'ScheduleController@getClientScheduleSecurityGuard');
 		Route::post('/client/schedule', 'ScheduleController@postClientSchedule');
+
+		//attendance
+		Route::name('client-attendance')->get('/client/attendance', 'AttendanceController@getClientAttendance');
+		Route::get('/client/attendance/calendar', 'AttendanceController@getClientCalendar');
+		Route::get('/client/attendance/history', 'AttendanceController@getClientHistory');
+		Route::get('/client/attendance/securityguard', 'AttendanceController@getClientSecurityGuard');
+		Route::get('/client/attendance/securityguard/one', 'AttendanceController@getClientSecurityGuardOne');
+		Route::post('/client/attendance/securityguard', 'AttendanceController@postClientSecurityGuard');
 
 		//request
 		Route::name('client-request')->get('/client/request', 'RequestController@getClientRequest');
