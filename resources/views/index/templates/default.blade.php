@@ -47,9 +47,6 @@
 
   @include('templates.alert')
   @yield('content')
-  <footer>
-    <strong>&emsp;<b>COPYRIGHT © AMCOR SECURITY AND INVESTIGATION AGENCY 2017</b></strong>
-  </footer>
 
   @include('templates.myjs')
   @yield('script')
