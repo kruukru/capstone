@@ -96,13 +96,13 @@
 					<a href="#"><i class="fa fa-suitcase"></i><span>TRANSACTION</span><i class="fa fa-angle-left pull-right"></i></a>
 					<ul class="treeview-menu">
 						@if (Auth::user()->accounttype == 0)
+							<li class="{{Request::path() == 'admin/transaction/client' ? 'active' : ''}}"><a href="{{ route('admin-transaction-client') }}"><i class="fa fa-circle-o"></i>Client</a></li>
+							<li class="{{Request::path() == 'admin/transaction/contract' ? 'active' : ''}}"><a href="{{ route('admin-transaction-contract') }}"><i class="fa fa-circle-o"></i>Contract</a></li>
 							<li class="{{Request::path() == 'admin/transaction/submitcredential' ? 'active' : ''}}"><a href="{{ route('admin-transaction-submitcredential') }}"><i class="fa fa-circle-o"></i>Submit Credentials</a></li>
 							<li class="{{Request::path() == 'admin/transaction/testlogin' ? 'active' : ''}}"><a href="{{ route('admin-transaction-testlogin') }}"><i class="fa fa-circle-o"></i>Testing</a></li>
 							<li class="{{Request::path() == 'admin/transaction/assesstest' ? 'active' : ''}}"><a href="{{ route('admin-transaction-assesstest') }}"><i class="fa fa-circle-o"></i>Assess Test</a></li>
 							<li class="{{Request::path() == 'admin/transaction/assessinterview' ? 'active' : ''}}"><a href="{{ route('admin-transaction-assessinterview') }}"><i class="fa fa-circle-o"></i>Assess Interview</a></li>
 							<li class="{{Request::path() == 'admin/transaction/securityguard' ? 'active' : ''}}"><a href="{{ route('admin-transaction-securityguard') }}"><i class="fa fa-circle-o"></i>Security Guard</a></li>
-							<li class="{{Request::path() == 'admin/transaction/client' ? 'active' : ''}}"><a href="{{ route('admin-transaction-client') }}"><i class="fa fa-circle-o"></i>Client</a></li>
-							<li class="{{Request::path() == 'admin/transaction/contract' ? 'active' : ''}}"><a href="{{ route('admin-transaction-contract') }}"><i class="fa fa-circle-o"></i>Contract</a></li>
 							<li class="{{Request::path() == 'admin/transaction/inventory' ? 'active' : ''}}"><a href="{{ route('admin-transaction-inventory') }}"><i class="fa fa-circle-o"></i>Inventory</a></li>
 							<li class="{{Request::path() == 'admin/transaction/deploysecurityguard' ? 'active' : ''}}"><a href="{{ route('admin-transaction-deploysecurityguard') }}"><i class="fa fa-circle-o"></i>Deploy Security Guard</a></li>
 							<li class="{{Request::path() == 'admin/transaction/deployitem' ? 'active' : ''}}"><a href="{{ route('admin-transaction-deployitem') }}"><i class="fa fa-circle-o"></i>Deploy Item</a></li>
